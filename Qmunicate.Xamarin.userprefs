@@ -1,0 +1,17 @@
+﻿<Properties StartupItem="Qmunicate.Xamarin/Qmunicate.Xamarin.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Qmunicate.Xamarin.iOS/Info.plist">
+    <Files>
+      <File FileName="Qmunicate.Xamarin/MyClass.cs" Line="1" Column="1" />
+      <File FileName="Qmunicate.Xamarin.Android/MainActivity.cs" Line="1" Column="1" />
+      <File FileName="Qmunicate.Xamarin.iOS/AppDelegate.cs" Line="1" Column="1" />
+      <File FileName="Qmunicate.Xamarin.iOS/Info.plist" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="../Dateifi/x-ram/Dateifi.git/iOS/App/PageRenderers/ChatViewController.cs" line="673" offsetX="775" offsetY="9960" expression="relationFriendToMe" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+</Properties>
