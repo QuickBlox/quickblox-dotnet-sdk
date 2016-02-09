@@ -9,6 +9,7 @@ namespace Qmunicate.Xamarin.iOS
 	public class AppDelegate : UIApplicationDelegate
 	{
 		// class-level declarations
+		UIWindow _window;
 
 		public override UIWindow Window {
 			get;
@@ -17,9 +18,22 @@ namespace Qmunicate.Xamarin.iOS
 
 		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
+			
 			// Override point for customization after application launch.
 			// If not required for your application you can safely delete this method
+//			_window = new UIWindow (UIScreen.MainScreen.Bounds);
+//
+//			var controller = new SplashViewController ();
+//			controller.View.BackgroundColor = UIColor.White;
+//
+//			_window.RootViewController = controller;
+//			_window.MakeKeyAndVisible ();
+			return true;
+		}
 
+		public override bool WillFinishLaunching (UIApplication application, NSDictionary launchOptions)
+		{
+			
 			return true;
 		}
 

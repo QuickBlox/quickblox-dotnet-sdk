@@ -45,15 +45,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="System.IO">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.7\lib\portable-net40+win8\System.IO.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.7\lib\portable-net40+win8\System.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.7\lib\portable-net40+win8\System.Threading.Tasks.dll</HintPath>
-    </Reference>
     <Reference Include="bouncy_castle_hmac_sha_pcl">
       <HintPath>..\packages\BouncyCastle-PCL.1.0.0.6\lib\bouncy_castle_hmac_sha_pcl.dll</HintPath>
     </Reference>
@@ -88,4 +79,10 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Qmunicate.Xamarin\Qmunicate.Xamarin.csproj">
+      <Project>{9442AEAF-C794-4D22-9A18-BCCA946B938E}</Project>
+      <Name>Qmunicate.Xamarin</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

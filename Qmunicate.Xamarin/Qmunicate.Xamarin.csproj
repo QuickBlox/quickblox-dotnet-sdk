@@ -48,6 +48,9 @@
     <Reference Include="Sharp.Xmpp">
       <HintPath>..\packages\Quickblox.Sdk.Xamarin.1.0.1\lib\portable-net45+win+wpa81\Sharp.Xmpp.dll</HintPath>
     </Reference>
+    <Reference Include="MugenMvvmToolkit">
+      <HintPath>..\packages\MugenMvvmToolkit.5.1.0\lib\portable-net45+win+wpa81+wp80\MugenMvvmToolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

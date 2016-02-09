@@ -1,15 +1,22 @@
-﻿<Properties StartupItem="Qmunicate.Xamarin/Qmunicate.Xamarin.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Qmunicate.Xamarin.iOS/Info.plist">
+﻿<Properties StartupItem="Qmunicate.Xamarin.iOS/Qmunicate.Xamarin.iOS.csproj" RefactoringSettings.EnableRefactorings="True">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone6s.9.2" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Qmunicate.Xamarin.iOS/App/Splash/SplashViewController.cs">
     <Files>
-      <File FileName="Qmunicate.Xamarin/MyClass.cs" Line="1" Column="1" />
-      <File FileName="Qmunicate.Xamarin.Android/MainActivity.cs" Line="1" Column="1" />
-      <File FileName="Qmunicate.Xamarin.iOS/AppDelegate.cs" Line="1" Column="1" />
       <File FileName="Qmunicate.Xamarin.iOS/Info.plist" />
+      <File FileName="Qmunicate.Xamarin.iOS/AppDelegate.cs" Line="26" Column="35" />
+      <File FileName="Qmunicate.Xamarin.iOS/App/Login/LoginViewController.cs" Line="26" Column="1" />
+      <File FileName="Qmunicate.Xamarin.iOS/App/Splash/SplashViewController.cs" Line="23" Column="30" />
+      <File FileName="Qmunicate.Xamarin.iOS/App/Splash/SplashViewController.designer.cs" Line="23" Column="32" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/bamboo-server/Projects/Qmunicate.Xamarin/Qmunicate.Xamarin.iOS/ViewControllers/LoginViewController.cs" line="15" column="1" />
+      <Breakpoint file="/Users/bamboo-server/Projects/Qmunicate.Xamarin/Qmunicate.Xamarin.iOS/ViewControllers/LoginViewController.cs" line="23" column="1" />
+      <Breakpoint file="/Users/bamboo-server/Projects/Qmunicate.Xamarin/Qmunicate.Xamarin.iOS/Views/LoginView.cs" line="13" column="1" />
+      <Breakpoint file="/Users/bamboo-server/Projects/Qmunicate.Xamarin/Qmunicate.Xamarin.iOS/Views/LoginView.cs" line="18" column="1" />
+      <Breakpoint file="/Users/bamboo-server/Projects/Qmunicate.Xamarin/Qmunicate.Xamarin.iOS/App/Login/LoginViewController.cs" line="26" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="../Dateifi/x-ram/Dateifi.git/iOS/App/PageRenderers/ChatViewController.cs" line="673" offsetX="775" offsetY="9960" expression="relationFriendToMe" liveUpdate="False" />

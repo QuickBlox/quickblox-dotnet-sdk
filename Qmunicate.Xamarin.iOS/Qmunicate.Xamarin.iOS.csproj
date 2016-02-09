@@ -92,10 +92,27 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="ViewController.cs" />
-    <Compile Include="ViewController.designer.cs">
-      <DependentUpon>ViewController.cs</DependentUpon>
+    <Compile Include="App\SplashScreenViewController.cs" />
+    <Compile Include="App\SplashScreenViewController.designer.cs">
+      <DependentUpon>SplashScreenViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="App\LoginViewController.cs" />
+    <Compile Include="App\LoginViewController.designer.cs">
+      <DependentUpon>LoginViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="App\ChatsListViewController.cs" />
+    <Compile Include="App\ChatsListViewController.designer.cs">
+      <DependentUpon>ChatsListViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Qmunicate.Xamarin\Qmunicate.Xamarin.csproj">
+      <Project>{9442AEAF-C794-4D22-9A18-BCCA946B938E}</Project>
+      <Name>Qmunicate.Xamarin</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App\" />
+  </ItemGroup>
 </Project>
