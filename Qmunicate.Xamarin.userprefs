@@ -1,12 +1,13 @@
 ﻿<Properties StartupItem="Qmunicate.Xamarin.iOS/Qmunicate.Xamarin.iOS.csproj" RefactoringSettings.EnableRefactorings="True">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone6s.9.2" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Qmunicate.Xamarin.iOS/App/Splash/SplashViewController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Qmunicate.Xamarin.iOS/Info.plist" />
-      <File FileName="Qmunicate.Xamarin.iOS/AppDelegate.cs" Line="26" Column="35" />
-      <File FileName="Qmunicate.Xamarin.iOS/App/Login/LoginViewController.cs" Line="26" Column="1" />
-      <File FileName="Qmunicate.Xamarin.iOS/App/Splash/SplashViewController.cs" Line="23" Column="30" />
-      <File FileName="Qmunicate.Xamarin.iOS/App/Splash/SplashViewController.designer.cs" Line="23" Column="32" />
+      <File FileName="Qmunicate.Xamarin/ViewModels/LoginViewModel.cs" Line="14" Column="1" />
+      <File FileName="Qmunicate.Xamarin/ViewModels/SplashScreenViewModel.cs" Line="11" Column="3" />
+      <File FileName="Qmunicate.Xamarin.iOS/Views/SplashScreenViewController.cs" Line="24" Column="4" />
+      <File FileName="Qmunicate.Xamarin/App.cs" Line="5" Column="2" />
+      <File FileName="Qmunicate.Xamarin.iOS/Main.cs" Line="12" Column="1" />
+      <File FileName="Qmunicate.Xamarin.iOS/Views/SplashScreenViewController.designer.cs" Line="20" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -16,6 +17,8 @@
       <Breakpoint file="/Users/bamboo-server/Projects/Qmunicate.Xamarin/Qmunicate.Xamarin.iOS/Views/LoginView.cs" line="13" column="1" />
       <Breakpoint file="/Users/bamboo-server/Projects/Qmunicate.Xamarin/Qmunicate.Xamarin.iOS/Views/LoginView.cs" line="18" column="1" />
       <Breakpoint file="/Users/bamboo-server/Projects/Qmunicate.Xamarin/Qmunicate.Xamarin.iOS/App/Login/LoginViewController.cs" line="26" column="1" />
+      <Breakpoint file="/Users/bamboo-server/Projects/Qmunicate.Xamarin/Qmunicate.Xamarin/ViewModels/SplashScreenViewModel.cs" line="15" column="4" />
+      <Breakpoint file="/Users/bamboo-server/Projects/Qmunicate.Xamarin/Qmunicate.Xamarin.iOS/Views/SplashScreenViewController.cs" line="46" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

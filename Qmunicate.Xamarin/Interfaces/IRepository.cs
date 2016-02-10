@@ -2,11 +2,9 @@
 
 namespace Qmunicate.Xamarin
 {
-	public class MyClass
+	public interface IRepository
 	{
-		public MyClass ()
-		{
-		}
+		void Init();
 	}
 }
 

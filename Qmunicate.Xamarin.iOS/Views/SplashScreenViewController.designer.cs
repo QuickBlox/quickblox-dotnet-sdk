@@ -14,16 +14,8 @@ namespace Qmunicate.Xamarin.iOS
 	[Register ("SplashScreenViewController")]
 	partial class SplashScreenViewController
 	{
-		[Outlet]
-		[GeneratedCode ("iOS Designer", "1.0")]
-		UIActivityIndicatorView busyIndicator { get; set; }
-
 		void ReleaseDesignerOutlets ()
 		{
-			if (busyIndicator != null) {
-				busyIndicator.Dispose ();
-				busyIndicator = null;
-			}
 		}
 	}
 }

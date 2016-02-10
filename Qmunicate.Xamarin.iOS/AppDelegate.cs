@@ -1,5 +1,8 @@
 ﻿using Foundation;
 using UIKit;
+using MugenMvvmToolkit.iOS.Infrastructure;
+using MugenMvvmToolkit;
+using MugenMvvmToolkit.iOS;
 
 namespace Qmunicate.Xamarin.iOS
 {
@@ -8,64 +11,55 @@ namespace Qmunicate.Xamarin.iOS
 	[Register ("AppDelegate")]
 	public class AppDelegate : UIApplicationDelegate
 	{
-		// class-level declarations
-		UIWindow _window;
+		private const string RootViewControllerKey = "RootViewControllerKey";
+		private UIWindow _window;
+		private TouchBootstrapperBase _bootstrapper;
 
-		public override UIWindow Window {
-			get;
-			set;
-		}
-
-		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
-		{
-			
-			// Override point for customization after application launch.
-			// If not required for your application you can safely delete this method
-//			_window = new UIWindow (UIScreen.MainScreen.Bounds);
-//
-//			var controller = new SplashViewController ();
-//			controller.View.BackgroundColor = UIColor.White;
-//
-//			_window.RootViewController = controller;
-//			_window.MakeKeyAndVisible ();
-			return true;
-		}
 
 		public override bool WillFinishLaunching (UIApplication application, NSDictionary launchOptions)
 		{
-			
+			_window = new UIWindow (UIScreen.MainScreen.Bounds);
+			_bootstrapper = new Bootstrapper<App> (_window, new AutofacContainer ());
+			_bootstrapper.Initialize ();
 			return true;
 		}
 
-		public override void OnResignActivation (UIApplication application)
+
+		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
-			// Invoked when the application is about to move from active to inactive state.
-			// This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) 
-			// or when the user quits the application and it begins the transition to the background state.
-			// Games should use this method to pause the game.
+			if (_window.RootViewController == null)
+				_bootstrapper.Start ();
+
+			_window.MakeKeyAndVisible ();
+			return true;
 		}
 
-		public override void DidEnterBackground (UIApplication application)
+		public override void WillEncodeRestorableState (UIApplication application, NSCoder coder)
 		{
-			// Use this method to release shared resources, save user data, invalidate timers and store the application state.
-			// If your application supports background exection this method is called instead of WillTerminate when the user quits.
+			if (_window.RootViewController != null)
+				coder.Encode (_window.RootViewController, RootViewControllerKey);
 		}
 
-		public override void WillEnterForeground (UIApplication application)
+		public override void DidDecodeRestorableState (UIApplication application, NSCoder coder)
 		{
-			// Called as part of the transiton from background to active state.
-			// Here you can undo many of the changes made on entering the background.
+			var controller = (UIViewController)coder.DecodeObject (RootViewControllerKey);
+			if (controller != null)
+				_window.RootViewController = controller;
 		}
 
-		public override void OnActivated (UIApplication application)
+		public override UIViewController GetViewController (UIApplication application, string[] restorationIdentifierComponents, NSCoder coder)
 		{
-			// Restart any tasks that were paused (or not yet started) while the application was inactive. 
-			// If the application was previously in the background, optionally refresh the user interface.
+			return PlatformExtensions.ApplicationStateManager.GetViewController (restorationIdentifierComponents, coder);
 		}
 
-		public override void WillTerminate (UIApplication application)
+		public override bool ShouldRestoreApplicationState (UIApplication application, NSCoder coder)
 		{
-			// Called when the application is about to terminate. Save data, if needed. See also DidEnterBackground.
+			return true;
+		}
+
+		public override bool ShouldSaveApplicationState (UIApplication application, NSCoder coder)
+		{
+			return true;
 		}
 	}
 }
