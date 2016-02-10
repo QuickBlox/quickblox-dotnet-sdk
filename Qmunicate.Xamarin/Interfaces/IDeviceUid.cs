@@ -2,11 +2,11 @@
 
 namespace Qmunicate.Xamarin
 {
-	public class IDeviceUid
+	public interface IDeviceUid
 	{
-		public IDeviceUid ()
-		{
-		}
+		string GetDeviceIdentifier();
+
+		void Initialize (object parameters);
 	}
 }
 

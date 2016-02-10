@@ -1,5 +1,6 @@
 ﻿using System;
 using MugenMvvmToolkit;
+using Autofac;
 
 namespace Qmunicate.Xamarin
 {

@@ -2,11 +2,17 @@
 
 namespace Qmunicate.Xamarin
 {
-	public class ApplicationKeys
+	public static class ApplicationKeys
 	{
-		public ApplicationKeys ()
-		{
-		}
+		public const int ApplicationId = 13318;
+		public const string AuthorizationKey = "WzrAY7vrGmbgFfP";
+		public const string AuthorizationSecret = "xS2uerEveGHmEun";
+		public const string ApiBaseEndpoint = "http://admin.quickblox.com/";
+		public const string ChatEndpoint = "chat.quickblox.com";
+
+		public const long FbAppId = 605405446247805;
+		public const string FbScope = "email,user_friends";
+
 	}
 }
 

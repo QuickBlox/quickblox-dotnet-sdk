@@ -126,6 +126,7 @@
     <Compile Include="Views\SplashScreenViewController.designer.cs">
       <DependentUpon>SplashScreenViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="IOSDeviceUid.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

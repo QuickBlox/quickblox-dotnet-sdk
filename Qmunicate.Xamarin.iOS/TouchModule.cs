@@ -1,6 +1,6 @@
-﻿using System;
-using MugenMvvmToolkit.Modules;
+﻿using MugenMvvmToolkit.Modules;
 using MugenMvvmToolkit.Models;
+using MugenMvvmToolkit;
 
 namespace Qmunicate.Xamarin.iOS
 {
@@ -12,8 +12,9 @@ namespace Qmunicate.Xamarin.iOS
 
 		protected override bool LoadInternal ()
 		{
-			//IocContainer.BindToConstant
+			//IocContainer.BindToConstant(
 
+			IocContainer.BindToConstant<IDeviceUid> (new IOSDeviceUid ());
 			return true;
 		}
 

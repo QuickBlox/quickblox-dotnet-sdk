@@ -3,11 +3,14 @@
 using UIKit;
 using MugenMvvmToolkit.iOS.Views;
 using MugenMvvmToolkit.Binding.Builders;
+using CoreGraphics;
 
 namespace Qmunicate.Xamarin.iOS
 {
 	public partial class SplashScreenViewController : MvvmViewController
 	{
+//		UIActivityIndicatorView busyIndicator;
+//		UILabel label;
 		public SplashScreenViewController () : base ("SplashScreenViewController", null)
 		{
 		}
@@ -15,13 +18,21 @@ namespace Qmunicate.Xamarin.iOS
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			using (var set = new BindingSet<SplashScreenViewModel> ()) {
-				
-			}
+			View.Bounds = UIScreen.MainScreen.Bounds;
+
+//			busyIndicator = new UIActivityIndicatorView (new CGRect(50, 50, 10, 10));
+//			View.AddSubview (busyIndicator);
+			busyIndicator.StartAnimating ();
+
+
+//			label = new UILabel(new CGRect(bounds.Width / 2, bounds.Height / 2, 100, 100));
+//			label.Text = "svabra";
+//			View.AddSubview (label);
 		}
 
 		public override void ViewDidUnload ()
 		{
+			busyIndicator.StopAnimating ();
 			base.ViewDidUnload ();
 		}
 
