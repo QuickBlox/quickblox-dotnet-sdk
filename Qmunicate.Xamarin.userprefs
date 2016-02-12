@@ -1,22 +1,22 @@
 ﻿<Properties StartupItem="Qmunicate.Xamarin.iOS/Qmunicate.Xamarin.iOS.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.Ipone 4c" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Qmunicate.Xamarin/ViewModels/SplashViewModel.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../Downloads/MugenMvvmToolkit.Samples-master 2/MugenMvvmToolkit.Samples.Binding/Binding.Portable/ViewModels/MainViewModel.cs">
     <Files>
-      <File FileName="Qmunicate.Xamarin.iOS/Views/ChatsViewController.cs" Line="1" Column="1" />
-      <File FileName="Qmunicate.Xamarin/ViewModels/ChatsViewModel.cs" Line="1" Column="1" />
-      <File FileName="Qmunicate.Xamarin/ViewModels/SplashViewModel.cs" Line="27" Column="27" />
+      <File FileName="Qmunicate.Xamarin.iOS/Views/ChatsViewController.cs" Line="27" Column="1" />
+      <File FileName="Qmunicate.Xamarin/ViewModels/ChatsViewModel.cs" Line="35" Column="1" />
+      <File FileName="Qmunicate.Xamarin/ViewModels/SplashViewModel.cs" Line="22" Column="1" />
       <File FileName="Qmunicate.Xamarin/packages.config" Line="1" Column="1" />
       <File FileName="Qmunicate.Xamarin.iOS/Views/MainViewController.cs" Line="1" Column="1" />
       <File FileName="Qmunicate.Xamarin.iOS/Views/SplashViewController.cs" Line="1" Column="1" />
-      <File FileName="Qmunicate.Xamarin/Providers/QbProvider.cs" Line="1" Column="1" />
-      <File FileName="Qmunicate.Xamarin/Repository/DialogTable.cs" Line="1" Column="1" />
+      <File FileName="Qmunicate.Xamarin/Providers/QbProvider.cs" Line="19" Column="17" />
+      <File FileName="Qmunicate.Xamarin/Repository/DialogTable.cs" Line="121" Column="6" />
+      <File FileName="Qmunicate.Xamarin/App.cs" Line="18" Column="32" />
+      <File FileName="Qmunicate.Xamarin/Providers/QbLogger.cs" Line="26" Column="5" />
+      <File FileName="../../Downloads/MugenMvvmToolkit.Samples-master 2/MugenMvvmToolkit.Samples.Binding/Binding.Portable/ViewModels/MainViewModel.cs" Line="87" Column="10" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/bamboo-server/Projects/Qmunicate.Xamarin/Qmunicate.Xamarin/ViewModels/ChatsViewModel.cs" line="35" column="1" />
-      <Breakpoint file="/Users/bamboo-server/Projects/Qmunicate.Xamarin/Qmunicate.Xamarin/ViewModels/SplashViewModel.cs" line="26" column="7" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="../Dateifi/x-ram/Dateifi.git/iOS/App/PageRenderers/ChatViewController.cs" line="673" offsetX="775" offsetY="9960" expression="relationFriendToMe" liveUpdate="False" />

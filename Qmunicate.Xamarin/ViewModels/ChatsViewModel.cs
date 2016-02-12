@@ -166,20 +166,22 @@ namespace Qmunicate.Xamarin
 
 		#region Overrides of WorkspaceViewModel
 
-		protected override void OnInitialized()
+		protected override async void OnInitialized()
 		{
 			GridViewModel = GetViewModel<GridViewModel<DialogTable>>();
-			//var dialogs = await App.QbProvider.GetDialogs();
-			var dialogs = new List<DialogTable>();
-			for (int i = 0; i < 10; i++) {
-				dialogs.Add (new DialogTable () { Name = "Name: " + i, LastMessage = "Hello " + i }); 
-			}
+			var login = "marina@dmail.com";
+			var password = "marina@dmail.com";
+			var userId = await App.QbProvider.LoginWithEmailAsync (login, password);
+
+			var dialogs = await App.QbProvider.GetDialogs();
+//			var dialogs = new List<DialogTable>();
+//			for (int i = 0; i < 10; i++) {
+//				dialogs.Add (new DialogTable () { Name = "Name: " + i, LastMessage = "Hello " + i }); 
+//			}
 			GridViewModel.UpdateItemsSource(dialogs);
 
 			GridViewModel.Filter = Filter;
 
-
-			FilterText = "N";
 		}
 
 		#endregion

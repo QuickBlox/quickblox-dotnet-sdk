@@ -6,11 +6,11 @@ namespace Qmunicate.Xamarin
 {
 	public class App : MvvmApplication
 	{
-		//public static QbProvider QbProvider;
+		public static QbProvider QbProvider;
 
 		public App()
 		{
-			//QbProvider = new QbProvider ();
+			QbProvider = new QbProvider ();
 		}
 
 		public override Type GetStartViewModelType ()

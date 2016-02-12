@@ -1,7 +1,7 @@
 ﻿using System;
-//using Quickblox.Sdk.Modules.Models;
+using Quickblox.Sdk.Modules.Models;
 //using Xamarin.Forms;
-//using Quickblox.Sdk.Modules.ChatModule.Models;
+using Quickblox.Sdk.Modules.ChatModule.Models;
 using MugenMvvmToolkit.Models;
 using System.Collections.Generic;
 
@@ -45,22 +45,22 @@ namespace Qmunicate.Xamarin
 		public DialogTable()
 		{}
 
-//		public DialogTable(Dialog dialog)
-//		{
-//			DialogId = dialog.Id;
-//			XmppRoomJid = dialog.XmppRoomJid;
-//			Name = dialog.Name;
-//			LastMessageUserId = dialog.LastMessageUserId;
-//			LastMessageSent = dialog.LastMessageDateSent.HasValue
-//				? dialog.LastMessageDateSent.Value.ToDateTime()
-//				: (DateTime?) null;
-//			LastMessage = dialog.LastMessage;
-//			UnreadMessageCount = dialog.UnreadMessagesCount;
-//			OccupantIds = String.Join(",", dialog.OccupantsIds);
-//			DialogType = dialog.Type;
-//			Photo = dialog.Photo;
-//			DialogOwnerId = dialog.UserId;
-//		}
+		public DialogTable(Dialog dialog)
+		{
+			DialogId = dialog.Id;
+			XmppRoomJid = dialog.XmppRoomJid;
+			Name = dialog.Name;
+			LastMessageUserId = dialog.LastMessageUserId;
+			LastMessageSent = dialog.LastMessageDateSent.HasValue
+				? dialog.LastMessageDateSent.Value.ToDateTime()
+				: (DateTime?) null;
+			LastMessage = dialog.LastMessage;
+			UnreadMessageCount = dialog.UnreadMessagesCount;
+			OccupantIds = String.Join(",", dialog.OccupantsIds);
+			DialogType = dialog.Type;
+			Photo = dialog.Photo;
+			DialogOwnerId = dialog.UserId;
+		}
 
 		#endregion
 
@@ -75,7 +75,7 @@ namespace Qmunicate.Xamarin
 		public int? UnreadMessageCount { get; set; }
 		public string OccupantIds { get; set; }
 		public int DialogOwnerId { get; set; }
-		//public DialogType DialogType { get; set; }
+		public DialogType DialogType { get; set; }
 		public int OpponentUserId { get; set; }
 		public int? LastMessageUserId { get; set; }
 		
@@ -115,10 +115,10 @@ namespace Qmunicate.Xamarin
 
 		#region Public methods
 
-//		public static DialogTable FromDialog(Dialog dialog)
-//		{
-//			return new DialogTable(dialog);
-//		}
+		public static DialogTable FromDialog(Dialog dialog)
+		{
+			return new DialogTable(dialog);
+		}
 
 		#endregion
 	}
