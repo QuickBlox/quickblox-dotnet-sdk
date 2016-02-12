@@ -6,9 +6,16 @@ namespace Qmunicate.Xamarin
 {
 	public class App : MvvmApplication
 	{
+		//public static QbProvider QbProvider;
+
+		public App()
+		{
+			//QbProvider = new QbProvider ();
+		}
+
 		public override Type GetStartViewModelType ()
 		{
-			return typeof(SplashScreenViewModel);
+			return typeof(ChatsViewModel);
 		}
 	}
 }

@@ -107,11 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
-  </ItemGroup>
-  <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
-    <InterfaceDefinition Include="Views\SplashScreenViewController.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -122,11 +118,12 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="TouchModule.cs" />
-    <Compile Include="Views\SplashScreenViewController.cs" />
-    <Compile Include="Views\SplashScreenViewController.designer.cs">
-      <DependentUpon>SplashScreenViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="IOSDeviceUid.cs" />
+    <Compile Include="AttachedMembersEx.cs" />
+    <Compile Include="Views\LoadingOverlay.cs" />
+    <Compile Include="Views\ChatsViewController.cs" />
+    <Compile Include="Views\MainViewController.cs" />
+    <Compile Include="Views\SplashViewController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

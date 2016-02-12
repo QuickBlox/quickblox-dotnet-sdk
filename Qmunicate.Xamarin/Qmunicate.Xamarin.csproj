@@ -9,7 +9,7 @@
     <RootNamespace>Qmunicate.Xamarin</RootNamespace>
     <AssemblyName>Qmunicate.Xamarin</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,28 +35,20 @@
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="App.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
-    <Compile Include="ViewModels\SplashScreenViewModel.cs" />
     <Compile Include="Providers\QbProvider.cs" />
     <Compile Include="ApplicationKeys.cs" />
     <Compile Include="Providers\QbLogger.cs" />
     <Compile Include="Interfaces\IDeviceUid.cs" />
+    <Compile Include="Repository\Message.cs" />
+    <Compile Include="Helpers\DateTimeExtensions.cs" />
+    <Compile Include="Repository\DialogTable.cs" />
+    <Compile Include="ViewModels\ChatsViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="PortableModule.cs" />
+    <Compile Include="ViewModels\SplashViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <Import Project="..\packages\Xamarin.Forms.2.0.1.6505\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.0.1.6505\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\portable-net45+wp80+win8+wpa81+aspnetcore50\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="bouncy_castle_hmac_sha_pcl">
-      <HintPath>..\packages\BouncyCastle-PCL.1.0.0.6\lib\bouncy_castle_hmac_sha_pcl.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="Quickblox.Sdk.Xamarin">
-      <HintPath>..\packages\Quickblox.Sdk.Xamarin.1.0.1\lib\portable-net45+win+wpa81\Quickblox.Sdk.Xamarin.dll</HintPath>
-    </Reference>
-    <Reference Include="Sharp.Xmpp">
-      <HintPath>..\packages\Quickblox.Sdk.Xamarin.1.0.1\lib\portable-net45+win+wpa81\Sharp.Xmpp.dll</HintPath>
-    </Reference>
     <Reference Include="MugenMvvmToolkit">
       <HintPath>..\packages\MugenMvvmToolkit.5.1.0\lib\portable-net45+win+wpa81+wp80\MugenMvvmToolkit.dll</HintPath>
     </Reference>
@@ -66,23 +58,16 @@
     <Reference Include="MugenMvvmToolkit.AutofacContainer">
       <HintPath>..\packages\MugenMvvmToolkit.AutofacContainer.5.1.0\lib\portable-net45+win+wpa81+wp80\MugenMvvmToolkit.AutofacContainer.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Forms.Core">
-      <HintPath>..\packages\Xamarin.Forms.2.0.1.6505\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Xaml">
-      <HintPath>..\packages\Xamarin.Forms.2.0.1.6505\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
-    </Reference>
-    <Reference Include="Xamarin.Forms.Platform">
-      <HintPath>..\packages\Xamarin.Forms.2.0.1.6505\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Platform.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Providers\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Repository\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
 </Project>
