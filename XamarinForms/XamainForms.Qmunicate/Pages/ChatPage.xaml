@@ -2,5 +2,36 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="XamainForms.Qmunicate.Pages.ChatPage">
-	<Label Text="{Binding MainText}" VerticalOptions="Center" HorizontalOptions="Center" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition />
+            <RowDefinition Height="150"/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Image x:Name="chatPhotoImage"/>
+            <Label x:Name="chatNameLabel" />
+        </Grid>
+
+        <ListView x:Name="listView" Grid.Row="1">
+            
+        </ListView>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="80"/>
+            </Grid.ColumnDefinitions>
+            
+            <Entry x:Name="messageEntry" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+            
+            <Button x:Name="sendButton" Grid.Column="1" Text="Send" />
+        </Grid>
+    </Grid>
 </ContentPage>
