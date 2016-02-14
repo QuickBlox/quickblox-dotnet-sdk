@@ -39,6 +39,9 @@
     <Compile Include="ApplicationKeys.cs" />
     <Compile Include="Helpers\DateTimeExtensions.cs" />
     <Compile Include="IDeviceIdentifier.cs" />
+    <Compile Include="Pages\ChatPage.xaml.cs">
+      <DependentUpon>ChatPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ChatsPage.xaml.cs">
       <DependentUpon>ChatsPage.xaml</DependentUpon>
     </Compile>
@@ -54,6 +57,7 @@
     <Compile Include="Repository\Database.cs" />
     <Compile Include="Repository\DialogTable.cs" />
     <Compile Include="Repository\MessageTable.cs" />
+    <Compile Include="Repository\UserSettingTable.cs" />
     <Compile Include="Repository\UserTable.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +111,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Pages\ChatsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pages\ChatPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

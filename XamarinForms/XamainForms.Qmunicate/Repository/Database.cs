@@ -24,9 +24,31 @@ namespace XamainForms.Qmunicate.Repository
             return instance;
         }
 
+        public Action dialogObserver = delegate { };
+        public Action messageObserver = delegate { };
 
         private Database()
         {
+        }
+
+        public void SubscribeForDialogs(Action dialogsCallback)
+        {
+            dialogObserver += dialogsCallback;
+        }
+
+        public void UnSubscribeForDialogs(Action dialogsCallback)
+        {
+            dialogObserver -= dialogsCallback;
+        }
+
+        public void SubscribeForMessages(Action messagesCallback)
+        {
+            dialogObserver += messagesCallback;
+        }
+
+        public void UnSubscribeForMessages(Action messagesCallback)
+        {
+            dialogObserver -= messagesCallback;
         }
 
         public void Init(SQLiteConnection connection)
@@ -150,6 +172,14 @@ namespace XamainForms.Qmunicate.Repository
             lock (locker)
             {
                 return this.database.Table<DialogTable>().ToList();
+            }
+        }
+
+        public DialogTable GetDialog(string dialogId)
+        {
+            lock (locker)
+            {
+                return this.database.Table<DialogTable>().FirstOrDefault(d => d.DialogId == dialogId);
             }
         }
 

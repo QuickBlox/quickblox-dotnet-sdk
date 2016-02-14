@@ -2,5 +2,26 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="XamainForms.Qmunicate.Pages.ChatsPage">
-	<Label Text="{Binding MainText}" VerticalOptions="Center" HorizontalOptions="Center" />
+    <ListView x:Name="listView">
+        <ListView.ItemTemplate>
+            <DataTempalete>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Image Grid.RowSpan="2" Source="{Binding Photo}" />
+
+                    <Label Text="{Binding Name}" FontSize="22" Grid.Column="1" />
+                    <Label Text="{Binding LastMessage}" FontSize="18" Grid.Column="1" Grid.Row="1" />
+                </Grid>
+            </DataTempalete>
+        </ListView.ItemTemplate>
+    </ListView>
 </ContentPage>
