@@ -1,11 +1,6 @@
 ﻿<Properties StartupItem="XamarinForms/XamarinForms.Qmunicate.Android/XamarinForms.Qmunicate.Android.csproj" RefactoringSettings.EnableRefactorings="True">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="Android.MonoForAndroid_API_10" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="XamarinForms/XamainForms.Qmunicate/Interfaces/IDeviceIdentifier.cs">
-    <Files>
-      <File FileName="XamarinForms/XamarinForms.Qmunicate.Android/AndroidDeviceUid.cs" Line="15" Column="96" />
-      <File FileName="XamarinForms/XamainForms.Qmunicate/Interfaces/IDeviceIdentifier.cs" Line="7" Column="40" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

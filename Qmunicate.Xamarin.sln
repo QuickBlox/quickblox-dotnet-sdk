@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qmunicate.Xamarin.iOS", "Qm
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XamarinForms", "XamarinForms", "{7B728755-3E3D-4003-A69A-B80A59C6DD77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinForms.Qmunicate", "XamarinForms\XamainForms.Qmunicate\XamarinForms.Qmunicate.csproj", "{67F9D3A8-F71E-4428-913F-C37AE82CDB24}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinForms.Qmunicate.Android", "XamarinForms\XamarinForms.Qmunicate.Android\XamarinForms.Qmunicate.Android.csproj", "{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinForms.Qmunicate", "XamarinForms\XamarinForms.Qmunicate\XamarinForms.Qmunicate.csproj", "{67F9D3A8-F71E-4428-913F-C37AE82CDB24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,8 +87,8 @@ Global
 		{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{67F9D3A8-F71E-4428-913F-C37AE82CDB24} = {7B728755-3E3D-4003-A69A-B80A59C6DD77}
 		{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0} = {7B728755-3E3D-4003-A69A-B80A59C6DD77}
+		{67F9D3A8-F71E-4428-913F-C37AE82CDB24} = {7B728755-3E3D-4003-A69A-B80A59C6DD77}
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

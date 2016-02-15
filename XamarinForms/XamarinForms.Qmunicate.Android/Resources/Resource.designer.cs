@@ -320,6 +320,7 @@ namespace XamarinForms.Qmunicate.Android
 			global::Xamarin.Forms.Platform.Resource.Boolean.abc_config_showMenuShortcutsWhenKeyboardPresent = global::XamarinForms.Qmunicate.Android.Resource.Boolean.abc_config_showMenuShortcutsWhenKeyboardPresent;
 			global::Xamarin.Forms.Platform.Resource.Color.abc_background_cache_hint_selector_material_dark = global::XamarinForms.Qmunicate.Android.Resource.Color.abc_background_cache_hint_selector_material_dark;
 			global::Xamarin.Forms.Platform.Resource.Color.abc_background_cache_hint_selector_material_light = global::XamarinForms.Qmunicate.Android.Resource.Color.abc_background_cache_hint_selector_material_light;
+			global::Xamarin.Forms.Platform.Resource.Color.abc_color_highlight_material = global::XamarinForms.Qmunicate.Android.Resource.Color.abc_color_highlight_material;
 			global::Xamarin.Forms.Platform.Resource.Color.abc_input_method_navigation_guard = global::XamarinForms.Qmunicate.Android.Resource.Color.abc_input_method_navigation_guard;
 			global::Xamarin.Forms.Platform.Resource.Color.abc_primary_text_disable_only_material_dark = global::XamarinForms.Qmunicate.Android.Resource.Color.abc_primary_text_disable_only_material_dark;
 			global::Xamarin.Forms.Platform.Resource.Color.abc_primary_text_disable_only_material_light = global::XamarinForms.Qmunicate.Android.Resource.Color.abc_primary_text_disable_only_material_light;
@@ -519,6 +520,7 @@ namespace XamarinForms.Qmunicate.Android
 			global::Xamarin.Forms.Platform.Resource.Drawable.abc_cab_background_internal_bg = global::XamarinForms.Qmunicate.Android.Resource.Drawable.abc_cab_background_internal_bg;
 			global::Xamarin.Forms.Platform.Resource.Drawable.abc_cab_background_top_material = global::XamarinForms.Qmunicate.Android.Resource.Drawable.abc_cab_background_top_material;
 			global::Xamarin.Forms.Platform.Resource.Drawable.abc_cab_background_top_mtrl_alpha = global::XamarinForms.Qmunicate.Android.Resource.Drawable.abc_cab_background_top_mtrl_alpha;
+			global::Xamarin.Forms.Platform.Resource.Drawable.abc_control_background_material = global::XamarinForms.Qmunicate.Android.Resource.Drawable.abc_control_background_material;
 			global::Xamarin.Forms.Platform.Resource.Drawable.abc_dialog_material_background_dark = global::XamarinForms.Qmunicate.Android.Resource.Drawable.abc_dialog_material_background_dark;
 			global::Xamarin.Forms.Platform.Resource.Drawable.abc_dialog_material_background_light = global::XamarinForms.Qmunicate.Android.Resource.Drawable.abc_dialog_material_background_light;
 			global::Xamarin.Forms.Platform.Resource.Drawable.abc_edit_text_material = global::XamarinForms.Qmunicate.Android.Resource.Drawable.abc_edit_text_material;
@@ -833,6 +835,10 @@ namespace XamarinForms.Qmunicate.Android
 			global::Xamarin.Forms.Platform.Resource.Style.Base_V21_Theme_AppCompat_Dialog = global::XamarinForms.Qmunicate.Android.Resource.Style.Base_V21_Theme_AppCompat_Dialog;
 			global::Xamarin.Forms.Platform.Resource.Style.Base_V21_Theme_AppCompat_Light = global::XamarinForms.Qmunicate.Android.Resource.Style.Base_V21_Theme_AppCompat_Light;
 			global::Xamarin.Forms.Platform.Resource.Style.Base_V21_Theme_AppCompat_Light_Dialog = global::XamarinForms.Qmunicate.Android.Resource.Style.Base_V21_Theme_AppCompat_Light_Dialog;
+			global::Xamarin.Forms.Platform.Resource.Style.Base_V22_Theme_AppCompat = global::XamarinForms.Qmunicate.Android.Resource.Style.Base_V22_Theme_AppCompat;
+			global::Xamarin.Forms.Platform.Resource.Style.Base_V22_Theme_AppCompat_Light = global::XamarinForms.Qmunicate.Android.Resource.Style.Base_V22_Theme_AppCompat_Light;
+			global::Xamarin.Forms.Platform.Resource.Style.Base_V23_Theme_AppCompat = global::XamarinForms.Qmunicate.Android.Resource.Style.Base_V23_Theme_AppCompat;
+			global::Xamarin.Forms.Platform.Resource.Style.Base_V23_Theme_AppCompat_Light = global::XamarinForms.Qmunicate.Android.Resource.Style.Base_V23_Theme_AppCompat_Light;
 			global::Xamarin.Forms.Platform.Resource.Style.Base_V7_Theme_AppCompat = global::XamarinForms.Qmunicate.Android.Resource.Style.Base_V7_Theme_AppCompat;
 			global::Xamarin.Forms.Platform.Resource.Style.Base_V7_Theme_AppCompat_Dialog = global::XamarinForms.Qmunicate.Android.Resource.Style.Base_V7_Theme_AppCompat_Dialog;
 			global::Xamarin.Forms.Platform.Resource.Style.Base_V7_Theme_AppCompat_Light = global::XamarinForms.Qmunicate.Android.Resource.Style.Base_V7_Theme_AppCompat_Light;
