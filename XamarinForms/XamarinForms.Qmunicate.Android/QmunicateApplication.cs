@@ -5,17 +5,18 @@ using XamarinForms.Qmunicate;
 using XamarinForms.Qmunicate.Repository;
 using Xamarin.Forms;
 using XamainForms.Qmunicate;
+using Android.Runtime;
 
 namespace XamarinForms.Qmunicate.Android
 {
-	[Application()]
+	[Application(Theme="@android:style/Theme.Material.Light")]
 	public class QmunicateApplication : global::Android.App.Application
-	{
-		public QmunicateApplication ()
+	{ 
+		public QmunicateApplication (IntPtr handle, JniHandleOwnership transfer)
+			: base (handle, transfer)
 		{
 			App.Version = AppVersionNumber (this);
 
-			Database.Instance ().Init (DependencyService.Get<ISqlite> ().GetConnection ());
 		}
 
 		public string AppVersionNumber(Context context){

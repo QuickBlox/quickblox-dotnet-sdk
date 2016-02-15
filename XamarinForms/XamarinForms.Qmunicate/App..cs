@@ -69,8 +69,9 @@ namespace XamarinForms.Qmunicate
 		public static void SetMainPage()
         {
             //((App)App.Current).MainPage = new NavigationPage(new MainPage());
-            ((App)App.Current).MainPage = new NavigationPage(new ChatsPage());
-            //Navigation = MainPage.Navigation;
+			var page = new NavigationPage(new ChatsPage());
+			Navigation = page.Navigation;
+			((App)App.Current).MainPage = page;
         }
     }
 }

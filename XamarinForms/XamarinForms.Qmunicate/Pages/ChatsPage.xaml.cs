@@ -18,20 +18,32 @@ namespace XamarinForms.Qmunicate.Pages
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            if (Device.OS == TargetPlatform.iOS)
-            {
-                Title = "Chats";
-            }
 
-            listView.ItemTapped += OnItemTapped;
+			this.IsBusy = true;
 
-            var dialogs = await App.QbProvider.GetDialogs();
-            listView.ItemsSource = dialogs;
 
-            Database.Instance().SaveAllDialogs(dialogs);
+			if (listView.ItemsSource == null) {
+				var template = new DataTemplate (typeof(ImageCell));
+				template.SetBinding (ImageCell.ImageSourceProperty, "Photo");
+				template.SetBinding (ImageCell.TextProperty, "Name");
+				template.SetBinding (ImageCell.DetailProperty, "LastMessage");
+				listView.ItemTemplate = template;
+
+				listView.ItemTapped += OnItemTapped;
+				var dialogs = await App.QbProvider.GetDialogs ();
+				listView.ItemsSource = dialogs;
+				Database.Instance().SaveAllDialogs(dialogs);
+			}
+
             Database.Instance().SubscribeForDialogs(OnDialogsChanged);
 
-            ConnetToXmpp();
+			try {
+				ConnetToXmpp();
+			} catch (Exception ex) {
+				
+			}
+
+			this.IsBusy = false;
         }
 
         protected override void OnDisappearing()
@@ -49,7 +61,8 @@ namespace XamarinForms.Qmunicate.Pages
         private void OnItemTapped(object sender, ItemTappedEventArgs e)
         {
             var dialogItem = e.Item as DialogTable;
-            App.Navigation.PushAsync(new ChatPage(dialogItem.DialogId));
+			((ListView)sender).SelectedItem = null;
+			App.Navigation.PushAsync(new ChatPage(dialogItem.DialogId));
         }
 
         private void ConnetToXmpp()
@@ -100,6 +113,19 @@ namespace XamarinForms.Qmunicate.Pages
                     }
                 }
 
+				var user = Database.Instance ().GetUser (messageTable.SenderId);
+				if (user == null) {
+					var userRespose = await App.QbProvider.GetUser (messageTable.SenderId);
+					if (userRespose != null) {
+					    user = new UserTable ();
+						user.FullName = userRespose.FullName;
+						user.UserId = userRespose.Id;
+						user.PhotoId = userRespose.BlobId.HasValue ? userRespose.BlobId.Value : 0;
+						Database.Instance ().SaveUser (user);
+
+						messageTable.RecepientFullName = user.FullName;
+					}
+				}
                 Database.Instance().SaveMessage(messageTable);
 
                 var dialog = Database.Instance().GetDialog(messageTable.DialogId);

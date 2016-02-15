@@ -16,5 +16,8 @@ namespace XamarinForms.Qmunicate.Repository
         public int RecepientId { get; set; }
         public int SenderId { get; set; }
         public bool IsRead { get; set; }
+
+		public string RecepientFullName { get; set; }
+		public string RecepientImage { get; set; }
     }
 }

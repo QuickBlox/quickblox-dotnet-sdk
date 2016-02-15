@@ -107,7 +107,7 @@ namespace XamarinForms.Qmunicate
 			return response.StatusCode == resultStatusCode;
 		}
 
-		public async Task<Quickblox.Sdk.Modules.UsersModule.Models.User> GetUserProfile(int qbUserId)
+		public async Task<Quickblox.Sdk.Modules.UsersModule.Models.User> GetUser(int qbUserId)
 		{
 			try{
 				var response = await this.client.UsersClient.GetUserByIdAsync(qbUserId);
@@ -123,10 +123,11 @@ namespace XamarinForms.Qmunicate
 			return null;
 		}
 
-		public async Task<List<Quickblox.Sdk.Modules.UsersModule.Models.User>> GetProfilesByIds (IEnumerable<long> ids)
+		public async Task<List<Quickblox.Sdk.Modules.UsersModule.Models.User>> GetUsersByIds (IEnumerable<int> ids)
 		{
 			try{
 				var retriveUserRequest = new RetrieveUsersRequest();
+				retriveUserRequest.PerPage = 100;
 				var idsString = String.Join(",", ids);
 				var aggregator = new FilterAggregator();
 				aggregator.Filters.Add(new RetrieveUserFilter<int>(UserOperator.In, () => new Quickblox.Sdk.Modules.UsersModule.Models.User().Id, idsString));
@@ -225,7 +226,7 @@ namespace XamarinForms.Qmunicate
 		{
 			var dialogs = new List<DialogTable> ();
 			var retrieveDialogsRequest = new RetrieveDialogsRequest();
-			retrieveDialogsRequest.Limit = 10;
+			retrieveDialogsRequest.Limit = 25;
 			var response = await client.ChatClient.GetDialogsAsync(retrieveDialogsRequest);
 			if (await HandleResponse(response, HttpStatusCode.OK)) {
 				dialogs = response.Result.Items.Select(d => new DialogTable(d)).ToList();

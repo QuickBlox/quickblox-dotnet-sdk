@@ -1,6 +1,19 @@
 ﻿<Properties StartupItem="XamarinForms/XamarinForms.Qmunicate.Android/XamarinForms.Qmunicate.Android.csproj" RefactoringSettings.EnableRefactorings="True">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="Android.MonoForAndroid_API_10" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="Android.105292b5" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="XamarinForms/XamarinForms.Qmunicate/Pages/ChatPage.xaml.cs">
+    <Files>
+      <File FileName="XamarinForms/XamarinForms.Qmunicate/Pages/ChatsPage.xaml.cs" Line="125" Column="7" />
+      <File FileName="XamarinForms/XamarinForms.Qmunicate/Pages/ChatPage.xaml.cs" Line="76" Column="6" />
+      <File FileName="XamarinForms/XamarinForms.Qmunicate/Providers/QbProvider.cs" Line="161" Column="46" />
+      <File FileName="XamarinForms/XamarinForms.Qmunicate/Repository/MessageTable.cs" Line="12" Column="27" />
+      <File FileName="XamarinForms/XamarinForms.Qmunicate/Pages/ChatPage.xaml" Line="15" Column="45" />
+      <File FileName="XamarinForms/XamarinForms.Qmunicate/Pages/LoginPage.xaml" Line="7" Column="29" />
+      <File FileName="XamarinForms/XamarinForms.Qmunicate/Repository/Database.cs" Line="150" Column="49" />
+      <File FileName="XamarinForms/XamarinForms.Qmunicate/Repository/DialogTable.cs" Line="32" Column="24" />
+      <File FileName="XamarinForms/XamarinForms.Qmunicate.Android/QmunicateApplication.cs" Line="23" Column="21" />
+      <File FileName="XamarinForms/XamarinForms.Qmunicate/Repository/UserTable.cs" Line="10" Column="5" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -1,36 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="XamarinForms.Qmunicate.Pages.ChatPage">
+             x:Class="XamarinForms.Qmunicate.Pages.ChatPage"
+             Title="Chat">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="150"/>
+            <RowDefinition Height="75"/>
             <RowDefinition />
-            <RowDefinition Height="150"/>
+            <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
+                <ColumnDefinition Width="75"/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
+            <StackLayout Padding="18,12,0,0">
+            	<Image x:Name="chatPhotoImage" WidthRequest="75" HeightRequest="75"/>
+            </StackLayout>
+            <StackLayout  Grid.Column="1" Padding="18,12,0,0">
+            	<Label x:Name="chatNameLabel" FontSize="22" HorizontalTextAlignment="Start"/>
+            </StackLayout>
 
-            <Image x:Name="chatPhotoImage"/>
-            <Label x:Name="chatNameLabel" />
         </Grid>
-
-        <ListView x:Name="listView" Grid.Row="1">
-            
-        </ListView>
-
-        <Grid Grid.Row="2">
+        <StackLayout Grid.Row="1" Padding="18,12">
+	        <ListView x:Name="listView">
+	            
+	        </ListView>
+        </StackLayout>
+        
+        <Grid Grid.Row="2" Padding="18,12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="80"/>
             </Grid.ColumnDefinitions>
-            
-            <Entry x:Name="messageEntry" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-            
+            	<Entry x:Name="messageEntry" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
             <Button x:Name="sendButton" Grid.Column="1" Text="Send" />
         </Grid>
     </Grid>

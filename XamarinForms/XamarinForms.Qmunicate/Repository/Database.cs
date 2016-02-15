@@ -96,6 +96,8 @@ namespace XamarinForms.Qmunicate.Repository
                 }
             }
 
+			messageObserver.Invoke ();
+
             return retVal;
         }
 
@@ -108,7 +110,10 @@ namespace XamarinForms.Qmunicate.Repository
                 this.database.Execute("DELETE FROM MessageTable WHERE DialogId='" + dialogId + "'");
                 this.database.Commit();
                 count = this.database.InsertAll(messages);
+
             }
+
+			messageObserver.Invoke ();
 
             return count;
         }
@@ -138,7 +143,7 @@ namespace XamarinForms.Qmunicate.Repository
             return this.database.Table<UserSettingTable>().FirstOrDefault();
         }
 
-        public UserTable GetUser(String userId)
+        public UserTable GetUser(int userId)
         {
             lock (locker)
             {
@@ -201,6 +206,7 @@ namespace XamarinForms.Qmunicate.Repository
                 }
             }
 
+			dialogObserver.Invoke ();
             return retVal;
         }
 
@@ -215,6 +221,7 @@ namespace XamarinForms.Qmunicate.Repository
                 count = this.database.InsertAll(dialogs);
             }
 
+			dialogObserver.Invoke ();
             return count;
         }
     }

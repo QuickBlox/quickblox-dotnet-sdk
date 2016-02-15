@@ -49,7 +49,6 @@ namespace XamarinForms.Qmunicate.Repository
         public string OccupantIds { get; set; }
         public int DialogOwnerId { get; set; }
         public DialogType DialogType { get; set; }
-        public int OpponentUserId { get; set; }
         public int? LastMessageUserId { get; set; }
 
         public string LastMessage

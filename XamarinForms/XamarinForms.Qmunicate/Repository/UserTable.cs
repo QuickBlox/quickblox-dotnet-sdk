@@ -11,6 +11,9 @@ namespace XamarinForms.Qmunicate.Repository
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; internal set; }
-        public string UserId { get; internal set; }
+		public int UserId { get; internal set; }
+		public string FullName { get; internal set; }
+		public string PhotoUrl { get; internal set; }
+        public long PhotoId { get; internal set; }
     }
 }

@@ -1,27 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="XamarinForms.Qmunicate.Pages.ChatsPage">
-    <ListView x:Name="listView">
-        <ListView.ItemTemplate>
-            <DataTempalete>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="120" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
+             x:Class="XamarinForms.Qmunicate.Pages.ChatsPage"
+             Title="Chats">
+     <StackLayout Padding="18">
+	    <ListView x:Name="listView">
+<!--	        <ListView.ItemTemplate>
+	         <DataTemplate>
+	        	<ImageCell>
+	                <Grid>
+	                    <Grid.ColumnDefinitions>
+	                        <ColumnDefinition Width="85" />
+	                        <ColumnDefinition />
+	                    </Grid.ColumnDefinitions>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
+	                    <Grid.RowDefinitions>
+	                        <RowDefinition />
+	                        <RowDefinition />
+	                    </Grid.RowDefinitions>
 
-                    <Image Grid.RowSpan="2" Source="{Binding Photo}" />
+	                    <Image Grid.RowSpan="2" Source="{Binding Photo}" HeightRequest="75" WidthRequest="75"/>
 
-                    <Label Text="{Binding Name}" FontSize="22" Grid.Column="1" />
-                    <Label Text="{Binding LastMessage}" FontSize="18" Grid.Column="1" Grid.Row="1" />
-                </Grid>
-            </DataTempalete>
-        </ListView.ItemTemplate>
-    </ListView>
+	                    <Label Text="{Binding Name}" FontSize="22" Grid.Column="1" />
+	                    <Label Text="{Binding LastMessage}" FontSize="18" Grid.Column="1" Grid.Row="1" />
+	                </Grid>
+	        		</ImageCell>
+	            </DataTemplate>
+	        </ListView.ItemTemplate>-->
+	    </ListView>
+    </StackLayout>
 </ContentPage>
