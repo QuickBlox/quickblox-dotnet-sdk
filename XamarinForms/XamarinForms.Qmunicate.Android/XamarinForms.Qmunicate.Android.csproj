@@ -99,6 +99,7 @@
     <Compile Include="QmunicateApplication.cs" />
     <Compile Include="App\Activity\FormsActivity.cs" />
     <Compile Include="AndroidDeviceUid.cs" />
+    <Compile Include="SqliteAndroid.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

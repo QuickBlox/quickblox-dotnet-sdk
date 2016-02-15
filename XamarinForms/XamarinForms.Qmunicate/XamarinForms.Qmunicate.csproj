@@ -59,6 +59,7 @@
     <Compile Include="Repository\UserSettingTable.cs" />
     <Compile Include="Repository\UserTable.cs" />
     <Compile Include="Interfaces\IDeviceIdentifier.cs" />
+    <Compile Include="Interfaces\ISqlite.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="bouncy_castle_hmac_sha_pcl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
