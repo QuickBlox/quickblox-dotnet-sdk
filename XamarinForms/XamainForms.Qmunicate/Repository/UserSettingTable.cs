@@ -1,6 +1,6 @@
 ﻿using SQLite.Net.Attributes;
 
-namespace XamainForms.Qmunicate.Repository
+namespace XamarinForms.Qmunicate.Repository
 {
     public class UserSettingTable
     {

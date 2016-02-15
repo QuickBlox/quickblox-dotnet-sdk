@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XamainForms.Qmunicate
+namespace XamarinForms.Qmunicate
 {
 	public static class DateTimeExtensions
 	{

@@ -1,18 +1,9 @@
-﻿<Properties StartupItem="Qmunicate.Xamarin.iOS/Qmunicate.Xamarin.iOS.csproj" RefactoringSettings.EnableRefactorings="True">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.Ipone 4c" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../../Downloads/MugenMvvmToolkit.Samples-master 2/MugenMvvmToolkit.Samples.Binding/Binding.Portable/ViewModels/MainViewModel.cs">
+﻿<Properties StartupItem="XamarinForms/XamarinForms.Qmunicate.Android/XamarinForms.Qmunicate.Android.csproj" RefactoringSettings.EnableRefactorings="True">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="Android.MonoForAndroid_API_10" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="XamarinForms/XamainForms.Qmunicate/Interfaces/IDeviceIdentifier.cs">
     <Files>
-      <File FileName="Qmunicate.Xamarin.iOS/Views/ChatsViewController.cs" Line="27" Column="1" />
-      <File FileName="Qmunicate.Xamarin/ViewModels/ChatsViewModel.cs" Line="35" Column="1" />
-      <File FileName="Qmunicate.Xamarin/ViewModels/SplashViewModel.cs" Line="22" Column="1" />
-      <File FileName="Qmunicate.Xamarin/packages.config" Line="1" Column="1" />
-      <File FileName="Qmunicate.Xamarin.iOS/Views/MainViewController.cs" Line="1" Column="1" />
-      <File FileName="Qmunicate.Xamarin.iOS/Views/SplashViewController.cs" Line="1" Column="1" />
-      <File FileName="Qmunicate.Xamarin/Providers/QbProvider.cs" Line="19" Column="17" />
-      <File FileName="Qmunicate.Xamarin/Repository/DialogTable.cs" Line="121" Column="6" />
-      <File FileName="Qmunicate.Xamarin/App.cs" Line="18" Column="32" />
-      <File FileName="Qmunicate.Xamarin/Providers/QbLogger.cs" Line="26" Column="5" />
-      <File FileName="../../Downloads/MugenMvvmToolkit.Samples-master 2/MugenMvvmToolkit.Samples.Binding/Binding.Portable/ViewModels/MainViewModel.cs" Line="87" Column="10" />
+      <File FileName="XamarinForms/XamarinForms.Qmunicate.Android/AndroidDeviceUid.cs" Line="15" Column="96" />
+      <File FileName="XamarinForms/XamainForms.Qmunicate/Interfaces/IDeviceIdentifier.cs" Line="7" Column="40" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

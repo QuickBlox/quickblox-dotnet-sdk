@@ -3,7 +3,7 @@ using Quickblox.Sdk.Logger;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace XamainForms.Qmunicate
+namespace XamarinForms.Qmunicate
 {
 	public class QbLogger : ILogger
 	{

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using XamainForms.Qmunicate.Pages;
-using XamainForms.Qmunicate.Repository;
+using XamarinForms.Qmunicate.Pages;
+using XamarinForms.Qmunicate.Repository;
 using Xamarin.Forms;
 
-namespace XamainForms.Qmunicate
+namespace XamarinForms.Qmunicate
 {
     public class App : Application
     {
@@ -23,6 +23,11 @@ namespace XamainForms.Qmunicate
         public static Action SuccessfulLoginAction;
 
         public static Action<bool> ToggleChatDraw;
+
+		public static string Version {
+			get;
+			set;
+		}
 
         public App()
         {
@@ -61,7 +66,7 @@ namespace XamainForms.Qmunicate
             //Navigation = MainPage.Navigation;
         }
 
-        public static void SetMainPage()
+		public static void SetMainPage()
         {
             //((App)App.Current).MainPage = new NavigationPage(new MainPage());
             ((App)App.Current).MainPage = new NavigationPage(new ChatsPage());

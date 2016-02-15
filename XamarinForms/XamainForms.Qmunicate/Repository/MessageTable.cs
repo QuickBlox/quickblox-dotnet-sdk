@@ -1,7 +1,7 @@
 ﻿using SQLite.Net.Attributes;
 using System;
 
-namespace XamainForms.Qmunicate.Repository
+namespace XamarinForms.Qmunicate.Repository
 {
     public class MessageTable
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using XamainForms.Qmunicate.Repository;
+using XamarinForms.Qmunicate.Repository;
 using Xamarin.Forms;
 
-namespace XamainForms.Qmunicate.Pages
+namespace XamarinForms.Qmunicate.Pages
 {
     public partial class SplashScreenPage : ContentPage
     {

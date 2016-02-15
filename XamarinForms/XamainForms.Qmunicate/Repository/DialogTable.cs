@@ -4,7 +4,7 @@ using SQLite.Net.Attributes;
 using System;
 using Xamarin.Forms;
 
-namespace XamainForms.Qmunicate.Repository
+namespace XamarinForms.Qmunicate.Repository
 {
     public class DialogTable
     {

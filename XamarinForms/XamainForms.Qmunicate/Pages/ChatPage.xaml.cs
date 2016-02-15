@@ -2,10 +2,10 @@
 using Quickblox.Sdk.Modules.ChatXmppModule.Models;
 using System;
 using System.Linq;
-using XamainForms.Qmunicate.Repository;
+using XamarinForms.Qmunicate.Repository;
 using Xamarin.Forms;
 
-namespace XamainForms.Qmunicate.Pages
+namespace XamarinForms.Qmunicate.Pages
 {
     public partial class ChatPage : ContentPage
     {

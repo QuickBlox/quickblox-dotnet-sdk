@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XamainForms.Qmunicate.Repository
+namespace XamarinForms.Qmunicate.Repository
 {
     public class Database
     {
