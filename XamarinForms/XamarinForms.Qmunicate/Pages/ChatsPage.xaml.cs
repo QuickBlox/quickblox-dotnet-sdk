@@ -25,13 +25,16 @@ namespace XamarinForms.Qmunicate.Pages
 
 			ToolbarItems.Clear ();
 			ToolbarItems.Add (new ToolbarItem ("Logout", "ic_settings.png", async () => {
-				try {
-					Database.Instance().ResetAll();
-					DisconnectToXmpp();
-				} catch (Exception ex) {
-				}
-				finally{
-					App.SetLoginPage();
+				var result = await DisplayAlert("Logout", "Do you really want to logout?", "Ok", "Cancel");
+				if (result){
+					try {
+						Database.Instance().ResetAll();
+						DisconnectToXmpp();
+					} catch (Exception ex) {
+					}
+					finally{
+						App.SetLoginPage();
+					}
 				}
 			}));
 
