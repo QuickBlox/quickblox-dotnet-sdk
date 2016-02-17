@@ -96,8 +96,11 @@ namespace XamarinForms.Qmunicate.Pages
 				listView.ItemTemplate = template;
                 listView.ItemsSource = messages;
 
-				//if(messages != null && messages.Any())
-//					listView.ScrollTo (messages [messages.Count - 1], ScrollToPosition.Start, false);
+				try {
+					if (messages != null && messages.Count > 10)
+						listView.ScrollTo (messages [messages.Count - 1], ScrollToPosition.Start, false);
+				} catch (Exception ex) {
+				}
             }
 
             Database.Instance().SubscribeForMessages(OnMessagesChanged);
@@ -152,8 +155,11 @@ namespace XamarinForms.Qmunicate.Pages
 			var messages = Database.Instance().GetMessages(dialogId);
 			Device.BeginInvokeOnMainThread (() => listView.ItemsSource = messages);
 
-			//if (messages != null && messages.Count > 10)
-				//listView.ScrollTo (messages [0], ScrollToPosition.Start, true);
+			try {
+				if (messages != null && messages.Count > 10)
+					listView.ScrollTo (messages [messages.Count - 1], ScrollToPosition.Start, true);
+			} catch (Exception ex) {
+			}
         }
     }
 }
