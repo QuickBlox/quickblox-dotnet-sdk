@@ -34,7 +34,8 @@ namespace XamarinForms.Qmunicate.Pages
                 {
                     this.IsBusy = false;
 
-					Database.Instance ().SaveUserSetting (new UserSettingTable () { Login = loginValue, Password = passwordValue });
+					if (savePasswordSwitch.IsToggled)
+						Database.Instance ().SaveUserSetting (new UserSettingTable () { Login = loginValue, Password = passwordValue });
                     App.SetMainPage();
                 }
                 else

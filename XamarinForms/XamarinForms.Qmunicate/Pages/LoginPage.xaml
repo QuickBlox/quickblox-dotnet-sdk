@@ -11,6 +11,12 @@
         <Label Text="Enter a password:" />
         <Entry x:Name="password" TextColor="Black" IsPassword="true"/>
 
+         <Grid Padding="0,18">
+        	<Label Text="Save password" VerticalOptions="Center" HorizontalOptions="Start"/>
+        	<Switch x:Name="savePasswordSwitch" VerticalOptions="Center" HorizontalOptions="End"/>
+        </Grid>
         <Button x:Name="loginButton" Text="Login" />
+
+
     </StackLayout>
 </ContentPage>

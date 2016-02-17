@@ -8,6 +8,8 @@ using Quickblox.Sdk.Modules.ChatModule.Models;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace XamarinForms.Qmunicate.Pages
 {
@@ -36,6 +38,8 @@ namespace XamarinForms.Qmunicate.Pages
 			dialog = Database.Instance().GetDialog(dialogId);
             chatNameLabel.Text = dialog.Name;
 
+			users = await App.QbProvider.GetUsersByIdsAsync (dialog.OccupantIds.Split(',').Select(id => Int32.Parse(id)));
+
 			if (dialog.DialogType == DialogType.Group) {
 				if (!string.IsNullOrEmpty (dialog.Photo)) {
 					chatPhotoImage.Source = ImageSource.FromUri (new Uri (dialog.Photo));
@@ -44,13 +48,22 @@ namespace XamarinForms.Qmunicate.Pages
 						Android: ImageSource.FromFile ("AvatarPlaceholder.png"),
 						WinPhone: ImageSource.FromFile ("Images/AvatarPlaceholder.png"));
 				}
-			} else {
-				chatPhotoImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("Images/AvatarPlaceholder.png"),
-					Android: ImageSource.FromFile ("AvatarPlaceholder.png"),
-					WinPhone: ImageSource.FromFile ("Images/AvatarPlaceholder.png"));
+			} else if (dialog.DialogType == DialogType.Private) {
+				var user = users.FirstOrDefault (u => u.Id != App.QbProvider.UserId);
+				if (user != null && user.BlobId.HasValue)
+				{
+					App.QbProvider.GetImageAsync (user.BlobId.Value).ContinueWith ((task, result) => {
+						var bytes = task.ConfigureAwait(true).GetAwaiter().GetResult();
+						Device.BeginInvokeOnMainThread(() =>
+							chatPhotoImage.Source = ImageSource.FromStream(() => new MemoryStream(bytes)));
+					}, TaskScheduler.FromCurrentSynchronizationContext ());
+				}
+				else{
+					chatPhotoImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("Images/AvatarPlaceholder.png"),
+						Android: ImageSource.FromFile ("AvatarPlaceholder.png"),
+						WinPhone: ImageSource.FromFile ("Images/AvatarPlaceholder.png"));
+				}
 			}
-
-			users = await App.QbProvider.GetUsersByIdsAsync (dialog.OccupantIds.Split(',').Select(id => Int32.Parse(id)));
 
 			List<MessageTable> messages;
 			try {

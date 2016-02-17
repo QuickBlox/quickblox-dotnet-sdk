@@ -10,7 +10,7 @@ using XamainForms.Qmunicate;
 
 namespace XamarinForms.Qmunicate.Android
 {
-	[Activity (Label = "Qmunicate", MainLauncher = true, LaunchMode=LaunchMode.SingleTop, Icon="@android:color/transparent")]
+	[Activity (Label = "", MainLauncher = true, Icon="@android:color/transparent")]
 	public class FormsActivity : FormsApplicationActivity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)
