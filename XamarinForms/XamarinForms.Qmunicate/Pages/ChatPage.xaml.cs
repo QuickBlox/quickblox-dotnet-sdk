@@ -40,21 +40,21 @@ namespace XamarinForms.Qmunicate.Pages
 				if (!string.IsNullOrEmpty (dialog.Photo)) {
 					chatPhotoImage.Source = ImageSource.FromUri (new Uri (dialog.Photo));
 				} else {
-					chatPhotoImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("Images/ic_launcher.png"),
-						Android: ImageSource.FromFile ("ic_launcher.png"),
-						WinPhone: ImageSource.FromFile ("Images/ic_launcher.png"));
+					chatPhotoImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("Images/AvatarPlaceholder.png"),
+						Android: ImageSource.FromFile ("AvatarPlaceholder.png"),
+						WinPhone: ImageSource.FromFile ("Images/AvatarPlaceholder.png"));
 				}
 			} else {
-				chatPhotoImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("Images/ic_launcher.png"),
-					Android: ImageSource.FromFile ("ic_launcher.png"),
-					WinPhone: ImageSource.FromFile ("Images/ic_launcher.png"));
+				chatPhotoImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("Images/AvatarPlaceholder.png"),
+					Android: ImageSource.FromFile ("AvatarPlaceholder.png"),
+					WinPhone: ImageSource.FromFile ("Images/AvatarPlaceholder.png"));
 			}
 
-			users = await App.QbProvider.GetUsersByIds (dialog.OccupantIds.Split(',').Select(id => Int32.Parse(id)));
+			users = await App.QbProvider.GetUsersByIdsAsync (dialog.OccupantIds.Split(',').Select(id => Int32.Parse(id)));
 
 			List<MessageTable> messages;
 			try {
-			   messages = await App.QbProvider.GetMessages(dialogId);
+			   messages = await App.QbProvider.GetMessagesAsync(dialogId);
 			} catch (Exception ex) {
 				await App.Current.MainPage.DisplayAlert ("Error", ex.ToString(), "Ok");
 				return;
@@ -136,8 +136,8 @@ namespace XamarinForms.Qmunicate.Pages
 
         private void OnMessagesChanged()
         {
-            var messages = Database.Instance().GetMessages(dialogId);
-            listView.ItemsSource = messages;
+			var messages = Database.Instance().GetMessages(dialogId);
+			Device.BeginInvokeOnMainThread (() => listView.ItemsSource = messages);
 
 			//if (messages != null && messages.Count > 10)
 				//listView.ScrollTo (messages [0], ScrollToPosition.Start, true);

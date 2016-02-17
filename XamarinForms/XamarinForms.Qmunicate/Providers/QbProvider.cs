@@ -107,7 +107,17 @@ namespace XamarinForms.Qmunicate
 			return response.StatusCode == resultStatusCode;
 		}
 
-		public async Task<Quickblox.Sdk.Modules.UsersModule.Models.User> GetUser(int qbUserId)
+		public async Task<byte[]> GetImageAsync(int blobId){
+			var downloadResponse = await client.ContentClient.DownloadFileById(blobId);
+			if (downloadResponse.StatusCode == HttpStatusCode.OK)
+			{
+				return downloadResponse.Result;
+			}
+
+			return null;
+		}
+
+		public async Task<Quickblox.Sdk.Modules.UsersModule.Models.User> GetUserAsync(int qbUserId)
 		{
 			try{
 				var response = await this.client.UsersClient.GetUserByIdAsync(qbUserId);
@@ -123,7 +133,7 @@ namespace XamarinForms.Qmunicate
 			return null;
 		}
 
-		public async Task<List<Quickblox.Sdk.Modules.UsersModule.Models.User>> GetUsersByIds (IEnumerable<int> ids)
+		public async Task<List<Quickblox.Sdk.Modules.UsersModule.Models.User>> GetUsersByIdsAsync (IEnumerable<int> ids)
 		{
 			try{
 				var retriveUserRequest = new RetrieveUsersRequest();
@@ -145,7 +155,7 @@ namespace XamarinForms.Qmunicate
 			return new List<Quickblox.Sdk.Modules.UsersModule.Models.User> ();
 		}
 
-		public async Task<UserResponse> UpdateUserData(int qbUserId, UserRequest updateUserRequest)
+		public async Task<UserResponse> UpdateUserDataAsync(int qbUserId, UserRequest updateUserRequest)
 		{
 			var updateData = new UpdateUserRequest();
 			updateData.User = updateUserRequest;
@@ -158,7 +168,7 @@ namespace XamarinForms.Qmunicate
 			return null;
 		}
 
-		public async Task<List<MessageTable>> GetMessages(string dialogId)
+		public async Task<List<MessageTable>> GetMessagesAsync(string dialogId)
 		{
 			List<MessageTable> messages = new List<MessageTable> ();
 			var retrieveMessagesRequest = new RetrieveMessagesRequest ();
@@ -188,13 +198,13 @@ namespace XamarinForms.Qmunicate
 			return messages;
 		}
 
-		public async Task<bool> DeleteDialog (string dialogId)
+		public async Task<bool> DeleteDialogAsync (string dialogId)
 		{			
 			var dialogResponse = await client.ChatClient.DeleteDialogAsync(dialogId);
 			return await HandleResponse(dialogResponse, HttpStatusCode.OK);
 		}
 
-		public async Task<DialogTable> GetDialog(int[] userIds)
+		public async Task<DialogTable> GetDialogAsync(int[] userIds)
 		{
 			var retrieveDialogsRequest = new RetrieveDialogsRequest();
 			var filterAgreaggator = new FilterAggregator ();
@@ -208,7 +218,7 @@ namespace XamarinForms.Qmunicate
 			return null;
 		}
 
-		public async Task<DialogTable> GetDialog(string dialogId)
+		public async Task<DialogTable> GetDialogAsync(string dialogId)
 		{
 			var retrieveDialogsRequest = new RetrieveDialogsRequest();
 			var filterAgreaggator = new FilterAggregator ();
@@ -222,11 +232,17 @@ namespace XamarinForms.Qmunicate
 			return null;
 		}
 
-		public async Task<List<DialogTable>> GetDialogs()
+		public async Task<List<DialogTable>> GetDialogsAsync()
 		{
 			var dialogs = new List<DialogTable> ();
 			var retrieveDialogsRequest = new RetrieveDialogsRequest();
+
+			//TODO: change limit
 			retrieveDialogsRequest.Limit = 25;
+			var filterAgreaggator = new FilterAggregator ();
+			filterAgreaggator.Filters.Add(new FieldFilterWithOperator<int>(SearchOperators.In, () => new DialogResponse().Type , (int)DialogType.Private));
+			retrieveDialogsRequest.Filter = filterAgreaggator;
+
 			var response = await client.ChatClient.GetDialogsAsync(retrieveDialogsRequest);
 			if (await HandleResponse(response, HttpStatusCode.OK)) {
 				dialogs = response.Result.Items.Select(d => new DialogTable(d)).ToList();
@@ -246,7 +262,7 @@ namespace XamarinForms.Qmunicate
 			return null;
 		}
 
-		public async Task<int?> UploadPrivateImage(byte[] imageBytes)
+		public async Task<int?> UploadPrivateImageAsync(byte[] imageBytes)
 		{
 			var createFileRequest = new CreateFileRequest()
 			{
@@ -285,7 +301,7 @@ namespace XamarinForms.Qmunicate
 			}
 		}
 
-		public async Task<bool> UnsubscribeForPushNotification(string deviceUid){
+		public async Task<bool> UnsubscribeForPushNotificationAsync(string deviceUid){
 			var result = false;
 			var subscriptions = await client.NotificationClient.GetSubscriptionsAsync ();
 			if (await HandleResponse (subscriptions, HttpStatusCode.OK)) {
@@ -301,7 +317,7 @@ namespace XamarinForms.Qmunicate
 			return result;
 		}
 
-		public async Task<bool> SubscribeForPushNotification(string pushtoken, string deviceUid)
+		public async Task<bool> SubscribeForPushNotificationAsync(string pushtoken, string deviceUid)
 		{
 			var result = false;
 			var settings = new CreateSubscriptionsRequest () {

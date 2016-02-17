@@ -5,6 +5,8 @@ using XamarinForms.Qmunicate.Repository;
 using Xamarin.Forms;
 using System.Xml.Linq;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using System.IO;
 
 namespace XamarinForms.Qmunicate.Pages
 {
@@ -21,6 +23,35 @@ namespace XamarinForms.Qmunicate.Pages
 
 			this.IsBusy = true;
 
+			ToolbarItems.Clear ();
+			ToolbarItems.Add (new ToolbarItem ("Logout", "ic_settings.png", async () => {
+				try {
+					Database.Instance().ResetAll();
+					DisconnectToXmpp();
+				} catch (Exception ex) {
+				}
+				finally{
+					App.SetLoginPage();
+				}
+			}));
+
+			if (myProfileImage.Source == null) {
+				var user = await App.QbProvider.GetUserAsync (App.QbProvider.UserId);
+
+				myNameLabel.Text = user.FullName;
+
+				myProfileImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("Images/AvatarPlaceholder.png"),
+					Android: ImageSource.FromFile ("AvatarPlaceholder.png"),
+					WinPhone: ImageSource.FromFile ("Images/AvatarPlaceholder.png"));
+				if (user.BlobId.HasValue)
+				{
+					App.QbProvider.GetImageAsync (user.BlobId.Value).ContinueWith ((task, result) => {
+						var bytes = task.ConfigureAwait(true).GetAwaiter().GetResult();
+						Device.BeginInvokeOnMainThread(() =>
+							myProfileImage.Source = ImageSource.FromStream(() => new MemoryStream(bytes)));
+					}, TaskScheduler.FromCurrentSynchronizationContext ());
+				}
+			}
 
 			if (listView.ItemsSource == null) {
 				var template = new DataTemplate (typeof(ImageCell));
@@ -30,12 +61,11 @@ namespace XamarinForms.Qmunicate.Pages
 				listView.ItemTemplate = template;
 
 				listView.ItemTapped += OnItemTapped;
-				var dialogs = await App.QbProvider.GetDialogs ();
+				var dialogs = await App.QbProvider.GetDialogsAsync ();
 				listView.ItemsSource = dialogs;
 				Database.Instance().SaveAllDialogs(dialogs);
+				Database.Instance().SubscribeForDialogs(OnDialogsChanged);
 			}
-
-            Database.Instance().SubscribeForDialogs(OnDialogsChanged);
 
 			try {
 				ConnetToXmpp();
@@ -49,13 +79,12 @@ namespace XamarinForms.Qmunicate.Pages
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            Database.Instance().UnSubscribeForDialogs(OnDialogsChanged);
         }
 
         private void OnDialogsChanged()
         {
             var dialogs = Database.Instance().GetDialogs();
-            listView.ItemsSource = dialogs;
+			Device.BeginInvokeOnMainThread (() => listView.ItemsSource = dialogs);
         }
 
         private void OnItemTapped(object sender, ItemTappedEventArgs e)
@@ -81,6 +110,17 @@ namespace XamarinForms.Qmunicate.Pages
                 App.QbProvider.GetXmppClient().Connect(App.QbProvider.UserId, userSetting.Password);
             }
         }
+
+		private void DisconnectToXmpp()
+		{
+			if (App.QbProvider.GetXmppClient().IsConnected)
+			{
+				App.QbProvider.GetXmppClient().MessageReceived -= OnMessageReceived;
+				App.QbProvider.GetXmppClient().ErrorReceived -= OnError;
+				App.QbProvider.GetXmppClient().StatusChanged -= OnStatusChanged;
+				App.QbProvider.GetXmppClient().Disconnect();
+			}
+		}
 
         private void OnStatusChanged(object sender, StatusEventArgs statusEventArgs)
         {
@@ -115,7 +155,7 @@ namespace XamarinForms.Qmunicate.Pages
 
 				var user = Database.Instance ().GetUser (messageTable.SenderId);
 				if (user == null) {
-					var userRespose = await App.QbProvider.GetUser (messageTable.SenderId);
+					var userRespose = await App.QbProvider.GetUserAsync (messageTable.SenderId);
 					if (userRespose != null) {
 					    user = new UserTable ();
 						user.FullName = userRespose.FullName;
@@ -131,7 +171,7 @@ namespace XamarinForms.Qmunicate.Pages
                 var dialog = Database.Instance().GetDialog(messageTable.DialogId);
                 if (dialog == null)
                 {
-                    dialog = await App.QbProvider.GetDialog(new int[] { messageTable.SenderId, messageTable.RecepientId });
+                    dialog = await App.QbProvider.GetDialogAsync(new int[] { messageTable.SenderId, messageTable.RecepientId });
                 }
 
                 if (dialog != null)

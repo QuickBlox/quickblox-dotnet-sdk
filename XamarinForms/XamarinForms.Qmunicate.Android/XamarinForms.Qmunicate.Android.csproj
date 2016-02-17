@@ -115,6 +115,8 @@
     <AndroidResource Include="Resources\mipmap-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable\ic_launcher.png" />
+    <AndroidResource Include="Resources\drawable\AvatarPlaceholder.png" />
+    <AndroidResource Include="Resources\drawable\ic_settings.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />

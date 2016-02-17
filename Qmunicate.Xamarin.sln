@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinForms.Qmunicate.Andr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinForms.Qmunicate", "XamarinForms\XamarinForms.Qmunicate\XamarinForms.Qmunicate.csproj", "{67F9D3A8-F71E-4428-913F-C37AE82CDB24}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinForms.Qmunicate.iOS", "XamarinForms\XamarinForms.Qmunicate.iOS\XamarinForms.Qmunicate.iOS.csproj", "{1462B842-AC29-4654-9C60-1CB1B5BCBE59}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,18 @@ Global
 		Release|iPhoneSimulator = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1462B842-AC29-4654-9C60-1CB1B5BCBE59}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
+		{1462B842-AC29-4654-9C60-1CB1B5BCBE59}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
+		{1462B842-AC29-4654-9C60-1CB1B5BCBE59}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{1462B842-AC29-4654-9C60-1CB1B5BCBE59}.Debug|iPhone.Build.0 = Debug|iPhone
+		{1462B842-AC29-4654-9C60-1CB1B5BCBE59}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{1462B842-AC29-4654-9C60-1CB1B5BCBE59}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{1462B842-AC29-4654-9C60-1CB1B5BCBE59}.Release|Any CPU.ActiveCfg = Release|iPhone
+		{1462B842-AC29-4654-9C60-1CB1B5BCBE59}.Release|Any CPU.Build.0 = Release|iPhone
+		{1462B842-AC29-4654-9C60-1CB1B5BCBE59}.Release|iPhone.ActiveCfg = Release|iPhone
+		{1462B842-AC29-4654-9C60-1CB1B5BCBE59}.Release|iPhone.Build.0 = Release|iPhone
+		{1462B842-AC29-4654-9C60-1CB1B5BCBE59}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{1462B842-AC29-4654-9C60-1CB1B5BCBE59}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 		{321B3C25-8DFF-435E-A2AF-963577557BA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{321B3C25-8DFF-435E-A2AF-963577557BA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{321B3C25-8DFF-435E-A2AF-963577557BA2}.Debug|iPhone.ActiveCfg = Debug|Any CPU
@@ -89,6 +103,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0} = {7B728755-3E3D-4003-A69A-B80A59C6DD77}
 		{67F9D3A8-F71E-4428-913F-C37AE82CDB24} = {7B728755-3E3D-4003-A69A-B80A59C6DD77}
+		{1462B842-AC29-4654-9C60-1CB1B5BCBE59} = {7B728755-3E3D-4003-A69A-B80A59C6DD77}
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

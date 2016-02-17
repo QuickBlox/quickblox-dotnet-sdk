@@ -12,18 +12,6 @@ namespace XamarinForms.Qmunicate
         public static INavigation Navigation { get; set; }
         public static Action<string> LogConsole;
         
-        /// <summary>
-        /// Use only when main page riched
-        /// </summary>
-        public static Action GotoMainPage;
-
-        /// <summary>
-        /// Use for navigation to main page after login
-        /// </summary>
-        public static Action SuccessfulLoginAction;
-
-        public static Action<bool> ToggleChatDraw;
-
 		public static string Version {
 			get;
 			set;
@@ -31,17 +19,8 @@ namespace XamarinForms.Qmunicate
 
         public App()
         {
-            //DBTest.FillAllDBProfiles();
             QbProvider = new QbProvider();
-
-            SuccessfulLoginAction = SetLoginPage;
-
             SetLoadingPage();
-        }
-
-        private void SetLoadingPage()
-        {
-            ((App)App.Current).MainPage = new NavigationPage(new SplashScreenPage());
         }
 
         protected override async void OnStart()
@@ -59,16 +38,18 @@ namespace XamarinForms.Qmunicate
             base.OnResume();
         }
 
+		private void SetLoadingPage()
+		{
+			((App)App.Current).MainPage = new NavigationPage(new SplashScreenPage());
+		}
+
         public static void SetLoginPage()
         {
-            //MainPage =new NavigationPage (new MainPage());
             ((App)App.Current).MainPage = new NavigationPage(new LoginPage());
-            //Navigation = MainPage.Navigation;
         }
 
 		public static void SetMainPage()
         {
-            //((App)App.Current).MainPage = new NavigationPage(new MainPage());
 			var page = new NavigationPage(new ChatsPage());
 			Navigation = page.Navigation;
 			((App)App.Current).MainPage = page;

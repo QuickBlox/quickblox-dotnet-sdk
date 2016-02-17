@@ -68,6 +68,9 @@ namespace XamarinForms.Qmunicate.Repository
             this.database.Execute("DELETE FROM UserTable");
             this.database.Execute("DELETE FROM UserSettingTable");
             this.database.Commit();
+
+			dialogObserver = delegate {};
+			messageObserver = delegate {};
         }
 
         public IList<MessageTable> GetMessages(String dialogId)
