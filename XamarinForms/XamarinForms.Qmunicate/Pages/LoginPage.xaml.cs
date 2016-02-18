@@ -13,6 +13,8 @@ namespace XamarinForms.Qmunicate.Pages
         public LoginPage()
         {
             InitializeComponent();
+			this.login.Text = "logic5@dmail.com";
+			this.password.Text = "logic5@dmail.com";
         }
 
         protected override void OnAppearing()

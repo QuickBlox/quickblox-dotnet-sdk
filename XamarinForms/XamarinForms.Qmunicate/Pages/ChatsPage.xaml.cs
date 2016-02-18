@@ -22,7 +22,7 @@ namespace XamarinForms.Qmunicate.Pages
             base.OnAppearing();
 
 			this.IsBusy = true;
-
+			 
 			ToolbarItems.Clear ();
 			ToolbarItems.Add (new ToolbarItem ("Logout", "ic_settings.png", async () => {
 				var result = await DisplayAlert("Logout", "Do you really want to logout?", "Ok", "Cancel");
