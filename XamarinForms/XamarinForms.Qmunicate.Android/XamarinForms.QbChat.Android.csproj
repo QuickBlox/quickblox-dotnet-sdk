@@ -6,7 +6,7 @@
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProjectGuid>{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>XamarinForms.Qmunicate.Android</RootNamespace>
+    <RootNamespace>XamarinForms.QbChat.Android</RootNamespace>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -100,6 +100,7 @@
     <Compile Include="AndroidDeviceUid.cs" />
     <Compile Include="SqliteAndroid.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
+    <Compile Include="App\Activity\SplashActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -117,6 +118,24 @@
     <AndroidResource Include="Resources\drawable\ic_launcher.png" />
     <AndroidResource Include="Resources\drawable\AvatarPlaceholder.png" />
     <AndroidResource Include="Resources\drawable\ic_settings.png" />
+    <AndroidResource Include="Resources\drawable\Splash.xml" />
+    <AndroidResource Include="Resources\drawable\app_logo.png" />
+    <AndroidResource Include="Resources\drawable\ic_action_new.png" />
+    <AndroidResource Include="Resources\drawable\ic_room.png" />
+    <AndroidResource Include="Resources\drawable\ic_user.png" />
+    <AndroidResource Include="Resources\drawable\incoming_message_bg.9.png" />
+    <AndroidResource Include="Resources\drawable\outgoing_message_bg.9.png" />
+    <AndroidResource Include="Resources\drawable\qb_splash_bg.png" />
+    <AndroidResource Include="Resources\drawable\qb_splash_hero.png" />
+    <AndroidResource Include="Resources\drawable\qb_splash_link.png" />
+    <AndroidResource Include="Resources\values\style.xml" />
+    <AndroidResource Include="Resources\values\Colors.xml" />
+    <AndroidResource Include="Resources\drawable\ic_action_logout.png" />
+    <AndroidResource Include="Resources\mipmap-hdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\mipmap-mdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\mipmap-xhdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher.png" />
+    <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
@@ -127,9 +146,9 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.0.1.6505\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.0.1.6505\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <ItemGroup>
-    <ProjectReference Include="..\XamarinForms.Qmunicate\XamarinForms.Qmunicate.csproj">
+    <ProjectReference Include="..\XamarinForms.Qmunicate\XamarinForms.QbChat.csproj">
       <Project>{67F9D3A8-F71E-4428-913F-C37AE82CDB24}</Project>
-      <Name>XamarinForms.Qmunicate</Name>
+      <Name>XamarinForms.QbChat</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

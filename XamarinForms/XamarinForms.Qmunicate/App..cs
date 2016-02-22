@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using XamarinForms.Qmunicate.Pages;
-using XamarinForms.Qmunicate.Repository;
+using XamarinForms.QbChat.Pages;
+using XamarinForms.QbChat.Repository;
 using Xamarin.Forms;
 
-namespace XamarinForms.Qmunicate
+namespace XamarinForms.QbChat
 {
     public class App : Application
     {

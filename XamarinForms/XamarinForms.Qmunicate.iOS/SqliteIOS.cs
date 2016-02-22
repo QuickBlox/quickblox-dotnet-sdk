@@ -1,12 +1,12 @@
 ﻿using System;
-using XamainForms.Qmunicate;
 using System.IO;
 using SQLite.Net;
 using Xamarin.Forms;
-using XamarinForms.Qmunicate.iOS;
+using XamarinForms.QbChat.iOS;
+using XamainForms.QbChat;
 
 [assembly: Dependency(typeof(SqliteIOS))]
-namespace XamarinForms.Qmunicate.iOS
+namespace XamarinForms.QbChat.iOS
 {
 	public class SqliteIOS : ISqlite
 	{

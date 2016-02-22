@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XamarinForms.Qmunicate.Interfaces
+namespace XamarinForms.QbChat.Interfaces
 {
     public interface IDeviceIdentifier
     {

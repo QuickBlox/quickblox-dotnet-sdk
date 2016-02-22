@@ -1,11 +1,11 @@
 ﻿using System;
-using XamarinForms.Qmunicate.Android;
+using XamarinForms.QbChat.Android;
 using Android.Provider;
 using Xamarin.Forms;
-using XamarinForms.Qmunicate.Interfaces;
+using XamarinForms.QbChat.Interfaces;
 
 [assembly: Xamarin.Forms.Dependency(typeof(AndroidDeviceUid))]
-namespace XamarinForms.Qmunicate.Android
+namespace XamarinForms.QbChat.Android
 {
 	public class AndroidDeviceUid : IDeviceIdentifier
 	{

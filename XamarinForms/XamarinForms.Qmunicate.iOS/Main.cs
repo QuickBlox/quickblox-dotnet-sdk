@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace XamarinForms.Qmunicate.iOS
+namespace XamarinForms.QbChat.iOS
 {
 	public class Application
 	{

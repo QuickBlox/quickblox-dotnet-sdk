@@ -23,11 +23,11 @@ using Quickblox.Sdk.Modules.NotificationModule.Requests;
 using Quickblox.Sdk.Modules.NotificationModule.Models;
 using Quickblox.Sdk.Logger;
 using Xamarin.Forms;
-using XamarinForms.Qmunicate.Repository;
+using XamarinForms.QbChat.Repository;
 using Quickblox.Sdk.Modules.ChatXmppModule;
-using XamarinForms.Qmunicate.Interfaces;
+using XamarinForms.QbChat.Interfaces;
 
-namespace XamarinForms.Qmunicate
+namespace XamarinForms.QbChat
 {
 	public class QbProvider
 	{

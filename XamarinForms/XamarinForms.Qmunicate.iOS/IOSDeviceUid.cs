@@ -1,12 +1,12 @@
 ﻿using System;
-using XamarinForms.Qmunicate.Interfaces;
+using XamarinForms.QbChat.Interfaces;
 using Security;
 using Foundation;
 using Xamarin.Forms;
-using XamarinForms.Qmunicate.iOS;
+using XamarinForms.QbChat.iOS;
 
 [assembly: Dependency(typeof(IOSDeviceUid))]
-namespace XamarinForms.Qmunicate.iOS
+namespace XamarinForms.QbChat.iOS
 {
 	public class IOSDeviceUid : IDeviceIdentifier
 	{

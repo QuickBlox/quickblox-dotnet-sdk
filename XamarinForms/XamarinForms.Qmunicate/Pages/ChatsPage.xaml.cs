@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
 using Quickblox.Sdk.Modules.ChatXmppModule;
-using XamarinForms.Qmunicate.Repository;
+using XamarinForms.QbChat.Repository;
 using Xamarin.Forms;
 using System.Xml.Linq;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace XamarinForms.Qmunicate.Pages
+namespace XamarinForms.QbChat.Pages
 {
     public partial class ChatsPage : ContentPage
     {
@@ -24,7 +24,7 @@ namespace XamarinForms.Qmunicate.Pages
 			this.IsBusy = true;
 			 
 			ToolbarItems.Clear ();
-			ToolbarItems.Add (new ToolbarItem ("Logout", "ic_settings.png", async () => {
+			ToolbarItems.Add (new ToolbarItem ("Logout", "ic_action_logout.png", async () => {
 				var result = await DisplayAlert("Logout", "Do you really want to logout?", "Ok", "Cancel");
 				if (result){
 					try {
@@ -43,9 +43,9 @@ namespace XamarinForms.Qmunicate.Pages
 
 				myNameLabel.Text = user.FullName;
 
-				myProfileImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("Images/AvatarPlaceholder.png"),
-					Android: ImageSource.FromFile ("AvatarPlaceholder.png"),
-					WinPhone: ImageSource.FromFile ("Images/AvatarPlaceholder.png"));
+				myProfileImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("Images/ic_user.png"),
+					Android: ImageSource.FromFile ("ic_user.png"),
+					WinPhone: ImageSource.FromFile ("Images/ic_user.png"));
 				if (user.BlobId.HasValue)
 				{
 					App.QbProvider.GetImageAsync (user.BlobId.Value).ContinueWith ((task, result) => {
@@ -65,8 +65,9 @@ namespace XamarinForms.Qmunicate.Pages
 
 				listView.ItemTapped += OnItemTapped;
 				var dialogs = await App.QbProvider.GetDialogsAsync ();
-				listView.ItemsSource = dialogs;
-				Database.Instance().SaveAllDialogs(dialogs);
+				var sorted = dialogs.Where(d => d.LastMessageSent != null). OrderByDescending(d => d.LastMessageSent.Value).ToList();
+				listView.ItemsSource = sorted;
+				Database.Instance().SaveAllDialogs(sorted);
 				Database.Instance().SubscribeForDialogs(OnDialogsChanged);
 			}
 
@@ -87,7 +88,10 @@ namespace XamarinForms.Qmunicate.Pages
         private void OnDialogsChanged()
         {
             var dialogs = Database.Instance().GetDialogs();
-			Device.BeginInvokeOnMainThread (() => listView.ItemsSource = dialogs);
+			Device.BeginInvokeOnMainThread (() =>{ 
+				var sorted = dialogs.OrderByDescending(d => d.LastMessageSent.Value);
+				listView.ItemsSource = sorted;
+			});
         }
 
         private void OnItemTapped(object sender, ItemTappedEventArgs e)
@@ -145,6 +149,7 @@ namespace XamarinForms.Qmunicate.Pages
                 messageTable.RecepientId = messageEventArgs.Message.To.GetUserId();
                 messageTable.Text = messageEventArgs.Message.Body;
                 messageTable.DialogId = messageEventArgs.Message.Thread;
+				messageTable.DateSent = messageEventArgs.Message.Timestamp;
 
                 if (!string.IsNullOrWhiteSpace(messageEventArgs.Message.ExtraParameter))
                 {

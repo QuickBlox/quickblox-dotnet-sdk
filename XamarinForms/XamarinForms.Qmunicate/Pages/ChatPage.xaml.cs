@@ -2,7 +2,7 @@
 using Quickblox.Sdk.Modules.ChatXmppModule.Models;
 using System;
 using System.Linq;
-using XamarinForms.Qmunicate.Repository;
+using XamarinForms.QbChat.Repository;
 using Xamarin.Forms;
 using Quickblox.Sdk.Modules.ChatModule.Models;
 using System.Runtime.Serialization;
@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace XamarinForms.Qmunicate.Pages
+namespace XamarinForms.QbChat.Pages
 {
     public partial class ChatPage : ContentPage
     {
@@ -40,13 +40,13 @@ namespace XamarinForms.Qmunicate.Pages
 
 			users = await App.QbProvider.GetUsersByIdsAsync (dialog.OccupantIds.Split(',').Select(id => Int32.Parse(id)));
 
+			chatPhotoImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("ic_user.png"),
+				Android: ImageSource.FromFile ("ic_user.png"),
+				WinPhone: ImageSource.FromFile ("Images/ic_user.png"));
+			
 			if (dialog.DialogType == DialogType.Group) {
 				if (!string.IsNullOrEmpty (dialog.Photo)) {
 					chatPhotoImage.Source = ImageSource.FromUri (new Uri (dialog.Photo));
-				} else {
-					chatPhotoImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("Images/AvatarPlaceholder.png"),
-						Android: ImageSource.FromFile ("AvatarPlaceholder.png"),
-						WinPhone: ImageSource.FromFile ("Images/AvatarPlaceholder.png"));
 				}
 			} else if (dialog.DialogType == DialogType.Private) {
 				var user = users.FirstOrDefault (u => u.Id != App.QbProvider.UserId);
@@ -57,11 +57,6 @@ namespace XamarinForms.Qmunicate.Pages
 						Device.BeginInvokeOnMainThread(() =>
 							chatPhotoImage.Source = ImageSource.FromStream(() => new MemoryStream(bytes)));
 					}, TaskScheduler.FromCurrentSynchronizationContext ());
-				}
-				else{
-					chatPhotoImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("Images/AvatarPlaceholder.png"),
-						Android: ImageSource.FromFile ("AvatarPlaceholder.png"),
-						WinPhone: ImageSource.FromFile ("Images/AvatarPlaceholder.png"));
 				}
 			}
 
@@ -94,7 +89,8 @@ namespace XamarinForms.Qmunicate.Pages
 				template.SetBinding (ImageCell.TextProperty, "RecepientFullName");
 				template.SetBinding (ImageCell.DetailProperty, "Text");
 				listView.ItemTemplate = template;
-                listView.ItemsSource = messages;
+				var sorted = messages.OrderBy(d => d.DateSent);
+				listView.ItemsSource = sorted;
 
 				try {
 					if (messages != null && messages.Count > 10)
@@ -132,6 +128,7 @@ namespace XamarinForms.Qmunicate.Pages
 					m.Text = message;
 					m.DialogId = dialogId;
 					m.RecepientFullName = "My";
+					m.DateSent = DateTime.UtcNow;
 					m.ID = Database.Instance ().SaveMessage (m);
 
 					dialog.LastMessage = m.Text;
@@ -153,7 +150,8 @@ namespace XamarinForms.Qmunicate.Pages
         private void OnMessagesChanged()
         {
 			var messages = Database.Instance().GetMessages(dialogId);
-			Device.BeginInvokeOnMainThread (() => listView.ItemsSource = messages);
+			var sorted = messages.OrderBy(d => d.DateSent).ToList();
+			Device.BeginInvokeOnMainThread (() => listView.ItemsSource = sorted);
 
 			try {
 				if (messages != null && messages.Count > 10)

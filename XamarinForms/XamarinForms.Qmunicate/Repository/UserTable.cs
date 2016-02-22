@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XamarinForms.Qmunicate.Repository
+namespace XamarinForms.QbChat.Repository
 {
     public class UserTable
     {

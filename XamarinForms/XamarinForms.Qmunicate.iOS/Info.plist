@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleName</key>
-	<string>XamarinForms.Qmunicate.iOS</string>
+	<string>Xamarin QbChat</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.quickblox.xamarinforms-qmunicate-ios</string>
+	<string>com.quickblox.xamarinforms.qbchat</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.0.0.1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>

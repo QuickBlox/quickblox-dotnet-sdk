@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XamarinForms.Qmunicate
+namespace XamarinForms.QbChat
 {
 	public static class ApplicationKeys
 	{

@@ -1,13 +1,12 @@
 ﻿using System;
 using Android.App;
 using Android.Content;
-using XamarinForms.Qmunicate;
-using XamarinForms.Qmunicate.Repository;
+using XamarinForms.QbChat;
+using XamarinForms.QbChat.Repository;
 using Xamarin.Forms;
-using XamainForms.Qmunicate;
 using Android.Runtime;
 
-namespace XamarinForms.Qmunicate.Android
+namespace XamarinForms.QbChat.Android
 {
 	[Application(Theme="@android:style/Theme.Material.Light")]
 	public class QmunicateApplication : global::Android.App.Application

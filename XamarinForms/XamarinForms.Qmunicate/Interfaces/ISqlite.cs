@@ -1,7 +1,7 @@
 ﻿using System;
 using SQLite.Net;
 
-namespace XamainForms.Qmunicate
+namespace XamainForms.QbChat
 {
 	public interface ISqlite
 	{

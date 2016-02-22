@@ -1,30 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="XamarinForms.Qmunicate.Pages.ChatsPage"
+             x:Class="XamarinForms.QbChat.Pages.ChatsPage"
              Title="Chats">
-     <StackLayout Padding="18">
-         <Grid HeightRequest="2" BackgroundColor="Black" />
-          <StackLayout  Padding="18,12,0,0">
+     <Grid Padding="18">
+     <Grid.RowDefinitions>
+	     <RowDefinition Height="120"/>
+	     <RowDefinition />
+     </Grid.RowDefinitions>
+         <Grid HeightRequest="2" BackgroundColor="Black" VerticalOptions="Start" />
+          <StackLayout>
+         	 <StackLayout  Padding="18,12,0,0">
             	<Label Text="My Profile" FontSize="22" HorizontalTextAlignment="Start"/>
             </StackLayout>
-	     <Grid>
-		      <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+		     <Grid>
+			      <Grid.ColumnDefinitions>
+	                <ColumnDefinition Width="80"/>
+	                <ColumnDefinition />
+	            </Grid.ColumnDefinitions>
 
-		     <StackLayout Padding="18,12,0,0">
-            	<Image x:Name="myProfileImage" WidthRequest="75" HeightRequest="75"/>
+			     <StackLayout Padding="18,0,0,0">
+	            	<Image x:Name="myProfileImage" WidthRequest="75" HeightRequest="75" VerticalOptions="Start"/>
+	            </StackLayout>
+	            <StackLayout  Grid.Column="1" Padding="18,0,0,0">
+	            	<Label x:Name="myNameLabel" FontSize="22" HorizontalTextAlignment="Start"/>
+	            </StackLayout>
+	            </Grid>
             </StackLayout>
-            <StackLayout  Grid.Column="1" Padding="18,12,0,0">
-            	<Label x:Name="myNameLabel" FontSize="22" HorizontalTextAlignment="Start"/>
-            </StackLayout>
-
-	     </Grid>
-         <Grid HeightRequest="2" BackgroundColor="Black" />
+         <Grid HeightRequest="2" BackgroundColor="Black" VerticalOptions="End" />
 	     
-	    <ListView x:Name="listView">
+	    <ListView x:Name="listView" Grid.Row="1">
 <!--	        <ListView.ItemTemplate>
 	         <DataTemplate>
 	        	<ImageCell>
@@ -48,5 +53,5 @@
 	            </DataTemplate>
 	        </ListView.ItemTemplate>-->
 	    </ListView>
-    </StackLayout>
+    </Grid>
 </ContentPage>

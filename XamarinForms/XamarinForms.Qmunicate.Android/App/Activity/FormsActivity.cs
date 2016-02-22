@@ -4,13 +4,13 @@ using Android.OS;
 using Xamarin.Forms.Platform.Android;
 using Android.Content.PM;
 using Xamarin.Forms;
-using XamarinForms.Qmunicate;
-using XamarinForms.Qmunicate.Repository;
-using XamainForms.Qmunicate;
+using XamarinForms.QbChat;
+using XamarinForms.QbChat.Repository;
+using XamainForms.QbChat;
 
-namespace XamarinForms.Qmunicate.Android
+namespace XamarinForms.QbChat.Android
 {
-	[Activity (Label = "", MainLauncher = true, Icon="@android:color/transparent")]
+	[Activity (Label = "", Icon="@android:color/transparent")]
 	public class FormsActivity : FormsApplicationActivity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)

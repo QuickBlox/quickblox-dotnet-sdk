@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XamarinForms.Qmunicate.Repository
+namespace XamarinForms.QbChat.Repository
 {
     public class Database
     {
@@ -86,7 +86,7 @@ namespace XamarinForms.Qmunicate.Repository
             int retVal = 0;
             lock (locker)
             {
-                var checkIfPresence = this.database.Table<MessageTable>().FirstOrDefault(x => x.MessageId == item.MessageId);
+				var checkIfPresence = this.database.Table<MessageTable>().FirstOrDefault(x => x.ID == item.ID);
                 if (checkIfPresence != null)
                 {
                     retVal = item.ID = checkIfPresence.ID;

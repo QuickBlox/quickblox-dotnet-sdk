@@ -1,11 +1,11 @@
 ﻿using System;
-using XamainForms.Qmunicate;
 using System.IO;
 using Xamarin.Forms;
-using XamarinForms.Qmunicate.Android;
+using XamarinForms.QbChat.Android;
+using XamainForms.QbChat;
 
 [assembly: Dependency(typeof(SqliteAndroid))]
-namespace XamarinForms.Qmunicate.Android
+namespace XamarinForms.QbChat.Android
 {
 	public class SqliteAndroid : ISqlite
 	{
