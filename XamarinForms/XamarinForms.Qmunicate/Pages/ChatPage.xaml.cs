@@ -26,6 +26,12 @@ namespace XamarinForms.QbChat.Pages
             this.dialogId = dialogId;
         }
 
+		protected override void OnDisappearing ()
+		{
+			base.OnDisappearing ();
+			Database.Instance().UnSubscribeForMessages(OnMessagesChanged);
+		}
+
         protected override async void OnAppearing()
         {
             base.OnAppearing();
@@ -54,6 +60,7 @@ namespace XamarinForms.QbChat.Pages
 				{
 					App.QbProvider.GetImageAsync (user.BlobId.Value).ContinueWith ((task, result) => {
 						var bytes = task.ConfigureAwait(true).GetAwaiter().GetResult();
+						if (bytes != null)
 						Device.BeginInvokeOnMainThread(() =>
 							chatPhotoImage.Source = ImageSource.FromStream(() => new MemoryStream(bytes)));
 					}, TaskScheduler.FromCurrentSynchronizationContext ());
@@ -155,7 +162,7 @@ namespace XamarinForms.QbChat.Pages
 
 			try {
 				if (messages != null && messages.Count > 10)
-					listView.ScrollTo (messages [messages.Count - 1], ScrollToPosition.Start, true);
+					listView.ScrollTo (sorted [sorted.Count - 1], ScrollToPosition.Start, true);
 			} catch (Exception ex) {
 			}
         }

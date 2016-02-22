@@ -50,6 +50,7 @@ namespace XamarinForms.QbChat.Pages
 				{
 					App.QbProvider.GetImageAsync (user.BlobId.Value).ContinueWith ((task, result) => {
 						var bytes = task.ConfigureAwait(true).GetAwaiter().GetResult();
+						if (bytes != null)
 						Device.BeginInvokeOnMainThread(() =>
 							myProfileImage.Source = ImageSource.FromStream(() => new MemoryStream(bytes)));
 					}, TaskScheduler.FromCurrentSynchronizationContext ());
@@ -68,8 +69,9 @@ namespace XamarinForms.QbChat.Pages
 				var sorted = dialogs.Where(d => d.LastMessageSent != null). OrderByDescending(d => d.LastMessageSent.Value).ToList();
 				listView.ItemsSource = sorted;
 				Database.Instance().SaveAllDialogs(sorted);
-				Database.Instance().SubscribeForDialogs(OnDialogsChanged);
 			}
+
+			Database.Instance().SubscribeForDialogs(OnDialogsChanged);
 
 			try {
 				ConnetToXmpp();
@@ -83,6 +85,8 @@ namespace XamarinForms.QbChat.Pages
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
+			Database.Instance().UnSubscribeForDialogs(OnDialogsChanged);
+
         }
 
         private void OnDialogsChanged()
@@ -165,7 +169,7 @@ namespace XamarinForms.QbChat.Pages
 				if (user == null) {
 					var userRespose = await App.QbProvider.GetUserAsync (messageTable.SenderId);
 					if (userRespose != null) {
-					    user = new UserTable ();
+						user = new UserTable ();
 						user.FullName = userRespose.FullName;
 						user.UserId = userRespose.Id;
 						user.PhotoId = userRespose.BlobId.HasValue ? userRespose.BlobId.Value : 0;
@@ -173,7 +177,10 @@ namespace XamarinForms.QbChat.Pages
 
 						messageTable.RecepientFullName = user.FullName;
 					}
+				} else {
+					messageTable.RecepientFullName = user.FullName;
 				}
+
                 Database.Instance().SaveMessage(messageTable);
 
                 var dialog = Database.Instance().GetDialog(messageTable.DialogId);
