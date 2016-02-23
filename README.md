@@ -1,2 +1,5 @@
-# quickblox-xamarin-sdk
-QuickBlox Xamarin SDK
+# Overview
+QuickBlox Xamarin SDK repository
+
+# LICENSE
+BSD
