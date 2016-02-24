@@ -64,6 +64,20 @@ namespace XamarinForms.QbChat
 			return 0;
 		}
 
+		public async Task<int> LoginWithLoginValueAsync(string login, string password){
+			var sessionResponse = await this.client.AuthenticationClient.CreateSessionWithLoginAsync (login, password); 
+			if (await HandleResponse(sessionResponse, HttpStatusCode.Created)){
+				UserId = sessionResponse.Result.Session.UserId;
+				return sessionResponse.Result.Session.UserId;
+			}
+			else if ((int)sessionResponse.StatusCode == 422) {
+				// Add logout
+				return -1;
+			}
+
+			return 0;
+		}
+
 		public async Task<int> LoginWithFbUserAsync(String accessToken)
 		{
 			var sessionResponse = await this.client.AuthenticationClient.CreateSessionWithSocialNetworkKey("facebook",

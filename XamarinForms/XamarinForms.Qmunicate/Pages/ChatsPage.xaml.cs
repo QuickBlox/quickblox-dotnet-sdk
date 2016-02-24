@@ -7,12 +7,16 @@ using System.Xml.Linq;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.IO;
+using Quickblox.Sdk.Modules.ChatXmppModule.ExtraParameters;
+using System.Collections.Generic;
 
 namespace XamarinForms.QbChat.Pages
 {
     public partial class ChatsPage : ContentPage
     {
-        public ChatsPage()
+		Quickblox.Sdk.Modules.UsersModule.Models.User user;
+
+		public ChatsPage()
         {
             InitializeComponent();
         }
@@ -38,12 +42,20 @@ namespace XamarinForms.QbChat.Pages
 				}
 			}));
 
-			if (myProfileImage.Source == null) {
-				var user = await App.QbProvider.GetUserAsync (App.QbProvider.UserId);
+			if (user == null && App.QbProvider.UserId != 0) {
+				user = await App.QbProvider.GetUserAsync (App.QbProvider.UserId);
+			}
 
+			try {
+				// uses login as password because it is the same
+				ConnetToXmpp(user.Id, user.Login);
+			} catch (Exception ex) {
+			}
+
+			if (myProfileImage.Source == null) {
 				myNameLabel.Text = user.FullName;
 
-				myProfileImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("Images/ic_user.png"),
+				myProfileImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("ic_user.png"),
 					Android: ImageSource.FromFile ("ic_user.png"),
 					WinPhone: ImageSource.FromFile ("Images/ic_user.png"));
 				if (user.BlobId.HasValue)
@@ -73,12 +85,6 @@ namespace XamarinForms.QbChat.Pages
 
 			Database.Instance().SubscribeForDialogs(OnDialogsChanged);
 
-			try {
-				ConnetToXmpp();
-			} catch (Exception ex) {
-				
-			}
-
 			this.IsBusy = false;
         }
 
@@ -105,11 +111,10 @@ namespace XamarinForms.QbChat.Pages
 			App.Navigation.PushAsync(new ChatPage(dialogItem.DialogId));
         }
 
-        private void ConnetToXmpp()
+		private void ConnetToXmpp(int userId, string userPassword)
         {
             if (!App.QbProvider.GetXmppClient().IsConnected)
             {
-                var userSetting = Database.Instance().GetUserSettingTable();
                 App.QbProvider.GetXmppClient().MessageReceived -= OnMessageReceived;
                 App.QbProvider.GetXmppClient().MessageReceived += OnMessageReceived;
 
@@ -118,7 +123,7 @@ namespace XamarinForms.QbChat.Pages
 
                 App.QbProvider.GetXmppClient().StatusChanged += OnStatusChanged;
                 App.QbProvider.GetXmppClient().StatusChanged += OnStatusChanged;
-                App.QbProvider.GetXmppClient().Connect(App.QbProvider.UserId, userSetting.Password);
+				App.QbProvider.GetXmppClient().Connect(userId, userPassword);
             }
         }
 

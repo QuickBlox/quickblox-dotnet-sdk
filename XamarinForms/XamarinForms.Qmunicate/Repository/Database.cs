@@ -57,7 +57,6 @@ namespace XamarinForms.QbChat.Repository
             this.database.CreateTable<MessageTable>();
             this.database.CreateTable<DialogTable>();
             this.database.CreateTable<UserTable>();
-            this.database.CreateTable<UserSettingTable>();
         }
 
         public void ResetAll()
@@ -66,7 +65,6 @@ namespace XamarinForms.QbChat.Repository
             this.database.Execute("DELETE FROM MessageTable");
             this.database.Execute("DELETE FROM DialogTable");
             this.database.Execute("DELETE FROM UserTable");
-            this.database.Execute("DELETE FROM UserSettingTable");
             this.database.Commit();
 
 			dialogObserver = delegate {};
@@ -119,31 +117,6 @@ namespace XamarinForms.QbChat.Repository
 			messageObserver.Invoke ();
 
             return count;
-        }
-
-        public int SaveUserSetting(UserSettingTable item)
-        {
-            int retVal = 0;
-            lock (locker)
-            {
-                if (item.ID != 0)
-                {
-                    this.database.Update(item);
-                    retVal = item.ID;
-                }
-                else
-                {
-                    this.database.Insert(item);
-                    retVal = item.ID;
-                }
-            }
-
-            return retVal;
-        }
-
-        public UserSettingTable GetUserSettingTable()
-        {
-            return this.database.Table<UserSettingTable>().FirstOrDefault();
         }
 
         public UserTable GetUser(int userId)

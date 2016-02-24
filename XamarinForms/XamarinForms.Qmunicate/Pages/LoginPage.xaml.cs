@@ -36,9 +36,7 @@ namespace XamarinForms.QbChat.Pages
                 {
                     this.IsBusy = false;
 
-					if (savePasswordSwitch.IsToggled)
-						Database.Instance ().SaveUserSetting (new UserSettingTable () { Login = loginValue, Password = passwordValue });
-                    App.SetMainPage();
+					App.SetMainPage();
                 }
                 else
                 {

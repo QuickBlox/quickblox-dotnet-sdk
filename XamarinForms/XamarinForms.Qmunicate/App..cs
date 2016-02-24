@@ -20,7 +20,7 @@ namespace XamarinForms.QbChat
         public App()
         {
             QbProvider = new QbProvider();
-            SetLoadingPage();
+			SetLoginPage();
         }
 
         protected override async void OnStart()
@@ -38,15 +38,10 @@ namespace XamarinForms.QbChat
             base.OnResume();
         }
 
-		private void SetLoadingPage()
+		public static void SetLoginPage()
 		{
-			((App)App.Current).MainPage = new NavigationPage(new SplashScreenPage());
+			((App)App.Current).MainPage = new NavigationPage(new DefaultLoginsPage());
 		}
-
-        public static void SetLoginPage()
-        {
-            ((App)App.Current).MainPage = new NavigationPage(new LoginPage());
-        }
 
 		public static void SetMainPage()
         {

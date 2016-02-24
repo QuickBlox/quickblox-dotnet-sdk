@@ -47,19 +47,19 @@
     <Compile Include="Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\SplashScreenPage.xaml.cs">
-      <DependentUpon>SplashScreenPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\QbLogger.cs" />
     <Compile Include="Providers\QbProvider.cs" />
     <Compile Include="Repository\Database.cs" />
     <Compile Include="Repository\DialogTable.cs" />
     <Compile Include="Repository\MessageTable.cs" />
-    <Compile Include="Repository\UserSettingTable.cs" />
     <Compile Include="Repository\UserTable.cs" />
     <Compile Include="Interfaces\IDeviceIdentifier.cs" />
     <Compile Include="Interfaces\ISqlite.cs" />
+    <Compile Include="Pages\DefaultLoginsPage.xaml.cs">
+      <DependentUpon>DefaultLoginsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DefaultUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="bouncy_castle_hmac_sha_pcl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
@@ -85,9 +85,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Pages\SplashScreenPage.xaml">
+    <EmbeddedResource Include="Pages\DefaultLoginsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +129,7 @@
   -->
   <ItemGroup>
     <Folder Include="Interfaces\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\SDK-dotnet\Quickblox.Xamarin\Quickblox.Sdk\Quickblox.Sdk.Xamarin.csproj">

@@ -8,7 +8,6 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>XamarinForms.QbChat.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>XamarinForms.Qmunicate.iOS</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,6 +26,7 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <AssemblyName>XamarinForms.QbChat.iOS</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>
@@ -41,6 +41,7 @@
     <MtouchUseSGen>true</MtouchUseSGen>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <AssemblyName>XamarinForms.Qmunicate.iOS</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>
@@ -54,6 +55,7 @@
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchUseSGen>true</MtouchUseSGen>
+    <AssemblyName>XamarinForms.QbChat.iOS</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -74,6 +76,7 @@
     <MtouchUseSGen>true</MtouchUseSGen>
     <IpaPackageName>
     </IpaPackageName>
+    <AssemblyName>XamarinForms.Qmunicate.iOS</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -85,9 +88,6 @@
     </Reference>
     <Reference Include="bouncy_castle_hmac_sha_pcl">
       <HintPath>..\..\packages\BouncyCastle-PCL.1.0.0.6\lib\bouncy_castle_hmac_sha_pcl.dll</HintPath>
-    </Reference>
-    <Reference Include="Quickblox.Sdk.Xamarin">
-      <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.1\lib\portable-net45+win+wpa81\Quickblox.Sdk.Xamarin.dll</HintPath>
     </Reference>
     <Reference Include="Sharp.Xmpp">
       <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.1\lib\portable-net45+win+wpa81\Sharp.Xmpp.dll</HintPath>
@@ -121,6 +121,7 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="SqliteIOS.cs" />
     <Compile Include="IOSDeviceUid.cs" />
+    <Compile Include="App\Chat\ChatPageRenderer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.0.1.6505\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.0.1.6505\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -128,6 +129,10 @@
     <ProjectReference Include="..\XamarinForms.Qmunicate\XamarinForms.QbChat.csproj">
       <Project>{67F9D3A8-F71E-4428-913F-C37AE82CDB24}</Project>
       <Name>XamarinForms.QbChat</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\SDK-dotnet\Quickblox.Xamarin\Quickblox.Sdk\Quickblox.Sdk.Xamarin.csproj">
+      <Project>{F5C92500-D225-4473-B169-4C0749FE2A90}</Project>
+      <Name>Quickblox.Sdk.Xamarin</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -145,5 +150,9 @@
     <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon-Small-40%403x.png" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon-Small%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Icon-Small%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App\" />
+    <Folder Include="App\Chat\" />
   </ItemGroup>
 </Project>

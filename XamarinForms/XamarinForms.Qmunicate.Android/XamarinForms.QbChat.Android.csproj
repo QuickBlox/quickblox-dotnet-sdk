@@ -65,9 +65,6 @@
     <Reference Include="bouncy_castle_hmac_sha_pcl">
       <HintPath>..\..\packages\BouncyCastle-PCL.1.0.0.6\lib\bouncy_castle_hmac_sha_pcl.dll</HintPath>
     </Reference>
-    <Reference Include="Quickblox.Sdk.Xamarin">
-      <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.1\lib\MonoAndroid\Quickblox.Sdk.Xamarin.dll</HintPath>
-    </Reference>
     <Reference Include="Sharp.Xmpp">
       <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.1\lib\MonoAndroid\Sharp.Xmpp.dll</HintPath>
     </Reference>
@@ -149,6 +146,10 @@
     <ProjectReference Include="..\XamarinForms.Qmunicate\XamarinForms.QbChat.csproj">
       <Project>{67F9D3A8-F71E-4428-913F-C37AE82CDB24}</Project>
       <Name>XamarinForms.QbChat</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\SDK-dotnet\Quickblox.Xamarin\Quickblox.Sdk\Quickblox.Sdk.Xamarin.csproj">
+      <Project>{F5C92500-D225-4473-B169-4C0749FE2A90}</Project>
+      <Name>Quickblox.Sdk.Xamarin</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

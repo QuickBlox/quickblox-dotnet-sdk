@@ -24,6 +24,8 @@ namespace XamarinForms.QbChat.Pages
         {
             InitializeComponent();
             this.dialogId = dialogId;
+
+
         }
 
 		protected override void OnDisappearing ()
@@ -142,8 +144,8 @@ namespace XamarinForms.QbChat.Pages
 					dialog.LastMessageSent = DateTime.UtcNow;
 					Database.Instance ().SaveDialog (dialog);
 
-					var chatMessageExtraParameter = new ChatMessageExtraParameter (dialogId, true);
 					try {
+						var chatMessageExtraParameter = new ChatMessageExtraParameter (dialogId, true);
 						App.QbProvider.GetXmppClient ().SendMessage (opponentId, message, chatMessageExtraParameter.Build(), dialogId, null);
 					} catch (Exception ex) {
 						await App.Current.MainPage.DisplayAlert ("Error", ex.ToString(), "Ok");
@@ -158,13 +160,15 @@ namespace XamarinForms.QbChat.Pages
         {
 			var messages = Database.Instance().GetMessages(dialogId);
 			var sorted = messages.OrderBy(d => d.DateSent).ToList();
-			Device.BeginInvokeOnMainThread (() => listView.ItemsSource = sorted);
-
-			try {
-				if (messages != null && messages.Count > 10)
-					listView.ScrollTo (sorted [sorted.Count - 1], ScrollToPosition.Start, true);
-			} catch (Exception ex) {
+			Device.BeginInvokeOnMainThread (() =>
+				{ listView.ItemsSource = sorted;
+					try {
+						if (messages != null && messages.Count > 10)
+							listView.ScrollTo (sorted [sorted.Count - 1], ScrollToPosition.Start, false);
+					} catch (Exception ex) {
+					}
 			}
+			);
         }
     }
 }
