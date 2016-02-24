@@ -83,7 +83,7 @@ namespace XamarinForms.QbChat.Pages
 					
 				foreach (var message in messages) {
 					if (message.SenderId == App.QbProvider.UserId) {
-						message.RecepientFullName = "My";
+						message.RecepientFullName = "Me";
 					} else {
 						var user = users.FirstOrDefault (u => u.Id == message.SenderId);
 						if (user != null) {
@@ -125,8 +125,8 @@ namespace XamarinForms.QbChat.Pages
 				return;
 			}
             
-			var message = messageEntry.Text.Trim();
-            if (!string.IsNullOrWhiteSpace(message))
+			var message = messageEntry.Text != null ? messageEntry.Text.Trim() : string.Empty;
+			if (!string.IsNullOrEmpty(message))
             {
 				if (dialog.DialogType == DialogType.Private) {
 					var opponentId = dialog.OccupantIds.Split (',').Select (Int32.Parse).First (id => id != App.QbProvider.UserId);
@@ -136,7 +136,7 @@ namespace XamarinForms.QbChat.Pages
 					m.SenderId = (int)App.QbProvider.UserId;
 					m.Text = message;
 					m.DialogId = dialogId;
-					m.RecepientFullName = "My";
+					m.RecepientFullName = "Me";
 					m.DateSent = DateTime.UtcNow;
 					m.ID = Database.Instance ().SaveMessage (m);
 

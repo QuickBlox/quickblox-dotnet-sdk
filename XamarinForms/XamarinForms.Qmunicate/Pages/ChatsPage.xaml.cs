@@ -19,6 +19,28 @@ namespace XamarinForms.QbChat.Pages
 		public ChatsPage()
         {
             InitializeComponent();
+
+			this.CreateGroupChat.Clicked += async (object sender, EventArgs e) => {
+//				            10195773    @xamarinuser1    Xamarin User 1                        
+//				            10195779    @xamarinuser2    Xamarin User 2                        
+//				            10195787    @xamarinuser3    Xamarin User 3                        
+//				            10195790    @xamarinuser4    Xamarin User 4                        
+//				            10195793    @xamarinuser5    Xamarin User 5
+
+				            var list = new List<long> () { 10195773, 10195779, 10195787, 10195790, 10195793 };
+				            // var filteredList = list.Where (id => id != user.Id);
+				            //foreach (var item in list) {
+				var createDialog = await App.QbProvider.CreateDialogAsync ("Group name", string.Join(",", list), Quickblox.Sdk.Modules.ChatModule.Models.DialogType.Group);      // item.ToString());
+				                try {
+				                    var dialogId = createDialog.Id;
+				                    var chatMessageExtraParameter = new ChatMessageExtraParameter (dialogId, true);
+									App.QbProvider.GetXmppClient ().SendMessage (createDialog.XmppRoomJid, "Hello", chatMessageExtraParameter.Build(), dialogId, null);
+				                } catch (Exception ex) {
+				
+				                }
+				
+				            //}
+			};
         }
 
         protected override async void OnAppearing()
@@ -78,7 +100,7 @@ namespace XamarinForms.QbChat.Pages
 
 				listView.ItemTapped += OnItemTapped;
 				var dialogs = await App.QbProvider.GetDialogsAsync ();
-				var sorted = dialogs.Where(d => d.LastMessageSent != null). OrderByDescending(d => d.LastMessageSent.Value).ToList();
+				var sorted = dialogs.Where(d => d.LastMessageSent != null). OrderByDescending(d => d.LastMessageSent.Value).Concat(dialogs.Where(d => d.LastMessageSent == null)). ToList();
 				listView.ItemsSource = sorted;
 				Database.Instance().SaveAllDialogs(sorted);
 			}

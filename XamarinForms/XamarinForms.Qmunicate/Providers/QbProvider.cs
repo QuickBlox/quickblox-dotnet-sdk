@@ -266,9 +266,9 @@ namespace XamarinForms.QbChat
 		}
 
 
-		public async Task<Dialog> CreateDialogAsync(string userId)
+		public async Task<Dialog> CreateDialogAsync(string dialogName, string userIds, DialogType dialogType = DialogType.Private)
 		{
-			var dialogResponse = await this.client.ChatClient.CreateDialogAsync (userId, DialogType.Private, userId);
+			var dialogResponse = await this.client.ChatClient.CreateDialogAsync (dialogName, dialogType, userIds);
 			if (await HandleResponse(dialogResponse, HttpStatusCode.Created)) {
 				return dialogResponse.Result;
 			}
