@@ -5,11 +5,11 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XamarinForms", "XamarinForms", "{7B728755-3E3D-4003-A69A-B80A59C6DD77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinForms.QbChat.Android", "XamarinForms\XamarinForms.Qmunicate.Android\XamarinForms.QbChat.Android.csproj", "{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinForms.QbChat", "XamarinForms\XamarinForms.QbChat\XamarinForms.QbChat.csproj", "{67F9D3A8-F71E-4428-913F-C37AE82CDB24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinForms.QbChat", "XamarinForms\XamarinForms.Qmunicate\XamarinForms.QbChat.csproj", "{67F9D3A8-F71E-4428-913F-C37AE82CDB24}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinForms.QbChat.Android", "XamarinForms\XamarinForms.QbChat.Android\XamarinForms.QbChat.Android.csproj", "{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinForms.QbChat.iOS", "XamarinForms\XamarinForms.Qmunicate.iOS\XamarinForms.QbChat.iOS.csproj", "{1462B842-AC29-4654-9C60-1CB1B5BCBE59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinForms.QbChat.iOS", "XamarinForms\XamarinForms.QbChat.iOS\XamarinForms.QbChat.iOS.csproj", "{1462B842-AC29-4654-9C60-1CB1B5BCBE59}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quickblox.Sdk.Xamarin", "..\SDK-dotnet\Quickblox.Xamarin\Quickblox.Sdk\Quickblox.Sdk.Xamarin.csproj", "{F5C92500-D225-4473-B169-4C0749FE2A90}"
 EndProject
@@ -50,8 +50,8 @@ Global
 		{67F9D3A8-F71E-4428-913F-C37AE82CDB24}.Release|iPhone.Build.0 = Release|Any CPU
 		{67F9D3A8-F71E-4428-913F-C37AE82CDB24}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{67F9D3A8-F71E-4428-913F-C37AE82CDB24}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{67F9D3A8-F71E-4428-913F-C37AE82CDB24}.TestRelease|Any CPU.ActiveCfg = Debug|Any CPU
-		{67F9D3A8-F71E-4428-913F-C37AE82CDB24}.TestRelease|Any CPU.Build.0 = Debug|Any CPU
+		{67F9D3A8-F71E-4428-913F-C37AE82CDB24}.TestRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{67F9D3A8-F71E-4428-913F-C37AE82CDB24}.TestRelease|Any CPU.Build.0 = Release|Any CPU
 		{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0}.Debug|iPhone.ActiveCfg = Debug|Any CPU
@@ -64,8 +64,8 @@ Global
 		{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0}.Release|iPhone.Build.0 = Release|Any CPU
 		{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0}.TestRelease|Any CPU.ActiveCfg = Debug|Any CPU
-		{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0}.TestRelease|Any CPU.Build.0 = Debug|Any CPU
+		{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0}.TestRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0}.TestRelease|Any CPU.Build.0 = Release|Any CPU
 		{F5C92500-D225-4473-B169-4C0749FE2A90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F5C92500-D225-4473-B169-4C0749FE2A90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5C92500-D225-4473-B169-4C0749FE2A90}.Debug|iPhone.ActiveCfg = Debug|Any CPU
@@ -82,8 +82,8 @@ Global
 		{F5C92500-D225-4473-B169-4C0749FE2A90}.TestRelease|Any CPU.Build.0 = TestRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0} = {7B728755-3E3D-4003-A69A-B80A59C6DD77}
 		{67F9D3A8-F71E-4428-913F-C37AE82CDB24} = {7B728755-3E3D-4003-A69A-B80A59C6DD77}
+		{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0} = {7B728755-3E3D-4003-A69A-B80A59C6DD77}
 		{1462B842-AC29-4654-9C60-1CB1B5BCBE59} = {7B728755-3E3D-4003-A69A-B80A59C6DD77}
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
