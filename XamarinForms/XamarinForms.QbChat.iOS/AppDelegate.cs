@@ -36,11 +36,10 @@ namespace XamarinForms.QbChat.iOS
 
 		public override void DidEnterBackground (UIApplication application)
 		{
+			UIApplication.SharedApplication.Windows [0].RootViewController.View.EndEditing (true);
 			// Use this method to release shared resources, save user data, invalidate timers and store the application state.
 			// If your application supports background exection this method is called instead of WillTerminate when the user quits.
 		}
-
-
 
 		public override void WillEnterForeground (UIApplication application)
 		{

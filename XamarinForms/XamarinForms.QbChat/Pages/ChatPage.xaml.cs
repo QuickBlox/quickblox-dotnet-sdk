@@ -45,13 +45,11 @@ namespace XamarinForms.QbChat.Pages
 
 			dialog = Database.Instance().GetDialog(dialogId);
             chatNameLabel.Text = dialog.Name;
-
-			users = await App.QbProvider.GetUsersByIdsAsync (dialog.OccupantIds.Split(',').Select(id => Int32.Parse(id)));
-
 			chatPhotoImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("ic_user.png"),
 				Android: ImageSource.FromFile ("ic_user.png"),
 				WinPhone: ImageSource.FromFile ("Images/ic_user.png"));
 			
+			users = await App.QbProvider.GetUsersByIdsAsync (dialog.OccupantIds);
 			if (dialog.DialogType == DialogType.Group) {
 				if (!string.IsNullOrEmpty (dialog.Photo)) {
 					chatPhotoImage.Source = ImageSource.FromUri (new Uri (dialog.Photo));
@@ -67,6 +65,10 @@ namespace XamarinForms.QbChat.Pages
 							chatPhotoImage.Source = ImageSource.FromStream(() => new MemoryStream(bytes)));
 					}, TaskScheduler.FromCurrentSynchronizationContext ());
 				}
+			}
+
+			if (dialog.DialogType == DialogType.Group) {
+				App.QbProvider.GetXmppClient ().JoinGroup (dialog.XmppRoomJid, App.QbProvider.UserId.ToString());
 			}
 
 			List<MessageTable> messages;
@@ -118,26 +120,27 @@ namespace XamarinForms.QbChat.Pages
 
         private async void SendClicked(object sender, EventArgs e)
         {
-			if (dialog != null && 
-				(dialog.DialogType == DialogType.Group ||
-				 dialog.DialogType == DialogType.PublicGroup)) {
-				await App.Current.MainPage.DisplayAlert ("Error", "Comming soon. Use private chat for testing.", "Ok");
-				return;
-			}
+//			if (dialog != null && 
+//				(dialog.DialogType == DialogType.Group ||
+//				 dialog.DialogType == DialogType.PublicGroup)) {
+//				await App.Current.MainPage.DisplayAlert ("Error", "Comming soon. Use private chat for testing.", "Ok");
+//				return;
+//			}
             
 			var message = messageEntry.Text != null ? messageEntry.Text.Trim() : string.Empty;
 			if (!string.IsNullOrEmpty(message))
             {
-				if (dialog.DialogType == DialogType.Private) {
-					var opponentId = dialog.OccupantIds.Split (',').Select (Int32.Parse).First (id => id != App.QbProvider.UserId);
+				//if (dialog.DialogType == DialogType.Private) {
+					
 
 					var m = new MessageTable ();
-					m.RecepientId = opponentId;
 					m.SenderId = (int)App.QbProvider.UserId;
 					m.Text = message;
 					m.DialogId = dialogId;
 					m.RecepientFullName = "Me";
 					m.DateSent = DateTime.UtcNow;
+
+				if (dialog.DialogType == DialogType.Private)
 					m.ID = Database.Instance ().SaveMessage (m);
 
 					dialog.LastMessage = m.Text;
@@ -146,13 +149,20 @@ namespace XamarinForms.QbChat.Pages
 
 					try {
 						var chatMessageExtraParameter = new ChatMessageExtraParameter (dialogId, true);
-						App.QbProvider.GetXmppClient ().SendMessage (opponentId, message, chatMessageExtraParameter.Build(), dialogId, null);
+
+					if (dialog.DialogType == DialogType.Private){
+							var opponentId = dialog.OccupantIds.Split (',').Select (Int32.Parse).First (id => id != App.QbProvider.UserId);
+							App.QbProvider.GetXmppClient ().SendMessage (opponentId, message, chatMessageExtraParameter.Build(), dialogId, null);
+					}
+					if (dialog.DialogType == DialogType.Group){
+						App.QbProvider.GetXmppClient ().SendMessage (dialog.XmppRoomJid, message, chatMessageExtraParameter.Build(), dialogId, null, MessageType.Groupchat);
+					}
 					} catch (Exception ex) {
 						await App.Current.MainPage.DisplayAlert ("Error", ex.ToString(), "Ok");
 					}
 
 					messageEntry.Text = "";
-				}
+				//}
             }
         }
 

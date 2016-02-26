@@ -43,12 +43,12 @@ namespace XamarinForms.QbChat.Repository
 
         public void SubscribeForMessages(Action messagesCallback)
         {
-            dialogObserver += messagesCallback;
+			messageObserver += messagesCallback;
         }
 
         public void UnSubscribeForMessages(Action messagesCallback)
         {
-            dialogObserver -= messagesCallback;
+			messageObserver -= messagesCallback;
         }
 
         public void Init(SQLiteConnection connection)

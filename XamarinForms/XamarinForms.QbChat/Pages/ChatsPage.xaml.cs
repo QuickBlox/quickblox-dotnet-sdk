@@ -28,8 +28,7 @@ namespace XamarinForms.QbChat.Pages
 //				            10195793    @xamarinuser5    Xamarin User 5
 
 				            var list = new List<long> () { 10195773, 10195779, 10195787, 10195790, 10195793 };
-				            // var filteredList = list.Where (id => id != user.Id);
-				            //foreach (var item in list) {
+				            
 				var createDialog = await App.QbProvider.CreateDialogAsync ("Group name", string.Join(",", list), Quickblox.Sdk.Modules.ChatModule.Models.DialogType.Group);      // item.ToString());
 				                try {
 				                    var dialogId = createDialog.Id;
@@ -121,7 +120,7 @@ namespace XamarinForms.QbChat.Pages
         {
             var dialogs = Database.Instance().GetDialogs();
 			Device.BeginInvokeOnMainThread (() =>{ 
-				var sorted = dialogs.OrderByDescending(d => d.LastMessageSent.Value);
+				var sorted = dialogs.OrderByDescending(d => d.LastMessageSent.Value).ToList();
 				listView.ItemsSource = sorted;
 			});
         }
@@ -172,26 +171,50 @@ namespace XamarinForms.QbChat.Pages
 
         private async void OnMessageReceived(object sender, MessageEventArgs messageEventArgs)
         {
-            if (messageEventArgs.Message.MessageType == Quickblox.Sdk.Modules.ChatXmppModule.Models.MessageType.Chat ||
-                messageEventArgs.Message.MessageType == Quickblox.Sdk.Modules.ChatXmppModule.Models.MessageType.Groupchat)
-            {
-                var messageTable = new MessageTable();
-                messageTable.SenderId = messageEventArgs.Message.From.GetUserId();
-                messageTable.RecepientId = messageEventArgs.Message.To.GetUserId();
-                messageTable.Text = messageEventArgs.Message.Body;
-                messageTable.DialogId = messageEventArgs.Message.Thread;
-				messageTable.DateSent = messageEventArgs.Message.Timestamp;
+			var dialog = Database.Instance().GetDialog(messageEventArgs.Message.Thread);
+			if (dialog == null)
+			{
+				dialog = await App.QbProvider.GetDialogAsync(messageEventArgs.Message.Thread);
+			}
 
-                if (!string.IsNullOrWhiteSpace(messageEventArgs.Message.ExtraParameter))
-                {
-                    XDocument xDoc = XDocument.Parse(messageEventArgs.Message.ExtraParameter);
-                    var messageId = xDoc.Descendants(XName.Get("message_id", "jabber:client")).FirstOrDefault();
-                    if (messageId != null)
-                    {
-                        messageTable.MessageId = messageId.Value;
-                    }
-                }
+			if (dialog != null)
+			{
+				dialog.LastMessage = messageEventArgs.Message.Body;
+				dialog.LastMessageSent = DateTime.UtcNow;
 
+				if (dialog.UnreadMessageCount != null)
+				{
+					dialog.UnreadMessageCount++;
+				}
+				else
+				{
+					dialog.UnreadMessageCount = 1;
+				}
+
+				Database.Instance().SaveDialog(dialog);
+			}
+
+			var messageTable = new MessageTable ();
+			if (messageEventArgs.Message.MessageType == Quickblox.Sdk.Modules.ChatXmppModule.Models.MessageType.Groupchat) {
+				var message = Database.Instance ().GetMessages (messageEventArgs.Message.Thread).FirstOrDefault (m => m.MessageId == messageEventArgs.Message.Id);
+				if (message != null) {
+					return;
+
+				}
+				var senderId = ChatXmppClient.GetUserIdFromRoomJid (messageEventArgs.Message.From.ToString ());
+				messageTable.SenderId = senderId;
+			} else if (messageEventArgs.Message.MessageType == Quickblox.Sdk.Modules.ChatXmppModule.Models.MessageType.Chat) {
+				messageTable.SenderId = messageEventArgs.Message.From.GetUserId ();
+			}
+
+			messageTable.Text = messageEventArgs.Message.Body;
+			messageTable.DialogId = messageEventArgs.Message.Thread;
+			messageTable.DateSent = messageEventArgs.Message.Timestamp;
+
+			if (messageTable.SenderId == App.QbProvider.UserId) {
+				messageTable.RecepientFullName = "Me";
+			} else {
+				
 				var user = Database.Instance ().GetUser (messageTable.SenderId);
 				if (user == null) {
 					var userRespose = await App.QbProvider.GetUserAsync (messageTable.SenderId);
@@ -207,32 +230,9 @@ namespace XamarinForms.QbChat.Pages
 				} else {
 					messageTable.RecepientFullName = user.FullName;
 				}
+			}
 
-                Database.Instance().SaveMessage(messageTable);
-
-                var dialog = Database.Instance().GetDialog(messageTable.DialogId);
-                if (dialog == null)
-                {
-                    dialog = await App.QbProvider.GetDialogAsync(new int[] { messageTable.SenderId, messageTable.RecepientId });
-                }
-
-                if (dialog != null)
-                {
-                    dialog.LastMessage = messageEventArgs.Message.Body;
-                    dialog.LastMessageSent = DateTime.UtcNow;
-
-                    if (dialog.UnreadMessageCount != null)
-                    {
-                        dialog.UnreadMessageCount++;
-                    }
-                    else
-                    {
-                        dialog.UnreadMessageCount = 1;
-                    }
-
-                    Database.Instance().SaveDialog(dialog);
-                }
-            }
+			Database.Instance().SaveMessage(messageTable);
         }
     }
 }

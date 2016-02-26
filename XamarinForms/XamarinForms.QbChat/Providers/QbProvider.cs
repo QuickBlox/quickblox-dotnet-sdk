@@ -147,14 +147,13 @@ namespace XamarinForms.QbChat
 			return null;
 		}
 
-		public async Task<List<Quickblox.Sdk.Modules.UsersModule.Models.User>> GetUsersByIdsAsync (IEnumerable<int> ids)
+		public async Task<List<Quickblox.Sdk.Modules.UsersModule.Models.User>> GetUsersByIdsAsync (string ids)
 		{
 			try{
 				var retriveUserRequest = new RetrieveUsersRequest();
 				retriveUserRequest.PerPage = 100;
-				var idsString = String.Join(",", ids);
 				var aggregator = new FilterAggregator();
-				aggregator.Filters.Add(new RetrieveUserFilter<int>(UserOperator.In, () => new Quickblox.Sdk.Modules.UsersModule.Models.User().Id, idsString));
+				aggregator.Filters.Add(new RetrieveUserFilter<int>(UserOperator.In, () => new Quickblox.Sdk.Modules.UsersModule.Models.User().Id, ids));
 				retriveUserRequest.Filter = aggregator;
 				var response = await this.client.UsersClient.RetrieveUsersAsync(retriveUserRequest);
 				if (await HandleResponse(response, HttpStatusCode.OK))
@@ -254,7 +253,7 @@ namespace XamarinForms.QbChat
 			//TODO: change limit
 			retrieveDialogsRequest.Limit = 25;
 			var filterAgreaggator = new FilterAggregator ();
-			filterAgreaggator.Filters.Add(new FieldFilterWithOperator<int>(SearchOperators.In, () => new DialogResponse().Type , (int)DialogType.Private));
+			filterAgreaggator.Filters.Add(new FieldFilterWithOperator<int>(SearchOperators.In, () => new DialogResponse().Type , (int)DialogType.Group + "," + (int)DialogType.Private ));
 			retrieveDialogsRequest.Filter = filterAgreaggator;
 
 			var response = await client.ChatClient.GetDialogsAsync(retrieveDialogsRequest);

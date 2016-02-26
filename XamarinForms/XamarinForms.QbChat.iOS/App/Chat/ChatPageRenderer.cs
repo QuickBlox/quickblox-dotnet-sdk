@@ -53,23 +53,28 @@ namespace XamarinForms.QbChat.iOS
 			UIView.SetAnimationCurve(e.AnimationCurve);
 			UIView.SetAnimationDuration(e.AnimationDuration);
 
+			ChangeFrameSize (scale);
+
+			UIView.CommitAnimations();
+		}
+
+		void ChangeFrameSize (bool scale)
+		{
 			var frame = View.Frame;
-
-
 			if (scale)
 				frame.Height -= _scrollAmount;
 			else
 				frame.Height += _scrollAmount;
-			
-//			var endRelative = View.ConvertRectFromView (e.FrameEnd, null);
-//			frame.Height = endRelative.Y;
-		
 			page.Content.HorizontalOptions = LayoutOptions.StartAndExpand;
 			page.Layout (new Rectangle (0, 0, frame.Width, frame.Height));
 			page.ForceLayout ();
-
 			View.Frame = frame;
-			UIView.CommitAnimations();
+		}
+
+		public override void ViewDidDisappear (bool animated)
+		{
+			base.ViewDidDisappear (animated);
+			ChangeFrameSize (false);
 		}
 	}
 }

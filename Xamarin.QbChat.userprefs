@@ -1,9 +1,20 @@
-﻿<Properties StartupItem="../SDK-dotnet/Quickblox.Xamarin/Quickblox.Sdk/Quickblox.Sdk.Xamarin.csproj" RefactoringSettings.EnableRefactorings="True">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench />
+﻿<Properties StartupItem="XamarinForms/XamarinForms.QbChat.iOS/XamarinForms.QbChat.iOS.csproj" RefactoringSettings.EnableRefactorings="True">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhone6s.9.2" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../SDK-dotnet/Quickblox.Xamarin/Quickblox.Sdk/Modules/ChatXmppModule/ChatXmppClient.cs">
+    <Files>
+      <File FileName="XamarinForms/XamarinForms.QbChat/Pages/ChatPage.xaml.cs" Line="71" Column="43" />
+      <File FileName="XamarinForms/XamarinForms.QbChat/Providers/QbProvider.cs" Line="169" Column="1" />
+      <File FileName="XamarinForms/XamarinForms.QbChat.iOS/Main.cs" Line="12" Column="1" />
+      <File FileName="XamarinForms/XamarinForms.QbChat.iOS/App/Chat/ChatPageRenderer.cs" Line="46" Column="1" />
+      <File FileName="../SDK-dotnet/Quickblox.Xamarin/Quickblox.Sdk/Modules/ChatXmppModule/ChatXmppClient.cs" Line="346" Column="3" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/bamboo-server/Projects/Qmunicate.Xamarin/XamarinForms/XamarinForms.Qmunicate/Pages/ChatsPage.xaml.cs" line="35" column="1" />
+      <Breakpoint file="/Users/bamboo-server/Projects/Qmunicate.Xamarin/XamarinForms/XamarinForms.QbChat.iOS/App/Chat/ChatPageRenderer.cs" line="46" column="1" />
+      <Breakpoint file="/Users/bamboo-server/Projects/SDK-dotnet/Quickblox.Xamarin/Quickblox.Sdk/Modules/ChatXmppModule/ChatXmppClient.cs" line="347" column="1" />
+      <Breakpoint file="/Users/bamboo-server/Projects/Qmunicate.Xamarin/XamarinForms/XamarinForms.QbChat/Pages/ChatPage.xaml.cs" line="70" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

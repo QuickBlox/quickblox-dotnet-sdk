@@ -9,7 +9,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.0.3</string>
+	<string>1.0.0.5</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
@@ -35,7 +35,15 @@
 	</array>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleLightContent</string>
-	<key>XSAppIconAssets</key>
-	<string>Resources/Images.xcassets/AppIcons-1.appiconset</string>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>Icon-60@2x</string>
+		<string>Icon-Small@2x</string>
+		<string>Icon-Small-40@2x</string>
+		<string>Icon</string>
+		<string>Icon@2x</string>
+	</array>
+	<key>UIPrerenderedIcon</key>
+	<true/>
 </dict>
 </plist>
