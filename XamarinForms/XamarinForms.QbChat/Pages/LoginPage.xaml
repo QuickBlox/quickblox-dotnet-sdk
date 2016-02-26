@@ -4,7 +4,7 @@
              x:Class="XamarinForms.QbChat.Pages.LoginPage"
              BackgroundColor="White"
              Title="Login">
-    <StackLayout Padding="18">
+    <StackLayout>
         <Label Text="Enter a login:" />
         <Entry x:Name="login" TextColor="Black"/>
 

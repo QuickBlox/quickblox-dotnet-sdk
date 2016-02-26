@@ -24,13 +24,13 @@
             </StackLayout>
 
         </Grid>
-        <StackLayout Grid.Row="1" Padding="18,12">
+        <StackLayout Grid.Row="1" Padding="0,12">
 	        <ListView x:Name="listView">
 	            
 	        </ListView>
         </StackLayout>
         
-        <Grid Grid.Row="2" Padding="18,12">
+        <Grid Grid.Row="2" Padding="12">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="80"/>
