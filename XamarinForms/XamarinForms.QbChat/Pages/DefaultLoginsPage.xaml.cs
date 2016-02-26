@@ -38,19 +38,18 @@ namespace XamarinForms.QbChat
 		}
 
 		private async void Login(DefaultUser user){
-			this.IsBusy = true;
+			busyIndicator.IsVisible = true;
 			var loginValue = user.Login;
 			var passwordValue = user.Password;
 			var userId = await App.QbProvider.LoginWithLoginValueAsync(loginValue, passwordValue);
 			if (userId > 0) {
-				this.IsBusy = false;
+				busyIndicator.IsVisible = false;
 				App.SetMainPage ();
 			} else {
 				await DisplayAlert ("Error", "Try to repeat login", "Ok");
 			}
 
-			this.IsBusy = false;
-		
+			busyIndicator.IsVisible = false;
 		}
 	}
 }

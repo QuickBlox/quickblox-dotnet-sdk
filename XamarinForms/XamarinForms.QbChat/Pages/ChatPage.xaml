@@ -24,11 +24,11 @@
             </StackLayout>
 
         </Grid>
-        <StackLayout Grid.Row="1" Padding="0,12">
-	        <ListView x:Name="listView">
-	            
-	        </ListView>
-        </StackLayout>
+        <Grid Grid.Row="1" Padding="0,12">
+	        <ListView x:Name="listView" />
+
+	    	<ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="false" />
+        </Grid>
         
         <Grid Grid.Row="2" Padding="12">
             <Grid.ColumnDefinitions>

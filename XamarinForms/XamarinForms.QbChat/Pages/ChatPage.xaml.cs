@@ -41,7 +41,7 @@ namespace XamarinForms.QbChat.Pages
 			if (isLoaded)
 				return;
 			
-            this.IsBusy = true;
+			this.busyIndicator.IsVisible = true;
 
 			dialog = Database.Instance().GetDialog(dialogId);
             chatNameLabel.Text = dialog.Name;
@@ -114,7 +114,7 @@ namespace XamarinForms.QbChat.Pages
 
             sendButton.Clicked += SendClicked;
 
-            this.IsBusy = false;
+			this.busyIndicator.IsVisible = false;
 			this.isLoaded = true;
         }
 

@@ -10,7 +10,7 @@ using XamainForms.QbChat;
 
 namespace XamarinForms.QbChat.Android
 {
-	[Activity (Label = "", Icon="@android:color/transparent")]
+	[Activity (Theme = "@android:style/Theme.Holo.Light", Label = "", Icon="@android:color/transparent")]
 	public class FormsActivity : FormsApplicationActivity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)

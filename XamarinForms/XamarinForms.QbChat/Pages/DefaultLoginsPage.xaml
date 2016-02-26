@@ -4,5 +4,7 @@ Title="Login to Chat as">
 	 <Grid>
 	    <ListView x:Name="listView" >
 	    </ListView>
+
+	    <ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="false"/>
     </Grid>
 </ContentPage>

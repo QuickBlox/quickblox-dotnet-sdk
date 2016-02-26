@@ -27,32 +27,11 @@
 	            </StackLayout>
 	            </Grid>
             </StackLayout>
-         <Grid HeightRequest="2" BackgroundColor="Black" VerticalOptions="End" />
+        <Grid HeightRequest="2" BackgroundColor="Black" VerticalOptions="End" />
 	     
-	    <ListView x:Name="listView" Grid.Row="1">
-<!--	        <ListView.ItemTemplate>
-	         <DataTemplate>
-	        	<ImageCell>
-	                <Grid>
-	                    <Grid.ColumnDefinitions>
-	                        <ColumnDefinition Width="85" />
-	                        <ColumnDefinition />
-	                    </Grid.ColumnDefinitions>
+	    <ListView x:Name="listView" Grid.Row="1" />
 
-	                    <Grid.RowDefinitions>
-	                        <RowDefinition />
-	                        <RowDefinition />
-	                    </Grid.RowDefinitions>
-
-	                    <Image Grid.RowSpan="2" Source="{Binding Photo}" HeightRequest="75" WidthRequest="75"/>
-
-	                    <Label Text="{Binding Name}" FontSize="22" Grid.Column="1" />
-	                    <Label Text="{Binding LastMessage}" FontSize="18" Grid.Column="1" Grid.Row="1" />
-	                </Grid>
-	        		</ImageCell>
-	            </DataTemplate>
-	        </ListView.ItemTemplate>-->
-	    </ListView>
+	    <ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="false" Grid.RowSpan="2"/>
 
 	    <Button Grid.Row="1" x:Name="CreateGroupChat" Text="Create Group chat" HeightRequest="80" HorizontalOptions="End" IsVisible="false"/>
     </Grid>

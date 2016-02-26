@@ -139,13 +139,15 @@
     <BundleResource Include="Resources\ic_launcher.png" />
     <BundleResource Include="Resources\AvatarPlaceholder.png" />
     <BundleResource Include="Resources\ic_settings.png" />
-    <BundleResource Include="Resources\ic_action_logout.png" />
     <BundleResource Include="Resources\ic_user.png" />
     <BundleResource Include="Resources\Icon-60%402x.png" />
     <BundleResource Include="Resources\Icon-Small%402x.png" />
     <BundleResource Include="Resources\Icon-Small-40%402x.png" />
     <BundleResource Include="Resources\Icon.png" />
     <BundleResource Include="Resources\Icon%402x.png" />
+    <BundleResource Include="Resources\ic_action_logout%401x.png" />
+    <BundleResource Include="Resources\ic_action_logout%402x.png" />
+    <BundleResource Include="Resources\ic_action_logout%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons-1.appiconset\Contents.json" />

@@ -46,8 +46,8 @@ namespace XamarinForms.QbChat.Pages
         {
             base.OnAppearing();
 
-			this.IsBusy = true;
-			 
+			busyIndicator.IsVisible = true; 
+
 			ToolbarItems.Clear ();
 			ToolbarItems.Add (new ToolbarItem ("Logout", "ic_action_logout.png", async () => {
 				var result = await DisplayAlert("Logout", "Do you really want to logout?", "Ok", "Cancel");
@@ -91,8 +91,7 @@ namespace XamarinForms.QbChat.Pages
 			}
 
 			if (listView.ItemsSource == null) {
-				var template = new DataTemplate (typeof(ImageCell));
-				template.SetBinding (ImageCell.ImageSourceProperty, "Photo");
+				var template = new DataTemplate (typeof(TextCell));
 				template.SetBinding (ImageCell.TextProperty, "Name");
 				template.SetBinding (ImageCell.DetailProperty, "LastMessage");
 				listView.ItemTemplate = template;
@@ -106,7 +105,7 @@ namespace XamarinForms.QbChat.Pages
 
 			Database.Instance().SubscribeForDialogs(OnDialogsChanged);
 
-			this.IsBusy = false;
+			this.busyIndicator.IsVisible = false;
         }
 
         protected override void OnDisappearing()

@@ -26,7 +26,6 @@ namespace XamarinForms.QbChat.Pages
 
         private async void OnClicked(object sender, EventArgs e)
         {
-            this.IsBusy = true;
             var loginValue = login.Text.Trim();
             var passwordValue = password.Text.Trim();
             if (!string.IsNullOrEmpty(loginValue) && !string.IsNullOrEmpty(passwordValue))
@@ -34,8 +33,6 @@ namespace XamarinForms.QbChat.Pages
                 var userId = await App.QbProvider.LoginWithEmailAsync(loginValue, passwordValue);
                 if (userId > 0)
                 {
-                    this.IsBusy = false;
-
 					App.SetMainPage();
                 }
                 else
@@ -43,8 +40,6 @@ namespace XamarinForms.QbChat.Pages
                     await DisplayAlert("Error", "The user name or password provided is incorrect.", "Ok");
                 }
             }
-
-            this.IsBusy = false;
         }
     }
 }
