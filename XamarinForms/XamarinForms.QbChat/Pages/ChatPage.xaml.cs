@@ -166,7 +166,7 @@ namespace XamarinForms.QbChat.Pages
             }
         }
 
-        private void OnMessagesChanged()
+        public void OnMessagesChanged()
         {
 			var messages = Database.Instance().GetMessages(dialogId);
 			var sorted = messages.OrderBy(d => d.DateSent).ToList();
