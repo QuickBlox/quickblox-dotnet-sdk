@@ -15,36 +15,20 @@ namespace XamarinForms.QbChat.Pages
     public partial class ChatsPage : ContentPage
     {
 		Quickblox.Sdk.Modules.UsersModule.Models.User user;
+		private bool isLoaded;
 
 		public ChatsPage()
         {
             InitializeComponent();
-
-			this.CreateGroupChat.Clicked += async (object sender, EventArgs e) => {
-//				            10195773    @xamarinuser1    Xamarin User 1                        
-//				            10195779    @xamarinuser2    Xamarin User 2                        
-//				            10195787    @xamarinuser3    Xamarin User 3                        
-//				            10195790    @xamarinuser4    Xamarin User 4                        
-//				            10195793    @xamarinuser5    Xamarin User 5
-
-				            var list = new List<long> () { 10195773, 10195779, 10195787, 10195790, 10195793 };
-				            
-				var createDialog = await App.QbProvider.CreateDialogAsync ("Group name", string.Join(",", list), Quickblox.Sdk.Modules.ChatModule.Models.DialogType.Group);      // item.ToString());
-				                try {
-				                    var dialogId = createDialog.Id;
-				                    var chatMessageExtraParameter = new ChatMessageExtraParameter (dialogId, true);
-									App.QbProvider.GetXmppClient ().SendMessage (createDialog.XmppRoomJid, "Hello", chatMessageExtraParameter.Build(), dialogId, null);
-				                } catch (Exception ex) {
-				
-				                }
-				
-				            //}
-			};
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+			if (isLoaded)
+				return;
+
+			isLoaded = true;
 
 			busyIndicator.IsVisible = true; 
 
@@ -63,49 +47,33 @@ namespace XamarinForms.QbChat.Pages
 				}
 			}));
 
-			if (user == null && App.QbProvider.UserId != 0) {
-				user = await App.QbProvider.GetUserAsync (App.QbProvider.UserId);
-			}
-
-			try {
-				// uses login as password because it is the same
-				ConnetToXmpp(user.Id, user.Login);
-			} catch (Exception ex) {
-			}
-
-			if (myProfileImage.Source == null) {
-				myNameLabel.Text = user.FullName;
-
-				myProfileImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("ic_user.png"),
-					Android: ImageSource.FromFile ("ic_user.png"),
-					WinPhone: ImageSource.FromFile ("Images/ic_user.png"));
-				if (user.BlobId.HasValue)
-				{
-					App.QbProvider.GetImageAsync (user.BlobId.Value).ContinueWith ((task, result) => {
-						var bytes = task.ConfigureAwait(true).GetAwaiter().GetResult();
-						if (bytes != null)
-						Device.BeginInvokeOnMainThread(() =>
-							myProfileImage.Source = ImageSource.FromStream(() => new MemoryStream(bytes)));
-					}, TaskScheduler.FromCurrentSynchronizationContext ());
+			Task.Factory.StartNew (async () => {
+				if (user == null && App.QbProvider.UserId != 0) {
+					user = await App.QbProvider.GetUserAsync (App.QbProvider.UserId);
 				}
-			}
 
-			if (listView.ItemsSource == null) {
-				var template = new DataTemplate (typeof(TextCell));
-				template.SetBinding (ImageCell.TextProperty, "Name");
-				template.SetBinding (ImageCell.DetailProperty, "LastMessage");
-				listView.ItemTemplate = template;
+				try {
+					// uses login as password because it is the same
+					ConnetToXmpp (user.Id, user.Login);
+				} catch (Exception ex) {
+				}
 
-				listView.ItemTapped += OnItemTapped;
 				var dialogs = await App.QbProvider.GetDialogsAsync ();
-				var sorted = dialogs.Where(d => d.LastMessageSent != null). OrderByDescending(d => d.LastMessageSent.Value).Concat(dialogs.Where(d => d.LastMessageSent == null)). ToList();
-				listView.ItemsSource = sorted;
-				Database.Instance().SaveAllDialogs(sorted);
-			}
+				var sorted = dialogs.Where (d => d.LastMessageSent != null).OrderByDescending (d => d.LastMessageSent.Value).Concat (dialogs.Where (d => d.LastMessageSent == null)).ToList ();
 
-			Database.Instance().SubscribeForDialogs(OnDialogsChanged);
+				Device.BeginInvokeOnMainThread(() => {
+					if (myProfileImage.Source == null) {
+						myNameLabel.Text = user.FullName;
+						InitializeProfilePhoto ();
+					}
 
-			this.busyIndicator.IsVisible = false;
+					InitializeDialogsList (sorted);
+
+					Database.Instance ().SubscribeForDialogs (OnDialogsChanged);
+
+					this.busyIndicator.IsVisible = false;
+				});
+			});
         }
 
         protected override void OnDisappearing()
@@ -114,6 +82,29 @@ namespace XamarinForms.QbChat.Pages
 			Database.Instance().UnSubscribeForDialogs(OnDialogsChanged);
 
         }
+
+		private void InitializeDialogsList (List<DialogTable> sorted)
+		{
+			var template = new DataTemplate (typeof(TextCell));
+			template.SetBinding (TextCell.TextProperty, "Name");
+			template.SetBinding (TextCell.DetailProperty, "LastMessage");
+			listView.ItemTemplate = template;
+			listView.ItemTapped += OnItemTapped;
+			listView.ItemsSource = sorted;
+			Database.Instance ().SaveAllDialogs (sorted);
+		}
+
+		private void InitializeProfilePhoto ()
+		{
+			myProfileImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("ic_user.png"), Android: ImageSource.FromFile ("ic_user.png"), WinPhone: ImageSource.FromFile ("Images/ic_user.png"));
+			if (user.BlobId.HasValue) {
+				App.QbProvider.GetImageAsync (user.BlobId.Value).ContinueWith ((task, result) =>  {
+					var bytes = task.ConfigureAwait (true).GetAwaiter ().GetResult ();
+					if (bytes != null)
+						Device.BeginInvokeOnMainThread (() => myProfileImage.Source = ImageSource.FromStream (() => new MemoryStream (bytes)));
+				}, TaskScheduler.FromCurrentSynchronizationContext ());
+			}
+		}
 
         private void OnDialogsChanged()
         {

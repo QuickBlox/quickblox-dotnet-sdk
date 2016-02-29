@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace XamarinForms.QbChat
 {
@@ -41,15 +42,20 @@ namespace XamarinForms.QbChat
 			busyIndicator.IsVisible = true;
 			var loginValue = user.Login;
 			var passwordValue = user.Password;
-			var userId = await App.QbProvider.LoginWithLoginValueAsync(loginValue, passwordValue);
-			if (userId > 0) {
-				busyIndicator.IsVisible = false;
-				App.SetMainPage ();
-			} else {
-				await DisplayAlert ("Error", "Try to repeat login", "Ok");
-			}
+			Task.Factory.StartNew (async () => {
+				var userId = await App.QbProvider.LoginWithLoginValueAsync (loginValue, passwordValue);
 
-			busyIndicator.IsVisible = false;
+				Device.BeginInvokeOnMainThread(() =>
+					{if (userId > 0) {
+					busyIndicator.IsVisible = false;
+					App.SetMainPage ();
+				} else {
+				    DisplayAlert ("Error", "Try to repeat login", "Ok");
+				}
+
+					busyIndicator.IsVisible = false;
+				});
+			});
 		}
 	}
 }

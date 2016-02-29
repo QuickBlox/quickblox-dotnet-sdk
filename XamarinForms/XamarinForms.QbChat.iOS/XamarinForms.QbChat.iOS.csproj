@@ -39,9 +39,10 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchFloat32>true</MtouchFloat32>
     <MtouchUseSGen>true</MtouchUseSGen>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Distribution: Injoit LTD (8885H5G2YX)</CodesignKey>
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
     <ApplicationIcon>Resources\Images.xcassets\AppIcons-1.appiconset\Icon-60@2x.png</ApplicationIcon>
+    <CodesignProvision>6eeccafe-4054-4ba9-9c00-730439e00a5a</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>
