@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinForms.QbChat.Android
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinForms.QbChat.iOS", "XamarinForms\XamarinForms.QbChat.iOS\XamarinForms.QbChat.iOS.csproj", "{1462B842-AC29-4654-9C60-1CB1B5BCBE59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quickblox.Sdk.Xamarin", "..\SDK-dotnet\Quickblox.Xamarin\Quickblox.Sdk\Quickblox.Sdk.Xamarin.csproj", "{F5C92500-D225-4473-B169-4C0749FE2A90}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,20 +64,6 @@ Global
 		{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0}.TestRelease|Any CPU.ActiveCfg = Release|Any CPU
 		{E48AD3CB-1290-4A93-AFFC-9B9E8D0FE5E0}.TestRelease|Any CPU.Build.0 = Release|Any CPU
-		{F5C92500-D225-4473-B169-4C0749FE2A90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F5C92500-D225-4473-B169-4C0749FE2A90}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F5C92500-D225-4473-B169-4C0749FE2A90}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{F5C92500-D225-4473-B169-4C0749FE2A90}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{F5C92500-D225-4473-B169-4C0749FE2A90}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{F5C92500-D225-4473-B169-4C0749FE2A90}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{F5C92500-D225-4473-B169-4C0749FE2A90}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F5C92500-D225-4473-B169-4C0749FE2A90}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F5C92500-D225-4473-B169-4C0749FE2A90}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{F5C92500-D225-4473-B169-4C0749FE2A90}.Release|iPhone.Build.0 = Release|Any CPU
-		{F5C92500-D225-4473-B169-4C0749FE2A90}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{F5C92500-D225-4473-B169-4C0749FE2A90}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{F5C92500-D225-4473-B169-4C0749FE2A90}.TestRelease|Any CPU.ActiveCfg = TestRelease|Any CPU
-		{F5C92500-D225-4473-B169-4C0749FE2A90}.TestRelease|Any CPU.Build.0 = TestRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{67F9D3A8-F71E-4428-913F-C37AE82CDB24} = {7B728755-3E3D-4003-A69A-B80A59C6DD77}

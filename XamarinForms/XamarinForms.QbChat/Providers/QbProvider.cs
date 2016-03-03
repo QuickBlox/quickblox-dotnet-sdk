@@ -196,7 +196,7 @@ namespace XamarinForms.QbChat
 					if (!string.IsNullOrWhiteSpace (message.MessageText)) {
 						var chatMessage = new MessageTable ();
 						chatMessage.Text = message.MessageText;
-						chatMessage.DateSent = message.DateSent.ToDateTime ();
+						chatMessage.DateSent = message.DateSent;
 						chatMessage.SenderId = message.SenderId;
 						chatMessage.MessageId = message.Id;
 						if (message.RecipientId.HasValue)

@@ -6,20 +6,20 @@ using XamarinForms.QbChat.iOS;
 using UIKit;
 using Foundation;
 
-[assembly:ExportRenderer(typeof(ChatPage), typeof(ChatPageRenderer))]
+[assembly:ExportRenderer(typeof(PrivateChatPage), typeof(ChatPageRenderer))]
 namespace XamarinForms.QbChat.iOS
 {
 	public class ChatPageRenderer : PageRenderer
 	{
 		private NSObject _show;
 		private NSObject _hide;
-		ChatPage page;
+		PrivateChatPage page;
 		private float _scrollAmount;
 
 		protected override void OnElementChanged (VisualElementChangedEventArgs e)
 		{
 			base.OnElementChanged (e);
-			page = (ChatPage)e.NewElement;
+			page = (PrivateChatPage)e.NewElement;
 		}
 
 		public override void ViewWillAppear (bool animated)

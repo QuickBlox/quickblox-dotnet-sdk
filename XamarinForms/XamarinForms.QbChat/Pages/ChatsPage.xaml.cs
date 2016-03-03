@@ -61,6 +61,12 @@ namespace XamarinForms.QbChat.Pages
 				var dialogs = await App.QbProvider.GetDialogsAsync ();
 				var sorted = dialogs.Where (d => d.LastMessageSent != null).OrderByDescending (d => d.LastMessageSent.Value).Concat (dialogs.Where (d => d.LastMessageSent == null)).ToList ();
 
+				var groupDialogs = dialogs.Where(d => d.DialogType == Quickblox.Sdk.Modules.ChatModule.Models.DialogType.Group).ToList();
+				foreach (var groupDialog in groupDialogs) {
+					var groupdManager =App.QbProvider.GetXmppClient().GetGroupChatManager(groupDialog.XmppRoomJid, groupDialog.DialogId);
+					groupdManager.JoinGroup(App.QbProvider.UserId.ToString());
+				}
+
 				Device.BeginInvokeOnMainThread(() => {
 					if (myProfileImage.Source == null) {
 						myNameLabel.Text = user.FullName;
@@ -119,7 +125,11 @@ namespace XamarinForms.QbChat.Pages
         {
             var dialogItem = e.Item as DialogTable;
 			((ListView)sender).SelectedItem = null;
-			App.Navigation.PushAsync(new ChatPage(dialogItem.DialogId));
+
+			if (dialogItem.DialogType == Quickblox.Sdk.Modules.ChatModule.Models.DialogType.Private)
+				App.Navigation.PushAsync(new PrivateChatPage(dialogItem.DialogId));
+			else
+				App.Navigation.PushAsync(new GroupChatPage(dialogItem.DialogId));
         }
 
 		private void ConnetToXmpp(int userId, string userPassword)
@@ -145,7 +155,7 @@ namespace XamarinForms.QbChat.Pages
 				App.QbProvider.GetXmppClient().MessageReceived -= OnMessageReceived;
 				App.QbProvider.GetXmppClient().ErrorReceived -= OnError;
 				App.QbProvider.GetXmppClient().StatusChanged -= OnStatusChanged;
-				App.QbProvider.GetXmppClient().Disconnect();
+				App.QbProvider.GetXmppClient().Close();
 			}
 		}
 
@@ -161,15 +171,16 @@ namespace XamarinForms.QbChat.Pages
 
         private async void OnMessageReceived(object sender, MessageEventArgs messageEventArgs)
         {
-			var dialog = Database.Instance().GetDialog(messageEventArgs.Message.Thread);
+			var dialog = Database.Instance().GetDialog(messageEventArgs.Message.ChatDialogId);
 			if (dialog == null)
 			{
-				dialog = await App.QbProvider.GetDialogAsync(messageEventArgs.Message.Thread);
+				dialog = await App.QbProvider.GetDialogAsync(messageEventArgs.Message.ChatDialogId);
 			}
 
+			var decodedMessage = System.Net.WebUtility.UrlDecode (messageEventArgs.Message.MessageText);
 			if (dialog != null)
 			{
-				dialog.LastMessage = messageEventArgs.Message.Body;
+				dialog.LastMessage = decodedMessage;
 				dialog.LastMessageSent = DateTime.UtcNow;
 
 				if (dialog.UnreadMessageCount != null)
@@ -185,26 +196,14 @@ namespace XamarinForms.QbChat.Pages
 			}
 
 			var messageTable = new MessageTable ();
-			if (messageEventArgs.Message.MessageType == Quickblox.Sdk.Modules.ChatXmppModule.Models.MessageType.Groupchat) {
-				var message = Database.Instance ().GetMessages (messageEventArgs.Message.Thread).FirstOrDefault (m => m.MessageId == messageEventArgs.Message.Id);
-				if (message != null) {
-					return;
-
-				}
-				var senderId = ChatXmppClient.GetUserIdFromRoomJid (messageEventArgs.Message.From.ToString ());
-				messageTable.SenderId = senderId;
-			} else if (messageEventArgs.Message.MessageType == Quickblox.Sdk.Modules.ChatXmppModule.Models.MessageType.Chat) {
-				messageTable.SenderId = messageEventArgs.Message.From.GetUserId ();
-			}
-
-			messageTable.Text = messageEventArgs.Message.Body;
-			messageTable.DialogId = messageEventArgs.Message.Thread;
-			messageTable.DateSent = messageEventArgs.Message.Timestamp;
+			messageTable.SenderId = messageEventArgs.Message.SenderId;
+			messageTable.Text = decodedMessage;
+			messageTable.DialogId = messageEventArgs.Message.ChatDialogId;
+			messageTable.DateSent = messageEventArgs.Message.DateSent;
 
 			if (messageTable.SenderId == App.QbProvider.UserId) {
 				messageTable.RecepientFullName = "Me";
 			} else {
-				
 				var user = Database.Instance ().GetUser (messageTable.SenderId);
 				if (user == null) {
 					var userRespose = await App.QbProvider.GetUserAsync (messageTable.SenderId);

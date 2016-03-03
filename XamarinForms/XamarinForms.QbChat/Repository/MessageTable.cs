@@ -11,7 +11,7 @@ namespace XamarinForms.QbChat.Repository
         public string MessageId { get; set; }
         public string Text { get; set; }
         public string DialogId { get; set; }
-        public DateTime DateSent { get; set; }
+        public long DateSent { get; set; }
 
         public int RecepientId { get; set; }
         public int SenderId { get; set; }

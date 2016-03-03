@@ -10,22 +10,23 @@ using System.Text;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Quickblox.Sdk.Modules.UsersModule.Models;
 
 namespace XamarinForms.QbChat.Pages
 {
-    public partial class ChatPage : ContentPage
+    public partial class PrivateChatPage : ContentPage
     {
         private string dialogId;
+		int opponentId;
 		private bool isLoaded;
 		DialogTable dialog;
-		List<Quickblox.Sdk.Modules.UsersModule.Models.User> users;
+		User opponentUser;
+		Quickblox.Sdk.Modules.ChatXmppModule.PrivateChatManager privateChatManager;
 
-        public ChatPage(string dialogId)
+		public PrivateChatPage(String dialogId)
         {
             InitializeComponent();
             this.dialogId = dialogId;
-
-
         }
 
 		protected override void OnDisappearing ()
@@ -44,31 +45,24 @@ namespace XamarinForms.QbChat.Pages
 			this.busyIndicator.IsVisible = true;
 
 			dialog = Database.Instance().GetDialog(dialogId);
+			opponentId = dialog.OccupantIds.Split (',').Select (Int32.Parse).First (id => id != App.QbProvider.UserId);
+			privateChatManager = App.QbProvider.GetXmppClient ().GetPrivateChatManager (opponentId, dialogId);
+
             chatNameLabel.Text = dialog.Name;
 			chatPhotoImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("ic_user.png"),
 				Android: ImageSource.FromFile ("ic_user.png"),
 				WinPhone: ImageSource.FromFile ("Images/ic_user.png"));
 			
-			users = await App.QbProvider.GetUsersByIdsAsync (dialog.OccupantIds);
-			if (dialog.DialogType == DialogType.Group) {
-				if (!string.IsNullOrEmpty (dialog.Photo)) {
-					chatPhotoImage.Source = ImageSource.FromUri (new Uri (dialog.Photo));
-				}
-			} else if (dialog.DialogType == DialogType.Private) {
-				var user = users.FirstOrDefault (u => u.Id != App.QbProvider.UserId);
-				if (user != null && user.BlobId.HasValue)
-				{
-					App.QbProvider.GetImageAsync (user.BlobId.Value).ContinueWith ((task, result) => {
-						var bytes = task.ConfigureAwait(true).GetAwaiter().GetResult();
-						if (bytes != null)
-						Device.BeginInvokeOnMainThread(() =>
-							chatPhotoImage.Source = ImageSource.FromStream(() => new MemoryStream(bytes)));
-					}, TaskScheduler.FromCurrentSynchronizationContext ());
-				}
-			}
-
-			if (dialog.DialogType == DialogType.Group) {
-				App.QbProvider.GetXmppClient ().JoinGroup (dialog.XmppRoomJid, App.QbProvider.UserId.ToString());
+			var users = await App.QbProvider.GetUsersByIdsAsync (dialog.OccupantIds);
+			opponentUser = users.FirstOrDefault();
+			if (opponentUser != null && opponentUser.BlobId.HasValue)
+			{
+				App.QbProvider.GetImageAsync (opponentUser.BlobId.Value).ContinueWith ((task, result) => {
+					var bytes = task.ConfigureAwait(true).GetAwaiter().GetResult();
+					if (bytes != null)
+					Device.BeginInvokeOnMainThread(() =>
+						chatPhotoImage.Source = ImageSource.FromStream(() => new MemoryStream(bytes)));
+				}, TaskScheduler.FromCurrentSynchronizationContext ());
 			}
 
 			List<MessageTable> messages;
@@ -87,9 +81,8 @@ namespace XamarinForms.QbChat.Pages
 					if (message.SenderId == App.QbProvider.UserId) {
 						message.RecepientFullName = "Me";
 					} else {
-						var user = users.FirstOrDefault (u => u.Id == message.SenderId);
-						if (user != null) {
-							message.RecepientFullName = user.FullName;
+						if (opponentUser != null) {
+							message.RecepientFullName = opponentUser.FullName;
 						}
 					}
 				}
@@ -119,52 +112,31 @@ namespace XamarinForms.QbChat.Pages
         }
 
         private async void SendClicked(object sender, EventArgs e)
-        {
-//			if (dialog != null && 
-//				(dialog.DialogType == DialogType.Group ||
-//				 dialog.DialogType == DialogType.PublicGroup)) {
-//				await App.Current.MainPage.DisplayAlert ("Error", "Comming soon. Use private chat for testing.", "Ok");
-//				return;
-//			}
-            
-			var message = messageEntry.Text != null ? messageEntry.Text.Trim() : string.Empty;
-			if (!string.IsNullOrEmpty(message))
-            {
-				//if (dialog.DialogType == DialogType.Private) {
-					
+		{
+			var message = messageEntry.Text != null ? messageEntry.Text.Trim () : string.Empty;
+			if (!string.IsNullOrEmpty (message)) {
+				var m = new MessageTable ();
+				m.SenderId = (int)App.QbProvider.UserId;
+				m.Text = message;
+				m.DialogId = dialogId;
+				m.RecepientFullName = "Me";
+				m.DateSent = DateTime.UtcNow.Ticks / 1000;
+				m.ID = Database.Instance ().SaveMessage (m);
 
-					var m = new MessageTable ();
-					m.SenderId = (int)App.QbProvider.UserId;
-					m.Text = message;
-					m.DialogId = dialogId;
-					m.RecepientFullName = "Me";
-					m.DateSent = DateTime.UtcNow;
+				dialog.LastMessage = m.Text;
+				dialog.LastMessageSent = DateTime.UtcNow;
+				Database.Instance ().SaveDialog (dialog);
 
-				if (dialog.DialogType == DialogType.Private)
-					m.ID = Database.Instance ().SaveMessage (m);
+				try {
+					var encodedMessage = System.Net.WebUtility.UrlEncode(message);
+					privateChatManager.SendMessage(encodedMessage);
+				} catch (Exception ex) {
+					await App.Current.MainPage.DisplayAlert ("Error", ex.ToString (), "Ok");
+				}
 
-					dialog.LastMessage = m.Text;
-					dialog.LastMessageSent = DateTime.UtcNow;
-					Database.Instance ().SaveDialog (dialog);
-
-					try {
-						var chatMessageExtraParameter = new ChatMessageExtraParameter (dialogId, true);
-
-					if (dialog.DialogType == DialogType.Private){
-							var opponentId = dialog.OccupantIds.Split (',').Select (Int32.Parse).First (id => id != App.QbProvider.UserId);
-							App.QbProvider.GetXmppClient ().SendMessage (opponentId, message, chatMessageExtraParameter.Build(), dialogId, null);
-					}
-					if (dialog.DialogType == DialogType.Group){
-						App.QbProvider.GetXmppClient ().SendMessage (dialog.XmppRoomJid, message, chatMessageExtraParameter.Build(), dialogId, null, MessageType.Groupchat);
-					}
-					} catch (Exception ex) {
-						await App.Current.MainPage.DisplayAlert ("Error", ex.ToString(), "Ok");
-					}
-
-					messageEntry.Text = "";
-				//}
-            }
-        }
+				messageEntry.Text = "";
+			}
+		}
 
         public void OnMessagesChanged()
         {
