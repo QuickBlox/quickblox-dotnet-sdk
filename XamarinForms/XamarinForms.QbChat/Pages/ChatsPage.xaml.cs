@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Quickblox.Sdk.Modules.ChatXmppModule.ExtraParameters;
 using System.Collections.Generic;
+using Quickblox.Sdk.Modules.ChatModule.Models;
 
 namespace XamarinForms.QbChat.Pages
 {
@@ -61,10 +62,13 @@ namespace XamarinForms.QbChat.Pages
 				var dialogs = await App.QbProvider.GetDialogsAsync ();
 				var sorted = dialogs.Where (d => d.LastMessageSent != null).OrderByDescending (d => d.LastMessageSent.Value).Concat (dialogs.Where (d => d.LastMessageSent == null)).ToList ();
 
-				var groupDialogs = dialogs.Where(d => d.DialogType == Quickblox.Sdk.Modules.ChatModule.Models.DialogType.Group).ToList();
-				foreach (var groupDialog in groupDialogs) {
-					var groupdManager =App.QbProvider.GetXmppClient().GetGroupChatManager(groupDialog.XmppRoomJid, groupDialog.DialogId);
-					groupdManager.JoinGroup(App.QbProvider.UserId.ToString());
+				foreach (var dialog in sorted) {
+					if (dialog.DialogType == DialogType.Group){
+						var groupdManager =App.QbProvider.GetXmppClient().GetGroupChatManager(dialog.XmppRoomJid, dialog.DialogId);
+						groupdManager.JoinGroup(App.QbProvider.UserId.ToString());
+					}
+
+					dialog.LastMessage = System.Net.WebUtility.UrlDecode (dialog.LastMessage);
 				}
 
 				Device.BeginInvokeOnMainThread(() => {
@@ -91,7 +95,7 @@ namespace XamarinForms.QbChat.Pages
 
 		private void InitializeDialogsList (List<DialogTable> sorted)
 		{
-			var template = new DataTemplate (typeof(TextCell));
+			var template = new DataTemplate (typeof(ChatCell));
 			template.SetBinding (TextCell.TextProperty, "Name");
 			template.SetBinding (TextCell.DetailProperty, "LastMessage");
 			listView.ItemTemplate = template;

@@ -49,9 +49,9 @@ namespace XamarinForms.QbChat.Pages
 			privateChatManager = App.QbProvider.GetXmppClient ().GetPrivateChatManager (opponentId, dialogId);
 
             chatNameLabel.Text = dialog.Name;
-			chatPhotoImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("ic_user.png"),
-				Android: ImageSource.FromFile ("ic_user.png"),
-				WinPhone: ImageSource.FromFile ("Images/ic_user.png"));
+			chatPhotoImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("privateholder.png"),
+				Android: ImageSource.FromFile ("privateholder.png"),
+				WinPhone: ImageSource.FromFile ("privateholder.png"));
 			
 			var users = await App.QbProvider.GetUsersByIdsAsync (dialog.OccupantIds);
 			opponentUser = users.FirstOrDefault();
@@ -89,9 +89,8 @@ namespace XamarinForms.QbChat.Pages
 
                 Database.Instance().SaveAllMessages(dialogId, messages);
 
-				var template = new DataTemplate (typeof(TextCell));
-				template.SetBinding (ImageCell.TextProperty, "RecepientFullName");
-				template.SetBinding (ImageCell.DetailProperty, "Text");
+				var template = new DataTemplate (typeof(MessageCell));
+				listView.HasUnevenRows = true;
 				listView.ItemTemplate = template;
 				var sorted = messages.OrderBy(d => d.DateSent);
 				listView.ItemsSource = sorted;

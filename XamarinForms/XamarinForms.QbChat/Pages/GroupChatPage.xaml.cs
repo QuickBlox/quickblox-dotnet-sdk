@@ -44,9 +44,9 @@ namespace XamarinForms.QbChat
 
 
 			chatNameLabel.Text = dialog.Name;
-			chatPhotoImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("ic_user.png"),
-				Android: ImageSource.FromFile ("ic_user.png"),
-				WinPhone: ImageSource.FromFile ("Images/ic_user.png"));
+			chatPhotoImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("groupholder.png"),
+				Android: ImageSource.FromFile ("groupholder.png"),
+				WinPhone: ImageSource.FromFile ("groupholder.png"));
 
 			opponentUsers = await App.QbProvider.GetUsersByIdsAsync (dialog.OccupantIds);
 			if (!string.IsNullOrEmpty (dialog.Photo)) {
@@ -80,10 +80,9 @@ namespace XamarinForms.QbChat
 
 				Database.Instance().SaveAllMessages(dialogId, messages);
 
-				var template = new DataTemplate (typeof(TextCell));
-				template.SetBinding (ImageCell.TextProperty, "RecepientFullName");
-				template.SetBinding (ImageCell.DetailProperty, "Text");
+				var template = new DataTemplate (typeof(MessageCell));
 				listView.ItemTemplate = template;
+				listView.HasUnevenRows = true;
 				var sorted = messages.OrderBy(d => d.DateSent);
 				listView.ItemsSource = sorted;
 
@@ -104,24 +103,9 @@ namespace XamarinForms.QbChat
 
 		private async void SendClicked(object sender, EventArgs e)
 		{
-			//			if (dialog != null && 
-			//				(dialog.DialogType == DialogType.Group ||
-			//				 dialog.DialogType == DialogType.PublicGroup)) {
-			//				await App.Current.MainPage.DisplayAlert ("Error", "Comming soon. Use private chat for testing.", "Ok");
-			//				return;
-			//			}
-
 			var message = messageEntry.Text != null ? messageEntry.Text.Trim() : string.Empty;
 			if (!string.IsNullOrEmpty(message))
 			{
-//if (dialog.DialogType == DialogType.Private) {
-//				var m = new MessageTable ();
-//				m.SenderId = (int)App.QbProvider.UserId;
-//				m.Text = message;
-//				m.DialogId = dialogId;
-//				m.RecepientFullName = "Me";
-//				m.DateSent = DateTime.UtcNow.Ticks / 1000;
-
 				dialog.LastMessage = message;
 				dialog.LastMessageSent = DateTime.UtcNow;
 				Database.Instance ().SaveDialog (dialog);
@@ -134,7 +118,6 @@ namespace XamarinForms.QbChat
 				}
 
 				messageEntry.Text = "";
-				//}
 			}
 		}
 
