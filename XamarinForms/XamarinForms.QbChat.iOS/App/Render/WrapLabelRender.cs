@@ -1,5 +1,4 @@
-﻿using System;
-using Xamarin.Forms.Platform.iOS;
+﻿using Xamarin.Forms.Platform.iOS;
 using XamarinForms.QbChat;
 using XamarinForms.QbChat.iOS;
 using Xamarin.Forms;

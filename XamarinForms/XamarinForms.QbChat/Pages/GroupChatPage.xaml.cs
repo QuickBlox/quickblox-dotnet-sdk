@@ -6,7 +6,7 @@ using XamarinForms.QbChat.Repository;
 using Quickblox.Sdk.Modules.UsersModule.Models;
 using System.Linq;
 
-namespace XamarinForms.QbChat
+namespace XamarinForms.QbChat.Pages
 {
 	public partial class GroupChatPage : ContentPage
 	{
@@ -121,17 +121,34 @@ namespace XamarinForms.QbChat
 			}
 		}
 
+		public void ChangeListViewHeight(double changedSize, bool scale){
+
+			if (scale)
+				listView.HeightRequest = listView.Height - changedSize;
+			else
+				listView.HeightRequest = listView.Height + changedSize;
+		}
+
+		public void ScrollList ()
+		{
+			var sorted = listView.ItemsSource as List<MessageTable>;
+			try {
+				if (sorted != null && sorted.Count > 10) {
+					listView.ScrollTo (sorted [sorted.Count - 1], ScrollToPosition.End, false);
+				}
+			}
+			catch (Exception ex) {
+			}
+		}
+
 		public void OnMessagesChanged()
 		{
 			var messages = Database.Instance().GetMessages(dialogId);
 			var sorted = messages.OrderBy(d => d.DateSent).ToList();
 			Device.BeginInvokeOnMainThread (() =>
-				{ listView.ItemsSource = sorted;
-					try {
-						if (messages != null && messages.Count > 10)
-							listView.ScrollTo (sorted [sorted.Count - 1], ScrollToPosition.Start, false);
-					} catch (Exception ex) {
-					}
+				{ 
+					listView.ItemsSource = sorted;
+					ScrollList ();
 				}
 			);
 		}
