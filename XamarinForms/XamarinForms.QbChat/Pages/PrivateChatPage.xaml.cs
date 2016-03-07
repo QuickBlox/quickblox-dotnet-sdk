@@ -89,9 +89,9 @@ namespace XamarinForms.QbChat.Pages
 
                 Database.Instance().SaveAllMessages(dialogId, messages);
 
-				var template = new DataTemplate (typeof(MessageCell));
+				//var template = new DataTemplate (typeof(MessageCell));
 				listView.HasUnevenRows = true;
-				listView.ItemTemplate = template;
+				//listView.ItemTemplate = template;
 				var sorted = messages.OrderBy(d => d.DateSent);
 				listView.ItemsSource = sorted;
 

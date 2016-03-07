@@ -22,7 +22,22 @@ Title="Group Chat" xmlns:local="clr-namespace:XamarinForms.QbChat;assembly=Xamar
 
         </Grid>
         <Grid Grid.Row="1" Padding="0,6">
-	        <ListView x:Name="listView" />
+	        <ListView x:Name="listView" >
+	         <ListView.ItemTemplate>
+			    <DataTemplate>
+			      <ViewCell>
+			        <Grid Padding="20,0,0,0">
+			            <Grid.RowDefinitions>
+			              <RowDefinition Height="Auto" />
+			              <RowDefinition Height="*" />
+			            </Grid.RowDefinitions>
+			            <Label Text="{Binding RecepientFullName}" FontSize="Small" TextColor="#01B6FF" LineBreakMode="WordWrap" />
+			            <local:WrapLabel Text="{Binding Text}" FontSize="Small" Grid.Row="1" />
+			        </Grid>
+			      </ViewCell>
+			    </DataTemplate>
+			  </ListView.ItemTemplate>
+	        </ListView>
 
 	    	<ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="false" />
         </Grid>
