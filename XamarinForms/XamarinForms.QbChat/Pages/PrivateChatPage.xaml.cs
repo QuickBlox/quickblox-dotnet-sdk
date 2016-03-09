@@ -27,6 +27,8 @@ namespace XamarinForms.QbChat.Pages
         {
             InitializeComponent();
             this.dialogId = dialogId;
+
+			listView.ItemTapped += (object sender, ItemTappedEventArgs e) => ((ListView)sender).SelectedItem = null;
         }
 
 		protected override void OnDisappearing ()
@@ -54,7 +56,7 @@ namespace XamarinForms.QbChat.Pages
 				WinPhone: ImageSource.FromFile ("privateholder.png"));
 			
 			var users = await App.QbProvider.GetUsersByIdsAsync (dialog.OccupantIds);
-			opponentUser = users.FirstOrDefault();
+			opponentUser = users.FirstOrDefault (u => u.Id != App.QbProvider.UserId);
 			if (opponentUser != null && opponentUser.BlobId.HasValue)
 			{
 				App.QbProvider.GetImageAsync (opponentUser.BlobId.Value).ContinueWith ((task, result) => {
@@ -85,12 +87,14 @@ namespace XamarinForms.QbChat.Pages
 							message.RecepientFullName = opponentUser.FullName;
 						}
 					}
+
+					message.Text = System.Net.WebUtility.UrlDecode (message.Text);
 				}
 
                 Database.Instance().SaveAllMessages(dialogId, messages);
 
 				//var template = new DataTemplate (typeof(MessageCell));
-				listView.HasUnevenRows = true;
+				//listView.HasUnevenRows = true;
 				//listView.ItemTemplate = template;
 				var sorted = messages.OrderBy(d => d.DateSent);
 				listView.ItemsSource = sorted;
@@ -119,7 +123,7 @@ namespace XamarinForms.QbChat.Pages
 				m.Text = message;
 				m.DialogId = dialogId;
 				m.RecepientFullName = "Me";
-				m.DateSent = DateTime.UtcNow.Ticks / 1000;
+				m.DateSent = DateTime.UtcNow.Ticks / 10000000;
 				m.ID = Database.Instance ().SaveMessage (m);
 
 				dialog.LastMessage = m.Text;

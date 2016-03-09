@@ -39,7 +39,10 @@ namespace XamarinForms.QbChat.Pages
 				if (result){
 					try {
 						Database.Instance().ResetAll();
+						App.UserLogin = 0;
+						App.UserPassword = null;
 						DisconnectToXmpp();
+						Database.Instance().UnSubscribeForDialogs(OnDialogsChanged);
 					} catch (Exception ex) {
 					}
 					finally{
@@ -51,6 +54,8 @@ namespace XamarinForms.QbChat.Pages
 			Task.Factory.StartNew (async () => {
 				if (user == null && App.QbProvider.UserId != 0) {
 					user = await App.QbProvider.GetUserAsync (App.QbProvider.UserId);
+					App.UserLogin = user.Id;
+					App.UserPassword = user.Login;
 				}
 
 				try {
@@ -89,8 +94,6 @@ namespace XamarinForms.QbChat.Pages
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-			Database.Instance().UnSubscribeForDialogs(OnDialogsChanged);
-
         }
 
 		private void InitializeDialogsList (List<DialogTable> sorted)
@@ -146,7 +149,7 @@ namespace XamarinForms.QbChat.Pages
                 App.QbProvider.GetXmppClient().ErrorReceived -= OnError;
                 App.QbProvider.GetXmppClient().ErrorReceived += OnError;
 
-                App.QbProvider.GetXmppClient().StatusChanged += OnStatusChanged;
+                App.QbProvider.GetXmppClient().StatusChanged -= OnStatusChanged;
                 App.QbProvider.GetXmppClient().StatusChanged += OnStatusChanged;
 				App.QbProvider.GetXmppClient().Connect(userId, userPassword);
             }
@@ -168,9 +171,24 @@ namespace XamarinForms.QbChat.Pages
             Debug.WriteLine("Xmpp Status: " + statusEventArgs.Jid + " Status: " + statusEventArgs.Status.Availability);
         }
 
-        private void OnError(object sender, ErrorEventArgs errorsEventArgs)
+        private async void OnError(object sender, ErrorEventArgs errorsEventArgs)
         {
             Debug.WriteLine("Xmpp Error: " + errorsEventArgs.Exception + " Reason: " + errorsEventArgs.Reason);
+
+
+			// Reconecting:
+			while (!App.QbProvider.GetXmppClient ().IsConnected) {
+				bool isWait = false;
+				try {
+					App.QbProvider.GetXmppClient ().Connect(App.UserLogin, App.UserPassword);
+				} catch (Exception ex) {
+					isWait = true;
+				}
+
+				if (isWait) {
+					await Task.Delay(3000);
+				}
+			}
         }
 
         private async void OnMessageReceived(object sender, MessageEventArgs messageEventArgs)

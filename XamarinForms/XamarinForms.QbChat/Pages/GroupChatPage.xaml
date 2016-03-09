@@ -22,7 +22,7 @@ Title="Group Chat" xmlns:local="clr-namespace:XamarinForms.QbChat;assembly=Xamar
 
         </Grid>
         <Grid Grid.Row="1" Padding="0,6">
-	        <ListView x:Name="listView" >
+	        <ListView x:Name="listView" HasUnevenRows="true">
 	         <ListView.ItemTemplate>
 			    <DataTemplate>
 			      <ViewCell>

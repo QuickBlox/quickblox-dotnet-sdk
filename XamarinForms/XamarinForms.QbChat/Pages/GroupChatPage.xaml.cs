@@ -22,6 +22,8 @@ namespace XamarinForms.QbChat.Pages
 		{
 			InitializeComponent();
 			this.dialogId = dialogId;
+
+			listView.ItemTapped += (object sender, ItemTappedEventArgs e) => ((ListView)sender).SelectedItem = null;
 		}
 
 		protected override void OnDisappearing ()
@@ -119,14 +121,6 @@ namespace XamarinForms.QbChat.Pages
 
 				messageEntry.Text = "";
 			}
-		}
-
-		public void ChangeListViewHeight(double changedSize, bool scale){
-
-			if (scale)
-				listView.HeightRequest = listView.Height - changedSize;
-			else
-				listView.HeightRequest = listView.Height + changedSize;
 		}
 
 		public void ScrollList ()

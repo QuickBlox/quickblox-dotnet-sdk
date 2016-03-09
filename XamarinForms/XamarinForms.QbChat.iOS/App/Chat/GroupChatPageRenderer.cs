@@ -69,9 +69,6 @@ namespace XamarinForms.QbChat.iOS
 			page.Layout (new Rectangle (0, 0, frame.Width, frame.Height));
 			page.ForceLayout ();
 			View.Frame = frame;
-
-			page.ChangeListViewHeight (_scrollAmount, scale);
-			page.ScrollList();
 		}
 
 		public override void ViewDidDisappear (bool animated)

@@ -3,6 +3,7 @@ using System.Linq;
 using XamarinForms.QbChat.Pages;
 using XamarinForms.QbChat.Repository;
 using Xamarin.Forms;
+using Quickblox.Sdk.Modules.ChatXmppModule;
 
 namespace XamarinForms.QbChat
 {
@@ -11,6 +12,16 @@ namespace XamarinForms.QbChat
         public static QbProvider QbProvider { get; set; }
         public static INavigation Navigation { get; set; }
         public static Action<string> LogConsole;
+
+		public static int UserLogin {
+			get;
+			set;
+		}
+
+		public static string UserPassword {
+			get;
+			set;
+		}
         
 		public static string Version {
 			get;
