@@ -116,7 +116,11 @@ namespace XamarinForms.QbChat.Pages
 					var encodedMessage = System.Net.WebUtility.UrlEncode(message);
 					groupChatManager.SendMessage(encodedMessage);
 				} catch (Exception ex) {
-					await App.Current.MainPage.DisplayAlert ("Error", ex.ToString(), "Ok");
+					this.busyIndicator.IsVisible = true;
+					App.QbProvider.GetXmppClient ().Connect (App.UserLogin, App.UserPassword);
+					this.busyIndicator.IsVisible = false;
+					return;
+					//await App.Current.MainPage.DisplayAlert ("Error", ex.ToString(), "Ok");
 				}
 
 				messageEntry.Text = "";

@@ -17,6 +17,7 @@ namespace XamarinForms.QbChat.Pages
     {
 		Quickblox.Sdk.Modules.UsersModule.Models.User user;
 		private bool isLoaded;
+		private bool isLogoutClicked;
 
 		public ChatsPage()
         {
@@ -38,11 +39,12 @@ namespace XamarinForms.QbChat.Pages
 				var result = await DisplayAlert("Logout", "Do you really want to logout?", "Ok", "Cancel");
 				if (result){
 					try {
+						Database.Instance().UnSubscribeForDialogs(OnDialogsChanged);
+						isLogoutClicked = true;
 						Database.Instance().ResetAll();
 						App.UserLogin = 0;
 						App.UserPassword = null;
 						DisconnectToXmpp();
-						Database.Instance().UnSubscribeForDialogs(OnDialogsChanged);
 					} catch (Exception ex) {
 					}
 					finally{
@@ -175,11 +177,13 @@ namespace XamarinForms.QbChat.Pages
         {
             Debug.WriteLine("Xmpp Error: " + errorsEventArgs.Exception + " Reason: " + errorsEventArgs.Reason);
 
-
 			// Reconecting:
 			while (!App.QbProvider.GetXmppClient ().IsConnected) {
 				bool isWait = false;
 				try {
+					// Logout action
+					if (isLogoutClicked)
+						return;
 					App.QbProvider.GetXmppClient ().Connect(App.UserLogin, App.UserPassword);
 				} catch (Exception ex) {
 					isWait = true;
