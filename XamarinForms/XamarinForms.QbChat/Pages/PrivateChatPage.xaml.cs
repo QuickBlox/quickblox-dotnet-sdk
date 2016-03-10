@@ -123,7 +123,10 @@ namespace XamarinForms.QbChat.Pages
 				m.Text = message;
 				m.DialogId = dialogId;
 				m.RecepientFullName = "Me";
-				m.DateSent = DateTime.UtcNow.Ticks / 10000000;
+
+				long unixTimestamp = DateTime.UtcNow.Ticks - new DateTime(1970, 1, 1).Ticks;
+				unixTimestamp /= TimeSpan.TicksPerSecond;
+				m.DateSent = unixTimestamp;
 				m.ID = Database.Instance ().SaveMessage (m);
 
 				dialog.LastMessage = m.Text;

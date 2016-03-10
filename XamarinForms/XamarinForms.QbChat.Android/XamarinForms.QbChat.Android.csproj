@@ -87,10 +87,10 @@
       <HintPath>..\..\packages\Xamarin.Forms.2.1.0.6524\lib\MonoAndroid10\Xamarin.Forms.Platform.dll</HintPath>
     </Reference>
     <Reference Include="Quickblox.Sdk.Xamarin">
-      <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.3\lib\MonoAndroid\Quickblox.Sdk.Xamarin.dll</HintPath>
+      <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.7\lib\MonoAndroid\Quickblox.Sdk.Xamarin.dll</HintPath>
     </Reference>
     <Reference Include="Sharp.Xmpp">
-      <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.3\lib\MonoAndroid\Sharp.Xmpp.dll</HintPath>
+      <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.7\lib\MonoAndroid\Sharp.Xmpp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
