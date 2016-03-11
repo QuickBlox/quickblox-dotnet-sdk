@@ -245,17 +245,19 @@ namespace XamarinForms.QbChat
 			return null;
 		}
 
-		public async Task<List<DialogTable>> GetDialogsAsync()
+		public async Task<List<DialogTable>> GetDialogsAsync(List<DialogType> dialogTypeParams)
 		{
 			var dialogs = new List<DialogTable> ();
 			var retrieveDialogsRequest = new RetrieveDialogsRequest();
 
 			//TODO: change limit
 			retrieveDialogsRequest.Limit = 25;
-			var filterAgreaggator = new FilterAggregator ();
-			filterAgreaggator.Filters.Add(new FieldFilterWithOperator<int>(SearchOperators.In, () => new DialogResponse().Type , (int)DialogType.Group + "," + (int)DialogType.Private ));
-			retrieveDialogsRequest.Filter = filterAgreaggator;
-
+			if (dialogTypeParams != null) {
+				var filterAgreaggator = new FilterAggregator ();
+				var dialogTypes = string.Join (",", dialogTypeParams.Select(type => (int)type));
+				filterAgreaggator.Filters.Add (new FieldFilterWithOperator<int> (SearchOperators.In, () => new DialogResponse ().Type, dialogTypes));
+				retrieveDialogsRequest.Filter = filterAgreaggator;
+			}
 			var response = await client.ChatClient.GetDialogsAsync(retrieveDialogsRequest);
 			if (await HandleResponse(response, HttpStatusCode.OK)) {
 				dialogs = response.Result.Items.Select(d => new DialogTable(d)).ToList();

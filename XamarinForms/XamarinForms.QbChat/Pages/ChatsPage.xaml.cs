@@ -66,7 +66,7 @@ namespace XamarinForms.QbChat.Pages
 				} catch (Exception ex) {
 				}
 
-				var dialogs = await App.QbProvider.GetDialogsAsync ();
+				var dialogs = await App.QbProvider.GetDialogsAsync (new List<DialogType>() { DialogType.Private, DialogType.Group });
 				var sorted = dialogs.Where (d => d.LastMessageSent != null).OrderByDescending (d => d.LastMessageSent.Value).Concat (dialogs.Where (d => d.LastMessageSent == null)).ToList ();
 
 				foreach (var dialog in sorted) {
@@ -177,22 +177,7 @@ namespace XamarinForms.QbChat.Pages
         {
             Debug.WriteLine("Xmpp Error: " + errorsEventArgs.Exception + " Reason: " + errorsEventArgs.Reason);
 
-			// Reconecting:
-			while (!App.QbProvider.GetXmppClient ().IsConnected) {
-				bool isWait = false;
-				try {
-					// Logout action
-					if (isLogoutClicked)
-						return;
-					App.QbProvider.GetXmppClient ().Connect(App.UserLogin, App.UserPassword);
-				} catch (Exception ex) {
-					isWait = true;
-				}
-
-				if (isWait) {
-					await Task.Delay(3000);
-				}
-			}
+			Reconnect ();
         }
 
         private async void OnMessageReceived(object sender, MessageEventArgs messageEventArgs)
@@ -249,5 +234,31 @@ namespace XamarinForms.QbChat.Pages
 
 			Database.Instance().SaveMessage(messageTable);
         }
+
+		async void Reconnect ()
+		{
+			// Reconecting:
+			while (!App.QbProvider.GetXmppClient ().IsConnected) {
+				bool isWait = false;
+				try {
+					// Logout action
+					if (isLogoutClicked)
+						return;
+					App.QbProvider.GetXmppClient ().Connect (App.UserLogin, App.UserPassword);
+
+					var dialogs = await App.QbProvider.GetDialogsAsync (new List<DialogType>() { DialogType.Group });
+					foreach (var dialog in dialogs) {
+						var groupdManager =App.QbProvider.GetXmppClient().GetGroupChatManager(dialog.XmppRoomJid, dialog.DialogId);
+						groupdManager.JoinGroup(App.QbProvider.UserId.ToString());
+					}
+				}
+				catch (Exception ex) {
+					isWait = true;
+				}
+				if (isWait) {
+					await Task.Delay (3000);
+				}
+			}
+		}
     }
 }
