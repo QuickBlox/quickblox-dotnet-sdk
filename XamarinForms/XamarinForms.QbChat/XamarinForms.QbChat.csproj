@@ -66,6 +66,9 @@
     <Compile Include="Controls\ChatCell.cs" />
     <Compile Include="Controls\MessageCell.cs" />
     <Compile Include="Controls\WrapLabel.cs" />
+    <Compile Include="Pages\CreateDialogPage.xaml.cs">
+      <DependentUpon>CreateDialogPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="bouncy_castle_hmac_sha_pcl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
@@ -105,6 +108,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\GroupChatPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\CreateDialogPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

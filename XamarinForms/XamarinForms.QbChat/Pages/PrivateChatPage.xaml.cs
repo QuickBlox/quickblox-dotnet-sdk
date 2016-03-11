@@ -138,8 +138,15 @@ namespace XamarinForms.QbChat.Pages
 					privateChatManager.SendMessage(encodedMessage);
 				} catch (Exception ex) {
 					this.busyIndicator.IsVisible = true;
-					App.QbProvider.GetXmppClient ().Connect (App.UserLogin, App.UserPassword);
-					this.busyIndicator.IsVisible = false;
+					try {
+						App.QbProvider.GetXmppClient ().Connect (App.UserLogin, App.UserPassword);
+					} catch (Exception ex2) {
+						App.Current.MainPage.DisplayAlert ("Error", "Please, check your internet connection", "Ok");
+					}
+					finally{
+						this.busyIndicator.IsVisible = false;
+					}
+
 					return;
 					//await App.Current.MainPage.DisplayAlert ("Error", ex.ToString (), "Ok");
 				}
