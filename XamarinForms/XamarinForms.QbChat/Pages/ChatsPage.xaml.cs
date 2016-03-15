@@ -22,6 +22,39 @@ namespace XamarinForms.QbChat.Pages
 		public ChatsPage()
         {
             InitializeComponent();
+
+			ToolbarItems.Clear ();
+
+			var logoutItem = new ToolbarItem ("Logout", null, async () => {
+				var result = await DisplayAlert ("Logout", "Do you really want to logout?", "Ok", "Cancel");
+				if (result) {
+					try {
+						Database.Instance ().UnSubscribeForDialogs (OnDialogsChanged);
+						isLogoutClicked = true;
+						Database.Instance ().ResetAll ();
+						App.UserLogin = 0;
+						App.UserPassword = null;
+						DisconnectToXmpp ();
+					} catch (Exception ex) {
+					} finally {
+						App.SetLoginPage ();
+					}
+				}
+			});
+
+			var createNewChat = new ToolbarItem ("New Chat", null, async () => {
+				App.Navigation.PushAsync (new CreateDialogPage ());
+			});
+
+			if (Device.OS == TargetPlatform.Android) {
+				logoutItem.Order = ToolbarItemOrder.Secondary;
+				createNewChat.Order = ToolbarItemOrder.Secondary;
+			} else if (Device.OS == TargetPlatform.iOS) {
+				logoutItem.Order = ToolbarItemOrder.Primary;
+			}
+
+			ToolbarItems.Add (createNewChat);
+			ToolbarItems.Add (logoutItem);
         }
 
         protected override async void OnAppearing()
@@ -34,28 +67,13 @@ namespace XamarinForms.QbChat.Pages
 
 			busyIndicator.IsVisible = true; 
 
-			ToolbarItems.Clear ();
-			ToolbarItems.Add (new ToolbarItem ("Logout", "ic_action_logout.png", async () => {
-				var result = await DisplayAlert("Logout", "Do you really want to logout?", "Ok", "Cancel");
-				if (result){
-					try {
-						Database.Instance().UnSubscribeForDialogs(OnDialogsChanged);
-						isLogoutClicked = true;
-						Database.Instance().ResetAll();
-						App.UserLogin = 0;
-						App.UserPassword = null;
-						DisconnectToXmpp();
-					} catch (Exception ex) {
-					}
-					finally{
-						App.SetLoginPage();
-					}
-				}
-			}));
-
 			Task.Factory.StartNew (async () => {
 				if (user == null && App.QbProvider.UserId != 0) {
 					user = await App.QbProvider.GetUserAsync (App.QbProvider.UserId);
+					Device.BeginInvokeOnMainThread(() => {
+						Title = string.Format("Logged In as {0}", user.FullName);
+					});
+
 					App.UserLogin = user.Id;
 					App.UserPassword = user.Login;
 				}
@@ -79,10 +97,10 @@ namespace XamarinForms.QbChat.Pages
 				}
 
 				Device.BeginInvokeOnMainThread(() => {
-					if (myProfileImage.Source == null) {
-						myNameLabel.Text = user.FullName;
-						InitializeProfilePhoto ();
-					}
+//					if (myProfileImage.Source == null) {
+//						myNameLabel.Text = user.FullName;
+//						InitializeProfilePhoto ();
+//					}
 
 					InitializeDialogsList (sorted);
 
@@ -109,17 +127,17 @@ namespace XamarinForms.QbChat.Pages
 			Database.Instance ().SaveAllDialogs (sorted);
 		}
 
-		private void InitializeProfilePhoto ()
-		{
-			myProfileImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("ic_user.png"), Android: ImageSource.FromFile ("ic_user.png"), WinPhone: ImageSource.FromFile ("Images/ic_user.png"));
-			if (user.BlobId.HasValue) {
-				App.QbProvider.GetImageAsync (user.BlobId.Value).ContinueWith ((task, result) =>  {
-					var bytes = task.ConfigureAwait (true).GetAwaiter ().GetResult ();
-					if (bytes != null)
-						Device.BeginInvokeOnMainThread (() => myProfileImage.Source = ImageSource.FromStream (() => new MemoryStream (bytes)));
-				}, TaskScheduler.FromCurrentSynchronizationContext ());
-			}
-		}
+//		private void InitializeProfilePhoto ()
+//		{
+//			myProfileImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("ic_user.png"), Android: ImageSource.FromFile ("ic_user.png"), WinPhone: ImageSource.FromFile ("Images/ic_user.png"));
+//			if (user.BlobId.HasValue) {
+//				App.QbProvider.GetImageAsync (user.BlobId.Value).ContinueWith ((task, result) =>  {
+//					var bytes = task.ConfigureAwait (true).GetAwaiter ().GetResult ();
+//					if (bytes != null)
+//						Device.BeginInvokeOnMainThread (() => myProfileImage.Source = ImageSource.FromStream (() => new MemoryStream (bytes)));
+//				}, TaskScheduler.FromCurrentSynchronizationContext ());
+//			}
+//		}
 
         private void OnDialogsChanged()
         {

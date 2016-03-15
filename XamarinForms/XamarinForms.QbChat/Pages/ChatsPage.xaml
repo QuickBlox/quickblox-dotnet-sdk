@@ -1,14 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="XamarinForms.QbChat.Pages.ChatsPage"
-             Title="Chats">
+             x:Class="XamarinForms.QbChat.Pages.ChatsPage">
      <Grid>
-     <Grid.RowDefinitions>
-	     <RowDefinition Height="120"/>
-	     <RowDefinition />
-     </Grid.RowDefinitions>
-         <Grid HeightRequest="2" BackgroundColor="Black" VerticalOptions="Start" />
+	     <Grid.RowDefinitions>
+		     <RowDefinition Height="Auto"/>
+		     <RowDefinition Height="*"/>
+	     </Grid.RowDefinitions>
+	     <StackLayout Padding="18">
+	     	<Label Text="Select a dialog to chat" FontSize="18"/>
+	     </StackLayout>
+
+<!--         <Grid HeightRequest="2" BackgroundColor="Black" VerticalOptions="Start" />
           <StackLayout>
          	 <StackLayout  Padding="18,12,0,0">
             	<Label Text="My Profile" FontSize="22" HorizontalTextAlignment="Start"/>
@@ -27,12 +30,12 @@
 	            </StackLayout>
 	            </Grid>
             </StackLayout>
-        <Grid HeightRequest="2" BackgroundColor="Black" VerticalOptions="End" />
-	     
-	    <ListView x:Name="listView" Grid.Row="1" />
+        <Grid HeightRequest="2" BackgroundColor="Black" VerticalOptions="End" />-->
 
-	    <ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="false" Grid.RowSpan="2"/>
+        <Grid Grid.Row="1">
+		    <ListView x:Name="listView" VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand"/>
 
-	    <Button Grid.Row="1" x:Name="CreateGroupChat" Text="Create Group chat" HeightRequest="80" HorizontalOptions="End" IsVisible="false"/>
+		    <ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="false" />
+	    </Grid>
     </Grid>
 </ContentPage>
