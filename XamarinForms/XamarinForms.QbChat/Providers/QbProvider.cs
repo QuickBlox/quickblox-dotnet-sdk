@@ -50,6 +50,16 @@ namespace XamarinForms.QbChat
             return client.ChatXmppClient;
         }
 
+		public async Task<bool> GetBaseSession ()
+		{
+			var sessionResponse = await this.client.AuthenticationClient.CreateSessionBaseAsync (); 
+			if (await HandleResponse(sessionResponse, HttpStatusCode.Created)){
+				return true;
+			}
+
+			return false;
+		}
+
 		public async Task<int> LoginWithEmailAsync(string email, string password){
 			var sessionResponse = await this.client.AuthenticationClient.CreateSessionWithEmailAsync (email, password); 
 			if (await HandleResponse(sessionResponse, HttpStatusCode.Created)){
@@ -101,6 +111,15 @@ namespace XamarinForms.QbChat
 			return 0;
 		}
 
+		public async Task<List<Quickblox.Sdk.Modules.UsersModule.Models.User>> GetUserByTag(String tag)
+		{
+			var usersResponse = await this.client.UsersClient.GetUserByTagsAsync (new string[] { tag }, 1, 100);
+			if (usersResponse.StatusCode == HttpStatusCode.OK) {
+				return usersResponse.Result.Items.Select(userResponse => userResponse.User).ToList();
+			} 
+
+			return new List<Quickblox.Sdk.Modules.UsersModule.Models.User> ();
+		}
 
 		private async Task<bool> HandleResponse(HttpResponse response, HttpStatusCode resultStatusCode)
 		{

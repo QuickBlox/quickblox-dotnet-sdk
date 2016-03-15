@@ -13,9 +13,11 @@ namespace XamarinForms.QbChat
 			InitializeComponent ();
 		}
 
-		protected override void OnAppearing ()
+		protected override async void OnAppearing ()
 		{
 			base.OnAppearing ();
+
+			this.busyIndicator.IsVisible = true;
 
 			var template = new DataTemplate (typeof(TextCell));
 			template.SetBinding (ImageCell.TextProperty, "Name");
@@ -24,7 +26,24 @@ namespace XamarinForms.QbChat
 			listView.ItemTapped += (object sender, ItemTappedEventArgs e) => {
 				Login(e.Item as DefaultUser);
 			};
-			InitDefault ();
+
+			Task.Factory.StartNew (async () => {
+				var list = new List<DefaultUser> ();
+				var baseSesionResult = await App.QbProvider.GetBaseSession();
+				if (baseSesionResult){
+					var users = await App.QbProvider.GetUserByTag("XamarinChat");
+					foreach (var user in users) {
+						list.Add (new DefaultUser () { Name = user.FullName, Login = user.Login, Password = user.Login });
+					}
+				}
+
+				Device.BeginInvokeOnMainThread(() => {
+					listView.ItemsSource = list;
+					this.busyIndicator.IsVisible = false;
+				});
+			});
+
+			//InitDefault ();
 		}
 
 		public void InitDefault(){

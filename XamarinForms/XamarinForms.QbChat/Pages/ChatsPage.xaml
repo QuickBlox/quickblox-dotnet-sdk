@@ -11,27 +11,6 @@
 	     	<Label Text="Select a dialog to chat" FontSize="18"/>
 	     </StackLayout>
 
-<!--         <Grid HeightRequest="2" BackgroundColor="Black" VerticalOptions="Start" />
-          <StackLayout>
-         	 <StackLayout  Padding="18,12,0,0">
-            	<Label Text="My Profile" FontSize="22" HorizontalTextAlignment="Start"/>
-            </StackLayout>
-		     <Grid>
-			      <Grid.ColumnDefinitions>
-	                <ColumnDefinition Width="80"/>
-	                <ColumnDefinition />
-	            </Grid.ColumnDefinitions>
-
-			     <StackLayout Padding="18,0,0,0">
-	            	<Image x:Name="myProfileImage" WidthRequest="75" HeightRequest="75" VerticalOptions="Start"/>
-	            </StackLayout>
-	            <StackLayout  Grid.Column="1" Padding="18,0,0,0">
-	            	<Label x:Name="myNameLabel" FontSize="22" HorizontalTextAlignment="Start"/>
-	            </StackLayout>
-	            </Grid>
-            </StackLayout>
-        <Grid HeightRequest="2" BackgroundColor="Black" VerticalOptions="End" />-->
-
         <Grid Grid.Row="1">
 		    <ListView x:Name="listView" VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand"/>
 
