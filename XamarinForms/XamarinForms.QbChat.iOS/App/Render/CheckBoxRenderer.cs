@@ -32,12 +32,13 @@ namespace XamarinForms.QbChat.iOS
 				if (Control == null)
 				{
 					var checkBox = new CheckBoxView (Bounds);
+					checkBox.VerticalAlignment = UIControlContentVerticalAlignment.Center;
 					checkBox.TouchUpInside += (s, args) => Element.Checked = Control.Checked;
 					defaultTextColor = checkBox.TitleColor(UIControlState.Normal);
 					SetNativeControl (checkBox);
 				}
 				Control.LineBreakMode = UILineBreakMode.CharacterWrap;
-				Control.VerticalAlignment = UIControlContentVerticalAlignment.Top;
+				Control.VerticalAlignment = UIControlContentVerticalAlignment.Center;
 				Control.CheckedTitle = string.IsNullOrEmpty (e.NewElement.CheckedText) ? e.NewElement.DefaultText : e.NewElement.CheckedText;
 				Control.UncheckedTitle = string.IsNullOrEmpty (e.NewElement.UncheckedText) ? e.NewElement.DefaultText : e.NewElement.UncheckedText;
 				Control.Checked = e.NewElement.Checked;
