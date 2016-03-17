@@ -9,7 +9,7 @@ namespace XamarinForms.QbChat.Repository
     public class DialogTable
     {
         private string lastMessage;
-        private DateTime? lastMessageSent;
+        private DateTime lastMessageSent;
         private string name;
         private ImageSource image;
 
@@ -26,7 +26,7 @@ namespace XamarinForms.QbChat.Repository
             LastMessageUserId = dialog.LastMessageUserId;
             LastMessageSent = dialog.LastMessageDateSent.HasValue
                 ? dialog.LastMessageDateSent.Value.ToDateTime()
-                : (DateTime?)null;
+				: DateTime.MinValue;
             LastMessage = dialog.LastMessage;
             UnreadMessageCount = dialog.UnreadMessagesCount;
             OccupantIds = String.Join(",", dialog.OccupantsIds);
@@ -57,7 +57,7 @@ namespace XamarinForms.QbChat.Repository
             set { lastMessage = value; }
         }
 
-        public DateTime? LastMessageSent
+        public DateTime LastMessageSent
         {
             get { return lastMessageSent; }
             set { lastMessageSent = value; }

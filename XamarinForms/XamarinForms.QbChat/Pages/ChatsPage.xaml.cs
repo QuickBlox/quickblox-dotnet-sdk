@@ -85,7 +85,7 @@ namespace XamarinForms.QbChat.Pages
 				}
 
 				var dialogs = await App.QbProvider.GetDialogsAsync (new List<DialogType>() { DialogType.Private, DialogType.Group });
-				var sorted = dialogs.Where (d => d.LastMessageSent != null).OrderByDescending (d => d.LastMessageSent.Value).Concat (dialogs.Where (d => d.LastMessageSent == null)).ToList ();
+				var sorted = dialogs.OrderByDescending (d => d.LastMessageSent).ToList ();
 
 				foreach (var dialog in sorted) {
 					if (dialog.DialogType == DialogType.Group){
@@ -143,7 +143,7 @@ namespace XamarinForms.QbChat.Pages
         {
             var dialogs = Database.Instance().GetDialogs();
 			Device.BeginInvokeOnMainThread (() =>{ 
-				var sorted = dialogs.OrderByDescending(d => d.LastMessageSent.Value).ToList();
+				var sorted = dialogs.OrderByDescending(d => d.LastMessageSent).ToList();
 				listView.ItemsSource = sorted;
 			});
         }

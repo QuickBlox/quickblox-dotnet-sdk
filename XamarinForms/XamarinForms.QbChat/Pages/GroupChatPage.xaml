@@ -25,7 +25,7 @@ Title="Group Chat" xmlns:local="clr-namespace:XamarinForms.QbChat;assembly=Xamar
 	        <ListView x:Name="listView" HasUnevenRows="true">
 	         <ListView.ItemTemplate>
 			    <DataTemplate>
-			      <ViewCell>
+			      <local:MessageCell>
 			        <Grid Padding="20,0,0,0">
 			            <Grid.RowDefinitions>
 			              <RowDefinition Height="Auto" />
@@ -34,7 +34,7 @@ Title="Group Chat" xmlns:local="clr-namespace:XamarinForms.QbChat;assembly=Xamar
 			            <Label Text="{Binding RecepientFullName}" FontSize="Small" TextColor="#01B6FF" LineBreakMode="WordWrap" />
 			            <local:WrapLabel Text="{Binding Text}" FontSize="Small" Grid.Row="1" />
 			        </Grid>
-			      </ViewCell>
+			      </local:MessageCell>
 			    </DataTemplate>
 			  </ListView.ItemTemplate>
 	        </ListView>
