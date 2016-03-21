@@ -27,8 +27,8 @@ namespace XamarinForms.QbChat.Pages
 
 			ToolbarItems.Clear ();
 
-			var logoutItem = new ToolbarItem ("Logout", null, async () => {
-				var result = await DisplayAlert ("Logout", "Do you really want to logout?", "Ok", "Cancel");
+			var logoutItem = new ToolbarItem ("Log Out", null, async () => {
+				var result = await DisplayAlert ("Log Out", "Do you really want to Log Out?", "Ok", "Cancel");
 				if (result) {
 					try {
 						Database.Instance ().UnSubscribeForDialogs (OnDialogsChanged);
@@ -73,7 +73,7 @@ namespace XamarinForms.QbChat.Pages
 				if (user == null && App.QbProvider.UserId != 0) {
 					user = await App.QbProvider.GetUserAsync (App.QbProvider.UserId);
 					Device.BeginInvokeOnMainThread(() => {
-						Title = string.Format("Logged In as {0}", user.FullName);
+						Title = user.FullName;
 					});
 
 					App.UserLogin = user.Id;
