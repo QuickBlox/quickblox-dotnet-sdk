@@ -10,6 +10,8 @@ using System.IO;
 using Quickblox.Sdk.Modules.ChatXmppModule.ExtraParameters;
 using System.Collections.Generic;
 using Quickblox.Sdk.Modules.ChatModule.Models;
+using Quickblox.Sdk.Modules.ChatXmppModule.Models;
+using Quickblox.Sdk.GeneralDataModel.Models;
 
 namespace XamarinForms.QbChat.Pages
 {
@@ -206,51 +208,76 @@ namespace XamarinForms.QbChat.Pages
 				dialog = await App.QbProvider.GetDialogAsync(messageEventArgs.Message.ChatDialogId);
 			}
 
-			var decodedMessage = System.Net.WebUtility.UrlDecode (messageEventArgs.Message.MessageText);
-			if (dialog != null)
-			{
-				dialog.LastMessage = decodedMessage;
-				dialog.LastMessageSent = DateTime.UtcNow;
+			if (messageEventArgs.MessageType == MessageType.Headline){
+				if(messageEventArgs.Message.NotificationType == NotificationTypes.GroupCreate) {
+					if (dialog != null) {
+						dialog.LastMessage = messageEventArgs.Message.MessageText;
+						dialog.LastMessageSent = DateTime.UtcNow;
+						Database.Instance().SaveDialog(dialog);
 
-				if (dialog.UnreadMessageCount != null)
-				{
-					dialog.UnreadMessageCount++;
+						var groupChatManager = App.QbProvider.GetXmppClient ().GetGroupChatManager (dialog.XmppRoomJid, dialog.DialogId);
+						groupChatManager.JoinGroup (App.QbProvider.UserId.ToString ());
+					}
 				}
-				else
-				{
-					dialog.UnreadMessageCount = 1;
-				}
-
-				Database.Instance().SaveDialog(dialog);
 			}
+			else{
+				string decodedMessage = System.Net.WebUtility.UrlDecode (messageEventArgs.Message.MessageText);
+				if (dialog != null)
+				{
+					dialog.LastMessage = decodedMessage;
+					dialog.LastMessageSent = DateTime.UtcNow;
 
-			var messageTable = new MessageTable ();
-			messageTable.SenderId = messageEventArgs.Message.SenderId;
-			messageTable.Text = decodedMessage;
-			messageTable.DialogId = messageEventArgs.Message.ChatDialogId;
-			messageTable.DateSent = messageEventArgs.Message.DateSent;
+					if (dialog.UnreadMessageCount != null)
+					{
+						dialog.UnreadMessageCount++;
+					}
+					else
+					{
+						dialog.UnreadMessageCount = 1;
+					}
 
-			if (messageTable.SenderId == App.QbProvider.UserId) {
-				messageTable.RecepientFullName = "Me";
-			} else {
-				var user = Database.Instance ().GetUser (messageTable.SenderId);
-				if (user == null) {
-					var userRespose = await App.QbProvider.GetUserAsync (messageTable.SenderId);
-					if (userRespose != null) {
-						user = new UserTable ();
-						user.FullName = userRespose.FullName;
-						user.UserId = userRespose.Id;
-						user.PhotoId = userRespose.BlobId.HasValue ? userRespose.BlobId.Value : 0;
-						Database.Instance ().SaveUser (user);
+					Database.Instance().SaveDialog(dialog);
+				}
 
+				var messageTable = new MessageTable ();
+				messageTable.SenderId = messageEventArgs.Message.SenderId;
+				messageTable.DialogId = messageEventArgs.Message.ChatDialogId;
+				messageTable.DateSent = messageEventArgs.Message.DateSent;
+
+				if(messageEventArgs.Message.NotificationType != 0){
+					if (messageEventArgs.Message.NotificationType == NotificationTypes.GroupUpdate) {
+						var users = await App.QbProvider.GetUsersByIdsAsync (dialog.OccupantIds);
+						var filteredUsers = users.Where (u => u.Id != messageTable.SenderId); 
+						var senderUser = users.First (u => u.Id == messageTable.SenderId);
+						messageTable.Text = senderUser.FullName + " added users: " + string.Join (",", filteredUsers.Select (u => u.FullName));
+					}
+				}
+				else{
+					messageTable.Text = decodedMessage;
+				}
+
+				if (messageTable.SenderId == App.QbProvider.UserId) {
+					messageTable.RecepientFullName = "Me";
+				} else {
+					var user = Database.Instance ().GetUser (messageTable.SenderId);
+					if (user == null) {
+						var userRespose = await App.QbProvider.GetUserAsync (messageTable.SenderId);
+						if (userRespose != null) {
+							user = new UserTable ();
+							user.FullName = userRespose.FullName;
+							user.UserId = userRespose.Id;
+							user.PhotoId = userRespose.BlobId.HasValue ? userRespose.BlobId.Value : 0;
+							Database.Instance ().SaveUser (user);
+
+							messageTable.RecepientFullName = user.FullName;
+						}
+					} else {
 						messageTable.RecepientFullName = user.FullName;
 					}
-				} else {
-					messageTable.RecepientFullName = user.FullName;
 				}
-			}
 
-			Database.Instance().SaveMessage(messageTable);
+				Database.Instance ().SaveMessage (messageTable);
+			}
         }
 
 		async void Reconnect ()

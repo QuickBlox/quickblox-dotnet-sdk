@@ -7,6 +7,7 @@ using System.Linq;
 using Quickblox.Sdk.Modules.ChatModule.Models;
 using XamarinForms.QbChat.Repository;
 using XamarinForms.QbChat.Pages;
+using Quickblox.Sdk.Modules.Models;
 
 namespace XamarinForms.QbChat
 {
@@ -49,6 +50,15 @@ namespace XamarinForms.QbChat
 			});
 		}
 
+		static void SaveDialogToDb (Dialog dialog)
+		{
+			if (dialog != null) {
+				var dialogTable = new DialogTable (dialog);
+				dialogTable.LastMessageSent = DateTime.UtcNow;
+				Database.Instance ().SaveDialog (dialogTable);
+			}
+		}
+
 		private async void CreateChat ()
 		{
 			this.busyIndicator.IsVisible = true;
@@ -59,30 +69,35 @@ namespace XamarinForms.QbChat
 					dialogType = DialogType.Private;
 				}
 
-				var dialogName = string.Join (",", selectedUsers.Select (u => u.FullName));
+				var dialogName = string.Join (", ", selectedUsers.Select (u => u.FullName));
 				var userIds = selectedUsers.Select (u => u.Id).ToList ();
 				var userIdsString = string.Join (",", userIds);
-				var dialog = await App.QbProvider.CreateDialogAsync ("Xamarin Test", userIdsString, dialogType);
-				if (dialog != null) {
-					var dialogTable = new DialogTable (dialog);
-					dialogTable.LastMessageSent = DateTime.UtcNow;
-					Database.Instance ().SaveDialog (dialogTable);
 
-					if (dialogType == DialogType.Group) {
-						var groupManager = App.QbProvider.GetXmppClient ().GetGroupChatManager (dialog.XmppRoomJid, dialog.Id);
-						groupManager.JoinGroup (App.QbProvider.UserId.ToString());
-						groupManager.NotifyAboutGroupCreation (userIds, dialog);
+				Dialog dialog = null;
+				if (dialogType == DialogType.Group) {
+					dialog = await App.QbProvider.CreateDialogAsync (dialogName, userIdsString, dialogType);
+					SaveDialogToDb (dialog);
 
-						var groupChantPage = new GroupChatPage (dialog.Id);
-						App.Navigation.InsertPageBefore (groupChantPage, this);
-					} else {
+					var groupManager = App.QbProvider.GetXmppClient ().GetGroupChatManager (dialog.XmppRoomJid, dialog.Id);
+					groupManager.JoinGroup (App.QbProvider.UserId.ToString());
+					groupManager.NotifyAboutGroupCreation (userIds, dialog);
+
+					var groupChantPage = new GroupChatPage (dialog.Id);
+					App.Navigation.InsertPageBefore (groupChantPage, this);
+					App.Navigation.PopAsync ();
+				} else if (dialogType == DialogType.Private) {
+					dialog = await App.QbProvider.GetDialogAsync (new int[] { App.QbProvider.UserId, userIds.First () });
+					if (dialog == null) {
+						dialog = await App.QbProvider.CreateDialogAsync (dialogName, userIdsString, dialogType);
 						var privateManager = App.QbProvider.GetXmppClient ().GetPrivateChatManager (selectedUsers.First ().Id, dialog.Id);
-						privateManager.SendMessage ("Hello, I was create chat with you");
-							
-						var privateChantPage = new PrivateChatPage (dialog.Id);
-						App.Navigation.InsertPageBefore (privateChantPage, this);
-					}
+						var message = "Hello, I created chat with you!";
+						privateManager.SendMessage (message);
+						dialog.LastMessage = message;
+					} 
 
+					SaveDialogToDb (dialog);
+					var privateChantPage = new PrivateChatPage (dialog.Id);
+					App.Navigation.InsertPageBefore (privateChantPage, this);
 					App.Navigation.PopAsync ();
 				}
 			} else {

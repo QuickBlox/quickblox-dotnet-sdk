@@ -57,6 +57,12 @@ namespace XamarinForms.QbChat.Repository
             this.database.CreateTable<MessageTable>();
             this.database.CreateTable<DialogTable>();
             this.database.CreateTable<UserTable>();
+
+			this.database.BeginTransaction();
+			this.database.Execute("DELETE FROM MessageTable");
+			this.database.Execute("DELETE FROM DialogTable");
+			this.database.Execute("DELETE FROM UserTable");
+			this.database.Commit();
         }
 
         public void ResetAll()

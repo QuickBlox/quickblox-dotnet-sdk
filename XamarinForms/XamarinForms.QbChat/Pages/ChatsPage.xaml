@@ -12,7 +12,7 @@
 	     </StackLayout>
 
         <Grid Grid.Row="1">
-		    <ListView x:Name="listView" VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand"/>
+		    <ListView x:Name="listView" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
 
 		    <ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="false" />
 	    </Grid>

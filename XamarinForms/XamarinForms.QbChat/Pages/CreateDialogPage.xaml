@@ -12,21 +12,10 @@ xmlns:controls="clr-namespace:XamarinForms.QbChat;assembly=XamarinForms.QbChat">
 	     </StackLayout>
 
         <Grid Grid.Row="1">
-		    <ListView x:Name="listView" VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand" >
+		    <ListView x:Name="listView" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
 		  		<ListView.ItemTemplate>
 		  		<DataTemplate>
 		  			<controls:CustomSelectableCell Text="{Binding User.FullName}" IsSelected="{Binding IsSelected, Mode=TwoWay}"/>
-<!--		  		<ViewCell>
-		  			<Grid VerticalOptions="FillAndExpand" >
-			  			<Grid.ColumnDefinitions>
-				  			<ColumnDefinition Width="Auto"/>
-				  			<ColumnDefinition />
-			  			</Grid.ColumnDefinitions>
-
-		    			<controls:CheckBoxExtended VerticalOptions="CenterAndExpand"/>
-		    			<Label Text="{Binding FullName}" Grid.Column="1" VerticalOptions="CenterAndExpand"/>
-		    		</Grid>
-		  		</ViewCell>-->
 		  		</DataTemplate>
 		  		</ListView.ItemTemplate>
 		    </ListView>
