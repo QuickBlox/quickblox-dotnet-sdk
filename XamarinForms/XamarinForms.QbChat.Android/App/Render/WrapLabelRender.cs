@@ -19,7 +19,7 @@ namespace XamarinForms.QbChat.Android
 				Control.LayoutChange += (s, args) =>
 				{
 					Control.Ellipsize = TextUtils.TruncateAt.End;
-					//Control.SetMaxLines((int)((args.Bottom - args.Top) / Control.LineHeight));
+					Control.SetMaxLines((int)((args.Bottom - args.Top) / Control.LineHeight));
 				};
 			}
 		}
