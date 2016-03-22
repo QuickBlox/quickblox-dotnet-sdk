@@ -240,11 +240,13 @@ namespace XamarinForms.QbChat
 		{
 			var retrieveDialogsRequest = new RetrieveDialogsRequest();
 			var filterAgreaggator = new FilterAggregator ();
-			filterAgreaggator.Filters.Add(new FieldFilterWithOperator<int[]>(SearchOperators.In, () => new DialogResponse().OccupantsIds, userIds));
+			//filterAgreaggator.Filters.Add(new FieldFilterWithOperator<int[]>(SearchOperators.In, () => new DialogResponse().OccupantsIds, userIds));
+			filterAgreaggator.Filters.Add (new FieldFilterWithOperator<int> (SearchOperators.In, () => new DialogResponse ().Type, (int)DialogType.Private));
 			retrieveDialogsRequest.Filter = filterAgreaggator;
 			var response = await client.ChatClient.GetDialogsAsync(retrieveDialogsRequest);
 			if (await HandleResponse(response, HttpStatusCode.OK) && response.Result.Items.Any()) {
-				return response.Result.Items[0];
+				var dialog = response.Result.Items.FirstOrDefault (d => d.OccupantsIds.Contains (userIds [0]) && d.OccupantsIds.Contains (userIds [1]));
+				return dialog;
 			}
 
 			return null;
