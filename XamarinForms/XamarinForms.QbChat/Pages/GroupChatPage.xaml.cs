@@ -118,7 +118,7 @@ namespace XamarinForms.QbChat.Pages
 				} catch (Exception ex) {
 					this.busyIndicator.IsVisible = true;
 					try {
-						App.QbProvider.GetXmppClient ().Connect (App.UserLogin, App.UserPassword);
+						App.QbProvider.GetXmppClient ().Connect (App.UserId, App.UserPassword);
 					} catch (Exception ex2) {
 						App.Current.MainPage.DisplayAlert ("Error", "Please, check your internet connection", "Ok");
 					}

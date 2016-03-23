@@ -86,11 +86,23 @@
     <Reference Include="Xamarin.Forms.Platform">
       <HintPath>..\..\packages\Xamarin.Forms.2.1.0.6529\lib\MonoAndroid10\Xamarin.Forms.Platform.dll</HintPath>
     </Reference>
-    <Reference Include="Quickblox.Sdk.Xamarin">
-      <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.8\lib\MonoAndroid\Quickblox.Sdk.Xamarin.dll</HintPath>
-    </Reference>
     <Reference Include="Sharp.Xmpp">
       <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.8\lib\MonoAndroid\Sharp.Xmpp.dll</HintPath>
+    </Reference>
+    <Reference Include="Splat">
+      <HintPath>..\..\packages\Splat.1.6.2\lib\monoandroid\Splat.dll</HintPath>
+    </Reference>
+    <Reference Include="Acr.Support.Android">
+      <HintPath>..\..\packages\Acr.Support.1.1.1\lib\MonoAndroid10\Acr.Support.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Acr.UserDialogs">
+      <HintPath>..\..\packages\Acr.UserDialogs.4.2.1\lib\MonoAndroid10\Acr.UserDialogs.dll</HintPath>
+    </Reference>
+    <Reference Include="Acr.UserDialogs.Interface">
+      <HintPath>..\..\packages\Acr.UserDialogs.4.2.1\lib\MonoAndroid10\Acr.UserDialogs.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="AndHUD">
+      <HintPath>..\..\packages\Acr.UserDialogs.4.2.1\lib\MonoAndroid10\AndHUD.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +169,10 @@
     <ProjectReference Include="..\XamarinForms.QbChat\XamarinForms.QbChat.csproj">
       <Project>{67F9D3A8-F71E-4428-913F-C37AE82CDB24}</Project>
       <Name>XamarinForms.QbChat</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\SDK-dotnet\Quickblox.Xamarin\Quickblox.Sdk\Quickblox.Sdk.Xamarin.csproj">
+      <Project>{F5C92500-D225-4473-B169-4C0749FE2A90}</Project>
+      <Name>Quickblox.Sdk.Xamarin</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

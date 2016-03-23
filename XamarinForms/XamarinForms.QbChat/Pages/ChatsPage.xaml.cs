@@ -34,7 +34,8 @@ namespace XamarinForms.QbChat.Pages
 						Database.Instance ().UnSubscribeForDialogs (OnDialogsChanged);
 						isLogoutClicked = true;
 						Database.Instance ().ResetAll ();
-						App.UserLogin = 0;
+						App.UserLogin = null;
+						App.UserId = 0;
 						App.UserPassword = null;
 						DisconnectToXmpp ();
 					} catch (Exception ex) {
@@ -76,7 +77,9 @@ namespace XamarinForms.QbChat.Pages
 						Title = user.FullName;
 					});
 
-					App.UserLogin = user.Id;
+					App.UserId = user.Id;
+					App.UserName = user.FullName;
+					App.UserLogin = user.Login;
 					App.UserPassword = user.Login;
 				}
 
@@ -289,7 +292,7 @@ namespace XamarinForms.QbChat.Pages
 					// Logout action
 					if (isLogoutClicked)
 						return;
-					App.QbProvider.GetXmppClient ().Connect (App.UserLogin, App.UserPassword);
+					App.QbProvider.GetXmppClient ().Connect (App.UserId, App.UserPassword);
 
 					var dialogs = await App.QbProvider.GetDialogsAsync (new List<DialogType>() { DialogType.Group });
 					foreach (var dialog in dialogs) {
