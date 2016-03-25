@@ -139,7 +139,7 @@ namespace XamarinForms.QbChat.Pages
 				} catch (Exception ex) {
 					this.busyIndicator.IsVisible = true;
 					try {
-						App.QbProvider.GetXmppClient ().Connect (App.UserLogin, App.UserPassword);
+						App.QbProvider.GetXmppClient ().Connect (App.UserId, App.UserPassword);
 					} catch (Exception ex2) {
 						App.Current.MainPage.DisplayAlert ("Error", "Please, check your internet connection", "Ok");
 					}
@@ -155,17 +155,26 @@ namespace XamarinForms.QbChat.Pages
 			}
 		}
 
+		public void ScrollList ()
+		{
+			var sorted = listView.ItemsSource as List<MessageTable>;
+			try {
+				if (sorted != null && sorted.Count > 10) {
+					listView.ScrollTo (sorted [sorted.Count - 1], ScrollToPosition.End, false);
+				}
+			}
+			catch (Exception ex) {
+			}
+		}
+
         public void OnMessagesChanged()
         {
 			var messages = Database.Instance().GetMessages(dialogId);
 			var sorted = messages.OrderBy(d => d.DateSent).ToList();
 			Device.BeginInvokeOnMainThread (() =>
-				{ listView.ItemsSource = sorted;
-					try {
-						if (messages != null && messages.Count > 10)
-							listView.ScrollTo (sorted [sorted.Count - 1], ScrollToPosition.Start, false);
-					} catch (Exception ex) {
-					}
+				{ 
+					listView.ItemsSource = sorted;
+					ScrollList ();
 			}
 			);
         }

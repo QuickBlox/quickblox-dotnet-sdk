@@ -13,7 +13,17 @@ namespace XamarinForms.QbChat
         public static INavigation Navigation { get; set; }
         public static Action<string> LogConsole;
 
-		public static int UserLogin {
+		public static string UserName {
+			get;
+			set;
+		}
+
+		public static int UserId {
+			get;
+			set;
+		}
+
+		public static string UserLogin {
 			get;
 			set;
 		}

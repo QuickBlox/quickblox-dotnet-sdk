@@ -206,5 +206,16 @@ namespace XamarinForms.QbChat.Repository
 			dialogObserver.Invoke ();
             return count;
         }
+
+		public void DeleteDialog (string dialogId)
+		{
+			lock (locker) {
+				this.database.BeginTransaction();
+				this.database.Execute("DELETE FROM DialogTable WHERE DialogId='" + dialogId + "'");
+				this.database.Commit();
+			}
+
+			dialogObserver.Invoke ();
+		}
     }
 }

@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using XamarinForms.QbChat;
 using XamarinForms.QbChat.Repository;
 using XamainForms.QbChat;
+using Acr.UserDialogs;
 
 namespace XamarinForms.QbChat.Android
 {
@@ -20,6 +21,7 @@ namespace XamarinForms.QbChat.Android
 
 			Forms.Init (this, savedInstanceState);
 			Database.Instance ().Init (DependencyService.Get<ISqlite> ().GetConnection ());
+			UserDialogs.Init (this);
 
 			var app = new App ();
 			LoadApplication (app);

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="XamarinForms.QbChat.ChatInfoPage"
+Title="Chat Info">
+	 <Grid>
+	     <Grid.RowDefinitions>
+		     <RowDefinition Height="Auto"/>
+		     <RowDefinition Height="*"/>
+	     </Grid.RowDefinitions>
+	     <StackLayout Padding="18">
+	     	<Label Text="Users in chat" FontSize="18"/>
+	     </StackLayout>
+
+        <Grid Grid.Row="1">
+	         <Grid.RowDefinitions>
+			     <RowDefinition Height="*"/>
+			     <RowDefinition Height="Auto"/>
+		     </Grid.RowDefinitions>
+		    <ListView x:Name="listView" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+
+		    <Button x:Name="leaveChatButton" Text="Leave chat" Grid.Row="1"/>
+		    <ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="false" />
+	    </Grid>
+    </Grid>
+</ContentPage>

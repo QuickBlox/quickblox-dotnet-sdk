@@ -252,7 +252,7 @@ namespace XamarinForms.QbChat
 			return null;
 		}
 
-		public async Task<DialogTable> GetDialogAsync(string dialogId)
+		public async Task<Dialog> GetDialogAsync(string dialogId)
 		{
 			var retrieveDialogsRequest = new RetrieveDialogsRequest();
 			var filterAgreaggator = new FilterAggregator ();
@@ -260,7 +260,7 @@ namespace XamarinForms.QbChat
 			retrieveDialogsRequest.Filter = filterAgreaggator;
 			var response = await client.ChatClient.GetDialogsAsync(retrieveDialogsRequest);
 			if (await HandleResponse(response, HttpStatusCode.OK) && response.Result.Items.Any()) {
-				return new DialogTable(response.Result.Items[0]);
+				return response.Result.Items[0];
 			}
 
 			return null;

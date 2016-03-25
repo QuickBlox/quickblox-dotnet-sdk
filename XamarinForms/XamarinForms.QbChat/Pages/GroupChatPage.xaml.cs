@@ -24,6 +24,12 @@ namespace XamarinForms.QbChat.Pages
 			this.dialogId = dialogId;
 
 			listView.ItemTapped += (object sender, ItemTappedEventArgs e) => ((ListView)sender).SelectedItem = null;
+
+			var chatInfoItem = new ToolbarItem ("Chat Info", null, async () => {
+				App.Navigation.PushAsync (new ChatInfoPage (this.dialogId));
+			});
+
+			ToolbarItems.Add (chatInfoItem);
 		}
 
 		protected override void OnDisappearing ()
@@ -50,7 +56,6 @@ namespace XamarinForms.QbChat.Pages
 				Android: ImageSource.FromFile ("groupholder.png"),
 				WinPhone: ImageSource.FromFile ("groupholder.png"));
 
-			opponentUsers = await App.QbProvider.GetUsersByIdsAsync (dialog.OccupantIds);
 			if (!string.IsNullOrEmpty (dialog.Photo)) {
 				chatPhotoImage.Source = ImageSource.FromUri (new Uri (dialog.Photo));
 			}
@@ -58,6 +63,8 @@ namespace XamarinForms.QbChat.Pages
 			List<MessageTable> messages;
 			try {
 				messages = await App.QbProvider.GetMessagesAsync(dialogId);
+				var userIds = messages.Select( u => u.SenderId).Distinct();
+				opponentUsers = await App.QbProvider.GetUsersByIdsAsync (string.Join(",", userIds));
 			} catch (Exception ex) {
 				await App.Current.MainPage.DisplayAlert ("Error", ex.ToString(), "Ok");
 				return;
@@ -118,7 +125,7 @@ namespace XamarinForms.QbChat.Pages
 				} catch (Exception ex) {
 					this.busyIndicator.IsVisible = true;
 					try {
-						App.QbProvider.GetXmppClient ().Connect (App.UserLogin, App.UserPassword);
+						App.QbProvider.GetXmppClient ().Connect (App.UserId, App.UserPassword);
 					} catch (Exception ex2) {
 						App.Current.MainPage.DisplayAlert ("Error", "Please, check your internet connection", "Ok");
 					}
