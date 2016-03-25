@@ -208,7 +208,8 @@ namespace XamarinForms.QbChat.Pages
 			var dialog = Database.Instance().GetDialog(messageEventArgs.Message.ChatDialogId);
 			if (dialog == null)
 			{
-				dialog = await App.QbProvider.GetDialogAsync(messageEventArgs.Message.ChatDialogId);
+				var dialogInfo = await App.QbProvider.GetDialogAsync(messageEventArgs.Message.ChatDialogId);
+				dialog = new DialogTable (dialogInfo);
 			}
 
 			if (messageEventArgs.MessageType == MessageType.Headline){
@@ -223,7 +224,8 @@ namespace XamarinForms.QbChat.Pages
 					}
 				}
 			}
-			else{
+			else if (messageEventArgs.MessageType == MessageType.Chat ||
+				messageEventArgs.MessageType == MessageType.Groupchat) {
 				string decodedMessage = System.Net.WebUtility.UrlDecode (messageEventArgs.Message.MessageText);
 				if (dialog != null)
 				{
