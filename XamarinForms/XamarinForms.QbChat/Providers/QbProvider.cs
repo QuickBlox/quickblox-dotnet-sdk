@@ -298,6 +298,34 @@ namespace XamarinForms.QbChat
 			return null;
 		}
 
+		public async Task<Dialog> UpdateDialogAsync(string dialogId, List<int> addedUsers = null, List<int> deletedUsers = null, string name = null, string photo = null)
+		{
+			var updateDialog = new UpdateDialogRequest ();
+			updateDialog.DialogId = dialogId;
+
+			if (addedUsers != null) {
+				updateDialog.PushAll = new EditedOccupants () {
+					OccupantsIds = addedUsers
+				};
+			}
+
+			if (deletedUsers != null) {
+				updateDialog.PullAll = new EditedOccupants () {
+					OccupantsIds = deletedUsers
+				};
+			}
+
+			updateDialog.Name = name;
+			updateDialog.PhotoLink = photo;
+
+			var dialogResponse = await this.client.ChatClient.UpdateDialogAsync(updateDialog);
+			if (await HandleResponse(dialogResponse, HttpStatusCode.OK)) {
+				return dialogResponse.Result;
+			}
+
+			return null;
+		}
+
 		public async Task<int?> UploadPrivateImageAsync(byte[] imageBytes)
 		{
 			var createFileRequest = new CreateFileRequest()

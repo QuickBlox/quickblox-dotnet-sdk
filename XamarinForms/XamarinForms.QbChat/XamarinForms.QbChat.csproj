@@ -75,6 +75,9 @@
     <Compile Include="Pages\ChatInfoPage.xaml.cs">
       <DependentUpon>ChatInfoPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\AddOccupantsIdsPage.xaml.cs">
+      <DependentUpon>AddOccupantsIdsPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="bouncy_castle_hmac_sha_pcl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
@@ -126,6 +129,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Pages\ChatInfoPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pages\AddOccupantsIdsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
