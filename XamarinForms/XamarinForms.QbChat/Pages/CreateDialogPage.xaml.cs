@@ -42,10 +42,6 @@ namespace XamarinForms.QbChat
 				UsersForList = users.Where(u => u.Id != App.QbProvider.UserId).Select(u => new SelectedUser() { User = u }).ToList();
 
 				Device.BeginInvokeOnMainThread(() => {
-					//var cellTemplate = new DataTemplate(typeof(ChatCell));
-					//cellTemplate.SetBinding (TextCell.TextProperty, "FullName");
-					//cellTemplate.SetBinding(CustomSelectableCell.TextProperty, "FullName");
-					//listView.ItemTemplate = cellTemplate;
 					listView.ItemSelected += (o, e) => { listView.SelectedItem = null; };
 					listView.ItemsSource = UsersForList;
 					busyIndicator.IsVisible = false; 

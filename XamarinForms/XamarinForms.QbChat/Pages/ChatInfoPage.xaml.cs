@@ -20,7 +20,13 @@ namespace XamarinForms.QbChat
 			this.dialogId = dialogId;
 			this.dialog = Database.Instance ().GetDialog (this.dialogId);
 
-			leaveChatButton.Clicked += OnLeaveChat;;
+			leaveChatButton.Clicked += OnLeaveChat;
+
+			var addOccupantsItem = new ToolbarItem ("Add occupants", null, async () => {
+				App.Navigation.PushAsync (new AddOccupantsIdsPage (this.dialogId));
+			});
+
+			ToolbarItems.Add (addOccupantsItem);
 		}
 
 		protected override void OnAppearing ()

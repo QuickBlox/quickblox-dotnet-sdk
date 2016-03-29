@@ -41,6 +41,7 @@ namespace XamarinForms.QbChat.Pages
 		protected override async void OnAppearing()
 		{
 			base.OnAppearing();
+			Database.Instance().SubscribeForMessages(OnMessagesChanged);
 
 			if (isLoaded)
 				return;
@@ -102,7 +103,6 @@ namespace XamarinForms.QbChat.Pages
 				}
 			}
 
-			Database.Instance().SubscribeForMessages(OnMessagesChanged);
 
 			sendButton.Clicked += SendClicked;
 
