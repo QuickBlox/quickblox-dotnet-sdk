@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Quickblox.Sdk.Modules.UsersModule.Models;
+using Quickblox.Sdk.GeneralDataModel.Models;
 
 namespace XamarinForms.QbChat.Pages
 {
@@ -67,9 +68,9 @@ namespace XamarinForms.QbChat.Pages
 				}, TaskScheduler.FromCurrentSynchronizationContext ());
 			}
 
-			List<MessageTable> messages;
+			List<Message> messages;
 			try {
-			   messages = await App.QbProvider.GetMessagesAsync(dialogId);
+			    messages = await App.QbProvider.GetMessagesAsync(dialogId);
 			} catch (Exception ex) {
 				await App.Current.MainPage.DisplayAlert ("Error", ex.ToString(), "Ok");
 				return;
@@ -78,20 +79,32 @@ namespace XamarinForms.QbChat.Pages
             if (messages != null)
             {
                 messages = messages.OrderBy(message => message.DateSent).ToList();
-					
+				List<MessageTable> messageTableList = new List<MessageTable> ();
+
 				foreach (var message in messages) {
+					var chatMessage = new MessageTable ();
+					chatMessage.DateSent = message.DateSent;
+					chatMessage.SenderId = message.SenderId;
+					chatMessage.MessageId = message.Id;
+					if (message.RecipientId.HasValue)
+						chatMessage.RecepientId = message.RecipientId.Value;
+					chatMessage.DialogId = message.ChatDialogId;
+					chatMessage.IsRead = message.Read == 1;
+
+
 					if (message.SenderId == App.QbProvider.UserId) {
-						message.RecepientFullName = "Me";
+						chatMessage.RecepientFullName = "Me";
 					} else {
 						if (opponentUser != null) {
-							message.RecepientFullName = opponentUser.FullName;
+							chatMessage.RecepientFullName = opponentUser.FullName;
 						}
 					}
 
-					message.Text = System.Net.WebUtility.UrlDecode (message.Text);
+					chatMessage.Text = System.Net.WebUtility.UrlDecode (message.MessageText);
+					messageTableList.Add (chatMessage);
 				}
 
-                Database.Instance().SaveAllMessages(dialogId, messages);
+				Database.Instance().SaveAllMessages(dialogId, messageTableList);
 
 				//var template = new DataTemplate (typeof(MessageCell));
 				//listView.HasUnevenRows = true;

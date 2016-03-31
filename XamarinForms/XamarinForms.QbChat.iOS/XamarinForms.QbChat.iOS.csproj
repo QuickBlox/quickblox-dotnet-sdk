@@ -84,9 +84,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\packages\Newtonsoft.Json.6.0.8\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="bouncy_castle_hmac_sha_pcl">
       <HintPath>..\..\packages\BouncyCastle-PCL.1.0.0.6\lib\bouncy_castle_hmac_sha_pcl.dll</HintPath>
     </Reference>
@@ -114,17 +111,23 @@
     <Reference Include="Acr.Support.iOS">
       <HintPath>..\..\packages\Acr.Support.1.1.1\lib\Xamarin.iOS10\Acr.Support.iOS.dll</HintPath>
     </Reference>
-    <Reference Include="Acr.UserDialogs">
-      <HintPath>..\..\packages\Acr.UserDialogs.4.2.1\lib\Xamarin.iOS10\Acr.UserDialogs.dll</HintPath>
-    </Reference>
-    <Reference Include="Acr.UserDialogs.Interface">
-      <HintPath>..\..\packages\Acr.UserDialogs.4.2.1\lib\Xamarin.iOS10\Acr.UserDialogs.Interface.dll</HintPath>
-    </Reference>
-    <Reference Include="BTProgressHUD">
-      <HintPath>..\..\packages\Acr.UserDialogs.4.2.1\lib\Xamarin.iOS10\BTProgressHUD.dll</HintPath>
+    <Reference Include="Quickblox.Sdk.Xamarin">
+      <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.10\lib\portable-net45+win+wpa81\Quickblox.Sdk.Xamarin.dll</HintPath>
     </Reference>
     <Reference Include="Sharp.Xmpp">
-      <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.9\lib\portable-net45+win+wpa81\Sharp.Xmpp.dll</HintPath>
+      <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.10\lib\portable-net45+win+wpa81\Sharp.Xmpp.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.8.0.3\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Acr.UserDialogs">
+      <HintPath>..\..\packages\Acr.UserDialogs.4.3.4\lib\Xamarin.iOS10\Acr.UserDialogs.dll</HintPath>
+    </Reference>
+    <Reference Include="Acr.UserDialogs.Interface">
+      <HintPath>..\..\packages\Acr.UserDialogs.4.3.4\lib\Xamarin.iOS10\Acr.UserDialogs.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="BTProgressHUD">
+      <HintPath>..\..\packages\Acr.UserDialogs.4.3.4\lib\Xamarin.iOS10\BTProgressHUD.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -147,16 +150,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.1.0.6529\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.1.0.6529\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
-  <ItemGroup>
-    <ProjectReference Include="..\XamarinForms.QbChat\XamarinForms.QbChat.csproj">
-      <Project>{67F9D3A8-F71E-4428-913F-C37AE82CDB24}</Project>
-      <Name>XamarinForms.QbChat</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\SDK-dotnet\Quickblox.Xamarin\Quickblox.Sdk\Quickblox.Sdk.Xamarin.csproj">
-      <Project>{F5C92500-D225-4473-B169-4C0749FE2A90}</Project>
-      <Name>Quickblox.Sdk.Xamarin</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <ItemGroup>
     <BundleResource Include="Resources\ic_launcher.png" />
     <BundleResource Include="Resources\AvatarPlaceholder.png" />
@@ -192,5 +186,11 @@
     <Folder Include="App\" />
     <Folder Include="App\Chat\" />
     <Folder Include="App\Render\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XamarinForms.QbChat\XamarinForms.QbChat.csproj">
+      <Project>{67F9D3A8-F71E-4428-913F-C37AE82CDB24}</Project>
+      <Name>XamarinForms.QbChat</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

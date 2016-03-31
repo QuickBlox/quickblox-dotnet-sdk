@@ -5,6 +5,7 @@ using Xamarin.Forms;
 using XamarinForms.QbChat.Repository;
 using Quickblox.Sdk.Modules.UsersModule.Models;
 using System.Linq;
+using Quickblox.Sdk.GeneralDataModel.Models;
 
 namespace XamarinForms.QbChat.Pages
 {
@@ -61,7 +62,7 @@ namespace XamarinForms.QbChat.Pages
 				chatPhotoImage.Source = ImageSource.FromUri (new Uri (dialog.Photo));
 			}
 
-			List<MessageTable> messages;
+			List<Message> messages;
 			try {
 				messages = await App.QbProvider.GetMessagesAsync(dialogId);
 				var userIds = messages.Select( u => u.SenderId).Distinct();
@@ -73,22 +74,44 @@ namespace XamarinForms.QbChat.Pages
 
 			if (messages != null)
 			{
+				List<MessageTable> messageTableList = new List<MessageTable> ();
 				messages = messages.OrderBy(message => message.DateSent).ToList();
-
 				foreach (var message in messages) {
-					if (message.SenderId == App.QbProvider.UserId) {
-						message.RecepientFullName = "Me";
+					var chatMessage = new MessageTable ();
+					chatMessage.DateSent = message.DateSent;
+					chatMessage.SenderId = message.SenderId;
+					chatMessage.MessageId = message.Id;
+					if (message.RecipientId.HasValue)
+						chatMessage.RecepientId = message.RecipientId.Value;
+					chatMessage.DialogId = message.ChatDialogId;
+					chatMessage.IsRead = message.Read == 1;
+
+					if (chatMessage.SenderId == App.QbProvider.UserId) {
+						chatMessage.RecepientFullName = "Me";
 					} else {
 						var opponentUser = opponentUsers.FirstOrDefault (u => u.Id == message.SenderId);
 						if (opponentUser != null) {
-							message.RecepientFullName = opponentUser.FullName;
+							chatMessage.RecepientFullName = opponentUser.FullName;
 						}
 					}
 
-					message.Text = System.Net.WebUtility.UrlDecode (message.Text);
+					if (message.NotificationType == NotificationTypes.GroupCreate ||
+					    message.NotificationType == NotificationTypes.GroupUpdate) {
+						var userIds = new List<int>(message.AddedOccupantsIds);
+						userIds.Add (message.SenderId);
+
+						var users = await App.QbProvider.GetUsersByIdsAsync (string.Join(",", userIds));
+						var addedUsers = users.Where (u => u.Id != message.SenderId);
+						var senderUser = users.First (u => u.Id == message.SenderId);
+						chatMessage.Text = senderUser.FullName + " added users: " + string.Join (",", addedUsers.Select (u => u.FullName));
+					} else {
+						chatMessage.Text = System.Net.WebUtility.UrlDecode (message.MessageText);
+					}
+
+					messageTableList.Add (chatMessage);
 				}
 
-				Database.Instance().SaveAllMessages(dialogId, messages);
+				Database.Instance().SaveAllMessages(dialogId, messageTableList);
 
 				//var template = new DataTemplate (typeof(MessageCell));
 				//listView.ItemTemplate = template;

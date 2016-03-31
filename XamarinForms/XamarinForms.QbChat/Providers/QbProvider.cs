@@ -200,9 +200,8 @@ namespace XamarinForms.QbChat
 			return null;
 		}
 
-		public async Task<List<MessageTable>> GetMessagesAsync(string dialogId)
+		public async Task<List<Message>> GetMessagesAsync(string dialogId)
 		{
-			List<MessageTable> messages = new List<MessageTable> ();
 			var retrieveMessagesRequest = new RetrieveMessagesRequest ();
 			var aggregator = new FilterAggregator ();
 			aggregator.Filters.Add (new FieldFilter<string> (() => new Message ().ChatDialogId, dialogId));
@@ -211,23 +210,10 @@ namespace XamarinForms.QbChat
 
 			var responseResult = await client.ChatClient.GetMessagesAsync (retrieveMessagesRequest);
 			if (await HandleResponse (responseResult, HttpStatusCode.OK)) {
-				foreach (var message in responseResult.Result.Items) {
-					if (!string.IsNullOrWhiteSpace (message.MessageText)) {
-						var chatMessage = new MessageTable ();
-						chatMessage.Text = message.MessageText;
-						chatMessage.DateSent = message.DateSent;
-						chatMessage.SenderId = message.SenderId;
-						chatMessage.MessageId = message.Id;
-						if (message.RecipientId.HasValue)
-							chatMessage.RecepientId = message.RecipientId.Value;
-						chatMessage.DialogId = message.ChatDialogId;
-						chatMessage.IsRead = message.Read == 1;
-						messages.Add (chatMessage);
-					}
-				} 
+				return responseResult.Result.Items.ToList();
 			}
 
-			return messages;
+			return new List<Message>();
 		}
 
 		public async Task<bool> DeleteDialogAsync (string dialogId)

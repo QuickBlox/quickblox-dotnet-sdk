@@ -171,6 +171,10 @@ namespace XamarinForms.QbChat.Pages
                 App.QbProvider.GetXmppClient().MessageReceived -= OnMessageReceived;
                 App.QbProvider.GetXmppClient().MessageReceived += OnMessageReceived;
 
+				App.QbProvider.GetXmppClient().SystemMessageReceived -= OnSystemMessageReceived;
+				App.QbProvider.GetXmppClient().SystemMessageReceived += OnSystemMessageReceived;
+
+
                 App.QbProvider.GetXmppClient().ErrorReceived -= OnError;
                 App.QbProvider.GetXmppClient().ErrorReceived += OnError;
 
@@ -212,19 +216,7 @@ namespace XamarinForms.QbChat.Pages
 				dialog = new DialogTable (dialogInfo);
 			}
 
-			if (messageEventArgs.MessageType == MessageType.Headline){
-				if(messageEventArgs.Message.NotificationType == NotificationTypes.GroupCreate) {
-					if (dialog != null) {
-						dialog.LastMessage = messageEventArgs.Message.MessageText;
-						dialog.LastMessageSent = DateTime.UtcNow;
-						Database.Instance().SaveDialog(dialog);
-
-						var groupChatManager = App.QbProvider.GetXmppClient ().GetGroupChatManager (dialog.XmppRoomJid, dialog.DialogId);
-						groupChatManager.JoinGroup (App.QbProvider.UserId.ToString ());
-					}
-				}
-			}
-			else if (messageEventArgs.MessageType == MessageType.Chat ||
+			if (messageEventArgs.MessageType == MessageType.Chat ||
 				messageEventArgs.MessageType == MessageType.Groupchat) {
 				string decodedMessage = System.Net.WebUtility.UrlDecode (messageEventArgs.Message.MessageText);
 				if (dialog != null)
@@ -251,10 +243,14 @@ namespace XamarinForms.QbChat.Pages
 
 				if(messageEventArgs.Message.NotificationType != 0){
 					if (messageEventArgs.Message.NotificationType == NotificationTypes.GroupUpdate) {
-						var users = await App.QbProvider.GetUsersByIdsAsync (dialog.OccupantIds);
-						var filteredUsers = users.Where (u => u.Id != messageTable.SenderId); 
-						var senderUser = users.First (u => u.Id == messageTable.SenderId);
-						messageTable.Text = senderUser.FullName + " added users: " + string.Join (",", filteredUsers.Select (u => u.FullName));
+						var userIds = new List<int>(messageEventArgs.Message.AddedOccupantsIds);
+						userIds.Add (messageEventArgs.Message.SenderId);
+
+						var users = await App.QbProvider.GetUsersByIdsAsync (string.Join(",", userIds));
+
+						var addedUsers = users.Where (u => u.Id != messageEventArgs.Message.SenderId);
+						var senderUser = users.First (u => u.Id == messageEventArgs.Message.SenderId);
+						messageTable.Text = senderUser.FullName + " added users: " + string.Join (",", addedUsers.Select (u => u.FullName));
 					}
 				}
 				else{
@@ -284,6 +280,26 @@ namespace XamarinForms.QbChat.Pages
 				Database.Instance ().SaveMessage (messageTable);
 			}
         }
+
+		private void OnSystemMessageReceived (object sender, SystemMessageEventArgs messageEventArgs)
+		{
+			var groupMessage = messageEventArgs.Message as GroupInfoMessage;
+			if (groupMessage != null){
+				var dialog = new DialogTable {
+					DialogId = groupMessage.DialogId,
+					DialogType = groupMessage.DialogType,
+					LastMessage = "Notification message",
+					LastMessageSent = groupMessage.DateSent,
+					Name = groupMessage.RoomName,
+					Photo = groupMessage.RoomPhoto,
+					OccupantIds = string.Join(",", groupMessage.CurrentOccupantsIds),
+					XmppRoomJid = String.Format ("{0}_{1}@{2}", ApplicationKeys.ApplicationId, groupMessage.DialogId, ApplicationKeys.ChatMucEndpoint)
+				};
+
+				App.QbProvider.GetXmppClient ().JoinToGroup (dialog.XmppRoomJid, App.QbProvider.UserId.ToString ());
+				Database.Instance ().SaveDialog (dialog);
+			}
+		}
 
 		async void Reconnect ()
 		{
