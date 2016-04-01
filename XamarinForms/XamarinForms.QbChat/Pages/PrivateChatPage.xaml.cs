@@ -41,6 +41,7 @@ namespace XamarinForms.QbChat.Pages
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+			Database.Instance().SubscribeForMessages(OnMessagesChanged);
 
 			if (isLoaded)
 				return;
@@ -105,21 +106,7 @@ namespace XamarinForms.QbChat.Pages
 				}
 
 				Database.Instance().SaveAllMessages(dialogId, messageTableList);
-
-				//var template = new DataTemplate (typeof(MessageCell));
-				//listView.HasUnevenRows = true;
-				//listView.ItemTemplate = template;
-				var sorted = messages.OrderBy(d => d.DateSent);
-				listView.ItemsSource = sorted;
-
-				try {
-					if (messages != null && messages.Count > 10)
-						listView.ScrollTo (messages [messages.Count - 1], ScrollToPosition.Start, false);
-				} catch (Exception ex) {
-				}
             }
-
-            Database.Instance().SubscribeForMessages(OnMessagesChanged);
 
             sendButton.Clicked += SendClicked;
 

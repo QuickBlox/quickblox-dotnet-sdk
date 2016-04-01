@@ -112,18 +112,6 @@ namespace XamarinForms.QbChat.Pages
 				}
 
 				Database.Instance().SaveAllMessages(dialogId, messageTableList);
-
-				//var template = new DataTemplate (typeof(MessageCell));
-				//listView.ItemTemplate = template;
-				listView.HasUnevenRows = true;
-				var sorted = messages.OrderBy(d => d.DateSent);
-				listView.ItemsSource = sorted;
-
-				try {
-					if (messages != null && messages.Count > 10)
-						listView.ScrollTo (messages [messages.Count - 1], ScrollToPosition.Start, false);
-				} catch (Exception ex) {
-				}
 			}
 
 

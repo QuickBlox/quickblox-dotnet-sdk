@@ -96,7 +96,12 @@ namespace XamarinForms.QbChat
 				};
 
 			this._checkBox = new CheckBoxExtended {
+				WidthRequest = 32,
+				HeightRequest = 32,
+				VerticalOptions = LayoutOptions.Center,
+				HorizontalOptions = LayoutOptions.Center
 			};
+
 			this._checkBox.CheckedChanged += (object sender, bool e) => {
 				if (!checkStateChangedInternal)
 					ChangeChekedState ();
