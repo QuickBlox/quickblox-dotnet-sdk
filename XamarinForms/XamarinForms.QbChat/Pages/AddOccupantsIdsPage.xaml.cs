@@ -10,6 +10,7 @@ namespace XamarinForms.QbChat
 {
 	public partial class AddOccupantsIdsPage : ContentPage
 	{
+		private bool isLoading = false;
 		private string dialogId;
 		private List<SelectedUser> UsersForList { get; set;}
 
@@ -19,6 +20,10 @@ namespace XamarinForms.QbChat
 			this.dialogId = outDialogId;
 
 			var doneItem = new ToolbarItem ("Done", null, async () => {
+				if (isLoading)
+					return;
+
+				this.isLoading = true;
 				await this.UpdateDialogs();
 				await App.Navigation.PopAsync(false);
 				await App.Navigation.PopAsync();
@@ -31,6 +36,7 @@ namespace XamarinForms.QbChat
 		{
 			base.OnAppearing ();
 
+			this.isLoading = true;
 			busyIndicator.IsVisible = true; 
 
 			var dialogTable = Database.Instance().GetDialog(dialogId);
@@ -43,6 +49,7 @@ namespace XamarinForms.QbChat
 					listView.ItemSelected += (o, e) => { listView.SelectedItem = null; };
 					listView.ItemsSource = UsersForList;
 					busyIndicator.IsVisible = false; 
+					this.isLoading = false;
 				});
 			});
 		}
