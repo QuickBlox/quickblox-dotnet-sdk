@@ -10,6 +10,7 @@ namespace XamarinForms.QbChat
 {
 	public partial class ChatInfoPage : ContentPage
 	{
+		private bool isLoading; 
 		private string dialogId;
 		private DialogTable dialog;
 
@@ -23,6 +24,8 @@ namespace XamarinForms.QbChat
 			leaveChatButton.Clicked += OnLeaveChat;
 
 			var addOccupantsItem = new ToolbarItem ("Add occupants", null, async () => {
+				if (isLoading)
+					return;
 				App.Navigation.PushAsync (new AddOccupantsIdsPage (this.dialogId));
 			});
 
@@ -53,6 +56,11 @@ namespace XamarinForms.QbChat
 
 		private async void OnLeaveChat (object sender, EventArgs e)
 		{
+			if (isLoading)
+				return;
+
+			this.isLoading = true;
+
 			this.busyIndicator.IsVisible = true;
 			var result = await DisplayAlert ("Leave Chat", "Do you really want to Leave Chat?", "Yes", "Cancel");
 			if (result) {
