@@ -61,8 +61,8 @@ namespace XamarinForms.QbChat
 					if (dialogInfo != null){
 						var groupManager = App.QbProvider.GetXmppClient().GetGroupChatManager(dialog.XmppRoomJid, dialog.DialogId);
 						//dialogInfo.OccupantsIds.Remove(App.QbProvider.UserId);
-						groupManager.NotifyAboutGroupUpdate(new List<int>(), new List<int>() { App.QbProvider.UserId }, dialogInfo);
 						groupManager.LeaveGroup(App.QbProvider.UserId.ToString ());
+						groupManager.NotifyAboutGroupUpdate(new List<int>(), new List<int>() { App.QbProvider.UserId }, dialogInfo);
 
 						var deleteResult = await App.QbProvider.DeleteDialogAsync(dialog.DialogId);
 						if (deleteResult){

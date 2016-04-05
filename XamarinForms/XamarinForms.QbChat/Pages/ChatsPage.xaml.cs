@@ -243,14 +243,22 @@ namespace XamarinForms.QbChat.Pages
 
 				if(messageEventArgs.Message.NotificationType != 0){
 					if (messageEventArgs.Message.NotificationType == NotificationTypes.GroupUpdate) {
-						var userIds = new List<int>(messageEventArgs.Message.AddedOccupantsIds);
-						userIds.Add (messageEventArgs.Message.SenderId);
+						var dialogInfo = await App.QbProvider.GetDialogAsync(messageEventArgs.Message.ChatDialogId);
+						dialog = new DialogTable (dialogInfo);
+						Database.Instance ().SaveDialog (dialog);
 
-						var users = await App.QbProvider.GetUsersByIdsAsync (string.Join(",", userIds));
-
-						var addedUsers = users.Where (u => u.Id != messageEventArgs.Message.SenderId);
-						var senderUser = users.First (u => u.Id == messageEventArgs.Message.SenderId);
-						messageTable.Text = senderUser.FullName + " added users: " + string.Join (",", addedUsers.Select (u => u.FullName));
+						if (messageEventArgs.Message.AddedOccupantsIds.Any ()) {
+							var userIds = new List<int>(messageEventArgs.Message.AddedOccupantsIds);
+							userIds.Add (messageEventArgs.Message.SenderId);
+							var users = await App.QbProvider.GetUsersByIdsAsync (string.Join(",", userIds));
+							var addedUsers = users.Where (u => u.Id != messageEventArgs.Message.SenderId);
+							var senderUser = users.First (u => u.Id == messageEventArgs.Message.SenderId);
+							messageTable.Text = senderUser.FullName + " added users: " + string.Join (",", addedUsers.Select (u => u.FullName));
+						} else if (messageEventArgs.Message.DeletedOccupantsIds.Any ()) {
+							var userIds = new List<int>(messageEventArgs.Message.DeletedOccupantsIds);
+							var users = await App.QbProvider.GetUsersByIdsAsync (string.Join(",", userIds));
+							messageTable.Text = string.Join (",", users.Select (u => u.FullName)) + " left this room";
+						}
 					}
 				}
 				else{

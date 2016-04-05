@@ -98,12 +98,6 @@
     <Reference Include="Splat">
       <HintPath>..\..\packages\Splat.1.6.2\lib\Portable-net45+win+wpa81+wp80\Splat.dll</HintPath>
     </Reference>
-    <Reference Include="Quickblox.Sdk.Xamarin">
-      <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.10\lib\portable-net45+win+wpa81\Quickblox.Sdk.Xamarin.dll</HintPath>
-    </Reference>
-    <Reference Include="Sharp.Xmpp">
-      <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.10\lib\portable-net45+win+wpa81\Sharp.Xmpp.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.8.0.3\lib\portable-net45+wp80+win8+wpa81+dnxcore50\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -112,6 +106,12 @@
     </Reference>
     <Reference Include="Acr.UserDialogs.Interface">
       <HintPath>..\..\packages\Acr.UserDialogs.4.3.4\lib\portable-win+net45+wp8+win8+wpa81\Acr.UserDialogs.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="Quickblox.Sdk.Xamarin">
+      <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.11\lib\portable-net45+win+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10\Quickblox.Sdk.Xamarin.dll</HintPath>
+    </Reference>
+    <Reference Include="Sharp.Xmpp">
+      <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.11\lib\portable-net45+win+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10\Sharp.Xmpp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

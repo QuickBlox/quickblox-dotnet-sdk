@@ -52,7 +52,6 @@ namespace XamarinForms.QbChat.Pages
 			dialog = Database.Instance().GetDialog(dialogId);
 			groupChatManager = App.QbProvider.GetXmppClient ().GetGroupChatManager (dialog.XmppRoomJid, dialogId);
 
-
 			chatNameLabel.Text = dialog.Name;
 			chatPhotoImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("groupholder.png"),
 				Android: ImageSource.FromFile ("groupholder.png"),
@@ -97,13 +96,20 @@ namespace XamarinForms.QbChat.Pages
 
 					if (message.NotificationType == NotificationTypes.GroupCreate ||
 					    message.NotificationType == NotificationTypes.GroupUpdate) {
-						var userIds = new List<int>(message.AddedOccupantsIds);
-						userIds.Add (message.SenderId);
+						if (message.AddedOccupantsIds.Any ()) {
+							var userIds = new List<int>(message.AddedOccupantsIds);
+							userIds.Add (message.SenderId);
 
-						var users = await App.QbProvider.GetUsersByIdsAsync (string.Join(",", userIds));
-						var addedUsers = users.Where (u => u.Id != message.SenderId);
-						var senderUser = users.First (u => u.Id == message.SenderId);
-						chatMessage.Text = senderUser.FullName + " added users: " + string.Join (",", addedUsers.Select (u => u.FullName));
+							var users = await App.QbProvider.GetUsersByIdsAsync (string.Join(",", userIds));
+
+							var addedUsers = users.Where (u => u.Id != message.SenderId);
+							var senderUser = users.First (u => u.Id == message.SenderId);
+							chatMessage.Text = senderUser.FullName + " added users: " + string.Join (",", addedUsers.Select (u => u.FullName));
+						} else if (message.DeletedOccupantsIds.Any ()) {
+							var userIds = new List<int>(message.DeletedOccupantsIds);
+							var users = await App.QbProvider.GetUsersByIdsAsync (string.Join(",", userIds));
+							chatMessage.Text = string.Join (",", users.Select (u => u.FullName)) + " left this room";
+						}
 					} else {
 						chatMessage.Text = System.Net.WebUtility.UrlDecode (message.MessageText);
 					}
