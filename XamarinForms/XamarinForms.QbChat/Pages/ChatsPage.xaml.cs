@@ -209,32 +209,9 @@ namespace XamarinForms.QbChat.Pages
 
         private async void OnMessageReceived(object sender, MessageEventArgs messageEventArgs)
         {
-			var dialog = Database.Instance().GetDialog(messageEventArgs.Message.ChatDialogId);
-			if (dialog == null)
-			{
-				var dialogInfo = await App.QbProvider.GetDialogAsync(messageEventArgs.Message.ChatDialogId);
-				dialog = new DialogTable (dialogInfo);
-			}
-
 			if (messageEventArgs.MessageType == MessageType.Chat ||
 				messageEventArgs.MessageType == MessageType.Groupchat) {
 				string decodedMessage = System.Net.WebUtility.UrlDecode (messageEventArgs.Message.MessageText);
-				if (dialog != null)
-				{
-					dialog.LastMessage = decodedMessage;
-					dialog.LastMessageSent = DateTime.UtcNow;
-
-					if (dialog.UnreadMessageCount != null)
-					{
-						dialog.UnreadMessageCount++;
-					}
-					else
-					{
-						dialog.UnreadMessageCount = 1;
-					}
-
-					Database.Instance().SaveDialog(dialog);
-				}
 
 				var messageTable = new MessageTable ();
 				messageTable.SenderId = messageEventArgs.Message.SenderId;
@@ -243,9 +220,15 @@ namespace XamarinForms.QbChat.Pages
 
 				if(messageEventArgs.Message.NotificationType != 0){
 					if (messageEventArgs.Message.NotificationType == NotificationTypes.GroupUpdate) {
-						var dialogInfo = await App.QbProvider.GetDialogAsync(messageEventArgs.Message.ChatDialogId);
-						dialog = new DialogTable (dialogInfo);
-						Database.Instance ().SaveDialog (dialog);
+						if (messageEventArgs.Message.DeletedOccupantsIds.Contains (App.QbProvider.UserId)) {
+							//var deleteResult = 
+							await App.QbProvider.DeleteDialogAsync(messageEventArgs.Message.ChatDialogId);
+							//if (deleteResult){
+							Database.Instance().DeleteDialog(messageEventArgs.Message.ChatDialogId);
+							//}
+
+							return;
+						}
 
 						if (messageEventArgs.Message.AddedOccupantsIds.Any ()) {
 							var userIds = new List<int>(messageEventArgs.Message.AddedOccupantsIds);
@@ -265,29 +248,61 @@ namespace XamarinForms.QbChat.Pages
 					messageTable.Text = decodedMessage;
 				}
 
-				if (messageTable.SenderId == App.QbProvider.UserId) {
-					messageTable.RecepientFullName = "Me";
-				} else {
-					var user = Database.Instance ().GetUser (messageTable.SenderId);
-					if (user == null) {
-						var userRespose = await App.QbProvider.GetUserAsync (messageTable.SenderId);
-						if (userRespose != null) {
-							user = new UserTable ();
-							user.FullName = userRespose.FullName;
-							user.UserId = userRespose.Id;
-							user.PhotoId = userRespose.BlobId.HasValue ? userRespose.BlobId.Value : 0;
-							Database.Instance ().SaveUser (user);
+				await SetRecepientName (messageTable);
 
-							messageTable.RecepientFullName = user.FullName;
-						}
-					} else {
+				Database.Instance ().SaveMessage (messageTable);
+
+				UpdateInDialogMessage(messageEventArgs.Message.ChatDialogId, decodedMessage);
+
+			}
+        }
+
+		private async Task SetRecepientName (MessageTable messageTable)
+		{
+			if (messageTable.SenderId == App.QbProvider.UserId) {
+				messageTable.RecepientFullName = "Me";
+			}
+			else {
+				var user = Database.Instance ().GetUser (messageTable.SenderId);
+				if (user == null) {
+					var userRespose = await App.QbProvider.GetUserAsync (messageTable.SenderId);
+					if (userRespose != null) {
+						user = new UserTable ();
+						user.FullName = userRespose.FullName;
+						user.UserId = userRespose.Id;
+						user.PhotoId = userRespose.BlobId.HasValue ? userRespose.BlobId.Value : 0;
+						Database.Instance ().SaveUser (user);
 						messageTable.RecepientFullName = user.FullName;
 					}
 				}
-
-				Database.Instance ().SaveMessage (messageTable);
+				else {
+					messageTable.RecepientFullName = user.FullName;
+				}
 			}
-        }
+		}
+
+		private async void UpdateInDialogMessage (string chatDialogId, string decodedMessage)
+		{
+			var dialog = Database.Instance ().GetDialog (chatDialogId);
+			if (dialog == null) {
+				var dialogInfo = await App.QbProvider.GetDialogAsync (chatDialogId);
+				if (dialogInfo == null) {
+					return;
+				}
+				dialog = new DialogTable (dialogInfo);
+			}
+			if (dialog != null) {
+				dialog.LastMessage = decodedMessage;
+				dialog.LastMessageSent = DateTime.UtcNow;
+				if (dialog.UnreadMessageCount != null) {
+					dialog.UnreadMessageCount++;
+				}
+				else {
+					dialog.UnreadMessageCount = 1;
+				}
+				Database.Instance ().SaveDialog (dialog);
+			}
+		}
 
 		private void OnSystemMessageReceived (object sender, SystemMessageEventArgs messageEventArgs)
 		{

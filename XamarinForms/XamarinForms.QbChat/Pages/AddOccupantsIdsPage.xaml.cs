@@ -57,11 +57,13 @@ namespace XamarinForms.QbChat
 		private async Task UpdateDialogs ()
 		{
 			var addedUserIds = UsersForList.Where (u => u.IsSelected).Select (u => u.User.Id).ToList();
-			var dialog = await App.QbProvider.UpdateDialogAsync (this.dialogId, addedUserIds);
-			if (dialog != null) {
-				Database.Instance ().SaveDialog (new DialogTable (dialog));
-				var groupManager = App.QbProvider.GetXmppClient ().GetGroupChatManager (dialog.XmppRoomJid, dialog.Id);
-				groupManager.NotifyAboutGroupUpdate (addedUserIds, new List<int> (), dialog); 
+			if (addedUserIds.Any ()) {
+				var dialog = await App.QbProvider.UpdateDialogAsync (this.dialogId, addedUserIds);
+				if (dialog != null) {
+					Database.Instance ().SaveDialog (new DialogTable (dialog));
+					var groupManager = App.QbProvider.GetXmppClient ().GetGroupChatManager (dialog.XmppRoomJid, dialog.Id);
+					groupManager.NotifyAboutGroupUpdate (addedUserIds, new List<int> (), dialog); 
+				}
 			}
 		}
 	}
