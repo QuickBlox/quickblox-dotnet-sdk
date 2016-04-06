@@ -242,6 +242,13 @@ namespace XamarinForms.QbChat.Pages
 							var users = await App.QbProvider.GetUsersByIdsAsync (string.Join(",", userIds));
 							messageTable.Text = string.Join (",", users.Select (u => u.FullName)) + " left this room";
 						}
+
+						var dialogInfo = await App.QbProvider.GetDialogAsync (messageEventArgs.Message.ChatDialogId);
+						if (dialogInfo == null) {
+							return;
+						}
+						var dialog = new DialogTable (dialogInfo);
+						Database.Instance ().SaveDialog (dialog);
 					}
 				}
 				else{
@@ -249,11 +256,9 @@ namespace XamarinForms.QbChat.Pages
 				}
 
 				await SetRecepientName (messageTable);
-
 				Database.Instance ().SaveMessage (messageTable);
 
 				UpdateInDialogMessage(messageEventArgs.Message.ChatDialogId, decodedMessage);
-
 			}
         }
 

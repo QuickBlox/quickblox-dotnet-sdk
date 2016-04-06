@@ -14,7 +14,6 @@ namespace XamarinForms.QbChat.Pages
 		private string dialogId;
 		int opponentId;
 		private bool isLoaded;
-		DialogTable dialog;
 		List<User> opponentUsers;
 		Quickblox.Sdk.Modules.ChatXmppModule.GroupChatManager groupChatManager;
 
@@ -49,7 +48,7 @@ namespace XamarinForms.QbChat.Pages
 
 			this.busyIndicator.IsVisible = true;
 
-			dialog = Database.Instance().GetDialog(dialogId);
+			var dialog = Database.Instance().GetDialog(dialogId);
 			groupChatManager = App.QbProvider.GetXmppClient ().GetGroupChatManager (dialog.XmppRoomJid, dialogId);
 
 			chatNameLabel.Text = dialog.Name;
@@ -132,6 +131,7 @@ namespace XamarinForms.QbChat.Pages
 			var message = messageEntry.Text != null ? messageEntry.Text.Trim() : string.Empty;
 			if (!string.IsNullOrEmpty(message))
 			{
+				var dialog = Database.Instance().GetDialog(dialogId);
 				dialog.LastMessage = message;
 				dialog.LastMessageSent = DateTime.UtcNow;
 				Database.Instance ().SaveDialog (dialog);
