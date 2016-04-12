@@ -18,15 +18,15 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <StackLayout Padding="18,0,0,0">
-            	<Image x:Name="chatPhotoImage" WidthRequest="80" HeightRequest="80" VerticalOptions="Start"/>
+            	<Image x:Name="chatPhotoImage" Source="{Binding ImageSource}" WidthRequest="80" HeightRequest="80" VerticalOptions="Start"/>
             </StackLayout>
             <StackLayout  Grid.Column="1" Padding="18,12,0,0">
-            	<Label x:Name="chatNameLabel" FontSize="22" HorizontalTextAlignment="Start"/>
+            	<Label x:Name="chatNameLabel" FontSize="22" HorizontalTextAlignment="Start" Text="{Binding DialogName}"/>
             </StackLayout>
 
         </Grid>
         <Grid Grid.Row="1" Padding="0,6">
-	        <ListView x:Name="listView" HasUnevenRows="true">
+	        <ListView x:Name="listView" HasUnevenRows="true" ItemsSource="{Binding Messages}">
 	         <ListView.ItemTemplate>
 			    <DataTemplate>
 			      <local:MessageCell>
@@ -43,7 +43,7 @@
 			  </ListView.ItemTemplate>
 	        </ListView>
 
-	    	<ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="false" />
+	    	<ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsBusyIndicatorVisible}" />
         </Grid>
         
         <Grid Grid.Row="2" Padding="12,6">
@@ -51,8 +51,8 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="80"/>
             </Grid.ColumnDefinitions>
-            	<Entry x:Name="messageEntry" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-            <Button x:Name="sendButton" Grid.Column="1" Text="Send" />
+            	<Entry x:Name="messageEntry" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Text="{Binding MessageText, Mode=TwoWay}"/>
+            <Button x:Name="sendButton" Grid.Column="1" Text="Send" Command="{Binding SendMessageCommand}"/>
         </Grid>
     </Grid>
 </ContentPage>

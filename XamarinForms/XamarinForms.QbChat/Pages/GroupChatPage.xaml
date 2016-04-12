@@ -1,13 +1,18 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="XamarinForms.QbChat.Pages.GroupChatPage"
 Title="Group Chat" xmlns:local="clr-namespace:XamarinForms.QbChat;assembly=XamarinForms.QbChat">
+  <ContentPage.ToolbarItems>
+    <ToolbarItem Text="Chat Info"
+                 Command="{Binding OpenChatInfoCommand}">
+    </ToolbarItem>
+  </ContentPage.ToolbarItems>
+  
 	<Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
             <RowDefinition />
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
-
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="80"/>
@@ -17,32 +22,32 @@ Title="Group Chat" xmlns:local="clr-namespace:XamarinForms.QbChat;assembly=Xamar
             	<RowDefinition Height="60" />
             </Grid.RowDefinitions>
             <StackLayout Padding="18,0,0,0">
-            	<Image x:Name="chatPhotoImage" WidthRequest="80" HeightRequest="80" VerticalOptions="Start"/>
+            	<Image x:Name="chatPhotoImage" WidthRequest="80" HeightRequest="80" VerticalOptions="Start" Source="{Binding ImageSource}"/>
             </StackLayout>
             <StackLayout  Grid.Column="1" Padding="18,12,0,0">
-            	<local:WrapLabel x:Name="chatNameLabel" FontSize="16" VerticalOptions="FillAndExpand" LineBreakMode="WordWrap" HeightRequest="60"/>
+            	<local:WrapLabel x:Name="chatNameLabel" FontSize="16" VerticalOptions="FillAndExpand" LineBreakMode="WordWrap" HeightRequest="60" Text="{Binding DialogName}"/>
             </StackLayout>
 
         </Grid>
         <Grid Grid.Row="1" Padding="0,6">
-	        <ListView x:Name="listView" HasUnevenRows="true">
+	        <ListView x:Name="listView" HasUnevenRows="true" ItemsSource="{Binding Messages}">
 	         <ListView.ItemTemplate>
-			    <DataTemplate>
-			      <local:MessageCell>
-			        <Grid Padding="20,0,0,0">
-			            <Grid.RowDefinitions>
-			              <RowDefinition Height="Auto" />
-			              <RowDefinition Height="*" />
-			            </Grid.RowDefinitions>
-			            <Label Text="{Binding RecepientFullName}" FontSize="Small" TextColor="#01B6FF" LineBreakMode="WordWrap" />
-			            <local:WrapLabel Text="{Binding Text}" FontSize="Small" Grid.Row="1" />
-			        </Grid>
-			      </local:MessageCell>
-			    </DataTemplate>
+			        <DataTemplate>
+			          <local:MessageCell>
+			            <Grid Padding="20,0,0,0">
+			                <Grid.RowDefinitions>
+			                  <RowDefinition Height="Auto" />
+			                  <RowDefinition Height="*" />
+			                </Grid.RowDefinitions>
+			                <Label Text="{Binding RecepientFullName}" FontSize="Small" TextColor="#01B6FF" LineBreakMode="WordWrap" />
+			                <local:WrapLabel Text="{Binding Text}" FontSize="Small" Grid.Row="1" />
+			            </Grid>
+			          </local:MessageCell>
+			        </DataTemplate>
 			  </ListView.ItemTemplate>
 	        </ListView>
 
-	    	<ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="false" />
+	    	<ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsBusyIndicatorVisible}" />
         </Grid>
         
         <Grid Grid.Row="2" Padding="12,6">
@@ -50,8 +55,8 @@ Title="Group Chat" xmlns:local="clr-namespace:XamarinForms.QbChat;assembly=Xamar
                 <ColumnDefinition />
                 <ColumnDefinition Width="80"/>
             </Grid.ColumnDefinitions>
-            	<Entry x:Name="messageEntry" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-            <Button x:Name="sendButton" Grid.Column="1" Text="Send" />
+            	<Entry x:Name="messageEntry" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Text="{Binding MessageText, Mode=TwoWay}"/>
+            <Button x:Name="sendButton" Grid.Column="1" Text="Send" Command="{Binding SendMessageCommand}"/>
         </Grid>
     </Grid>
 </ContentPage>

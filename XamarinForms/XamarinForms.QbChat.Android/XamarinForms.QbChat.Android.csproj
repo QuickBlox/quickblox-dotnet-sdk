@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -40,6 +40,14 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Quickblox.Sdk.Xamarin, Version=1.0.13.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.13\lib\portable-net45+win+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10\Quickblox.Sdk.Xamarin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Sharp.Xmpp, Version=1.0.2.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.13\lib\portable-net45+win+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10\Sharp.Xmpp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -67,6 +75,10 @@
     </Reference>
     <Reference Include="SQLite.Net.Platform.XamarinAndroid">
       <HintPath>..\..\packages\SQLite.Net-PCL.3.1.1\lib\MonoAndroid\SQLite.Net.Platform.XamarinAndroid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Behaviors, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xamarin.Forms.Behaviors.1.3.1\lib\Xamarin.Behaviors.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.Forms.Platform.Android">
       <HintPath>..\..\packages\Xamarin.Forms.2.1.0.6529\lib\MonoAndroid10\Xamarin.Forms.Platform.Android.dll</HintPath>
@@ -100,12 +112,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.8.0.3\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Quickblox.Sdk.Xamarin">
-      <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.11\lib\portable-net45+win+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10\Quickblox.Sdk.Xamarin.dll</HintPath>
-    </Reference>
-    <Reference Include="Sharp.Xmpp">
-      <HintPath>..\..\packages\Quickblox.Sdk.Xamarin.1.0.11\lib\portable-net45+win+wpa81+MonoTouch10+MonoAndroid10+xamarinmac20+xamarinios10\Sharp.Xmpp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -160,11 +166,7 @@
     <AndroidResource Include="Resources\drawable\privateholder.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\drawable\" />
-    <Folder Include="App\" />
-    <Folder Include="App\Activity\" />
     <Folder Include="Resources\layout\" />
-    <Folder Include="App\Render\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.1.0.6529\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.1.0.6529\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />

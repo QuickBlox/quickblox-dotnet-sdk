@@ -1,7 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="XamarinForms.QbChat.Pages.ChatsPage">
+             xmlns:behaviors="clr-namespace:Xamarin.Behaviors;assembly=Xamarin.Behaviors"
+             x:Class="XamarinForms.QbChat.Pages.ChatsPage"
+             xmlns:local="clr-namespace:XamarinForms.QbChat;assembly=XamarinForms.QbChat"
+             Title="{Binding Title}"
+             x:Name="Root">
+
+  <ContentPage.ToolbarItems>
+    <ToolbarItem Text="Log Out"
+                 Command="{Binding LogoutCommand}">
+      <ToolbarItem.Order>
+        <OnPlatform x:TypeArguments="ToolbarItemOrder"
+          iOS="Primary"
+          Android="Secondary"
+          WinPhone="Primary" />
+      </ToolbarItem.Order>
+    </ToolbarItem>
+    <ToolbarItem Text="New Chat"
+                  Command="{Binding CreateNewChatCommand}">
+      <ToolbarItem.Order>
+        <OnPlatform x:TypeArguments="ToolbarItemOrder"
+          iOS="Primary"
+          Android="Secondary"
+          WinPhone="Primary" />
+      </ToolbarItem.Order>
+    </ToolbarItem>
+  </ContentPage.ToolbarItems>
+  
      <Grid>
 	     <Grid.RowDefinitions>
 		     <RowDefinition Height="Auto"/>
@@ -12,9 +38,27 @@
 	     </StackLayout>
 
         <Grid Grid.Row="1">
-		    <ListView x:Name="listView" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+          <ListView x:Name="listView"
+                  ItemsSource="{Binding Dialogs}">
+            <ListView.ItemTemplate>
+              <DataTemplate>
+                <local:ChatCell Text="{Binding Name}"
+                              Detail="{Binding LastMessage}">
+                      <behaviors:Interaction.Behaviors>
+                        <behaviors:BehaviorCollection>
+                          <behaviors:EventToCommand CommandNameContext="{behaviors:RelativeContext Root}"
+                                                     EventName="Tapped"
+                                                     CommandName="TappedCommand"
+                                                     CommandParameter="{Binding .}"
+                                              />
+                        </behaviors:BehaviorCollection>
+                      </behaviors:Interaction.Behaviors>
+                  </local:ChatCell>
+              </DataTemplate>
+            </ListView.ItemTemplate>
+          </ListView>
 
-		    <ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="false" />
+		    <ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsBusyIndicatorVisible}" />
 	    </Grid>
     </Grid>
 </ContentPage>
