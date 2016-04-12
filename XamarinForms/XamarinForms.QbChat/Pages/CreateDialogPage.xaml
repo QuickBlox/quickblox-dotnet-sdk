@@ -2,6 +2,11 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="XamarinForms.QbChat.CreateDialogPage"
 Title="New Chat"
 xmlns:controls="clr-namespace:XamarinForms.QbChat;assembly=XamarinForms.QbChat">
+  <ContentPage.ToolbarItems>
+    <ToolbarItem Text="Create"
+                 Command="{Binding CreateChatCommand}" />
+  </ContentPage.ToolbarItems>
+  
 	 <Grid>
 	     <Grid.RowDefinitions>
 		     <RowDefinition Height="Auto"/>
@@ -12,7 +17,7 @@ xmlns:controls="clr-namespace:XamarinForms.QbChat;assembly=XamarinForms.QbChat">
 	     </StackLayout>
 
         <Grid Grid.Row="1">
-		    <ListView x:Name="listView" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
+		    <ListView x:Name="listView" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ItemsSource="{Binding Users}" >
 		  		<ListView.ItemTemplate>
 		  		<DataTemplate>
 		  			<controls:CustomSelectableCell Text="{Binding User.FullName}" IsSelected="{Binding IsSelected, Mode=TwoWay}"/>
@@ -20,7 +25,7 @@ xmlns:controls="clr-namespace:XamarinForms.QbChat;assembly=XamarinForms.QbChat">
 		  		</ListView.ItemTemplate>
 		    </ListView>
 
-		    <ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="false" />
+		    <ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsBusyIndicatorVisible}" />
 	    </Grid>
     </Grid>
 </ContentPage>
