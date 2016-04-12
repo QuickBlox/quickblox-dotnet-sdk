@@ -80,6 +80,7 @@
     <Compile Include="Pages\AddOccupantsIdsPage.xaml.cs">
       <DependentUpon>AddOccupantsIdsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\AddOccupantsIdsViewModel.cs" />
     <Compile Include="ViewModels\BaseChatViewModel.cs" />
     <Compile Include="ViewModels\ChatInfoViewModel.cs" />
     <Compile Include="ViewModels\ChatsViewModel.cs" />
