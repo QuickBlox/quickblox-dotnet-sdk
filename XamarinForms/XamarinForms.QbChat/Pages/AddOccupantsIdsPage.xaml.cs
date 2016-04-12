@@ -1,15 +1,11 @@
-﻿using System.Collections.Generic;
-
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using XamarinForms.QbChat.ViewModels;
 
 namespace XamarinForms.QbChat
 {
     public partial class AddOccupantsIdsPage : ContentPage
 	{
-		private bool isLoading = false;
 		private string dialogId;
-		private List<SelectedUser> UsersForList { get; set;}
 
 		public AddOccupantsIdsPage (string outDialogId)
 		{

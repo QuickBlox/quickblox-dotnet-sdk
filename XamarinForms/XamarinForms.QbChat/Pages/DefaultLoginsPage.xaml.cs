@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 using Xamarin.Forms;
-using System.Threading.Tasks;
 using XamarinForms.QbChat.ViewModels;
 
 namespace XamarinForms.QbChat
@@ -17,7 +14,7 @@ namespace XamarinForms.QbChat
 		    this.BindingContext = vm;
 		}
 
-		protected override async void OnAppearing ()
+		protected override void OnAppearing ()
 		{
 			base.OnAppearing ();
             var vm = this.BindingContext as DefaultLoginsViewModels;

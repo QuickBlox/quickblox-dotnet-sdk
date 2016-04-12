@@ -1,17 +1,7 @@
-﻿using Quickblox.Sdk.Modules.ChatXmppModule.ExtraParameters;
-using Quickblox.Sdk.Modules.ChatXmppModule.Models;
-using System;
-using System.Linq;
+﻿using System;
 using XamarinForms.QbChat.Repository;
 using Xamarin.Forms;
-using Quickblox.Sdk.Modules.ChatModule.Models;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using Quickblox.Sdk.Modules.UsersModule.Models;
-using Quickblox.Sdk.GeneralDataModel.Models;
 using XamarinForms.QbChat.ViewModels;
 
 namespace XamarinForms.QbChat.Pages
@@ -19,10 +9,7 @@ namespace XamarinForms.QbChat.Pages
     public partial class PrivateChatPage : ContentPage
     {
         private string dialogId;
-		int opponentId;
 		private bool isLoaded;
-		DialogTable dialog;
-		User opponentUser;
 
 		public PrivateChatPage(String dialogId)
         {
@@ -31,7 +18,7 @@ namespace XamarinForms.QbChat.Pages
 			listView.ItemTapped += (object sender, ItemTappedEventArgs e) => ((ListView)sender).SelectedItem = null;
         }
 
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
 
