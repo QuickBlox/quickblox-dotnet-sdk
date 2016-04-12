@@ -81,6 +81,7 @@
       <DependentUpon>AddOccupantsIdsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\BaseChatViewModel.cs" />
+    <Compile Include="ViewModels\ChatInfoViewModel.cs" />
     <Compile Include="ViewModels\ChatsViewModel.cs" />
     <Compile Include="ViewModels\DefaultLoginsViewModels.cs" />
     <Compile Include="ViewModels\GroupChatViewModel.cs" />
