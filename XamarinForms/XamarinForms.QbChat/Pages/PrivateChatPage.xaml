@@ -26,7 +26,7 @@
 
         </Grid>
         <Grid Grid.Row="1" Padding="0,6">
-	        <ListView x:Name="listView" HasUnevenRows="true" ItemsSource="{Binding Messages}">
+	        <ListView x:Name="listView" HasUnevenRows="true" ItemsSource="{Binding Messages}" VerticalOptions="Start">
 	         <ListView.ItemTemplate>
 			    <DataTemplate>
 			      <local:MessageCell>

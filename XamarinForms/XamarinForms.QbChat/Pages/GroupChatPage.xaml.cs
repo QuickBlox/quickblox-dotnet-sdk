@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using XamarinForms.QbChat.Repository;
 using XamarinForms.QbChat.ViewModels;
@@ -18,7 +19,11 @@ namespace XamarinForms.QbChat.Pages
 
 		    this.dialogId = dialogId;
 			listView.ItemTapped += (object sender, ItemTappedEventArgs e) => ((ListView)sender).SelectedItem = null;
-		}
+            this.messageEntry.Focused += async (sender, args) =>
+            {
+                ScrollList();
+            };
+        }
 
 		protected override void OnDisappearing ()
 		{
@@ -39,12 +44,13 @@ namespace XamarinForms.QbChat.Pages
             vm.OnAppearing();
 		}
 
-		public void ScrollList ()
+		public async void ScrollList ()
 		{
-			var sorted = listView.ItemsSource as List<MessageTable>;
+			var sorted = listView.ItemsSource as ObservableCollection<MessageTable>;
 			try {
 				if (sorted != null && sorted.Count > 10) {
-					listView.ScrollTo (sorted [sorted.Count - 1], ScrollToPosition.End, false);
+                    await Task.Delay(300);
+                    listView.ScrollTo (sorted [sorted.Count - 1], ScrollToPosition.End, false);
 				}
 			}
 			catch (Exception ex) {

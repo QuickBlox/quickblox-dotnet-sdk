@@ -118,7 +118,8 @@ namespace XamarinForms.QbChat.ViewModels
                         groupManager.NotifyAboutGroupCreation(userIds, dialog);
 
                         var groupChantPage = new GroupChatPage(dialog.Id);
-                        App.Navigation.InsertPageBefore(groupChantPage, (App.Current.MainPage as NavigationPage).CurrentPage);
+                        App.Navigation.InsertPageBefore(groupChantPage,
+                            (App.Current.MainPage as NavigationPage).CurrentPage);
                         App.Navigation.PopAsync();
                     }
                     else if (dialogType == DialogType.Private)
@@ -137,7 +138,8 @@ namespace XamarinForms.QbChat.ViewModels
 
                         SaveDialogToDb(dialog);
                         var privateChantPage = new PrivateChatPage(dialog.Id);
-                        App.Navigation.InsertPageBefore(privateChantPage, (App.Current.MainPage as NavigationPage).CurrentPage);
+                        App.Navigation.InsertPageBefore(privateChantPage,
+                            (App.Current.MainPage as NavigationPage).CurrentPage);
                         App.Navigation.PopAsync();
                     }
                 }
@@ -148,7 +150,10 @@ namespace XamarinForms.QbChat.ViewModels
 
                 this.IsBusyIndicatorVisible = false;
             }
-            catch (Exception ex){ }
+            catch (Exception ex)
+            {
+                
+            }
         }
     }
 }

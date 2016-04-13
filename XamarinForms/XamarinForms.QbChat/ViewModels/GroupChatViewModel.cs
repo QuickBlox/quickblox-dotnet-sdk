@@ -10,6 +10,7 @@ using XamarinForms.QbChat.Repository;
 using Quickblox.Sdk.GeneralDataModel.Models;
 using Quickblox.Sdk.Modules.ChatXmppModule.Models;
 using Quickblox.Sdk.Modules.UsersModule.Models;
+using XamarinForms.QbChat.Pages;
 
 namespace XamarinForms.QbChat.ViewModels
 {
@@ -116,6 +117,10 @@ namespace XamarinForms.QbChat.ViewModels
                         this.Messages.Add(chatMessage)
                     );
                 }
+
+                Device.BeginInvokeOnMainThread(() =>
+                   ((App.Current.MainPage as NavigationPage).CurrentPage as GroupChatPage).ScrollList()
+               );
             }
         }
 
@@ -169,6 +174,10 @@ namespace XamarinForms.QbChat.ViewModels
                 await SetRecepientName(messageTable);
 
                 this.Messages.Add(messageTable);
+
+                Device.BeginInvokeOnMainThread(() =>
+                   ((App.Current.MainPage as NavigationPage).CurrentPage as GroupChatPage).ScrollList()
+               );
             }
         }
 
