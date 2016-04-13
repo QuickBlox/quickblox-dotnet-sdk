@@ -1,71 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Xamarin.Forms;
-using System.Threading.Tasks;
-using System.Linq;
-using XamarinForms.QbChat.Repository;
+﻿using Xamarin.Forms;
+using XamarinForms.QbChat.ViewModels;
 
 namespace XamarinForms.QbChat
 {
-	public partial class AddOccupantsIdsPage : ContentPage
+    public partial class AddOccupantsIdsPage : ContentPage
 	{
-		private bool isLoading = false;
 		private string dialogId;
-		private List<SelectedUser> UsersForList { get; set;}
 
 		public AddOccupantsIdsPage (string outDialogId)
 		{
 			InitializeComponent ();
 			this.dialogId = outDialogId;
-
-			var doneItem = new ToolbarItem ("Done", null, async () => {
-				if (isLoading)
-					return;
-
-				this.isLoading = true;
-				await this.UpdateDialogs();
-				await App.Navigation.PopAsync(false);
-				await App.Navigation.PopAsync();
-			});
-
-			ToolbarItems.Add (doneItem);
+            listView.ItemSelected += (o, e) => { listView.SelectedItem = null; };
 		}
 
 		protected override void OnAppearing ()
 		{
 			base.OnAppearing ();
 
-			this.isLoading = true;
-			busyIndicator.IsVisible = true; 
-
-			var dialogTable = Database.Instance().GetDialog(dialogId);
-			var dialogIds = dialogTable.OccupantIds.Split (',').Select(u => Int32.Parse(u));
-			Task.Factory.StartNew (async () => {
-				var users = await App.QbProvider.GetUserByTag("XamarinChat");
-				UsersForList = users.Where(u => u.Id != App.QbProvider.UserId && !dialogIds.Contains(u.Id)).Select(u => new SelectedUser() { User = u }).ToList();
-
-				Device.BeginInvokeOnMainThread(() => {
-					listView.ItemSelected += (o, e) => { listView.SelectedItem = null; };
-					listView.ItemsSource = UsersForList;
-					busyIndicator.IsVisible = false; 
-					this.isLoading = false;
-				});
-			});
-		}
-
-		private async Task UpdateDialogs ()
-		{
-			var addedUserIds = UsersForList.Where (u => u.IsSelected).Select (u => u.User.Id).ToList();
-			if (addedUserIds.Any ()) {
-				var dialog = await App.QbProvider.UpdateDialogAsync (this.dialogId, addedUserIds);
-				if (dialog != null) {
-					Database.Instance ().SaveDialog (new DialogTable (dialog));
-					var groupManager = App.QbProvider.GetXmppClient ().GetGroupChatManager (dialog.XmppRoomJid, dialog.Id);
-					groupManager.NotifyAboutGroupUpdate (addedUserIds, new List<int> (), dialog); 
-				}
-			}
-		}
+            var vm = new AddOccupantsIdsViewModel(this.dialogId);
+            this.BindingContext = vm;
+            vm.OnAppearing();
+        }
 	}
 }
 

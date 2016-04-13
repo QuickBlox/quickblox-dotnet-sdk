@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace XamarinForms.QbChat.Repository
 {
-    public class DialogTable
+    public class DialogTable : Observable
     {
         private string lastMessage;
         private DateTime lastMessageSent;
@@ -54,13 +54,21 @@ namespace XamarinForms.QbChat.Repository
         public string LastMessage
         {
             get { return lastMessage; }
-            set { lastMessage = value; }
+            set
+            {
+                lastMessage = value; 
+                this.RaisePropertyChanged();
+            }
         }
 
         public DateTime LastMessageSent
         {
             get { return lastMessageSent; }
-            set { lastMessageSent = value; }
+            set
+            {
+                lastMessageSent = value;
+                this.RaisePropertyChanged();
+            }
         }
 
         public string Name
