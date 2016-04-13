@@ -45,7 +45,7 @@ namespace XamarinForms.QbChat.iOS
 
 			View.AutoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth;
 
-			page.ScrollList ();
+			//page.ScrollList ();
 		}
 
 		public override void ViewWillDisappear (bool animated)
@@ -78,7 +78,7 @@ namespace XamarinForms.QbChat.iOS
 			page.ForceLayout ();
 			View.Frame = frame;
 
-			page.OnMessagesChanged();
+			//page.OnMessagesChanged();
 		}
 
 		public override void ViewDidDisappear (bool animated)
