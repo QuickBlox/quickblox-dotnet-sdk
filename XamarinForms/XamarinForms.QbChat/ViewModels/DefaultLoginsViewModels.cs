@@ -48,27 +48,27 @@ namespace XamarinForms.QbChat.ViewModels
 
         public ICommand TappedCommand { get; set; }
 
-        public override async void OnAppearing()
-        {
-            base.OnAppearing();
+        public override void OnAppearing()
+		{
+			base.OnAppearing ();
+			this.IsBusyIndicatorVisible = true;
 
-            var list = new List<DefaultUser>();
-            var baseSesionResult = await App.QbProvider.GetBaseSession();
-            if (baseSesionResult)
-            {
-                var users = await App.QbProvider.GetUserByTag("XamarinChat");
-                foreach (var user in users)
-                {
-                    list.Add(new DefaultUser() {Name = user.FullName, Login = user.Login, Password = user.Login});
-                }
-            }
+			Task.Factory.StartNew (async () => {
+				var list = new List<DefaultUser> ();
+				var baseSesionResult = await App.QbProvider.GetBaseSession ();
+				if (baseSesionResult) {
+					var users = await App.QbProvider.GetUserByTag ("XamarinChat");
+					foreach (var user in users) {
+						list.Add (new DefaultUser () { Name = user.FullName, Login = user.Login, Password = user.Login });
+					}
+				}
 
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                Users = list;
-                this.IsBusyIndicatorVisible = false;
-            });
-        }
+				Device.BeginInvokeOnMainThread (() => {
+					Users = list;
+					this.IsBusyIndicatorVisible = false;
+				});
+			});
+		}
 
 
 

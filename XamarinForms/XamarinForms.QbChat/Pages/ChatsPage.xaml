@@ -21,7 +21,7 @@
                   Command="{Binding CreateNewChatCommand}">
       <ToolbarItem.Order>
         <OnPlatform x:TypeArguments="ToolbarItemOrder"
-          iOS="Primary"
+          iOS="Default"
           Android="Secondary"
           WinPhone="Primary" />
       </ToolbarItem.Order>
