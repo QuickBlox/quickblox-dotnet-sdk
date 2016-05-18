@@ -21,7 +21,8 @@ namespace XamarinForms.QbChat.iOS
 
 			Repository.Database.Instance ().Init (new SqliteIOS().GetConnection());
 
-			LoadApplication (new App()); 
+            Quickblox.Sdk.Platform.QuickbloxPlatform.Init();
+            LoadApplication(new App()); 
 
 			return base.FinishedLaunching(application, launchOptions);
 		}

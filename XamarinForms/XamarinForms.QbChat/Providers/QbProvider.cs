@@ -21,22 +21,24 @@ using Quickblox.Sdk.Modules.ContentModule.Models;
 using Quickblox.Sdk.Http;
 using Quickblox.Sdk.Modules.NotificationModule.Requests;
 using Quickblox.Sdk.Modules.NotificationModule.Models;
-using Quickblox.Sdk.Logger;
-using Xamarin.Forms;
 using XamarinForms.QbChat.Repository;
 using Quickblox.Sdk.Modules.ChatXmppModule;
 using XamarinForms.QbChat.Interfaces;
 
 namespace XamarinForms.QbChat
 {
-	public class QbProvider
+    public class QbProvider
 	{
+        static QbProvider()
+        {
+        }
+
 		private readonly QuickbloxClient client = new QuickbloxClient(ApplicationKeys.ApplicationId,
 			ApplicationKeys.AuthorizationKey,
 			ApplicationKeys.AuthorizationSecret,
 			ApplicationKeys.ApiBaseEndpoint,
 			ApplicationKeys.ChatEndpoint,
-			new QbLogger());
+			logger:new QbLogger());
 
 		public int UserId { get; set; }
 

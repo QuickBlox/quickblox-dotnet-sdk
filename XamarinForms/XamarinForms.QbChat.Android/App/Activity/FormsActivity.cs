@@ -23,7 +23,8 @@ namespace XamarinForms.QbChat.Android
 			Database.Instance ().Init (DependencyService.Get<ISqlite> ().GetConnection ());
 			UserDialogs.Init (this);
 
-			var app = new App ();
+            Quickblox.Sdk.Platform.QuickbloxPlatform.Init();
+            var app = new App ();
 			LoadApplication (app);
 		}
 	}

@@ -10,6 +10,7 @@ using XamarinForms.QbChat.Repository;
 using System.Threading.Tasks;
 using System.IO;
 using XamarinForms.QbChat.Pages;
+using Xmpp.Im;
 
 namespace XamarinForms.QbChat.ViewModels
 {
@@ -100,7 +101,11 @@ namespace XamarinForms.QbChat.ViewModels
                 }
 
                 Device.BeginInvokeOnMainThread(() =>
-                    ((App.Current.MainPage as NavigationPage).CurrentPage as PrivateChatPage).ScrollList()
+                    {
+                        var privateChatPage = ((App.Current.MainPage as NavigationPage).CurrentPage as PrivateChatPage);
+                        if (privateChatPage != null)
+                            privateChatPage.ScrollList();
+                    }
                 );
             }
         }
@@ -157,8 +162,11 @@ namespace XamarinForms.QbChat.ViewModels
                 this.Messages.Add(messageTable);
 
                 Device.BeginInvokeOnMainThread(() =>
-                   ((App.Current.MainPage as NavigationPage).CurrentPage as PrivateChatPage).ScrollList()
-               );
+                {
+                    var page = (App.Current.MainPage as NavigationPage).CurrentPage as PrivateChatPage;
+                    if (page != null)
+                        page.ScrollList();
+                });
             }
         }
 

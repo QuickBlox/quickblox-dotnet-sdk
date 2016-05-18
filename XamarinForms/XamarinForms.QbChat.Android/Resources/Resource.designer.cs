@@ -63,6 +63,8 @@ namespace XamarinForms.QbChat.Android
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahText = global::XamarinForms.QbChat.Android.Resource.Styleable.ProgressWheel_ahText;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextColor = global::XamarinForms.QbChat.Android.Resource.Styleable.ProgressWheel_ahTextColor;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextSize = global::XamarinForms.QbChat.Android.Resource.Styleable.ProgressWheel_ahTextSize;
+			global::Quickblox.Sdk.Platform.Android.Resource.String.ApplicationName = global::XamarinForms.QbChat.Android.Resource.String.ApplicationName;
+			global::Quickblox.Sdk.Platform.Android.Resource.String.Hello = global::XamarinForms.QbChat.Android.Resource.String.Hello;
 			global::Splat.Resource.String.library_name = global::XamarinForms.QbChat.Android.Resource.String.library_name;
 			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.ApplicationName = global::XamarinForms.QbChat.Android.Resource.String.ApplicationName;
 			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.Hello = global::XamarinForms.QbChat.Android.Resource.String.Hello;

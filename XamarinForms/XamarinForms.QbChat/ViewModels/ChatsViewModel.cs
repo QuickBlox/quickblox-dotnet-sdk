@@ -2,6 +2,7 @@
 using Quickblox.Sdk.Modules.ChatModule.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,6 +14,7 @@ using XamarinForms.QbChat.Repository;
 using XamarinForms.QbChat.Providers;
 using Quickblox.Sdk.Modules.UsersModule.Models;
 using XamarinForms.QbChat.Pages;
+using Xmpp.Im;
 
 namespace XamarinForms.QbChat.ViewModels
 {
@@ -78,21 +80,32 @@ namespace XamarinForms.QbChat.ViewModels
                 {
                 }
 
-                var dialogs = await App.QbProvider.GetDialogsAsync(new List<DialogType>() {DialogType.Private, DialogType.Group});
-                var sorted = dialogs.OrderByDescending(d => d.LastMessageSent).ToList();
-
-                foreach (var dialog in sorted)
+                List<DialogTable> sorted = null;
+                try
                 {
-                    if (dialog.DialogType == DialogType.Group)
+                    await Task.Delay(1000);
+                    var dialogs = await App.QbProvider.GetDialogsAsync(new List<DialogType>() { DialogType.Private, DialogType.Group });
+                    sorted = dialogs.OrderByDescending(d => d.LastMessageSent).ToList();
+
+                    Debug.WriteLine("sorted");
+                    foreach (var dialog in sorted)
                     {
-                        var groupdManager = App.QbProvider.GetXmppClient()
-                            .GetGroupChatManager(dialog.XmppRoomJid, dialog.DialogId);
-                        groupdManager.JoinGroup(App.QbProvider.UserId.ToString());
+                        Debug.WriteLine("dialog Name" + dialog.Name);
+                        Debug.WriteLine("dialog DialogId" + dialog.DialogId);
+                             
+                        if (dialog.DialogType == DialogType.Group)
+                        {
+                            App.QbProvider.GetXmppClient().JoinToGroup(dialog.XmppRoomJid, App.QbProvider.UserId.ToString());
+                        }
+
+                        dialog.LastMessage = System.Net.WebUtility.UrlDecode(dialog.LastMessage);
+                        Debug.WriteLine("dialog LastMessage" + dialog.LastMessage);
                     }
-
-                    dialog.LastMessage = System.Net.WebUtility.UrlDecode(dialog.LastMessage);
                 }
-
+                catch (Exception ex)
+                {
+                }
+               
 
                 Database.Instance().SaveAllDialogs(sorted);
                 Device.BeginInvokeOnMainThread(() =>
