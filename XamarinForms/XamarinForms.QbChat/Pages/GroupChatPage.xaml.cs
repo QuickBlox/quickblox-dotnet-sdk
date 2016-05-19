@@ -49,7 +49,7 @@ namespace XamarinForms.QbChat.Pages
 			var sorted = listView.ItemsSource as ObservableCollection<MessageTable>;
 			try {
 				if (sorted != null && sorted.Count > 10) {
-                    await Task.Delay(300);
+                    await Task.Delay(500);
                     listView.ScrollTo (sorted [sorted.Count - 1], ScrollToPosition.End, false);
 				}
 			}
