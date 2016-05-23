@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Linq;
 using XamarinForms.QbChat.Pages;
-using XamarinForms.QbChat.Repository;
 using Xamarin.Forms;
-using Quickblox.Sdk.Modules.ChatXmppModule;
 
 namespace XamarinForms.QbChat
 {
@@ -44,7 +41,7 @@ namespace XamarinForms.QbChat
 			SetLoginPage();
         }
 
-        protected override async void OnStart()
+        protected override void OnStart()
         {
             base.OnStart();
         }

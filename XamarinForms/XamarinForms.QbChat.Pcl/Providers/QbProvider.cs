@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Quickblox.Sdk.GeneralDataModel.Response;
 using System.Net;
 using Quickblox.Sdk.GeneralDataModel.Models;
-using Xamarin.Forms;
 using System.Collections.Generic;
 using Quickblox.Sdk.GeneralDataModel.Filter;
 using Quickblox.Sdk.Modules.UsersModule.Requests;
@@ -23,10 +22,10 @@ using Quickblox.Sdk.Modules.NotificationModule.Requests;
 using Quickblox.Sdk.Modules.NotificationModule.Models;
 using XamarinForms.QbChat.Repository;
 using Quickblox.Sdk.Modules.ChatXmppModule;
-using XamarinForms.QbChat.Interfaces;
 
 namespace XamarinForms.QbChat
 {
+
     public class QbProvider
 	{
         static QbProvider()
@@ -90,7 +89,7 @@ namespace XamarinForms.QbChat
 			return 0;
 		}
 
-		public async Task<int> LoginWithFbUserAsync(String accessToken)
+		public async Task<int> LoginWithFbUserAsync(String accessToken, Platform platform, string uid)
 		{
 			var sessionResponse = await this.client.AuthenticationClient.CreateSessionWithSocialNetworkKey("facebook",
 				"public_profile",
@@ -98,8 +97,10 @@ namespace XamarinForms.QbChat
 				null,
 				new DeviceRequest() 
 				{ 
-					Platform = Device.OS == TargetPlatform.iOS ? Platform.ios : Platform.android,
-                    Udid = DependencyService.Get<IDeviceIdentifier>().GetIdentifier()
+					//Platform = Device.OS == TargetPlatform.iOS ? Platform.ios : Platform.android,
+                    //Udid = DependencyService.Get<IDeviceIdentifier>().GetIdentifier()
+                     Platform = platform,
+                     Udid = uid
                 });
 			if (sessionResponse.StatusCode == HttpStatusCode.Created) {
 				this.client.Token = sessionResponse.Result.Session.Token;

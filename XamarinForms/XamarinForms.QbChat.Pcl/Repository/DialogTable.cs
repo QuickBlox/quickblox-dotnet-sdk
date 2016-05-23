@@ -2,7 +2,6 @@
 using Quickblox.Sdk.Modules.Models;
 using SQLite.Net.Attributes;
 using System;
-using Xamarin.Forms;
 
 namespace XamarinForms.QbChat.Repository
 {
@@ -11,7 +10,6 @@ namespace XamarinForms.QbChat.Repository
         private string lastMessage;
         private DateTime lastMessageSent;
         private string name;
-        private ImageSource image;
 
         #region Ctor
 
@@ -76,14 +74,7 @@ namespace XamarinForms.QbChat.Repository
             get { return name; }
             set { name = value; }
         }
-
-        [Ignore]
-        public ImageSource Image
-        {
-            get { return image; }
-            set { image = value; }
-        }
-
+        
         #endregion
 
         #region Public methods
