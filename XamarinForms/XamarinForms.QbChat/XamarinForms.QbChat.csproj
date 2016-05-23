@@ -167,9 +167,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XamarinForms.QbChat.Pcl\XamarinForms.QbChat.Pcl.csproj">
+    <ProjectReference Include="..\..\QbChat.Pcl\QbChat.Pcl.csproj">
       <Project>{56bda7ba-4e03-485a-b1ad-283abb6a29de}</Project>
-      <Name>XamarinForms.QbChat.Pcl</Name>
+      <Name>QbChat.Pcl</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
