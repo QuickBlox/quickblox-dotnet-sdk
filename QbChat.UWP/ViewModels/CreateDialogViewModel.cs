@@ -38,14 +38,14 @@ namespace XamarinForms.QbChat.ViewModels
         {
             base.OnAppearing();
 
-            this.IsBusyIndicatorVisible = true;
+            this.IsBusy = true;
 
             var users = await App.QbProvider.GetUserByTag("XamarinChat");
             Users =
                 users.Where(u => u.Id != App.QbProvider.UserId)
                     .Select(u => new SelectedUser() { User = u })
                     .ToList();
-            this.IsBusyIndicatorVisible = false;
+            this.IsBusy = false;
         }
 
         private void SaveDialogToDb(Dialog dialog)
@@ -65,7 +65,7 @@ namespace XamarinForms.QbChat.ViewModels
 
             try
             {
-                this.IsBusyIndicatorVisible = true;
+                this.IsBusy = true;
                 var selectedUsers = Users.Where(u => u.IsSelected).Select(u => u.User).ToList();
                 if (selectedUsers.Any())
                 {
@@ -91,7 +91,7 @@ namespace XamarinForms.QbChat.ViewModels
                         //}
                         //else
                         //{
-                            this.IsBusyIndicatorVisible = false;
+                            this.IsBusy = false;
                             return;
                         //}
                     }
@@ -135,10 +135,10 @@ namespace XamarinForms.QbChat.ViewModels
                 }
                 else
                 {
-                    await new Windows.UI.Popups.MessageDialog("Error", "Please, select any of users").ShowAsync();
+                    await new Windows.UI.Popups.MessageDialog("Please, select any of users", "Error").ShowAsync();
                 }
 
-                this.IsBusyIndicatorVisible = false;
+                this.IsBusy = false;
             }
             catch (Exception ex)
             {

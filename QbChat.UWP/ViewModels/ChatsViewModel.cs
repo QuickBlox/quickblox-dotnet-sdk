@@ -55,7 +55,7 @@ namespace QbChat.UWP.ViewModels
         {
             base.OnAppearing();
 
-            this.IsBusyIndicatorVisible = true;
+            this.IsBusy = true;
                 User user = null;
                 if (user == null && App.QbProvider.UserId != 0)
                 {
@@ -117,7 +117,7 @@ namespace QbChat.UWP.ViewModels
                     //    InitializeProfilePhoto();
                     //}
 
-                    this.IsBusyIndicatorVisible = false;
+                    this.IsBusy = false;
 
                 App.QbProvider.GetXmppClient().MessageReceived += OnMessageReceived;
                 App.QbProvider.GetXmppClient().SystemMessageReceived += OnSystemMessageReceived;
@@ -134,7 +134,7 @@ namespace QbChat.UWP.ViewModels
                 return;
             this.isLogoutClicked = true;
 
-            var dialog = new Windows.UI.Popups.MessageDialog("Log Out", "Do you really want to Log Out?");
+            var dialog = new Windows.UI.Popups.MessageDialog("Do you really want to Log Out?", "Log Out");
 
             dialog.Commands.Add(new Windows.UI.Popups.UICommand("Yes") { Id = 0 });
             dialog.Commands.Add(new Windows.UI.Popups.UICommand("No") { Id = 1 });

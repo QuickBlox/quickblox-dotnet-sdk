@@ -1,21 +1,20 @@
 ﻿using QbChat.Pcl;
-using QbChat.Pcl.Interfaces;
+using QbChat.UWP.Views;
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Xamarin.Forms;
+using Windows.UI.Popups;
 
-namespace XamarinForms.QbChat.ViewModels
+namespace QbChat.UWP.ViewModels
 {
-    public class DefaultLoginsViewModels : ViewModel
+    public class DefaultLoginViewModel : ViewModel
     {
         private string login;
         private string password;
         private List<DefaultUser> users;
 
-        public DefaultLoginsViewModels()
+        public DefaultLoginViewModel()
         {
-            TappedCommand = new Command<DefaultUser>(this.TappedCommandExecute);
+            TappedCommand = new RelayCommand<DefaultUser>(this.TappedCommandExecute);
         }
 
         public string Login
@@ -48,59 +47,51 @@ namespace XamarinForms.QbChat.ViewModels
             }
         }
 
-        public ICommand TappedCommand { get; set; }
+        public RelayCommand<DefaultUser> TappedCommand { get; set; }
 
-        public override void OnAppearing()
-		{
-			base.OnAppearing ();
-			this.IsBusyIndicatorVisible = true;
+        public override async void OnAppearing()
+        {
+            base.OnAppearing();
 
-			Task.Factory.StartNew (async () => {
-				var list = new List<DefaultUser> ();
-				var baseSesionResult = await App.QbProvider.GetBaseSession ();
-				if (baseSesionResult) {
-					var users = await App.QbProvider.GetUserByTag ("XamarinChat");
-					foreach (var user in users) {
-						list.Add (new DefaultUser () { Name = user.FullName, Login = user.Login, Password = user.Login });
-					}
-				}
+            this.IsBusy = true;
 
-				Device.BeginInvokeOnMainThread (() => {
-					Users = list;
-					this.IsBusyIndicatorVisible = false;
-				});
-			});
-		}
+                var list = new List<DefaultUser>();
+                var baseSesionResult = await App.QbProvider.GetBaseSession();
+                if (baseSesionResult)
+                {
+                    var users = await App.QbProvider.GetUserByTag("XamarinChat");
+                    foreach (var user in users)
+                    {
+                        list.Add(new DefaultUser() { Name = user.FullName, Login = user.Login, Password = user.Login });
+                    }
+                }
+
+                Users = list;
+                this.IsBusy = false;
+        }
 
 
 
         private async void TappedCommandExecute(DefaultUser user)
         {
-            this.IsBusyIndicatorVisible = true;
+            this.IsBusy = true;
 
             var loginValue = user.Login;
             var passwordValue = user.Password;
-            //await Task.Factory.StartNew(async () =>
-            //{
-            var deviceUid = DependencyService.Get<IDeviceIdentifier>().GetIdentifier();
-            var platform = Device.OS == TargetPlatform.Android ? Quickblox.Sdk.GeneralDataModel.Models.Platform.android : Quickblox.Sdk.GeneralDataModel.Models.Platform.ios;
-            var userId = await App.QbProvider.LoginWithLoginValueAsync(loginValue, passwordValue, platform, deviceUid);
 
-            Device.BeginInvokeOnMainThread(() =>
-            {
+            var userId = await App.QbProvider.LoginWithLoginValueAsync(loginValue, passwordValue, Quickblox.Sdk.GeneralDataModel.Models.Platform.windows_phone, new DeviceUid_Uwp().GetIdentifier());
+
                 if (userId > 0)
                 {
-                    this.IsBusyIndicatorVisible = false;
-                    App.SetMainPage();
+                    this.IsBusy = false;
+                    App.NavigationFrame.Navigate(typeof(ChatsPage));
                 }
                 else
                 {
-                    App.Current.MainPage.DisplayAlert("Error", "Try to repeat login", "Ok");
+                    new MessageDialog("Try to repeat login", "Error").ShowAsync();
                 }
 
-                this.IsBusyIndicatorVisible = false;
-            });
-            //});
+                this.IsBusy = false;
         }
 
 

@@ -5,9 +5,55 @@
     xmlns:local="using:QbChat.UWP.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="using:QbChat.UWP.Converters"
+    xmlns:extensions="using:QbChat.UWP.Helpers"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <converter:DialogToImageSourceConverter x:Key="DialogToImageSourceConverter" />
+    </Page.Resources>
+    
+    <Page.TopAppBar>
+        <CommandBar extensions:CommandBarExtensions.HideMoreButton="True">
+            <!--<CommandBar.PrimaryCommands>
+            <AppBarButton Icon="Play" Label="Play" />
+            <AppBarButton Icon="Forward" Label="Forward" />
+        </CommandBar.PrimaryCommands>
+       
 
+        <CommandBar.SecondaryCommands>
+            <AppBarButton Icon="Like" Label="Like" />
+            <AppBarButton Icon="Dislike" Label="Dislike" />
+        </CommandBar.SecondaryCommands>-->
+
+            <CommandBar.Content>
+                <TextBlock Text="{Binding Title}" Margin="12,14"/>
+            </CommandBar.Content>
+        </CommandBar>
+    </Page.TopAppBar>
+
+    <Grid>
+        <ProgressBar IsIndeterminate="{Binding IsBusy}" VerticalAlignment="Top"/>
+        <ListView ItemsSource="{Binding Dialogs}" IsItemClickEnabled="True" Background="White" ItemClick="OnItemClicked">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Image Source="{Binding Converter={StaticResource DialogToImageSourceConverter}}" Grid.RowSpan="2" Height="65" Width="65"/>
+                        <TextBlock Text="{Binding Name}" Foreground="Black" Grid.Column="1" Margin="12,6,0,0" FontSize="16" TextWrapping="WrapWholeWords"/>
+                        <TextBlock Text="{Binding LastMessage}" Foreground="Black" Grid.Column="1" Grid.Row="1" Margin="12,0,0,0"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Page>

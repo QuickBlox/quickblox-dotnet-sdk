@@ -10,11 +10,11 @@ namespace QbChat.UWP.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ChatsPage : Page
+    public sealed partial class DefaultLoginPage : Page
     {
-        private ChatsViewModel vm;
+        private DefaultLoginViewModel vm;
 
-        public ChatsPage()
+        public DefaultLoginPage()
         {
             this.InitializeComponent();
         }
@@ -23,7 +23,7 @@ namespace QbChat.UWP.Views
         {
             base.OnNavigatedTo(e);
 
-            vm = new ChatsViewModel();
+            vm = new DefaultLoginViewModel();
             this.DataContext = vm;
             vm.OnAppearing();
 

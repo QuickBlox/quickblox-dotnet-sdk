@@ -1,6 +1,7 @@
 ﻿using QbChat.Pcl;
 using QbChat.Pcl.Repository;
 using QbChat.UWP.Views;
+using Quickblox.Sdk.Platform;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -42,6 +43,7 @@ namespace QbChat.UWP
         /// </summary>
         public App()
         {
+            QuickbloxPlatform.Init();
             QbProvider = new QbProvider();
 
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
@@ -77,6 +79,7 @@ namespace QbChat.UWP
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 Database.Instance().Init(new SQLite_Uwp().GetConnection());
+                
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
@@ -93,8 +96,10 @@ namespace QbChat.UWP
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                rootFrame.Navigate(typeof(LoginPage), e.Arguments);
+                rootFrame.Navigate(typeof(DefaultLoginPage), e.Arguments);
+                
             }
+
             // Ensure the current window is active
             Window.Current.Activate();
         }
