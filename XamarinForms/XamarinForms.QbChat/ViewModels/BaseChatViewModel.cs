@@ -1,11 +1,11 @@
-﻿using Quickblox.Sdk.Modules.UsersModule.Models;
+﻿using QbChat.Pcl.Repository;
+using Quickblox.Sdk.Modules.UsersModule.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using XamarinForms.QbChat.Repository;
 
 namespace XamarinForms.QbChat.ViewModels
 {

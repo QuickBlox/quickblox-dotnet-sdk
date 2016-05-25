@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Quickblox.Sdk.Modules.ChatXmppModule;
 using Xamarin.Forms;
-using XamarinForms.QbChat.Repository;
 using Quickblox.Sdk.GeneralDataModel.Models;
 using Quickblox.Sdk.Modules.ChatXmppModule.Models;
 using Quickblox.Sdk.Modules.UsersModule.Models;
 using XamarinForms.QbChat.Pages;
 using Xmpp.Im;
+using QbChat.Pcl.Repository;
 
 namespace XamarinForms.QbChat.ViewModels
 {

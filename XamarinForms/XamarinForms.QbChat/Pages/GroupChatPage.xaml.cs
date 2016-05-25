@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using QbChat.Pcl.Repository;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using XamarinForms.QbChat.Repository;
 using XamarinForms.QbChat.ViewModels;
 
 namespace XamarinForms.QbChat.Pages
 {
-	public partial class GroupChatPage : ContentPage
+    public partial class GroupChatPage : ContentPage
 	{
 	    private string dialogId;
 		private bool isLoaded;

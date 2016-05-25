@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Quickblox.Sdk.Modules.UsersModule.Models;
 using Xamarin.Forms;
-using XamarinForms.QbChat.Repository;
+using QbChat.Pcl.Repository;
 
 namespace XamarinForms.QbChat.ViewModels
 {

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QbChat.Pcl.Interfaces
+namespace QbChat.UWP.ViewModels
 {
-    public interface IDeviceIdentifier
+    public class GroupChatViewModel
     {
-        string GetIdentifier();
     }
 }

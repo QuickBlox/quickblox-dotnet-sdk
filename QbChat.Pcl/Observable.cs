@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace XamarinForms.QbChat
+namespace QbChat.Pcl
 {
     public class Observable : INotifyPropertyChanged
     {

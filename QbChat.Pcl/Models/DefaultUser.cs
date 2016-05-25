@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XamarinForms.QbChat
+namespace QbChat.Pcl
 {
 	public class DefaultUser
 	{

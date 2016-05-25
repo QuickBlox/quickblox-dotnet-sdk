@@ -3,7 +3,7 @@ using Quickblox.Sdk.Modules.Models;
 using SQLite.Net.Attributes;
 using System;
 
-namespace XamarinForms.QbChat.Repository
+namespace QbChat.Pcl.Repository
 {
     public class DialogTable : Observable
     {

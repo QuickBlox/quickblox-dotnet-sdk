@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Quickblox.Sdk.Modules.Models;
-using Xamarin.Forms;
 using Quickblox.Sdk.Modules.ChatModule.Models;
-using Acr.UserDialogs;
-using XamarinForms.QbChat.Pages;
 using QbChat.Pcl;
 using QbChat.Pcl.Repository;
+using QbChat.UWP.ViewModels;
+using QbChat.UWP;
+using QbChat.UWP.Views;
 
 namespace XamarinForms.QbChat.ViewModels
 {
@@ -19,7 +19,7 @@ namespace XamarinForms.QbChat.ViewModels
 
         public CreateDialogViewModel()
         {
-            this.CreateChatCommand = new Command(this.CreateChatCommandExecute);
+            this.CreateChatCommand = new RelayCommand(this.CreateChatCommandExecute);
         }
 
         public List<SelectedUser> Users
@@ -32,26 +32,20 @@ namespace XamarinForms.QbChat.ViewModels
             }
         }
 
-        public ICommand CreateChatCommand { get; private set; }
+        public RelayCommand CreateChatCommand { get; private set; }
 
-        public override void OnAppearing()
+        public override async void OnAppearing()
         {
             base.OnAppearing();
 
             this.IsBusyIndicatorVisible = true;
 
-            Task.Factory.StartNew(async () =>
-            {
-                var users = await App.QbProvider.GetUserByTag("XamarinChat");
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    Users =
-                        users.Where(u => u.Id != App.QbProvider.UserId)
-                            .Select(u => new SelectedUser() {User = u})
-                            .ToList();
-                    this.IsBusyIndicatorVisible = false;
-                });
-            });
+            var users = await App.QbProvider.GetUserByTag("XamarinChat");
+            Users =
+                users.Where(u => u.Id != App.QbProvider.UserId)
+                    .Select(u => new SelectedUser() { User = u })
+                    .ToList();
+            this.IsBusyIndicatorVisible = false;
         }
 
         private void SaveDialogToDb(Dialog dialog)
@@ -64,7 +58,7 @@ namespace XamarinForms.QbChat.ViewModels
             }
         }
 
-        public async void CreateChatCommandExecute(object obj)
+        public async void CreateChatCommandExecute()
         {
             if (Users == null)
                 return;
@@ -84,22 +78,22 @@ namespace XamarinForms.QbChat.ViewModels
                     }
                     else
                     {
-                        var promptResult = await
-                            UserDialogs.Instance.PromptAsync("Enter chat name:", null, "Create", "Cancel",
-                                "Enter chat name", InputType.Name);
+                        //var promptResult = await
+                        //    UserDialogs.Instance.PromptAsync("Enter chat name:", null, "Create", "Cancel",
+                        //        "Enter chat name", InputType.Name);
 
-                        if (promptResult.Ok)
-                        {
-                            dialogName = promptResult.Text;
+                        //if (promptResult.Ok)
+                        //{
+                        dialogName = "dialog";//promptResult.Text;
                             if (string.IsNullOrEmpty(dialogName))
                                 dialogName = App.UserName + "_" +
                                              string.Join(", ", selectedUsers.Select(u => u.FullName));
-                        }
-                        else
-                        {
+                        //}
+                        //else
+                        //{
                             this.IsBusyIndicatorVisible = false;
                             return;
-                        }
+                        //}
                     }
 
                     var userIds = selectedUsers.Select(u => u.Id).ToList();
@@ -116,10 +110,8 @@ namespace XamarinForms.QbChat.ViewModels
                         groupManager.JoinGroup(App.QbProvider.UserId.ToString());
                         groupManager.NotifyAboutGroupCreation(userIds, dialog);
 
-                        var groupChantPage = new GroupChatPage(dialog.Id);
-                        App.Navigation.InsertPageBefore(groupChantPage,
-                            (App.Current.MainPage as NavigationPage).CurrentPage);
-                        App.Navigation.PopAsync();
+                        App.NavigationFrame.GoBack();
+                        App.NavigationFrame.Navigate(typeof(GroupChatPage));
                     }
                     else if (dialogType == DialogType.Private)
                     {
@@ -136,15 +128,14 @@ namespace XamarinForms.QbChat.ViewModels
                         }
 
                         SaveDialogToDb(dialog);
-                        var privateChantPage = new PrivateChatPage(dialog.Id);
-                        App.Navigation.InsertPageBefore(privateChantPage,
-                            (App.Current.MainPage as NavigationPage).CurrentPage);
-                        App.Navigation.PopAsync();
+
+                        App.NavigationFrame.GoBack();
+                        App.NavigationFrame.Navigate(typeof(PrivateChatPage), dialog.Id);
                     }
                 }
                 else
                 {
-                    App.Current.MainPage.DisplayAlert("Error", "Please, select any of users", "Ok");
+                    await new Windows.UI.Popups.MessageDialog("Error", "Please, select any of users").ShowAsync();
                 }
 
                 this.IsBusyIndicatorVisible = false;

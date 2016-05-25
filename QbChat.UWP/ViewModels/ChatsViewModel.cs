@@ -1,23 +1,23 @@
-﻿using System;
+﻿using QbChat.Pcl;
+using QbChat.Pcl.Repository;
+using QbChat.UWP.Providers;
+using QbChat.UWP.Views;
+using Quickblox.Sdk.GeneralDataModel.Models;
 using Quickblox.Sdk.Modules.ChatModule.Models;
+using Quickblox.Sdk.Modules.ChatXmppModule;
+using Quickblox.Sdk.Modules.ChatXmppModule.Models;
+using Quickblox.Sdk.Modules.UsersModule.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using Quickblox.Sdk.GeneralDataModel.Models;
-using Quickblox.Sdk.Modules.ChatXmppModule;
-using Quickblox.Sdk.Modules.ChatXmppModule.Models;
-using Xamarin.Forms;
-using XamarinForms.QbChat.Providers;
-using Quickblox.Sdk.Modules.UsersModule.Models;
-using XamarinForms.QbChat.Pages;
+using Windows.UI.Popups;
 using Xmpp.Im;
-using QbChat.Pcl.Repository;
-using QbChat.Pcl;
 
-namespace XamarinForms.QbChat.ViewModels
+namespace QbChat.UWP.ViewModels
 {
     public class ChatsViewModel : ViewModel
     {
@@ -27,10 +27,10 @@ namespace XamarinForms.QbChat.ViewModels
 
         public ChatsViewModel()
         {
-            this.Dialogs = new ObservableCollection<DialogTable>();    
-            this.LogoutCommand = new Command(this.LogoutCommandExecute);
-            this.CreateNewChatCommand = new Command(this.CreateNewChatCommandExecute);
-            this.TappedCommand = new Command<DialogTable>(this.TappedCommandExecute);
+            this.Dialogs = new ObservableCollection<DialogTable>();
+            this.LogoutCommand = new RelayCommand(this.LogoutCommandExecute);
+            this.CreateNewChatCommand = new RelayCommand(this.CreateNewChatCommandExecute);
+            this.TappedCommand = new RelayCommand<DialogTable>(this.TappedCommandExecute);
         }
 
         public string Title
@@ -38,16 +38,16 @@ namespace XamarinForms.QbChat.ViewModels
             get { return title; }
             set
             {
-                title = value; 
+                title = value;
                 this.RaisePropertyChanged();
             }
         }
 
-        public ICommand LogoutCommand { get; set; }
+        public RelayCommand LogoutCommand { get; set; }
 
-        public ICommand CreateNewChatCommand { get; set; }
+        public RelayCommand CreateNewChatCommand { get; set; }
 
-        public ICommand TappedCommand { get; set; }
+        public RelayCommand<DialogTable> TappedCommand { get; set; }
 
         public ObservableCollection<DialogTable> Dialogs { get; set; }
 
@@ -56,15 +56,11 @@ namespace XamarinForms.QbChat.ViewModels
             base.OnAppearing();
 
             this.IsBusyIndicatorVisible = true;
-            await Task.Factory.StartNew(async () =>
-            {
                 User user = null;
                 if (user == null && App.QbProvider.UserId != 0)
                 {
                     user = await App.QbProvider.GetUserAsync(App.QbProvider.UserId);
-                    Device.BeginInvokeOnMainThread(() => {
-                        Title = user.FullName;
-                    });
+                    Title = user.FullName;
 
                     App.UserId = user.Id;
                     App.UserName = user.FullName;
@@ -93,7 +89,7 @@ namespace XamarinForms.QbChat.ViewModels
                     {
                         Debug.WriteLine("dialog Name" + dialog.Name);
                         Debug.WriteLine("dialog DialogId" + dialog.DialogId);
-                             
+
                         if (dialog.DialogType == DialogType.Group)
                         {
                             App.QbProvider.GetXmppClient().JoinToGroup(dialog.XmppRoomJid, App.QbProvider.UserId.ToString());
@@ -106,11 +102,9 @@ namespace XamarinForms.QbChat.ViewModels
                 catch (Exception ex)
                 {
                 }
-               
+
 
                 Database.Instance().SaveAllDialogs(sorted);
-                Device.BeginInvokeOnMainThread(() =>
-                {
                     this.Dialogs.Clear();
                     foreach (var dialogTable in sorted)
                     {
@@ -124,26 +118,32 @@ namespace XamarinForms.QbChat.ViewModels
                     //}
 
                     this.IsBusyIndicatorVisible = false;
-                });
 
                 App.QbProvider.GetXmppClient().MessageReceived += OnMessageReceived;
                 App.QbProvider.GetXmppClient().SystemMessageReceived += OnSystemMessageReceived;
-            });
         }
 
-        private void CreateNewChatCommandExecute(object obj)
+        private void CreateNewChatCommandExecute()
         {
-            App.Navigation.PushAsync(new CreateDialogPage());
+            App.NavigationFrame.Navigate(typeof(CreateDialogPage));
         }
 
-        private async void LogoutCommandExecute(object obj)
+        private async void LogoutCommandExecute()
         {
             if (this.isLogoutClicked)
                 return;
             this.isLogoutClicked = true;
 
-            var result = await App.Current.MainPage.DisplayAlert("Log Out", "Do you really want to Log Out?", "Ok", "Cancel");
-            if (result)
+            var dialog = new Windows.UI.Popups.MessageDialog("Log Out", "Do you really want to Log Out?");
+
+            dialog.Commands.Add(new Windows.UI.Popups.UICommand("Yes") { Id = 0 });
+            dialog.Commands.Add(new Windows.UI.Popups.UICommand("No") { Id = 1 });
+                 
+            dialog.DefaultCommandIndex = 0;
+            dialog.CancelCommandIndex = 1;
+            var result = await dialog.ShowAsync();
+
+            if ((int)result.Id == 0)
             {
                 try
                 {
@@ -160,7 +160,10 @@ namespace XamarinForms.QbChat.ViewModels
                 }
                 finally
                 {
-                    App.SetLoginPage();
+                    while (App.NavigationFrame.CanGoBack)
+                    {
+                        App.NavigationFrame.GoBack();
+                    }
                 }
             }
 
@@ -170,9 +173,9 @@ namespace XamarinForms.QbChat.ViewModels
         private void TappedCommandExecute(DialogTable dialogItem)
         {
             if (dialogItem.DialogType == Quickblox.Sdk.Modules.ChatModule.Models.DialogType.Private)
-                App.Navigation.PushAsync(new PrivateChatPage(dialogItem.DialogId));
+                App.NavigationFrame.Navigate(typeof(PrivateChatPage), dialogItem.DialogId);
             else
-                App.Navigation.PushAsync(new GroupChatPage(dialogItem.DialogId));
+                App.NavigationFrame.Navigate(typeof(GroupChatPage), dialogItem.DialogId);
         }
 
         private async void OnMessageReceived(object sender, MessageEventArgs messageEventArgs)
@@ -258,18 +261,5 @@ namespace XamarinForms.QbChat.ViewModels
                 }
             }
         }
-
-        //		private void InitializeProfilePhoto ()
-        //		{
-        //			myProfileImage.Source = Device.OnPlatform (iOS: ImageSource.FromFile ("ic_user.png"), Android: ImageSource.FromFile ("ic_user.png"), WinPhone: ImageSource.FromFile ("Images/ic_user.png"));
-        //			if (user.BlobId.HasValue) {
-        //				App.QbProvider.GetImageAsync (user.BlobId.Value).ContinueWith ((task, result) =>  {
-        //					var bytes = task.ConfigureAwait (true).GetAwaiter ().GetResult ();
-        //					if (bytes != null)
-        //						Device.BeginInvokeOnMainThread (() => myProfileImage.Source = ImageSource.FromStream (() => new MemoryStream (bytes)));
-        //				}, TaskScheduler.FromCurrentSynchronizationContext ());
-        //			}
-        //		}
-
     }
 }

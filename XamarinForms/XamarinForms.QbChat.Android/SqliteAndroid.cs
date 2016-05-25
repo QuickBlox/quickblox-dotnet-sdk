@@ -2,7 +2,7 @@
 using System.IO;
 using Xamarin.Forms;
 using XamarinForms.QbChat.Android;
-using XamainForms.QbChat;
+using QbChat.Pcl;
 
 [assembly: Dependency(typeof(SqliteAndroid))]
 namespace XamarinForms.QbChat.Android

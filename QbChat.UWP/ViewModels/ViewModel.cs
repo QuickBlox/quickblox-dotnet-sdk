@@ -1,6 +1,11 @@
 ﻿using QbChat.Pcl;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace XamarinForms.QbChat.ViewModels
+namespace QbChat.UWP.ViewModels
 {
     public class ViewModel : Observable
     {
@@ -18,7 +23,7 @@ namespace XamarinForms.QbChat.ViewModels
 
         public virtual void OnAppearing()
         {
-        } 
+        }
 
     }
 }

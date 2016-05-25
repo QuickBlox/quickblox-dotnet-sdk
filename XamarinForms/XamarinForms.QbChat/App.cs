@@ -1,6 +1,7 @@
 ﻿using System;
 using XamarinForms.QbChat.Pages;
 using Xamarin.Forms;
+using QbChat.Pcl;
 
 namespace XamarinForms.QbChat
 {

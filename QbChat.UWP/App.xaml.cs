@@ -1,4 +1,7 @@
-﻿using System;
+﻿using QbChat.Pcl;
+using QbChat.Pcl.Repository;
+using QbChat.UWP.Views;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,12 +25,25 @@ namespace QbChat.UWP
     /// </summary>
     sealed partial class App : Application
     {
+        public static QbProvider QbProvider { get; set; }
+        public static Frame NavigationFrame { get; set; }
+
+        public static string UserName { get; set; }
+
+        public static int UserId { get; set; }
+
+        public static string UserLogin { get; set; }
+
+        public static string UserPassword { get; set; }
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         public App()
         {
+            QbProvider = new QbProvider();
+
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
@@ -42,7 +58,6 @@ namespace QbChat.UWP
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
@@ -61,6 +76,8 @@ namespace QbChat.UWP
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
+                Database.Instance().Init(new SQLite_Uwp().GetConnection());
+
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: Load state from previously suspended application
@@ -70,12 +87,13 @@ namespace QbChat.UWP
                 Window.Current.Content = rootFrame;
             }
 
+            NavigationFrame = rootFrame;
             if (rootFrame.Content == null)
             {
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                rootFrame.Navigate(typeof(LoginPage), e.Arguments);
             }
             // Ensure the current window is active
             Window.Current.Activate();

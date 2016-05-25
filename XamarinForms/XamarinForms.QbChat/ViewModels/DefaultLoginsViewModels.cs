@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using QbChat.Pcl;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;

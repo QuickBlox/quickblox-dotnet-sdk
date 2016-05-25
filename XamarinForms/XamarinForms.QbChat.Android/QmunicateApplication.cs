@@ -1,8 +1,6 @@
 ﻿using System;
 using Android.App;
 using Android.Content;
-using XamarinForms.QbChat;
-using XamarinForms.QbChat.Repository;
 using Xamarin.Forms;
 using Android.Runtime;
 

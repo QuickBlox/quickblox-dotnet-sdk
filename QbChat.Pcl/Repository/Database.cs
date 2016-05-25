@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XamarinForms.QbChat.Repository
+namespace QbChat.Pcl.Repository
 {
     public class Database
     {

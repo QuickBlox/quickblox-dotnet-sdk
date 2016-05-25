@@ -1,7 +1,7 @@
 ﻿using SQLite.Net.Attributes;
 using System;
 
-namespace XamarinForms.QbChat.Repository
+namespace QbChat.Pcl.Repository
 {
     public class MessageTable
     {

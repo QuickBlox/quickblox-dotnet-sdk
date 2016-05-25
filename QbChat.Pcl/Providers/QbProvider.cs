@@ -20,10 +20,10 @@ using Quickblox.Sdk.Modules.ContentModule.Models;
 using Quickblox.Sdk.Http;
 using Quickblox.Sdk.Modules.NotificationModule.Requests;
 using Quickblox.Sdk.Modules.NotificationModule.Models;
-using XamarinForms.QbChat.Repository;
+using QbChat.Pcl.Repository;
 using Quickblox.Sdk.Modules.ChatXmppModule;
 
-namespace XamarinForms.QbChat
+namespace QbChat.Pcl
 {
 
     public class QbProvider
@@ -75,7 +75,8 @@ namespace XamarinForms.QbChat
 			return 0;
 		}
 
-		public async Task<int> LoginWithLoginValueAsync(string login, string password){
+		public async Task<int> LoginWithLoginValueAsync(string login, string password, Platform platform, string uid)
+        {
 			var sessionResponse = await this.client.AuthenticationClient.CreateSessionWithLoginAsync (login, password); 
 			if (await HandleResponse(sessionResponse, HttpStatusCode.Created)){
 				UserId = sessionResponse.Result.Session.UserId;

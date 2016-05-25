@@ -1,12 +1,9 @@
 ﻿using System;
-using XamarinForms.QbChat.Repository;
 using Xamarin.Forms;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using XamarinForms.QbChat.ViewModels;
-using System.Linq;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
+using QbChat.Pcl.Repository;
 
 namespace XamarinForms.QbChat.Pages
 {

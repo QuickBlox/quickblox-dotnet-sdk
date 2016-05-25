@@ -4,10 +4,9 @@ using Android.OS;
 using Xamarin.Forms.Platform.Android;
 using Android.Content.PM;
 using Xamarin.Forms;
-using XamarinForms.QbChat;
-using XamarinForms.QbChat.Repository;
-using XamainForms.QbChat;
 using Acr.UserDialogs;
+using QbChat.Pcl.Repository;
+using QbChat.Pcl;
 
 namespace XamarinForms.QbChat.Android
 {

@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Quickblox.Sdk.GeneralDataModel.Models;
 using Quickblox.Sdk.Modules.ChatModule.Models;
 using Quickblox.Sdk.Modules.ChatXmppModule;
-using Quickblox.Sdk.Modules.ChatXmppModule.Models;
 using QbChat.Pcl.Repository;
+using QbChat.UWP;
 
-namespace XamarinForms.QbChat.Providers
+namespace QbChat.UWP.Providers
 {
     public class MessageProvider
     {

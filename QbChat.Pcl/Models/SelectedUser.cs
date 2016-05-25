@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using Quickblox.Sdk.Modules.UsersModule.Models;
 
-namespace XamarinForms.QbChat
+namespace QbChat.Pcl
 {
 	public class SelectedUser : INotifyPropertyChanged
 	{
