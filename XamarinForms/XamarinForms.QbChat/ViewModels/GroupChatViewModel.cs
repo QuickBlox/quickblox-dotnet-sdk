@@ -163,14 +163,6 @@ namespace XamarinForms.QbChat.ViewModels
                             var users = await App.QbProvider.GetUsersByIdsAsync(string.Join(",", userIds));
                             messageTable.Text = string.Join(",", users.Select(u => u.FullName)) + " left this room";
                         }
-
-                        //var dialogInfo = await App.QbProvider.GetDialogAsync(messageEventArgs.Message.ChatDialogId);
-                        //if (dialogInfo == null)
-                        //{
-                        //    return;
-                        //}
-                        //var dialog = new DialogTable(dialogInfo);
-                        //Database.Instance().SaveDialog(dialog);
                     }
                 }
                 else
@@ -197,11 +189,6 @@ namespace XamarinForms.QbChat.ViewModels
             var message = this.MessageText != null ? this.MessageText.Trim() : string.Empty;
             if (!string.IsNullOrEmpty(message))
             {
-                //var dialog = Database.Instance().GetDialog(dialogId);
-                //dialog.LastMessage = message;
-                //dialog.LastMessageSent = DateTime.UtcNow;
-                //Database.Instance().SaveDialog(dialog);
-
                 try
                 {
                     var encodedMessage = System.Net.WebUtility.UrlEncode(message);
@@ -224,7 +211,6 @@ namespace XamarinForms.QbChat.ViewModels
                     }
 
                     return;
-                    //await App.Current.MainPage.DisplayAlert ("Error", ex.ToString(), "Ok");
                 }
 
                 this.MessageText = "";

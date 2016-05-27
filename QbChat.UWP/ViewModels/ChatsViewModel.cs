@@ -13,7 +13,10 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Xmpp.Im;
 
@@ -56,71 +59,71 @@ namespace QbChat.UWP.ViewModels
             base.OnAppearing();
 
             this.IsBusy = true;
-                User user = null;
-                if (user == null && App.QbProvider.UserId != 0)
-                {
-                    user = await App.QbProvider.GetUserAsync(App.QbProvider.UserId);
-                    Title = user.FullName;
+            User user = null;
+            if (user == null && App.QbProvider.UserId != 0)
+            {
+                user = await App.QbProvider.GetUserAsync(App.QbProvider.UserId);
+                Title = user.FullName;
 
-                    App.UserId = user.Id;
-                    App.UserName = user.FullName;
-                    App.UserLogin = user.Login;
-                    App.UserPassword = user.Login;
-                }
+                App.UserId = user.Id;
+                App.UserName = user.FullName;
+                App.UserLogin = user.Login;
+                App.UserPassword = user.Login;
+            }
 
-                try
-                {
-                    // uses login as password because it is the same
-                    MessageProvider.Instance.ConnetToXmpp(user.Id, user.Login);
-                }
-                catch (Exception ex)
-                {
-                }
+            try
+            {
+                // uses login as password because it is the same
+                MessageProvider.Instance.ConnetToXmpp(user.Id, user.Login);
+            }
+            catch (Exception ex)
+            {
+            }
 
-                List<DialogTable> sorted = null;
-                try
-                {
-                    await Task.Delay(1000);
-                    var dialogs = await App.QbProvider.GetDialogsAsync(new List<DialogType>() { DialogType.Private, DialogType.Group });
-                    sorted = dialogs.OrderByDescending(d => d.LastMessageSent).ToList();
+            List<DialogTable> sorted = null;
+            try
+            {
+                await Task.Delay(1000);
+                var dialogs = await App.QbProvider.GetDialogsAsync(new List<DialogType>() { DialogType.Private, DialogType.Group });
+                sorted = dialogs.OrderByDescending(d => d.LastMessageSent).ToList();
 
-                    Debug.WriteLine("sorted");
-                    foreach (var dialog in sorted)
+                Debug.WriteLine("sorted");
+                foreach (var dialog in sorted)
+                {
+                    Debug.WriteLine("dialog Name" + dialog.Name);
+                    Debug.WriteLine("dialog DialogId" + dialog.DialogId);
+
+                    if (dialog.DialogType == DialogType.Group)
                     {
-                        Debug.WriteLine("dialog Name" + dialog.Name);
-                        Debug.WriteLine("dialog DialogId" + dialog.DialogId);
-
-                        if (dialog.DialogType == DialogType.Group)
-                        {
-                            App.QbProvider.GetXmppClient().JoinToGroup(dialog.XmppRoomJid, App.QbProvider.UserId.ToString());
-                        }
-
-                        dialog.LastMessage = System.Net.WebUtility.UrlDecode(dialog.LastMessage);
-                        Debug.WriteLine("dialog LastMessage" + dialog.LastMessage);
-                    }
-                }
-                catch (Exception ex)
-                {
-                }
-
-
-                Database.Instance().SaveAllDialogs(sorted);
-                    this.Dialogs.Clear();
-                    foreach (var dialogTable in sorted)
-                    {
-                        this.Dialogs.Add(dialogTable);
+                        App.QbProvider.GetXmppClient().JoinToGroup(dialog.XmppRoomJid, App.QbProvider.UserId.ToString());
                     }
 
-                    //if (myProfileImage.Source == null)
-                    //{
-                    //    myNameLabel.Text = user.FullName;
-                    //    InitializeProfilePhoto();
-                    //}
+                    dialog.LastMessage = System.Net.WebUtility.UrlDecode(dialog.LastMessage);
+                    Debug.WriteLine("dialog LastMessage" + dialog.LastMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
 
-                    this.IsBusy = false;
 
-                App.QbProvider.GetXmppClient().MessageReceived += OnMessageReceived;
-                App.QbProvider.GetXmppClient().SystemMessageReceived += OnSystemMessageReceived;
+            Database.Instance().SaveAllDialogs(sorted);
+            this.Dialogs.Clear();
+            foreach (var dialogTable in sorted)
+            {
+                this.Dialogs.Add(dialogTable);
+            }
+
+            //if (myProfileImage.Source == null)
+            //{
+            //    myNameLabel.Text = user.FullName;
+            //    InitializeProfilePhoto();
+            //}
+
+            this.IsBusy = false;
+
+            App.QbProvider.GetXmppClient().MessageReceived += OnMessageReceived;
+            App.QbProvider.GetXmppClient().SystemMessageReceived += OnSystemMessageReceived;
         }
 
         private void CreateNewChatCommandExecute()
@@ -208,11 +211,15 @@ namespace QbChat.UWP.ViewModels
 
                 string decodedMessage = System.Net.WebUtility.UrlDecode(messageEventArgs.Message.MessageText);
                 var dialog = await MessageProvider.Instance.UpdateInDialogMessage(messageEventArgs.Message.ChatDialogId, decodedMessage);
-                AddDialogToList(dialog);
+
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                () =>
+                {
+                    AddDialogToList(dialog);
+                });
                 Database.Instance().SaveDialog(dialog);
             }
         }
-
 
         private void OnSystemMessageReceived(object sender, SystemMessageEventArgs messageEventArgs)
         {

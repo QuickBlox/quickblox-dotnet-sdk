@@ -9,7 +9,7 @@
     xmlns:extensions="using:QbChat.UWP.Helpers">
 
     <Page.TopAppBar>
-        <CommandBar>
+        <CommandBar extensions:CommandBarExtensions.HideMoreButton="True">
             <!--<CommandBar.PrimaryCommands>
                 <AppBarButton Icon="ContactInfo" Label="Chat info" />
             </CommandBar.PrimaryCommands>-->

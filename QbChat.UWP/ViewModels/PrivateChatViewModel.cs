@@ -5,12 +5,12 @@ using Quickblox.Sdk.Modules.ChatXmppModule;
 using Quickblox.Sdk.Modules.UsersModule.Models;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Storage.Streams;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Media.Imaging;
 using Xmpp.Im;
@@ -151,11 +151,14 @@ namespace QbChat.UWP.ViewModels
 
                 await SetRecepientName(messageTable);
 
-                this.Messages.Add(messageTable);
-
-                var page = App.NavigationFrame.Content as PrivateChatPage;
-                if (page != null)
-                    page.ScrollList();
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                  () =>
+                  {
+                      this.Messages.Add(messageTable);
+                      var page = App.NavigationFrame.Content as PrivateChatPage;
+                      if (page != null)
+                          page.ScrollList();
+                  });
             }
         }
 
