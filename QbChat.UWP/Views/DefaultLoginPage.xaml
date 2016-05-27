@@ -28,7 +28,6 @@
     </Page.TopAppBar>
 
     <Grid>
-        <ProgressBar IsIndeterminate="{Binding IsBusy}" VerticalAlignment="Top"/>
         <ListView ItemsSource="{Binding Users}" IsItemClickEnabled="True" Background="White" ItemClick="OnItemClicked">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -36,5 +35,6 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <ProgressBar Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{Binding IsBusy}" VerticalAlignment="Top"/>
     </Grid>
 </Page>

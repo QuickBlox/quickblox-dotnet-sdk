@@ -5,9 +5,60 @@
     xmlns:local="using:QbChat.UWP.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    xmlns:extensions="using:QbChat.UWP.Helpers">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.TopAppBar>
+        <CommandBar>
+            <!--<CommandBar.PrimaryCommands>
+                <AppBarButton Icon="ContactInfo" Label="Chat info" />
+            </CommandBar.PrimaryCommands>-->
 
+            <CommandBar.Content>
+                <TextBlock Text="Private chat" Margin="12,14"/>
+            </CommandBar.Content>
+        </CommandBar>
+    </Page.TopAppBar>
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition />
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Image Margin="6,12,0,0" Source="{Binding ImageSource}" Width="60" Height="60" VerticalAlignment="Top"/>
+            <TextBlock Margin="6,12" Text="{Binding DialogName}" Grid.Column="1" FontSize="16"/>
+        </Grid>
+        <ProgressBar Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{Binding IsBusy}" VerticalAlignment="Top"/>
+
+        <ListView ItemsSource="{Binding Messages}" IsItemClickEnabled="True" Background="White" Grid.Row="1" x:Name="list">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="6,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{Binding RecepientFullName}" Foreground="#01B6FF" TextWrapping="NoWrap" />
+                        <TextBlock Text="{Binding Text}" Grid.Row="1" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="80"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Text="{Binding MessageText, Mode=TwoWay}" Margin="12"/>
+            <Button Grid.Column="1" Content="Send" Command="{Binding SendMessageCommand}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="12"/>
+        </Grid>
     </Grid>
 </Page>

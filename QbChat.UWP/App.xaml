@@ -3,6 +3,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:QbChat.UWP"
+    xmlns:converter="using:QbChat.UWP.Converters"
     RequestedTheme="Light">
 
+    <Application.Resources>
+        <converter:DialogToImageSourceConverter x:Key="DialogToImageSourceConverter" />
+        <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Application.Resources>
 </Application>
