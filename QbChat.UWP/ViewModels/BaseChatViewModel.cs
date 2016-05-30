@@ -1,5 +1,6 @@
 ﻿using QbChat.Pcl.Repository;
 using Quickblox.Sdk.Modules.UsersModule.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -60,24 +61,31 @@ namespace QbChat.UWP.ViewModels
 
         protected async Task SetRecepientName(MessageTable messageTable)
         {
-            if (messageTable.SenderId == App.QbProvider.UserId)
+            try
             {
-                messageTable.RecepientFullName = "Me";
-            }
-            else {
-                var opponentUser = opponentUsers.FirstOrDefault(u => u.Id == messageTable.SenderId);
-                if (opponentUser == null)
+                if (messageTable.SenderId == App.QbProvider.UserId)
                 {
-                    var userRespose = await App.QbProvider.GetUserAsync(messageTable.SenderId);
-                    if (userRespose != null)
-                    {
-                        this.opponentUsers.Add(userRespose);
-                        messageTable.RecepientFullName = userRespose.FullName;
-                    }
+                    messageTable.RecepientFullName = "Me";
                 }
                 else {
-                    messageTable.RecepientFullName = opponentUser.FullName;
+                    var opponentUser = opponentUsers.FirstOrDefault(u => u.Id == messageTable.SenderId);
+                    if (opponentUser == null)
+                    {
+                        var userRespose = await App.QbProvider.GetUserAsync(messageTable.SenderId);
+                        if (userRespose != null)
+                        {
+                            this.opponentUsers.Add(userRespose);
+                            messageTable.RecepientFullName = userRespose.FullName;
+                        }
+                    }
+                    else {
+                        messageTable.RecepientFullName = opponentUser.FullName;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+
             }
         }
     }

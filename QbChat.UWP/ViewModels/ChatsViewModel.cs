@@ -201,7 +201,11 @@ namespace QbChat.UWP.ViewModels
                             var seletedDialog = this.Dialogs.FirstOrDefault(d => d.DialogId == messageEventArgs.Message.ChatDialogId);
                             if (seletedDialog != null)
                             {
-                                this.Dialogs.Remove(seletedDialog);
+                                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                               () =>
+                               {
+                                   this.Dialogs.Remove(seletedDialog);
+                               });
                             }
 
                             return;

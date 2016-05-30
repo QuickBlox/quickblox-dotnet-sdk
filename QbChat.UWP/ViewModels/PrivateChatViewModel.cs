@@ -41,22 +41,26 @@ namespace QbChat.UWP.ViewModels
             DialogName = dialog.Name;
 
             ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/privateholder.png"));
-                        
+
+            this.opponentUsers = new List<User>();
             var users = await App.QbProvider.GetUsersByIdsAsync(dialog.OccupantIds);
             var opponentUser = users.FirstOrDefault(u => u.Id != App.QbProvider.UserId);
-            if (opponentUser != null && opponentUser.BlobId.HasValue)
+            if (opponentUser != null)
             {
-                var bytes = await App.QbProvider.GetImageAsync(opponentUser.BlobId.Value);
-                BitmapImage image = new BitmapImage();
-                using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
+                this.opponentUsers.Add(opponentUser);
+                if (opponentUser.BlobId.HasValue)
                 {
-                    await stream.WriteAsync(bytes.AsBuffer());
-                    stream.Seek(0);
-                    await image.SetSourceAsync(stream);
+                    var bytes = await App.QbProvider.GetImageAsync(opponentUser.BlobId.Value);
+                    BitmapImage image = new BitmapImage();
+                    using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
+                    {
+                        await stream.WriteAsync(bytes.AsBuffer());
+                        stream.Seek(0);
+                        await image.SetSourceAsync(stream);
+                    }
                 }
             }
 
-            this.opponentUsers = new List<User>() { opponentUser };
             await this.LoadMessages();
 
             this.IsBusy = false;

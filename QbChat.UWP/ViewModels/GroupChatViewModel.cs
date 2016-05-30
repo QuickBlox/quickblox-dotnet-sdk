@@ -44,20 +44,8 @@ namespace QbChat.UWP.ViewModels
             ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/groupholder.png"));
 
             var users = await App.QbProvider.GetUsersByIdsAsync(dialog.OccupantIds);
-            var opponentUser = users.FirstOrDefault(u => u.Id != App.QbProvider.UserId);
-            if (opponentUser != null && opponentUser.BlobId.HasValue)
-            {
-                var bytes = await App.QbProvider.GetImageAsync(opponentUser.BlobId.Value);
-                BitmapImage image = new BitmapImage();
-                using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
-                {
-                    await stream.WriteAsync(bytes.AsBuffer());
-                    stream.Seek(0);
-                    await image.SetSourceAsync(stream);
-                }
-            }
-
-            this.opponentUsers = new List<User>() { opponentUser };
+            this.opponentUsers = new List<User>(users.Where(u => u.Id != App.QbProvider.UserId));
+            
             await this.LoadMessages();
 
             this.IsBusy = false;
@@ -78,6 +66,7 @@ namespace QbChat.UWP.ViewModels
 
             if (messages != null)
             {
+
                 messages = messages.OrderBy(message => message.DateSent).ToList();
                 foreach (var message in messages)
                 {
@@ -96,6 +85,8 @@ namespace QbChat.UWP.ViewModels
 
                     Messages.Add(chatMessage);
                 }
+
+
 
                 var page = App.NavigationFrame.Content as GroupChatPage;
                 if (page != null)
