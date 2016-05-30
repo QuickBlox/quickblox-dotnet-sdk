@@ -12,6 +12,7 @@ namespace QbChat.UWP.Views
     /// </summary>
     public sealed partial class DefaultLoginPage : Page
     {
+        private bool isLoading;
         private DefaultLoginViewModel vm;
 
         public DefaultLoginPage()
@@ -22,6 +23,11 @@ namespace QbChat.UWP.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+            if (isLoading)
+                return;
+
+            isLoading = true;
 
             vm = new DefaultLoginViewModel();
             this.DataContext = vm;

@@ -6,10 +6,8 @@ using Quickblox.Sdk.Modules.UsersModule.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Media.Imaging;
@@ -66,7 +64,6 @@ namespace QbChat.UWP.ViewModels
 
             if (messages != null)
             {
-
                 messages = messages.OrderBy(message => message.DateSent).ToList();
                 foreach (var message in messages)
                 {
@@ -81,12 +78,39 @@ namespace QbChat.UWP.ViewModels
 
                     await this.SetRecepientName(chatMessage);
 
-                    chatMessage.Text = System.Net.WebUtility.UrlDecode(message.MessageText);
+                    if (message.NotificationType == NotificationTypes.GroupCreate ||
+                        message.NotificationType == NotificationTypes.GroupUpdate)
+                    {
+                        if (message.AddedOccupantsIds.Any())
+                        {
+                            var userIds = new List<int>(message.AddedOccupantsIds);
+                            userIds.Add(message.SenderId);
 
-                    Messages.Add(chatMessage);
+                            var users = await App.QbProvider.GetUsersByIdsAsync(string.Join(",", userIds));
+
+                            var addedUsers = users.Where(u => u.Id != message.SenderId);
+                            var senderUser = users.First(u => u.Id == message.SenderId);
+                            chatMessage.Text = senderUser.FullName + " added users: " +
+                                               string.Join(",", addedUsers.Select(u => u.FullName));
+                        }
+                        else if (message.DeletedOccupantsIds.Any())
+                        {
+                            var userIds = new List<int>(message.DeletedOccupantsIds);
+                            var users = await App.QbProvider.GetUsersByIdsAsync(string.Join(",", userIds));
+                            chatMessage.Text = string.Join(",", users.Select(u => u.FullName)) + " left this room";
+                        }
+                    }
+                    else
+                    {
+                        chatMessage.Text = System.Net.WebUtility.UrlDecode(message.MessageText);
+                    }
+
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                       () =>
+                       {
+                           this.Messages.Add(chatMessage);
+                       });
                 }
-
-
 
                 var page = App.NavigationFrame.Content as GroupChatPage;
                 if (page != null)

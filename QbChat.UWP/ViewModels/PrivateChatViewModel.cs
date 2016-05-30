@@ -97,7 +97,11 @@ namespace QbChat.UWP.ViewModels
 
                     chatMessage.Text = System.Net.WebUtility.UrlDecode(message.MessageText);
 
-                    Messages.Add(chatMessage);
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                      () =>
+                      {
+                          Messages.Add(chatMessage);
+                      });
                 }
 
                 var page = App.NavigationFrame.Content as PrivateChatPage;
@@ -155,7 +159,7 @@ namespace QbChat.UWP.ViewModels
 
                 await SetRecepientName(messageTable);
 
-                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                   () =>
                   {
                       this.Messages.Add(messageTable);

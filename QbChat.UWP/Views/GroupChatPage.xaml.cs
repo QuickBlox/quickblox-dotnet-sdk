@@ -15,6 +15,7 @@ namespace QbChat.UWP.Views
     public sealed partial class GroupChatPage : Page
     {
         private GroupChatViewModel vm;
+        private bool isLoading;
 
         public GroupChatPage()
         {
@@ -24,6 +25,11 @@ namespace QbChat.UWP.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+            if (isLoading)
+                return;
+
+            isLoading = true;
 
             var parameter = (string)e.Parameter;
             vm = new GroupChatViewModel(parameter);

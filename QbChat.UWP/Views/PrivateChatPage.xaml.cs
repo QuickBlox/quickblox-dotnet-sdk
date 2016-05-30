@@ -1,9 +1,7 @@
 ﻿using QbChat.Pcl.Repository;
 using QbChat.UWP.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -17,6 +15,7 @@ namespace QbChat.UWP.Views
     public sealed partial class PrivateChatPage : Page
     {
         private PrivateChatViewModel vm;
+        private bool isLoading;
 
         public PrivateChatPage()
         {
@@ -26,6 +25,11 @@ namespace QbChat.UWP.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+            if (isLoading)
+                return;
+
+            isLoading = true;
 
             var parameter = (string)e.Parameter;
             vm = new PrivateChatViewModel(parameter);

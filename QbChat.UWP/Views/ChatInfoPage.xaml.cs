@@ -12,6 +12,7 @@ namespace QbChat.UWP.Views
     /// </summary>
     public sealed partial class ChatInfoPage : Page
     {
+        private bool isLoading;
         private ChatInfoViewModel vm;
 
         public ChatInfoPage()
@@ -22,6 +23,11 @@ namespace QbChat.UWP.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+            if (isLoading)
+                return;
+
+            isLoading = true;
 
             var dialogId = (string)e.Parameter;
             vm = new ChatInfoViewModel(dialogId);

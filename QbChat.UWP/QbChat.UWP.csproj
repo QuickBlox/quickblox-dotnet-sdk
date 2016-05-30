@@ -106,6 +106,7 @@
     <Compile Include="Providers\MessageProvider.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="SQLite_Uwp.cs" />
+    <Compile Include="ViewModels\AddOccupantsIdsViewModel.cs" />
     <Compile Include="ViewModels\BaseChatViewModel.cs" />
     <Compile Include="ViewModels\ChatInfoViewModel.cs" />
     <Compile Include="ViewModels\ChatsViewModel.cs" />
