@@ -31,9 +31,15 @@ namespace QbChat.UWP.ViewModels
         {
             base.OnAppearing();
 
+            if (string.IsNullOrEmpty(dialogId))
+                return;
+
             this.IsBusy = true;
 
             var dialog = Database.Instance().GetDialog(dialogId);
+            if (dialog == null)
+                return;
+
             groupChatManager = App.QbProvider.GetXmppClient().GetGroupChatManager(dialog.XmppRoomJid, dialogId);
             groupChatManager.MessageReceived += OnMessageReceived;
 

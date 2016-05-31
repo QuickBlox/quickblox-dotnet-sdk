@@ -54,7 +54,7 @@ namespace QbChat.UWP.ViewModels
         public override async void OnAppearing()
         {
             base.OnAppearing();
-
+            
             this.IsBusy = true;
             User user = null;
             if (user == null && App.QbProvider.UserId != 0)

@@ -6,10 +6,37 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    
-    NavigationCacheMode="Enabled">
+    xmlns:extensions="using:QbChat.UWP.Helpers">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.TopAppBar>
+        <CommandBar>
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Icon="Accept" Label="Create" Command="{Binding CreateChatCommand}" />
+            </CommandBar.PrimaryCommands>
 
+            <CommandBar.Content>
+                <TextBlock Text="New Chat" Margin="12,14"/>
+            </CommandBar.Content>
+        </CommandBar>
+    </Page.TopAppBar>
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Select Users you want to chat with:" Margin="12,14"/>
+
+        <ListView ItemsSource="{Binding Users}" Grid.Row="1" Margin="0,6">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>    
+                        <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" Content="{Binding User.FullName}" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ProgressBar Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{Binding IsBusy}" VerticalAlignment="Top"/>
     </Grid>
 </Page>

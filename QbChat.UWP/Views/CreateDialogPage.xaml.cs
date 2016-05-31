@@ -1,4 +1,6 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using QbChat.UWP.ViewModels;
+using Windows.UI.Xaml.Controls;
+using System;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -11,13 +13,14 @@ namespace QbChat.UWP.Views
     public sealed partial class CreateDialogPage : Page
     {
         private bool isLoading;
+        private CreateDialogViewModel vm;
 
         public CreateDialogPage()
         {
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
@@ -25,6 +28,12 @@ namespace QbChat.UWP.Views
                 return;
 
             isLoading = true;
+
+            vm = new CreateDialogViewModel();
+            this.DataContext = vm;
+            vm.OnAppearing();
+
+            await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().HideAsync();
         }
     }
 }

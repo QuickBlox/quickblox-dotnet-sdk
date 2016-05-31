@@ -6,11 +6,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:extensions="using:QbChat.UWP.Helpers"
-    mc:Ignorable="d"    
-    NavigationCacheMode="Enabled">
+    mc:Ignorable="d"    >
     
     <Page.TopAppBar>
-        <CommandBar extensions:CommandBarExtensions.HideMoreButton="True">
+        <CommandBar>
             <!--<CommandBar.PrimaryCommands>
                 <AppBarButton Icon="Play" Label="Play" />
                 <AppBarButton Icon="Forward" Label="Forward" />

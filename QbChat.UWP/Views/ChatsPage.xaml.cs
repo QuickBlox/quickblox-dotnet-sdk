@@ -29,6 +29,8 @@ namespace QbChat.UWP.Views
 
             isLoading = true;
 
+            App.NavigationFrame.BackStack.Clear();
+
             vm = new ChatsViewModel();
             this.DataContext = vm;
             vm.OnAppearing();

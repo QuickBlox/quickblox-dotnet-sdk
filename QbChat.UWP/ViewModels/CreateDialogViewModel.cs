@@ -10,8 +10,10 @@ using QbChat.Pcl.Repository;
 using QbChat.UWP.ViewModels;
 using QbChat.UWP;
 using QbChat.UWP.Views;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml;
 
-namespace XamarinForms.QbChat.ViewModels
+namespace QbChat.UWP.ViewModels
 {
     public class CreateDialogViewModel : ViewModel
     {
@@ -82,18 +84,19 @@ namespace XamarinForms.QbChat.ViewModels
                         //    UserDialogs.Instance.PromptAsync("Enter chat name:", null, "Create", "Cancel",
                         //        "Enter chat name", InputType.Name);
 
-                        //if (promptResult.Ok)
-                        //{
-                        dialogName = "dialog";//promptResult.Text;
+                        var text = await ShowDialog();
+                        if (!string.IsNullOrEmpty(text))
+                        {
+                            dialogName = text;
                             if (string.IsNullOrEmpty(dialogName))
                                 dialogName = App.UserName + "_" +
                                              string.Join(", ", selectedUsers.Select(u => u.FullName));
-                        //}
-                        //else
-                        //{
+                        }
+                        else
+                        {
                             this.IsBusy = false;
                             return;
-                        //}
+                        }
                     }
 
                     var userIds = selectedUsers.Select(u => u.Id).ToList();
@@ -111,7 +114,7 @@ namespace XamarinForms.QbChat.ViewModels
                         groupManager.NotifyAboutGroupCreation(userIds, dialog);
 
                         App.NavigationFrame.GoBack();
-                        App.NavigationFrame.Navigate(typeof(GroupChatPage));
+                        App.NavigationFrame.Navigate(typeof(GroupChatPage), dialog.Id);
                     }
                     else if (dialogType == DialogType.Private)
                     {
@@ -144,6 +147,33 @@ namespace XamarinForms.QbChat.ViewModels
             {
                 
             }
+        }
+
+        private async Task<string> ShowDialog()
+        {
+            var dialog = new ContentDialog()
+            {
+                Title = "Enter chat name:",
+                //RequestedTheme = ElementTheme.Dark,
+                //FullSizeDesired = true,
+                //MaxWidth = this.ActualWidth // Required for Mobile!
+            };
+
+            // Setup Content
+            var panel = new StackPanel();
+            
+            var textEdit = new TextBox();
+
+            panel.Children.Add(textEdit);
+            dialog.Content = panel;
+
+            // Add Buttons
+            dialog.PrimaryButtonText = "Create";
+            dialog.SecondaryButtonText = "Cancel";
+
+            // Show Dialog
+            var result = await dialog.ShowAsync();
+            return textEdit.Text;
         }
     }
 }
