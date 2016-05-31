@@ -28,6 +28,7 @@ namespace QbChat.UWP.Views
                 return;
 
             isLoading = true;
+            App.NavigationFrame.BackStack.Clear();
 
             vm = new DefaultLoginViewModel();
             this.DataContext = vm;

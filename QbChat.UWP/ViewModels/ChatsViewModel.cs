@@ -160,10 +160,7 @@ namespace QbChat.UWP.ViewModels
                 }
                 finally
                 {
-                    while (App.NavigationFrame.CanGoBack)
-                    {
-                        App.NavigationFrame.GoBack();
-                    }
+                    App.NavigationFrame.Navigate(typeof(DefaultLoginPage));
                 }
             }
 
@@ -240,7 +237,11 @@ namespace QbChat.UWP.ViewModels
                 };
 
                 App.QbProvider.GetXmppClient().JoinToGroup(dialog.XmppRoomJid, App.QbProvider.UserId.ToString());
-                AddDialogToList(dialog);
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+               () =>
+               {
+                   AddDialogToList(dialog);
+               });
                 Database.Instance().SaveDialog(dialog);
             }
         }

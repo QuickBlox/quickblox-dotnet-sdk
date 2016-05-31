@@ -6,15 +6,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:extensions="using:QbChat.UWP.Helpers"
-    mc:Ignorable="d"    >
-    
+    mc:Ignorable="d"   
+    NavigationCacheMode="Enabled">
+   
     <Page.TopAppBar>
         <CommandBar>
             <!--<CommandBar.PrimaryCommands>
                 <AppBarButton Icon="Play" Label="Play" />
                 <AppBarButton Icon="Forward" Label="Forward" />
             </CommandBar.PrimaryCommands>-->
-       
+
             <CommandBar.SecondaryCommands>
                 <AppBarButton Label="New Chat" Command="{Binding CreateNewChatCommand}"/>
                 <AppBarButton Label="Logout" Command="{Binding LogoutCommand}"/>
@@ -27,7 +28,7 @@
     </Page.TopAppBar>
 
     <Grid>
-        <ListView ItemsSource="{Binding Dialogs}" IsItemClickEnabled="True" Background="White" ItemClick="OnItemClicked">
+        <ListView ItemsSource="{Binding Dialogs}" IsItemClickEnabled="True" Background="White" ItemClick="OnItemClicked" >
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="3,6">
