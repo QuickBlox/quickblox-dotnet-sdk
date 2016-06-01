@@ -15,7 +15,7 @@
             </CommandBar.PrimaryCommands>
 
             <CommandBar.Content>
-                <TextBlock Text="Chat Info" Margin="12,14"/>
+                <TextBlock Text="Add Occupants" Margin="12,14"/>
             </CommandBar.Content>
         </CommandBar>
     </Page.TopAppBar>
