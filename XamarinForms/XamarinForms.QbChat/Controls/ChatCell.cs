@@ -1,7 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using Quickblox.Sdk.Modules.ChatModule.Models;
-using XamarinForms.QbChat.Repository;
+using QbChat.Pcl.Repository;
 
 namespace XamarinForms.QbChat
 {

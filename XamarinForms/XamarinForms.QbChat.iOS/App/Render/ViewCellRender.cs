@@ -5,8 +5,8 @@ using Xamarin.Forms.Platform.iOS;
 using UIKit;
 using Foundation;
 using System.Drawing;
-using XamarinForms.QbChat.Repository;
 using XamarinForms.QbChat;
+using QbChat.Pcl.Repository;
 
 [assembly: ExportRenderer(typeof(MessageCell), typeof(ViewCellRender))]
 namespace XamarinForms.QbChat.iOS

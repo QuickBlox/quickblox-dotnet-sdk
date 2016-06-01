@@ -10,11 +10,12 @@ using Quickblox.Sdk.GeneralDataModel.Models;
 using Quickblox.Sdk.Modules.ChatXmppModule;
 using Quickblox.Sdk.Modules.ChatXmppModule.Models;
 using Xamarin.Forms;
-using XamarinForms.QbChat.Repository;
 using XamarinForms.QbChat.Providers;
 using Quickblox.Sdk.Modules.UsersModule.Models;
 using XamarinForms.QbChat.Pages;
 using Xmpp.Im;
+using QbChat.Pcl.Repository;
+using QbChat.Pcl;
 
 namespace XamarinForms.QbChat.ViewModels
 {

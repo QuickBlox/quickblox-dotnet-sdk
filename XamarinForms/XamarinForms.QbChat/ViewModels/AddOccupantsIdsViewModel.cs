@@ -1,10 +1,11 @@
-﻿using System;
+﻿using QbChat.Pcl;
+using QbChat.Pcl.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using XamarinForms.QbChat.Repository;
 
 namespace XamarinForms.QbChat.ViewModels
 {

@@ -1,9 +1,9 @@
 ﻿using System;
-using XamarinForms.QbChat.Interfaces;
 using Security;
 using Foundation;
 using Xamarin.Forms;
 using XamarinForms.QbChat.iOS;
+using QbChat.Pcl.Interfaces;
 
 [assembly: Dependency(typeof(IOSDeviceUid))]
 namespace XamarinForms.QbChat.iOS

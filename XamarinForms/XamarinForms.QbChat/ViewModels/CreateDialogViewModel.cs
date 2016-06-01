@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Quickblox.Sdk.Modules.Models;
-using Quickblox.Sdk.Modules.UsersModule.Models;
 using Xamarin.Forms;
-using XamarinForms.QbChat.Repository;
 using Quickblox.Sdk.Modules.ChatModule.Models;
 using Acr.UserDialogs;
 using XamarinForms.QbChat.Pages;
+using QbChat.Pcl;
+using QbChat.Pcl.Repository;
 
 namespace XamarinForms.QbChat.ViewModels
 {

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using QbChat.Pcl;
 
 namespace XamarinForms.QbChat.ViewModels
 {

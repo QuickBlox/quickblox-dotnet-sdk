@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using QbChat.Pcl;
+using QbChat.Pcl.Interfaces;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -78,24 +80,26 @@ namespace XamarinForms.QbChat.ViewModels
 
             var loginValue = user.Login;
             var passwordValue = user.Password;
-           //await Task.Factory.StartNew(async () =>
+            //await Task.Factory.StartNew(async () =>
             //{
-                var userId = await App.QbProvider.LoginWithLoginValueAsync(loginValue, passwordValue);
+            var deviceUid = DependencyService.Get<IDeviceIdentifier>().GetIdentifier();
+            var platform = Device.OS == TargetPlatform.Android ? Quickblox.Sdk.GeneralDataModel.Models.Platform.android : Quickblox.Sdk.GeneralDataModel.Models.Platform.ios;
+            var userId = await App.QbProvider.LoginWithLoginValueAsync(loginValue, passwordValue, platform, deviceUid);
 
-                Device.BeginInvokeOnMainThread(() =>
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                if (userId > 0)
                 {
-                    if (userId > 0)
-                    {
-                        this.IsBusyIndicatorVisible = false;
-                        App.SetMainPage();
-                    }
-                    else
-                    {
-                        App.Current.MainPage.DisplayAlert("Error", "Try to repeat login", "Ok");
-                    }
-
                     this.IsBusyIndicatorVisible = false;
-                });
+                    App.SetMainPage();
+                }
+                else
+                {
+                    App.Current.MainPage.DisplayAlert("Error", "Try to repeat login", "Ok");
+                }
+
+                this.IsBusyIndicatorVisible = false;
+            });
             //});
         }
 

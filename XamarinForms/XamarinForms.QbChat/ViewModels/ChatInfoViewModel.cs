@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Quickblox.Sdk.Modules.UsersModule.Models;
 using Xamarin.Forms;
-using XamarinForms.QbChat.Repository;
+using QbChat.Pcl.Repository;
 
 namespace XamarinForms.QbChat.ViewModels
 {
@@ -40,6 +40,11 @@ namespace XamarinForms.QbChat.ViewModels
         {
             base.OnAppearing();
 
+            if (isLoading)
+                return;
+
+            this.isLoading = true;
+
             this.IsBusyIndicatorVisible = true;
             
             Task.Factory.StartNew(async () => {
@@ -55,11 +60,6 @@ namespace XamarinForms.QbChat.ViewModels
 
         private async void LeaveChatCommandExecute(object obj)
         {
-            if (isLoading)
-                return;
-
-            this.isLoading = true;
-
             this.IsBusyIndicatorVisible = true;
             var result = await App.Current.MainPage.DisplayAlert("Leave Chat", "Do you really want to Leave Chat?", "Yes", "Cancel");
             if (result)

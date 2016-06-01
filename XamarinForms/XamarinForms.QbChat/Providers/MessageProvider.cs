@@ -8,7 +8,7 @@ using Quickblox.Sdk.GeneralDataModel.Models;
 using Quickblox.Sdk.Modules.ChatModule.Models;
 using Quickblox.Sdk.Modules.ChatXmppModule;
 using Quickblox.Sdk.Modules.ChatXmppModule.Models;
-using XamarinForms.QbChat.Repository;
+using QbChat.Pcl.Repository;
 
 namespace XamarinForms.QbChat.Providers
 {

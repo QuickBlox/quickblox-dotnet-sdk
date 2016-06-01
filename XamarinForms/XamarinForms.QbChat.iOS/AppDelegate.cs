@@ -1,4 +1,5 @@
 ﻿using Foundation;
+using QbChat.Pcl.Repository;
 using UIKit;
 using Xamarin.Forms.Platform.iOS;
 
@@ -19,7 +20,7 @@ namespace XamarinForms.QbChat.iOS
 			Xamarin.Behaviors.Infrastructure.Init();
 			//window = new UIWindow(UIScreen.MainScreen.Bounds);
 
-			Repository.Database.Instance ().Init (new SqliteIOS().GetConnection());
+			Database.Instance ().Init (new SqliteIOS().GetConnection());
 
             Quickblox.Sdk.Platform.QuickbloxPlatform.Init();
             LoadApplication(new App()); 

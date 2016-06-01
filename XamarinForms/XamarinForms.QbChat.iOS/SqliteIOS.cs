@@ -3,7 +3,7 @@ using System.IO;
 using SQLite.Net;
 using Xamarin.Forms;
 using XamarinForms.QbChat.iOS;
-using XamainForms.QbChat;
+using QbChat.Pcl;
 
 [assembly: Dependency(typeof(SqliteIOS))]
 namespace XamarinForms.QbChat.iOS
