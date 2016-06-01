@@ -15,6 +15,7 @@ namespace XamarinForms.QbChat.iOS
 		private NSObject _hide;
 		PrivateChatPage page;
 		private float _scrollAmount;
+		private bool _isKeyboardShown = false;
 
 		protected override void OnElementChanged (VisualElementChangedEventArgs e)
 		{
@@ -27,17 +28,26 @@ namespace XamarinForms.QbChat.iOS
 			base.ViewWillAppear (animated);
 
 			_show = UIKeyboard.Notifications.ObserveWillShow((sender, e) => {
-				var r = UIKeyboard.FrameBeginFromNotification(e.Notification);
-				_scrollAmount = (float)r.Height;
-				Scroll(sender, e, true);
+				if (!_isKeyboardShown){
+					var r = UIKeyboard.FrameBeginFromNotification(e.Notification);
+					_scrollAmount = (float)r.Height;
+					Scroll(sender, e, true);
+						_isKeyboardShown = true;
+				}
 			});
 			_hide = UIKeyboard.Notifications.ObserveWillHide((sender, e) => 
 				{
-					Scroll(sender, e, false);
-					_scrollAmount = 0;
+					if(_isKeyboardShown)
+					{
+						Scroll(sender, e, false);
+						_scrollAmount = 0;
+						_isKeyboardShown = false;
+					}
 				});
 
 			View.AutoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth;
+
+			//page.ScrollList ();
 		}
 
 		public override void ViewWillDisappear (bool animated)
@@ -69,8 +79,7 @@ namespace XamarinForms.QbChat.iOS
 			page.Layout (new Rectangle (0, 0, frame.Width, frame.Height));
 			page.ForceLayout ();
 			View.Frame = frame;
-
-			page.OnMessagesChanged();
+			//page.OnMessagesChanged();
 		}
 
 		public override void ViewDidDisappear (bool animated)

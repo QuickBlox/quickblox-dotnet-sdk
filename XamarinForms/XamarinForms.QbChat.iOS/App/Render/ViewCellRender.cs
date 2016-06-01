@@ -5,16 +5,16 @@ using Xamarin.Forms.Platform.iOS;
 using UIKit;
 using Foundation;
 using System.Drawing;
-using XamarinForms.QbChat.Repository;
+using XamarinForms.QbChat;
+using QbChat.Pcl.Repository;
 
-[assembly: ExportRenderer(typeof(ViewCell), typeof(ViewCellRender))]
+[assembly: ExportRenderer(typeof(MessageCell), typeof(ViewCellRender))]
 namespace XamarinForms.QbChat.iOS
 {
 	public class ViewCellRender : ViewCellRenderer
 	{
 		public override UITableViewCell GetCell(Cell item, UITableViewCell reusableCell, UITableView tv)
 		{
-
 			var cell = base.GetCell(item, reusableCell, tv);
 			if (cell != null)
 			{

@@ -1,4 +1,5 @@
 ﻿using Foundation;
+using QbChat.Pcl.Repository;
 using UIKit;
 using Xamarin.Forms.Platform.iOS;
 
@@ -16,12 +17,13 @@ namespace XamarinForms.QbChat.iOS
 		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
 			global::Xamarin.Forms.Forms.Init ();
-
+			Xamarin.Behaviors.Infrastructure.Init();
 			//window = new UIWindow(UIScreen.MainScreen.Bounds);
 
-			Repository.Database.Instance ().Init (new SqliteIOS().GetConnection());
+			Database.Instance ().Init (new SqliteIOS().GetConnection());
 
-			LoadApplication (new App()); 
+            Quickblox.Sdk.Platform.QuickbloxPlatform.Init();
+            LoadApplication(new App()); 
 
 			return base.FinishedLaunching(application, launchOptions);
 		}

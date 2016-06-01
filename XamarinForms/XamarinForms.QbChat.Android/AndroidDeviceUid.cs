@@ -2,7 +2,7 @@
 using XamarinForms.QbChat.Android;
 using Android.Provider;
 using Xamarin.Forms;
-using XamarinForms.QbChat.Interfaces;
+using QbChat.Pcl.Interfaces;
 
 [assembly: Xamarin.Forms.Dependency(typeof(AndroidDeviceUid))]
 namespace XamarinForms.QbChat.Android

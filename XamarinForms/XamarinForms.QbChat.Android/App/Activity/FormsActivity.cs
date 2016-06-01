@@ -4,9 +4,9 @@ using Android.OS;
 using Xamarin.Forms.Platform.Android;
 using Android.Content.PM;
 using Xamarin.Forms;
-using XamarinForms.QbChat;
-using XamarinForms.QbChat.Repository;
-using XamainForms.QbChat;
+using Acr.UserDialogs;
+using QbChat.Pcl.Repository;
+using QbChat.Pcl;
 
 namespace XamarinForms.QbChat.Android
 {
@@ -20,8 +20,10 @@ namespace XamarinForms.QbChat.Android
 
 			Forms.Init (this, savedInstanceState);
 			Database.Instance ().Init (DependencyService.Get<ISqlite> ().GetConnection ());
+			UserDialogs.Init (this);
 
-			var app = new App ();
+            Quickblox.Sdk.Platform.QuickbloxPlatform.Init();
+            var app = new App ();
 			LoadApplication (app);
 		}
 	}
