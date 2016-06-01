@@ -9,7 +9,7 @@
     xmlns:extensions="using:QbChat.UWP.Helpers">
 
     <Page.TopAppBar>
-        <CommandBar extensions:CommandBarExtensions.HideMoreButton="True">
+        <CommandBar>
             <CommandBar.PrimaryCommands>
                 <AppBarButton Icon="Add" Label="Add occupants" Command="{Binding AddOccupantsCommand}" />
             </CommandBar.PrimaryCommands>
