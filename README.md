@@ -10,7 +10,7 @@ This project contains QuickBlox Xamarin Samples and latest version of SDK, that 
 
 * [Framework](https://www.nuget.org/packages/Quickblox.Sdk.Xamarin/)
 * Samples (separated samples for each QuickBlox module):
-  * [Xamarin Chat Sample](https://github.com/QuickBlox/quickblox-xamarin-sdk)
+  * [Xamarin Chat Sample](https://github.com/QuickBlox/quickblox-dotnet-sdk)
   
 
 ## Documentation
