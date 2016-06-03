@@ -13,6 +13,10 @@ namespace QbChat.UWP.ViewModels
         private List<SelectedUser> users;
         private bool isLoading;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AddOccupantsIdsViewModel"/> class.
+        /// </summary>
+        /// <param name="dialogId">The dialog identifier.</param>
         public AddOccupantsIdsViewModel(string dialogId)
         {
             this.dialogId = dialogId;
