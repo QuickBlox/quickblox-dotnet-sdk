@@ -16,6 +16,7 @@ namespace XamarinForms.QbChat.ViewModels
     public class CreateDialogViewModel : ViewModel
     {
         private List<SelectedUser> users;
+        private bool isCreating;
 
         public CreateDialogViewModel()
         {
@@ -66,6 +67,11 @@ namespace XamarinForms.QbChat.ViewModels
 
         public async void CreateChatCommandExecute(object obj)
         {
+            if (this.isCreating)
+                return;
+
+            this.isCreating = true;
+
             if (Users == null)
                 return;
 
@@ -151,8 +157,9 @@ namespace XamarinForms.QbChat.ViewModels
             }
             catch (Exception ex)
             {
-                
             }
+
+            this.isCreating = false;
         }
     }
 }
