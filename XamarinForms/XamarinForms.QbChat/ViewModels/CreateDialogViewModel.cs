@@ -97,7 +97,8 @@ namespace XamarinForms.QbChat.ViewModels
                         if (promptResult.Ok)
                         {
                             dialogName = promptResult.Text;
-                            if (string.IsNullOrEmpty(dialogName))
+
+                            if (string.IsNullOrWhiteSpace(dialogName))
                                 dialogName = App.UserName + "_" +
                                              string.Join(", ", selectedUsers.Select(u => u.FullName));
                         }
