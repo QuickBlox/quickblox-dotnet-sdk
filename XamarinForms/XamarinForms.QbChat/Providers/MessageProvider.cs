@@ -9,6 +9,7 @@ using Quickblox.Sdk.Modules.ChatModule.Models;
 using Quickblox.Sdk.Modules.ChatXmppModule;
 using Quickblox.Sdk.Modules.ChatXmppModule.Models;
 using QbChat.Pcl.Repository;
+using Quickblox.Sdk.Modules.Models;
 
 namespace XamarinForms.QbChat.Providers
 {
@@ -141,7 +142,7 @@ namespace XamarinForms.QbChat.Providers
         //    }
         //}
 
-        public async Task<DialogTable> UpdateInDialogMessage(string chatDialogId, string decodedMessage)
+        public async Task<DialogTable> UpdateInDialogMessage(string chatDialogId, Message message)
         {
             var dialog = Database.Instance().GetDialog(chatDialogId);
             if (dialog == null)
@@ -155,8 +156,9 @@ namespace XamarinForms.QbChat.Providers
             }
             if (dialog != null)
             {
-                dialog.LastMessage = decodedMessage;
+                dialog.LastMessage = System.Net.WebUtility.UrlDecode(message.MessageText); 
                 dialog.LastMessageSent = DateTime.UtcNow;
+                dialog.OccupantIds = string.Join(",", message.CurrentOccupantsIds);
                 if (dialog.UnreadMessageCount != null)
                 {
                     dialog.UnreadMessageCount++;

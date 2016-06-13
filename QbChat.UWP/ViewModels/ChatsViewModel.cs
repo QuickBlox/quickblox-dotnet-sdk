@@ -207,8 +207,7 @@ namespace QbChat.UWP.ViewModels
                     }
                 }
 
-                string decodedMessage = System.Net.WebUtility.UrlDecode(messageEventArgs.Message.MessageText);
-                var dialog = await MessageProvider.Instance.UpdateInDialogMessage(messageEventArgs.Message.ChatDialogId, decodedMessage);
+                var dialog = await MessageProvider.Instance.UpdateInDialogMessage(messageEventArgs.Message.ChatDialogId, messageEventArgs.Message);
 
                 CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                 () =>

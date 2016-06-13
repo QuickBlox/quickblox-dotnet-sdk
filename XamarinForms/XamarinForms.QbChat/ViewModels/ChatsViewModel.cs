@@ -203,8 +203,7 @@ namespace XamarinForms.QbChat.ViewModels
                     }
                 }
 
-                string decodedMessage = System.Net.WebUtility.UrlDecode(messageEventArgs.Message.MessageText);
-                var dialog = await MessageProvider.Instance.UpdateInDialogMessage(messageEventArgs.Message.ChatDialogId, decodedMessage);
+                var dialog = await MessageProvider.Instance.UpdateInDialogMessage(messageEventArgs.Message.ChatDialogId, messageEventArgs.Message);
                 AddDialogToList(dialog);
                 Database.Instance().SaveDialog(dialog);
             }
