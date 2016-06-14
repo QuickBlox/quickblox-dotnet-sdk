@@ -46,7 +46,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <TextBlock Text="{Binding RecepientFullName}" Foreground="#01B6FF" TextWrapping="NoWrap" />
-                        <TextBlock Text="{Binding Text}" Grid.Row="1" TextWrapping="Wrap"/>
+                        <TextBlock Text="{Binding Text}" Grid.Row="1" MaxHeight="400" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

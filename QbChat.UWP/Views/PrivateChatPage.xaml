@@ -9,10 +9,10 @@
     xmlns:extensions="using:QbChat.UWP.Helpers">
 
     <Page.TopAppBar>
-        <CommandBar extensions:CommandBarExtensions.HideMoreButton="True">
-            <!--<CommandBar.PrimaryCommands>
+        <CommandBar>
+            <CommandBar.PrimaryCommands>
                 <AppBarButton Icon="ContactInfo" Label="Chat info" />
-            </CommandBar.PrimaryCommands>-->
+            </CommandBar.PrimaryCommands>
 
             <CommandBar.Content>
                 <TextBlock Text="Private chat" Margin="12,14"/>
@@ -46,7 +46,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <TextBlock Text="{Binding RecepientFullName}" Foreground="#01B6FF" TextWrapping="NoWrap" />
-                        <TextBlock Text="{Binding Text}" Grid.Row="1" />
+                        <TextBlock Text="{Binding Text}" Grid.Row="1" MaxHeight="400" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -55,7 +55,7 @@
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="90"/>
             </Grid.ColumnDefinitions>
             <TextBox Text="{Binding MessageText, Mode=TwoWay}" Margin="12"/>
             <Button Grid.Column="1" Content="Send" Command="{Binding SendMessageCommand}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="12"/>
