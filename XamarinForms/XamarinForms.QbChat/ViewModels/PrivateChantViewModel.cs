@@ -218,6 +218,13 @@ namespace XamarinForms.QbChat.ViewModels
 
                 this.Messages.Add(m);
                 MessageText = "";
+
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    var page = (App.Current.MainPage as NavigationPage).CurrentPage as PrivateChatPage;
+                    if (page != null)
+                        page.ScrollList();
+                });
             }
         }
     }
