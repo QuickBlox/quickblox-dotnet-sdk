@@ -84,19 +84,14 @@ namespace QbChat.UWP.ViewModels
                         //    UserDialogs.Instance.PromptAsync("Enter chat name:", null, "Create", "Cancel",
                         //        "Enter chat name", InputType.Name);
 
-                        var text = await ShowDialog();
-                        if (!string.IsNullOrEmpty(text))
+                        dialogName = await ShowDialog();
+                        if (string.IsNullOrWhiteSpace(dialogName))
                         {
-                            dialogName = text;
-                            if (string.IsNullOrEmpty(dialogName))
-                                dialogName = App.UserName + "_" +
-                                             string.Join(", ", selectedUsers.Select(u => u.FullName));
+                            dialogName = App.UserName + "_" +
+                                        string.Join(", ", selectedUsers.Select(u => u.FullName));
                         }
-                        else
-                        {
-                            this.IsBusy = false;
-                            return;
-                        }
+
+                        this.IsBusy = false;
                     }
 
                     var userIds = selectedUsers.Select(u => u.Id).ToList();
