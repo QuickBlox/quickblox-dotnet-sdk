@@ -1,4 +1,5 @@
-﻿using QbChat.Pcl.Repository;
+﻿using QbChat.Pcl.Helpers;
+using QbChat.Pcl.Repository;
 using QbChat.UWP.Views;
 using Quickblox.Sdk.GeneralDataModel.Models;
 using Quickblox.Sdk.Modules.ChatXmppModule;
@@ -18,11 +19,24 @@ namespace QbChat.UWP.ViewModels
     public class GroupChatViewModel : BaseChatViewModel
     {
         private GroupChatManager groupChatManager;
+        private AsyncLock lockAddingObject = new AsyncLock();
 
         public GroupChatViewModel(string dialogId) : base (dialogId)
         {
             this.OpenChatInfoCommand = new RelayCommand(this.OpenChatInfoCommandExecute);
             base.SendMessageCommand = new RelayCommand(this.SendMessageCommandExecute);
+
+            if (string.IsNullOrEmpty(dialogId))
+                return;
+
+            var dialog = Database.Instance().GetDialog(dialogId);
+            if (dialog == null)
+                return;
+
+            DialogName = dialog.Name;
+
+            groupChatManager = App.QbProvider.GetXmppClient().GetGroupChatManager(dialog.XmppRoomJid, dialogId);
+            groupChatManager.MessageReceived += OnMessageReceived;
         }
 
         public RelayCommand OpenChatInfoCommand { get; private set; }
@@ -34,16 +48,11 @@ namespace QbChat.UWP.ViewModels
             if (string.IsNullOrEmpty(dialogId))
                 return;
 
-            this.IsBusy = true;
-
             var dialog = Database.Instance().GetDialog(dialogId);
             if (dialog == null)
                 return;
-
-            groupChatManager = App.QbProvider.GetXmppClient().GetGroupChatManager(dialog.XmppRoomJid, dialogId);
-            groupChatManager.MessageReceived += OnMessageReceived;
-
-            DialogName = dialog.Name;
+            
+            this.IsBusy = true;
 
             ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/groupholder.png"));
 
@@ -58,6 +67,7 @@ namespace QbChat.UWP.ViewModels
         public async Task LoadMessages()
         {
             List<Message> messages;
+            List<MessageTable> chatMessages = new List<MessageTable>();
             try
             {
                 messages = await App.QbProvider.GetMessagesAsync(dialogId);
@@ -68,59 +78,68 @@ namespace QbChat.UWP.ViewModels
                 return;
             }
 
-            if (messages != null)
+            using (await lockAddingObject.LockAsync())
             {
-                messages = messages.OrderBy(message => message.DateSent).ToList();
-                foreach (var message in messages)
+                if (messages != null)
                 {
-                    var chatMessage = new MessageTable();
-                    chatMessage.DateSent = message.DateSent;
-                    chatMessage.SenderId = message.SenderId;
-                    chatMessage.MessageId = message.Id;
-                    if (message.RecipientId.HasValue)
-                        chatMessage.RecepientId = message.RecipientId.Value;
-                    chatMessage.DialogId = message.ChatDialogId;
-                    chatMessage.IsRead = message.Read == 1;
-
-                    await this.SetRecepientName(chatMessage);
-
-                    if (message.NotificationType == NotificationTypes.GroupCreate ||
-                        message.NotificationType == NotificationTypes.GroupUpdate)
+                    messages = messages.OrderBy(message => message.DateSent).ToList();
+                    foreach (var message in messages)
                     {
-                        if (message.AddedOccupantsIds.Any())
+                        var chatMessage = new MessageTable();
+                        chatMessage.DateSent = message.DateSent;
+                        chatMessage.SenderId = message.SenderId;
+                        chatMessage.MessageId = message.Id;
+                        if (message.RecipientId.HasValue)
+                            chatMessage.RecepientId = message.RecipientId.Value;
+                        chatMessage.DialogId = message.ChatDialogId;
+                        chatMessage.IsRead = message.Read == 1;
+
+                        await this.SetRecepientName(chatMessage);
+
+                        if (message.NotificationType == NotificationTypes.GroupCreate ||
+                            message.NotificationType == NotificationTypes.GroupUpdate)
                         {
-                            var userIds = new List<int>(message.AddedOccupantsIds);
-                            userIds.Add(message.SenderId);
+                            if (message.AddedOccupantsIds.Any())
+                            {
+                                var userIds = new List<int>(message.AddedOccupantsIds);
+                                userIds.Add(message.SenderId);
 
-                            var users = await App.QbProvider.GetUsersByIdsAsync(string.Join(",", userIds));
+                                var users = await App.QbProvider.GetUsersByIdsAsync(string.Join(",", userIds));
 
-                            var addedUsers = users.Where(u => u.Id != message.SenderId);
-                            var senderUser = users.First(u => u.Id == message.SenderId);
-                            chatMessage.Text = senderUser.FullName + " added users: " +
-                                               string.Join(",", addedUsers.Select(u => u.FullName));
+                                var addedUsers = users.Where(u => u.Id != message.SenderId);
+                                var senderUser = users.First(u => u.Id == message.SenderId);
+                                chatMessage.Text = senderUser.FullName + " added users: " +
+                                                   string.Join(",", addedUsers.Select(u => u.FullName));
+                            }
+                            else if (message.DeletedOccupantsIds.Any())
+                            {
+                                var userIds = new List<int>(message.DeletedOccupantsIds);
+                                var users = await App.QbProvider.GetUsersByIdsAsync(string.Join(",", userIds));
+                                chatMessage.Text = string.Join(",", users.Select(u => u.FullName)) + " left this room";
+                            }
                         }
-                        else if (message.DeletedOccupantsIds.Any())
+                        else
                         {
-                            var userIds = new List<int>(message.DeletedOccupantsIds);
-                            var users = await App.QbProvider.GetUsersByIdsAsync(string.Join(",", userIds));
-                            chatMessage.Text = string.Join(",", users.Select(u => u.FullName)) + " left this room";
+                            chatMessage.Text = System.Net.WebUtility.UrlDecode(message.MessageText);
                         }
-                    }
-                    else
-                    {
-                        chatMessage.Text = System.Net.WebUtility.UrlDecode(message.MessageText);
-                    }
 
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                       () =>
-                       {
-                           this.Messages.Add(chatMessage);
-                       });
+                        chatMessages.Add(chatMessage);
+                    }
                 }
 
-                var page = App.NavigationFrame.Content as GroupChatPage;
-                if (page != null)
-                    page.ScrollList();
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                           () =>
+                           {
+                               this.Messages.Clear();
+                               foreach (var item in chatMessages)
+                               {
+                                   this.Messages.Add(item);
+                               }
+
+                               var page = App.NavigationFrame.Content as GroupChatPage;
+                               if (page != null)
+                                   page.ScrollList();
+                           });
             }
         }
 
@@ -129,50 +148,57 @@ namespace QbChat.UWP.ViewModels
             if (messageEventArgs.MessageType == MessageType.Chat ||
                 messageEventArgs.MessageType == MessageType.Groupchat)
             {
-                string decodedMessage = System.Net.WebUtility.UrlDecode(messageEventArgs.Message.MessageText);
+                var message = this.Messages.FirstOrDefault(m => m.MessageId == messageEventArgs.Message.Id);
+                if (message != null)
+                    return;
 
-                var messageTable = new MessageTable();
-                messageTable.SenderId = messageEventArgs.Message.SenderId;
-                messageTable.DialogId = messageEventArgs.Message.ChatDialogId;
-                messageTable.DateSent = messageEventArgs.Message.DateSent;
-
-                if (messageEventArgs.Message.NotificationType != 0)
+                using (await lockAddingObject.LockAsync())
                 {
-                    if (messageEventArgs.Message.NotificationType == NotificationTypes.GroupUpdate)
+                    string decodedMessage = System.Net.WebUtility.UrlDecode(messageEventArgs.Message.MessageText);
+
+                    var messageTable = new MessageTable();
+                    messageTable.SenderId = messageEventArgs.Message.SenderId;
+                    messageTable.DialogId = messageEventArgs.Message.ChatDialogId;
+                    messageTable.DateSent = messageEventArgs.Message.DateSent;
+
+                    if (messageEventArgs.Message.NotificationType != 0)
                     {
-                        if (messageEventArgs.Message.AddedOccupantsIds.Any())
+                        if (messageEventArgs.Message.NotificationType == NotificationTypes.GroupUpdate)
                         {
-                            var userIds = new List<int>(messageEventArgs.Message.AddedOccupantsIds);
-                            userIds.Add(messageEventArgs.Message.SenderId);
-                            var users = await App.QbProvider.GetUsersByIdsAsync(string.Join(",", userIds));
-                            var addedUsers = users.Where(u => u.Id != messageEventArgs.Message.SenderId);
-                            var senderUser = users.First(u => u.Id == messageEventArgs.Message.SenderId);
-                            messageTable.Text = senderUser.FullName + " added users: " +
-                                                string.Join(",", addedUsers.Select(u => u.FullName));
-                        }
-                        else if (messageEventArgs.Message.DeletedOccupantsIds.Any())
-                        {
-                            var userIds = new List<int>(messageEventArgs.Message.DeletedOccupantsIds);
-                            var users = await App.QbProvider.GetUsersByIdsAsync(string.Join(",", userIds));
-                            messageTable.Text = string.Join(",", users.Select(u => u.FullName)) + " left this room";
+                            if (messageEventArgs.Message.AddedOccupantsIds.Any())
+                            {
+                                var userIds = new List<int>(messageEventArgs.Message.AddedOccupantsIds);
+                                userIds.Add(messageEventArgs.Message.SenderId);
+                                var users = await App.QbProvider.GetUsersByIdsAsync(string.Join(",", userIds));
+                                var addedUsers = users.Where(u => u.Id != messageEventArgs.Message.SenderId);
+                                var senderUser = users.First(u => u.Id == messageEventArgs.Message.SenderId);
+                                messageTable.Text = senderUser.FullName + " added users: " +
+                                                    string.Join(",", addedUsers.Select(u => u.FullName));
+                            }
+                            else if (messageEventArgs.Message.DeletedOccupantsIds.Any())
+                            {
+                                var userIds = new List<int>(messageEventArgs.Message.DeletedOccupantsIds);
+                                var users = await App.QbProvider.GetUsersByIdsAsync(string.Join(",", userIds));
+                                messageTable.Text = string.Join(",", users.Select(u => u.FullName)) + " left this room";
+                            }
                         }
                     }
-                }
-                else
-                {
-                    messageTable.Text = decodedMessage;
-                }
+                    else
+                    {
+                        messageTable.Text = decodedMessage;
+                    }
 
-                await SetRecepientName(messageTable);
+                    await SetRecepientName(messageTable);
 
-                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                () =>
-                {
-                    this.Messages.Add(messageTable);
-                    var page = App.NavigationFrame.Content as GroupChatPage;
-                    if (page != null)
-                        page.ScrollList();
-                });
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () =>
+                    {
+                        this.Messages.Add(messageTable);
+                        var page = App.NavigationFrame.Content as GroupChatPage;
+                        if (page != null)
+                            page.ScrollList();
+                    });
+                }
             }
         }
 
