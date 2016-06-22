@@ -1,7 +1,9 @@
 ﻿using Foundation;
 using QbChat.Pcl.Repository;
+using System;
 using UIKit;
 using Xamarin.Forms.Platform.iOS;
+using XamarinForms.QbChat.Providers;
 
 namespace XamarinForms.QbChat.iOS
 {
@@ -23,12 +25,40 @@ namespace XamarinForms.QbChat.iOS
 			Database.Instance ().Init (new SqliteIOS().GetConnection());
 
             Quickblox.Sdk.Platform.QuickbloxPlatform.Init();
-            LoadApplication(new App()); 
+            LoadApplication(new App());
 
-			return base.FinishedLaunching(application, launchOptions);
+            // method is new in 1.3				
+            Reachability.ReachabilityChanged += (object sender, EventArgs e) => { UpdateStatus(); };
+
+            NetworkStatus internetStatus = Reachability.InternetConnectionStatus();
+            if (internetStatus != NetworkStatus.NotReachable)
+            {
+                App.IsInternetAvaliable = true;
+            }
+            else
+            {
+                App.IsInternetAvaliable = false;
+            }
+
+            return base.FinishedLaunching(application, launchOptions);
 		}
 
-		public override void OnResignActivation (UIApplication application)
+        private void UpdateStatus()
+        {
+            var internetStatus = Reachability.InternetConnectionStatus();
+            App.IsInternetAvaliable = internetStatus != NetworkStatus.NotReachable;
+            //if (App.IsInternetAvaliable)
+            //{
+            //    if (App.UserId > 0)
+            //        MessageProvider.Instance.ConnetToXmpp(App.UserId, App.UserPassword);
+            //}
+            //else
+            //{
+            //    MessageProvider.Instance.DisconnectToXmpp();
+            //}
+        }
+
+        public override void OnResignActivation (UIApplication application)
 		{
 			// Invoked when the application is about to move from active to inactive state.
 			// This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) 

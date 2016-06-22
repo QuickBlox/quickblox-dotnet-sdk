@@ -7,11 +7,17 @@ namespace XamarinForms.QbChat
 {
     public class App : Application
     {
+
         public static QbProvider QbProvider { get; set; }
         public static INavigation Navigation { get; set; }
+
         public static Action<string> LogConsole;
 
-		public static string UserName {
+        public static bool IsInternetAvaliable { get; set; }
+        private static bool isInternetMessageShowing;
+
+
+        public static string UserName {
 			get;
 			set;
 		}
@@ -38,7 +44,7 @@ namespace XamarinForms.QbChat
 
         public App()
         {
-            QbProvider = new QbProvider();
+            QbProvider = new QbProvider(ShowInternetNotification);
 			SetLoginPage();
         }
 
@@ -67,6 +73,19 @@ namespace XamarinForms.QbChat
 			var page = new NavigationPage(new ChatsPage());
 			Navigation = page.Navigation;
 			((App)App.Current).MainPage = page;
+        }
+
+        public static void ShowInternetNotification()
+        {
+            Device.BeginInvokeOnMainThread(async () => {
+                if (!IsInternetAvaliable)
+                    if (!isInternetMessageShowing)
+                    {
+                        isInternetMessageShowing = true;
+                        await App.Current.MainPage.DisplayAlert("Internet connection", "Internet connection is lost. Please check it and restart the Application", "Ok");
+                        isInternetMessageShowing = false;
+                    }
+            });
         }
     }
 }

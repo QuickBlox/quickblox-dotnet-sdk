@@ -29,7 +29,7 @@ namespace XamarinForms.QbChat.Providers
 
         public void ConnetToXmpp(int userId, string userPassword)
         {
-            if (!App.QbProvider.GetXmppClient().IsConnected)
+            if (App.QbProvider != null && !App.QbProvider.GetXmppClient().IsConnected)
             {
                 App.QbProvider.GetXmppClient().ErrorReceived -= OnError;
                 App.QbProvider.GetXmppClient().ErrorReceived += OnError;
@@ -42,7 +42,7 @@ namespace XamarinForms.QbChat.Providers
 
         public void DisconnectToXmpp()
         {
-            if (App.QbProvider.GetXmppClient().IsConnected)
+            if (App.QbProvider != null && App.QbProvider.GetXmppClient().IsConnected)
             {
                 App.QbProvider.GetXmppClient().ErrorReceived -= OnError;
                 App.QbProvider.GetXmppClient().StatusChanged -= OnStatusChanged;

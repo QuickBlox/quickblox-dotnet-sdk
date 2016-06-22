@@ -93,10 +93,10 @@ namespace XamarinForms.QbChat.ViewModels
                     this.IsBusyIndicatorVisible = false;
                     App.SetMainPage();
                 }
-                else
-                {
-                    App.Current.MainPage.DisplayAlert("Error", "Try to repeat login", "Ok");
-                }
+                //else
+                //{
+                //    App.Current.MainPage.DisplayAlert("Error", "Try to repeat login", "Ok");
+                //}
 
                 this.IsBusyIndicatorVisible = false;
             });

@@ -27,6 +27,9 @@ namespace QbChat.UWP
     /// </summary>
     sealed partial class App : Application
     {
+        public static bool IsInternetAvaliable { get; set; }
+        private static bool isInternetMessageShowing;
+
         public static QbProvider QbProvider { get; set; }
         public static Frame NavigationFrame { get; set; }
 
@@ -45,7 +48,7 @@ namespace QbChat.UWP
         public App()
         {
             QuickbloxPlatform.Init();
-            QbProvider = new QbProvider();
+            QbProvider = new QbProvider(ShowInternetNotification);
 
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
@@ -156,6 +159,19 @@ namespace QbChat.UWP
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        public static async void ShowInternetNotification()
+        {
+            if (!IsInternetAvaliable)
+                if (!isInternetMessageShowing)
+                {
+                    isInternetMessageShowing = true;
+                    var dialog = new Windows.UI.Popups.MessageDialog("Internet connection is lost. Please check it and restart the Application.", "Internet connection");
+                    await dialog.ShowAsync();
+                    isInternetMessageShowing = false;
+                }
+            }
         }
     }
 }

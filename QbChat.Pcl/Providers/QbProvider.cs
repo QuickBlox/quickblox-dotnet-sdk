@@ -32,19 +32,21 @@ namespace QbChat.Pcl
         {
         }
 
-		private readonly QuickbloxClient client = new QuickbloxClient(ApplicationKeys.ApplicationId,
+        private Action showInternetNotification;
+
+        private readonly QuickbloxClient client = new QuickbloxClient(ApplicationKeys.ApplicationId,
 			ApplicationKeys.AuthorizationKey,
 			ApplicationKeys.AuthorizationSecret,
 			ApplicationKeys.ApiBaseEndpoint,
 			ApplicationKeys.ChatEndpoint,
 			logger:new QbLogger());
 
-		public int UserId { get; set; }
+        public int UserId { get; set; }
 
-		public QbProvider ()
-		{
-
-		}
+        public QbProvider(Action showInternetNotification)
+        {
+            this.showInternetNotification = showInternetNotification;
+        }
 
         public ChatXmppClient GetXmppClient()
         {
@@ -129,8 +131,9 @@ namespace QbChat.Pcl
 		{
 			switch (response.StatusCode) {
 			case HttpStatusCode.NotFound:
-				{ 
-				}
+				{
+                    this.showInternetNotification();
+                }
 				break;
 			case HttpStatusCode.Unauthorized:
 				{

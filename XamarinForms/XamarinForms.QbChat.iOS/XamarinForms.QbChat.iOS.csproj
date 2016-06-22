@@ -153,6 +153,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Reachability.cs" />
     <Compile Include="SqliteIOS.cs" />
     <Compile Include="IOSDeviceUid.cs" />
     <Compile Include="App\Chat\ChatPageRenderer.cs" />
