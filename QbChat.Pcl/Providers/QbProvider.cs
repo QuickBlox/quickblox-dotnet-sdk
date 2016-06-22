@@ -232,9 +232,10 @@ namespace QbChat.Pcl
 		public async Task<Dialog> GetDialogAsync(int[] userIds)
 		{
 			var retrieveDialogsRequest = new RetrieveDialogsRequest();
-			var filterAgreaggator = new FilterAggregator ();
-			//filterAgreaggator.Filters.Add(new FieldFilterWithOperator<int[]>(SearchOperators.In, () => new DialogResponse().OccupantsIds, userIds));
-			filterAgreaggator.Filters.Add (new FieldFilterWithOperator<int> (SearchOperators.In, () => new DialogResponse ().Type, (int)DialogType.Private));
+            retrieveDialogsRequest.Limit = 100;
+
+            var filterAgreaggator = new FilterAggregator ();
+            filterAgreaggator.Filters.Add (new FieldFilterWithOperator<int> (SearchOperators.In, () => new DialogResponse ().Type, (int)DialogType.Private));
 			retrieveDialogsRequest.Filter = filterAgreaggator;
 			var response = await client.ChatClient.GetDialogsAsync(retrieveDialogsRequest);
 			if (await HandleResponse(response, HttpStatusCode.OK) && response.Result.Items.Any()) {
@@ -265,7 +266,7 @@ namespace QbChat.Pcl
 			var retrieveDialogsRequest = new RetrieveDialogsRequest();
 
 			//TODO: change limit
-			retrieveDialogsRequest.Limit = 25;
+			retrieveDialogsRequest.Limit = 100;
 			if (dialogTypeParams != null) {
 				var filterAgreaggator = new FilterAggregator ();
 				var dialogTypes = string.Join (",", dialogTypeParams.Select(type => (int)type));
