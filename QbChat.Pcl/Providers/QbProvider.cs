@@ -120,7 +120,7 @@ namespace QbChat.Pcl
 		public async Task<List<Quickblox.Sdk.Modules.UsersModule.Models.User>> GetUserByTag(String tag)
 		{
 			var usersResponse = await this.client.UsersClient.GetUserByTagsAsync (new string[] { tag }, 1, 100);
-			if (usersResponse.StatusCode == HttpStatusCode.OK) {
+			if (await HandleResponse(usersResponse, HttpStatusCode.OK)) {
 				return usersResponse.Result.Items.Select(userResponse => userResponse.User).ToList();
 			} 
 

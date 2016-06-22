@@ -58,7 +58,7 @@ namespace XamarinForms.QbChat.Providers
         private async void OnError(object sender, ErrorEventArgs errorsEventArgs)
         {
             Debug.WriteLine("Xmpp Error: " + errorsEventArgs.Exception + " Reason: " + errorsEventArgs.Reason);
-            Reconnect();
+            //Reconnect();
         }
 
         //private async void OnMessageReceived(object sender, MessageEventArgs messageEventArgs)
