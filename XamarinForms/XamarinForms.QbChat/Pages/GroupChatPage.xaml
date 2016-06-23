@@ -21,7 +21,7 @@ Title="Group Chat" xmlns:local="clr-namespace:XamarinForms.QbChat;assembly=Xamar
             <StackLayout Padding="18,0,0,0">
             	<Image x:Name="chatPhotoImage" WidthRequest="80" HeightRequest="80" VerticalOptions="Start" Source="{Binding ImageSource}"/>
             </StackLayout>
-            <Grid  Grid.Column="1" Padding="18,12,18,12" BackgroundColor="Green">
+            <Grid  Grid.Column="1" Padding="18,12,18,12">
             	<local:WrapLabel x:Name="chatNameLabel" FontSize="16" Text="{Binding DialogName}"/>
             </Grid>
 
