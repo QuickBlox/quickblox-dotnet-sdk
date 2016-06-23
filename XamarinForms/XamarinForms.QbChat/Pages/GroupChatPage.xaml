@@ -18,15 +18,12 @@ Title="Group Chat" xmlns:local="clr-namespace:XamarinForms.QbChat;assembly=Xamar
                 <ColumnDefinition Width="80"/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-            	<RowDefinition Height="60" />
-            </Grid.RowDefinitions>
             <StackLayout Padding="18,0,0,0">
             	<Image x:Name="chatPhotoImage" WidthRequest="80" HeightRequest="80" VerticalOptions="Start" Source="{Binding ImageSource}"/>
             </StackLayout>
-            <StackLayout  Grid.Column="1" Padding="18,12,0,0">
-            	<local:WrapLabel x:Name="chatNameLabel" FontSize="16" VerticalOptions="FillAndExpand" LineBreakMode="WordWrap" HeightRequest="60" Text="{Binding DialogName}"/>
-            </StackLayout>
+            <Grid  Grid.Column="1" Padding="18,12,18,12" BackgroundColor="Green">
+            	<local:WrapLabel x:Name="chatNameLabel" FontSize="16" Text="{Binding DialogName}"/>
+            </Grid>
 
         </Grid>
         <Grid Grid.Row="1" Padding="0,6">
@@ -34,7 +31,7 @@ Title="Group Chat" xmlns:local="clr-namespace:XamarinForms.QbChat;assembly=Xamar
 	         <ListView.ItemTemplate>
 			        <DataTemplate>
 			          <local:MessageCell>
-			            <Grid Padding="20,0,0,0">
+			            <Grid Padding="20,0,20,0">
 			                <Grid.RowDefinitions>
 			                  <RowDefinition Height="Auto" />
 			                  <RowDefinition Height="*" />
