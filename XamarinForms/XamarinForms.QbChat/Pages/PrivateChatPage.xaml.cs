@@ -39,6 +39,24 @@ namespace XamarinForms.QbChat.Pages
             //    }
             //};
 
+            this.messageEntry.TextChanged += Entry_TextChanged;
+        }
+
+        void Entry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.Equals(e.OldTextValue, e.NewTextValue))
+            {
+                var newText = e.NewTextValue ?? string.Empty;
+                var entry = sender as Entry;
+                if (newText.Length > 1024)
+                {
+                    entry.Text = newText.Substring(0, 1024);
+                }
+                else
+                {
+                    entry.Text = newText;
+                }
+            }
         }
 
         protected override void OnAppearing()

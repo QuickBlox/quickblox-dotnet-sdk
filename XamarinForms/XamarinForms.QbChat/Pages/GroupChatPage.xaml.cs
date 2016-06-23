@@ -22,9 +22,28 @@ namespace XamarinForms.QbChat.Pages
             {
                 ScrollList();
             };
+
+            this.messageEntry.TextChanged += Entry_TextChanged;
         }
 
-		protected override void OnDisappearing ()
+        void Entry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.Equals(e.OldTextValue, e.NewTextValue))
+            {
+                var newText = e.NewTextValue ?? string.Empty;
+                var entry = sender as Entry;
+                if (newText.Length > 1024)
+                {
+                    entry.Text = newText.Substring(0, 1024);
+                }
+                else
+                {
+                    entry.Text = newText;
+                }
+            }
+        }
+
+        protected override void OnDisappearing ()
 		{
 			base.OnDisappearing ();
 		}
