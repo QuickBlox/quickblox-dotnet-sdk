@@ -36,7 +36,7 @@ namespace QbChat.UWP.Views
             this.DataContext = vm;
             vm.OnAppearing();
 
-            await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().HideAsync();
+            //await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().HideAsync();
         }
 
         public async void ScrollList()

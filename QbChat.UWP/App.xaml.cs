@@ -3,21 +3,13 @@ using QbChat.Pcl.Repository;
 using QbChat.UWP.Views;
 using Quickblox.Sdk.Platform;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.System.Profile;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace QbChat.UWP
@@ -84,7 +76,7 @@ namespace QbChat.UWP
                 rootFrame.Navigated += OnNavigated;
 
                 Database.Instance().Init(new SQLite_Uwp().GetConnection());
-                
+
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
@@ -102,6 +94,12 @@ namespace QbChat.UWP
                     rootFrame.CanGoBack ?
                     AppViewBackButtonVisibility.Visible :
                     AppViewBackButtonVisibility.Collapsed;
+
+                if (GetDeviceType() == DeviceType.Mobile)
+                {
+                    // hide status bar
+                    StatusBar.GetForCurrentView().HideAsync();
+                }
             }
 
             NavigationFrame = rootFrame;
@@ -171,7 +169,37 @@ namespace QbChat.UWP
                     await dialog.ShowAsync();
                     isInternetMessageShowing = false;
                 }
+        }
+
+        private DeviceType GetDeviceType()
+        {
+            var result = DeviceType.Desktop;
+            switch (AnalyticsInfo.VersionInfo.DeviceFamily)
+            {
+                case "Windows.Mobile":
+                    result = DeviceType.Mobile;
+                    break;
+                case "Windows.Desktop":
+                    result = DeviceType.Desktop;
+                    break;
+                case "Windows.IoT":
+                    result = DeviceType.IoT;
+                    break;
             }
+
+            return result;
         }
     }
+
+    public enum DeviceType
+    {
+        Desktop,
+
+        Mobile,
+
+        IoT,
+
+        Xbox,
+    }
 }
+
