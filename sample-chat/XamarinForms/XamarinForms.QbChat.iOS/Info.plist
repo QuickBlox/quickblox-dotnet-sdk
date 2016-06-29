@@ -45,5 +45,7 @@
 	</array>
 	<key>UIPrerenderedIcon</key>
 	<true/>
+	<key>XSLaunchImageAssets</key>
+	<string>Assets.xcassets/LaunchImage.launchimage</string>
 </dict>
 </plist>
