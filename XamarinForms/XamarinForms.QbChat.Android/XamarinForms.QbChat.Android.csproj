@@ -42,22 +42,6 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FormsViewGroup, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xamarin.Forms.2.1.0.6529\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Quickblox.Sdk, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Quickblox.Sdk.1.2.1\lib\MonoAndroid10\Quickblox.Sdk.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Quickblox.Sdk.Platform.Abstractions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Quickblox.Sdk.1.2.1\lib\MonoAndroid10\Quickblox.Sdk.Platform.Abstractions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Quickblox.Sdk.Platform.Android, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Quickblox.Sdk.1.2.1\lib\MonoAndroid10\Quickblox.Sdk.Platform.Android.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -89,26 +73,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\packages\Newtonsoft.Json.8.0.3\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Android.Support.Design, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xamarin.Android.Support.Design.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.Design.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xamarin.Android.Support.v4, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xamarin.Android.Support.v4.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xamarin.Android.Support.v7.AppCompat, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xamarin.Android.Support.v7.AppCompat.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xamarin.Android.Support.v7.CardView, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xamarin.Android.Support.v7.CardView.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v7.CardView.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xamarin.Android.Support.v7.MediaRouter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xamarin.Android.Support.v7.MediaRouter.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v7.MediaRouter.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Xamarin.Behaviors, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\packages\Xamarin.Forms.Behaviors.1.3.1\lib\Xamarin.Behaviors.dll</HintPath>
     </Reference>
@@ -118,21 +82,44 @@
     <Reference Include="Sockets.Plugin.Abstractions, Version=1.3.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\packages\rda.SocketsForPCL.1.2.2\lib\MonoAndroid10\Sockets.Plugin.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="FormsViewGroup, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\packages\Xamarin.Forms.2.1.0.6529\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.Design, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\packages\Xamarin.Android.Support.Design.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\packages\Xamarin.Android.Support.v4.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.AppCompat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\packages\Xamarin.Android.Support.v7.AppCompat.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v7.AppCompat.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.CardView, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\packages\Xamarin.Android.Support.v7.CardView.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v7.CardView.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v7.MediaRouter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\packages\Xamarin.Android.Support.v7.MediaRouter.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v7.MediaRouter.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\packages\Xamarin.Forms.2.1.0.6529\lib\MonoAndroid10\Xamarin.Forms.Core.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="Xamarin.Forms.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xamarin.Forms.Platform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\packages\Xamarin.Forms.2.1.0.6529\lib\MonoAndroid10\Xamarin.Forms.Platform.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="Xamarin.Forms.Platform.Android, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xamarin.Forms.Platform.Android, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\packages\Xamarin.Forms.2.1.0.6529\lib\MonoAndroid10\Xamarin.Forms.Platform.Android.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="Xamarin.Forms.Xaml, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xamarin.Forms.Xaml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\packages\Xamarin.Forms.2.1.0.6529\lib\MonoAndroid10\Xamarin.Forms.Xaml.dll</HintPath>
-      <Private>True</Private>
+    </Reference>
+    <Reference Include="Quickblox.Sdk, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\packages\Quickblox.Sdk.1.2.1\lib\MonoAndroid10\Quickblox.Sdk.dll</HintPath>
+    </Reference>
+    <Reference Include="Quickblox.Sdk.Platform.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\packages\Quickblox.Sdk.1.2.1\lib\MonoAndroid10\Quickblox.Sdk.Platform.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Quickblox.Sdk.Platform.Android, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\packages\Quickblox.Sdk.1.2.1\lib\MonoAndroid10\Quickblox.Sdk.Platform.Android.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -193,7 +180,7 @@
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <ItemGroup>
     <ProjectReference Include="..\..\QbChat.Pcl\QbChat.Pcl.csproj">
-      <Project>{56bda7ba-4e03-485a-b1ad-283abb6a29de}</Project>
+      <Project>{56BDA7BA-4E03-485A-B1AD-283ABB6A29DE}</Project>
       <Name>QbChat.Pcl</Name>
     </ProjectReference>
     <ProjectReference Include="..\XamarinForms.QbChat\XamarinForms.QbChat.csproj">
