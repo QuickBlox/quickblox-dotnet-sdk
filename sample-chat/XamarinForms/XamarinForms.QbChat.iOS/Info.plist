@@ -33,19 +33,11 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleLightContent</string>
 	<key>CFBundleIconFiles</key>
-	<array>
-		<string>Icon-60@2x</string>
-		<string>Icon-Small@2x</string>
-		<string>Icon-Small-40@2x</string>
-		<string>Icon</string>
-		<string>Icon@2x</string>
-	</array>
+	<array/>
 	<key>UIPrerenderedIcon</key>
 	<true/>
-	<key>XSLaunchImageAssets</key>
-	<string>Assets.xcassets/LaunchImage.launchimage</string>
+	<key>CFBundleDisplayName</key>
+	<string>Xamarin Chat</string>
 </dict>
 </plist>
