@@ -84,7 +84,11 @@ namespace QbChat.Pcl
 				UserId = sessionResponse.Result.Session.UserId;
 				return sessionResponse.Result.Session.UserId;
 			}
-			else if ((int)sessionResponse.StatusCode == 422) {
+            else if (sessionResponse.StatusCode == HttpStatusCode.NotFound)
+            {
+                return -1;
+            }
+            else if ((int)sessionResponse.StatusCode == 422) {
 				// Add logout
 				return -1;
 			}

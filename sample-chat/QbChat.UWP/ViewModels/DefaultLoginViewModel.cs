@@ -81,17 +81,17 @@ namespace QbChat.UWP.ViewModels
 
             var userId = await App.QbProvider.LoginWithLoginValueAsync(loginValue, passwordValue, Quickblox.Sdk.GeneralDataModel.Models.Platform.windows_phone, new DeviceUid_Uwp().GetIdentifier());
 
-                if (userId > 0)
-                {
-                    this.IsBusy = false;
-                    App.NavigationFrame.Navigate(typeof(ChatsPage));
-                }
-                else
-                {
-                    new MessageDialog("Try to repeat login", "Error").ShowAsync();
-                }
-
+            if (userId > 0)
+            {
                 this.IsBusy = false;
+                App.NavigationFrame.Navigate(typeof(ChatsPage));
+            }
+            else if (userId == 0)
+            {
+                new MessageDialog("Try to repeat login", "Error").ShowAsync();
+            }
+
+            this.IsBusy = false;
         }
 
 
