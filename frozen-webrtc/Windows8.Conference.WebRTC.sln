@@ -1,0 +1,68 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Windows8.Conference.WebRTC.120", "Windows8.Conference.WebRTC\Windows8.Conference.WebRTC.120.csproj", "{C144F835-925A-444A-A9A2-AE193DF2993F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VideoCaptureTransform", "VideoCaptureTransform\VideoCaptureTransform.vcxproj", "{E9F213B3-2C36-4055-9ADB-3F4039BBD2AA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Win8_VP8", "Win8.VP8\Win8.VP8.120.vcxproj", "{3EDE73D7-BA68-4174-89E9-12C0EAB4BFFA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C144F835-925A-444A-A9A2-AE193DF2993F}.Debug|ARM.ActiveCfg = Debug|ARM
+		{C144F835-925A-444A-A9A2-AE193DF2993F}.Debug|ARM.Build.0 = Debug|ARM
+		{C144F835-925A-444A-A9A2-AE193DF2993F}.Debug|ARM.Deploy.0 = Debug|ARM
+		{C144F835-925A-444A-A9A2-AE193DF2993F}.Debug|x64.ActiveCfg = Debug|x64
+		{C144F835-925A-444A-A9A2-AE193DF2993F}.Debug|x64.Build.0 = Debug|x64
+		{C144F835-925A-444A-A9A2-AE193DF2993F}.Debug|x64.Deploy.0 = Debug|x64
+		{C144F835-925A-444A-A9A2-AE193DF2993F}.Debug|x86.ActiveCfg = Debug|x86
+		{C144F835-925A-444A-A9A2-AE193DF2993F}.Debug|x86.Build.0 = Debug|x86
+		{C144F835-925A-444A-A9A2-AE193DF2993F}.Debug|x86.Deploy.0 = Debug|x86
+		{C144F835-925A-444A-A9A2-AE193DF2993F}.Release|ARM.ActiveCfg = Release|ARM
+		{C144F835-925A-444A-A9A2-AE193DF2993F}.Release|ARM.Build.0 = Release|ARM
+		{C144F835-925A-444A-A9A2-AE193DF2993F}.Release|ARM.Deploy.0 = Release|ARM
+		{C144F835-925A-444A-A9A2-AE193DF2993F}.Release|x64.ActiveCfg = Release|x64
+		{C144F835-925A-444A-A9A2-AE193DF2993F}.Release|x64.Build.0 = Release|x64
+		{C144F835-925A-444A-A9A2-AE193DF2993F}.Release|x64.Deploy.0 = Release|x64
+		{C144F835-925A-444A-A9A2-AE193DF2993F}.Release|x86.ActiveCfg = Release|x86
+		{C144F835-925A-444A-A9A2-AE193DF2993F}.Release|x86.Build.0 = Release|x86
+		{C144F835-925A-444A-A9A2-AE193DF2993F}.Release|x86.Deploy.0 = Release|x86
+		{E9F213B3-2C36-4055-9ADB-3F4039BBD2AA}.Debug|ARM.ActiveCfg = Debug|ARM
+		{E9F213B3-2C36-4055-9ADB-3F4039BBD2AA}.Debug|ARM.Build.0 = Debug|ARM
+		{E9F213B3-2C36-4055-9ADB-3F4039BBD2AA}.Debug|x64.ActiveCfg = Debug|x64
+		{E9F213B3-2C36-4055-9ADB-3F4039BBD2AA}.Debug|x64.Build.0 = Debug|x64
+		{E9F213B3-2C36-4055-9ADB-3F4039BBD2AA}.Debug|x86.ActiveCfg = Debug|Win32
+		{E9F213B3-2C36-4055-9ADB-3F4039BBD2AA}.Debug|x86.Build.0 = Debug|Win32
+		{E9F213B3-2C36-4055-9ADB-3F4039BBD2AA}.Release|ARM.ActiveCfg = Release|ARM
+		{E9F213B3-2C36-4055-9ADB-3F4039BBD2AA}.Release|ARM.Build.0 = Release|ARM
+		{E9F213B3-2C36-4055-9ADB-3F4039BBD2AA}.Release|x64.ActiveCfg = Release|x64
+		{E9F213B3-2C36-4055-9ADB-3F4039BBD2AA}.Release|x64.Build.0 = Release|x64
+		{E9F213B3-2C36-4055-9ADB-3F4039BBD2AA}.Release|x86.ActiveCfg = Release|Win32
+		{E9F213B3-2C36-4055-9ADB-3F4039BBD2AA}.Release|x86.Build.0 = Release|Win32
+		{3EDE73D7-BA68-4174-89E9-12C0EAB4BFFA}.Debug|ARM.ActiveCfg = Debug|ARM
+		{3EDE73D7-BA68-4174-89E9-12C0EAB4BFFA}.Debug|ARM.Build.0 = Debug|ARM
+		{3EDE73D7-BA68-4174-89E9-12C0EAB4BFFA}.Debug|x64.ActiveCfg = Debug|x64
+		{3EDE73D7-BA68-4174-89E9-12C0EAB4BFFA}.Debug|x64.Build.0 = Debug|x64
+		{3EDE73D7-BA68-4174-89E9-12C0EAB4BFFA}.Debug|x86.ActiveCfg = Debug|Win32
+		{3EDE73D7-BA68-4174-89E9-12C0EAB4BFFA}.Debug|x86.Build.0 = Debug|Win32
+		{3EDE73D7-BA68-4174-89E9-12C0EAB4BFFA}.Release|ARM.ActiveCfg = Release|ARM
+		{3EDE73D7-BA68-4174-89E9-12C0EAB4BFFA}.Release|ARM.Build.0 = Release|ARM
+		{3EDE73D7-BA68-4174-89E9-12C0EAB4BFFA}.Release|x64.ActiveCfg = Release|x64
+		{3EDE73D7-BA68-4174-89E9-12C0EAB4BFFA}.Release|x64.Build.0 = Release|x64
+		{3EDE73D7-BA68-4174-89E9-12C0EAB4BFFA}.Release|x86.ActiveCfg = Release|Win32
+		{3EDE73D7-BA68-4174-89E9-12C0EAB4BFFA}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
