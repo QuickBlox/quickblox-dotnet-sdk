@@ -195,28 +195,16 @@ namespace QbChat.UWP.ViewModels
                 {
                     var encodedMessage = System.Net.WebUtility.UrlEncode(message);
                     privateChatManager.SendMessage(encodedMessage);
+
+                    this.Messages.Add(m);
+                    MessageText = "";
                 }
                 catch (Exception ex)
                 {
-                    this.IsBusy = true;
-                    try
-                    {
-                        App.QbProvider.GetXmppClient().Connect(App.UserId, App.UserPassword);
-                    }
-                    catch (Exception ex2)
-                    {
-                        new MessageDialog("Please, check your internet connection", "Error").ShowAsync();
-                    }
-                    finally
-                    {
-                        this.IsBusy = false;
-                    }
-
+                    this.IsBusy = false;
+                    new MessageDialog("Internet connection is lost. Please check it and restart the Application", "Error").ShowAsync();
                     return;
                 }
-
-                this.Messages.Add(m);
-                MessageText = "";
 
                 var page = App.NavigationFrame.Content as PrivateChatPage;
                 if (page != null)
