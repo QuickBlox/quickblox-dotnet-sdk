@@ -18,6 +18,7 @@ namespace QbChat.UWP.ViewModels
     public class CreateDialogViewModel : ViewModel
     {
         private List<SelectedUser> users;
+        private string dialogName;
 
         public CreateDialogViewModel()
         {
@@ -71,7 +72,7 @@ namespace QbChat.UWP.ViewModels
                 var selectedUsers = Users.Where(u => u.IsSelected).Select(u => u.User).ToList();
                 if (selectedUsers.Any())
                 {
-                    string dialogName = null;
+                    dialogName = null;
                     DialogType dialogType = DialogType.Group;
                     if (selectedUsers.Count == 1)
                     {
@@ -84,14 +85,21 @@ namespace QbChat.UWP.ViewModels
                         //    UserDialogs.Instance.PromptAsync("Enter chat name:", null, "Create", "Cancel",
                         //        "Enter chat name", InputType.Name);
 
-                        dialogName = await ShowDialog();
-                        if (string.IsNullOrWhiteSpace(dialogName))
+                        var dialogResult = await ShowDialog();
+                        if (dialogResult == ContentDialogResult.Primary)
                         {
-                            dialogName = App.UserName + "_" +
-                                        string.Join(", ", selectedUsers.Select(u => u.FullName));
+                            if (string.IsNullOrWhiteSpace(dialogName))
+                            {
+                                dialogName = App.UserName + "_" +
+                                            string.Join(", ", selectedUsers.Select(u => u.FullName));
+                            }
+                        }
+                        else
+                        {
+                            this.IsBusy = false;
+                            return;
                         }
 
-                        this.IsBusy = false;
                     }
 
                     var userIds = selectedUsers.Select(u => u.Id).ToList();
@@ -140,11 +148,11 @@ namespace QbChat.UWP.ViewModels
             }
             catch (Exception ex)
             {
-                
+                this.IsBusy = false;
             }
         }
 
-        private async Task<string> ShowDialog()
+        private async Task<ContentDialogResult> ShowDialog()
         {
             var dialog = new ContentDialog()
             {
@@ -168,7 +176,8 @@ namespace QbChat.UWP.ViewModels
 
             // Show Dialog
             var result = await dialog.ShowAsync();
-            return textEdit.Text;
+            dialogName = textEdit.Text;
+            return result;
         }
     }
 }
