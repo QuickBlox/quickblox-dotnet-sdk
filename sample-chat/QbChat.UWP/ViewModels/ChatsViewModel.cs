@@ -60,6 +60,9 @@ namespace QbChat.UWP.ViewModels
             if (user == null && App.QbProvider.UserId != 0)
             {
                 user = await App.QbProvider.GetUserAsync(App.QbProvider.UserId);
+                if (user == null)
+                    return;
+
                 Title = user.FullName;
 
                 App.UserId = user.Id;

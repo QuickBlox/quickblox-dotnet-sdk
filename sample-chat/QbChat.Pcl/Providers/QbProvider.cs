@@ -163,15 +163,10 @@ namespace QbChat.Pcl
 
 		public async Task<Quickblox.Sdk.Modules.UsersModule.Models.User> GetUserAsync(int qbUserId)
 		{
-			try{
-				var response = await this.client.UsersClient.GetUserByIdAsync(qbUserId);
-				if (await HandleResponse(response, HttpStatusCode.OK))
-				{
-					return response.Result.User;
-				}
-			}
-			catch (Exception ex)
+			var response = await this.client.UsersClient.GetUserByIdAsync(qbUserId);
+			if (await HandleResponse(response, HttpStatusCode.OK))
 			{
+				return response.Result.User;
 			}
 
 			return null;
