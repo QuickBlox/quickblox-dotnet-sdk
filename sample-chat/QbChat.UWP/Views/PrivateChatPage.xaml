@@ -9,7 +9,7 @@
     xmlns:extensions="using:QbChat.UWP.Helpers">
 
     <Page.TopAppBar>
-        <CommandBar>
+        <CommandBar extensions:CommandBarExtensions.HideMoreButton="True">
             <CommandBar.Content>
                 <TextBlock Text="Private chat" Margin="12,14"/>
             </CommandBar.Content>
@@ -53,7 +53,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="90"/>
             </Grid.ColumnDefinitions>
-            <TextBox Text="{Binding MessageText, Mode=TwoWay}" Margin="12"/>
+            <TextBox Text="{Binding MessageText, Mode=TwoWay}" Margin="12" x:Name="messageEntry"/>
             <Button Grid.Column="1" Content="Send" Command="{Binding SendMessageCommand}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="12"/>
         </Grid>
     </Grid>

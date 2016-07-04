@@ -20,7 +20,10 @@ namespace QbChat.UWP.Views
         public PrivateChatPage()
         {
             this.InitializeComponent();
+
+            messageEntry.TextChanged += Entry_TextChanged;
         }
+
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -50,6 +53,21 @@ namespace QbChat.UWP.Views
             }
             catch (Exception ex)
             {
+            }
+        }
+        
+        void Entry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            var text = textBox.Text;
+
+            if (text.Length > 1024)
+            {
+                textBox.Text = text.Substring(0, 1024);
+            }
+            else
+            {
+                textBox.Text = text;
             }
         }
     }
