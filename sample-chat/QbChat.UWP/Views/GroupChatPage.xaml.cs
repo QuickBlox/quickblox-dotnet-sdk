@@ -26,10 +26,8 @@ namespace QbChat.UWP.Views
         {
             base.OnNavigatedTo(e);
 
-            if (isLoading)
+            if (e.NavigationMode == NavigationMode.Back)
                 return;
-
-            isLoading = true;
 
             var parameter = (string)e.Parameter;
             vm = new GroupChatViewModel(parameter);

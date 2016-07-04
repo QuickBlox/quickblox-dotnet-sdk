@@ -24,6 +24,7 @@ namespace QbChat.UWP.ViewModels
         private string title;
         private bool isLogoutClicked;
         private object dialogAddLock = new object();
+        private bool isLoaded;
 
         public ChatsViewModel()
         {
@@ -54,7 +55,12 @@ namespace QbChat.UWP.ViewModels
         public override async void OnAppearing()
         {
             base.OnAppearing();
-            
+
+            if (isLoaded)
+                return;
+
+            isLoaded = true;
+
             this.IsBusy = true;
             User user = null;
             if (user == null && App.QbProvider.UserId != 0)

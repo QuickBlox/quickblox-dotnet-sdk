@@ -84,7 +84,7 @@ namespace QbChat.UWP.ViewModels
             if (userId > 0)
             {
                 this.IsBusy = false;
-                App.NavigationFrame.Navigate(typeof(ChatsPage));
+                App.NavigationFrame.Navigate(typeof(ChatsPage), userId);
             }
             else if (userId == 0)
             {

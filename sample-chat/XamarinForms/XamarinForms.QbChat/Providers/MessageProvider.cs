@@ -158,7 +158,6 @@ namespace XamarinForms.QbChat.Providers
             {
                 dialog.LastMessage = System.Net.WebUtility.UrlDecode(message.MessageText); 
                 dialog.LastMessageSent = DateTime.UtcNow;
-                dialog.OccupantIds = string.Join(",", message.CurrentOccupantsIds);
                 if (dialog.UnreadMessageCount != null)
                 {
                     dialog.UnreadMessageCount++;

@@ -10,10 +10,6 @@
 
     <Page.TopAppBar>
         <CommandBar>
-            <CommandBar.PrimaryCommands>
-                <AppBarButton Icon="ContactInfo" Label="Chat info" />
-            </CommandBar.PrimaryCommands>
-
             <CommandBar.Content>
                 <TextBlock Text="Private chat" Margin="12,14"/>
             </CommandBar.Content>

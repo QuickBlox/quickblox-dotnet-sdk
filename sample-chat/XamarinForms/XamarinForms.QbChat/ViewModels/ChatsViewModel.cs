@@ -24,6 +24,7 @@ namespace XamarinForms.QbChat.ViewModels
         private string title;
         private bool isLogoutClicked;
         private object dialogAddLock = new object();
+        private bool isLoaded;
 
         public ChatsViewModel()
         {
@@ -54,6 +55,11 @@ namespace XamarinForms.QbChat.ViewModels
         public override async void OnAppearing()
         {
             base.OnAppearing();
+
+            if (isLoaded)
+                return;
+
+            isLoaded = true;
 
             this.IsBusyIndicatorVisible = true;
             await Task.Factory.StartNew(async () =>

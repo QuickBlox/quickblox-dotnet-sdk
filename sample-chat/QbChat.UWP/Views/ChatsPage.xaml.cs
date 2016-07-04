@@ -24,10 +24,8 @@ namespace QbChat.UWP.Views
         {
             base.OnNavigatedTo(e);
 
-            if (isLoading)
+            if (e.NavigationMode == NavigationMode.Back)
                 return;
-
-            isLoading = true;
 
             App.NavigationFrame.BackStack.Clear();
 
