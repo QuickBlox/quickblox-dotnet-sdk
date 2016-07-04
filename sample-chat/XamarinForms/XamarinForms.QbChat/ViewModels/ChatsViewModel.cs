@@ -210,6 +210,11 @@ namespace XamarinForms.QbChat.ViewModels
                 }
 
                 var dialog = await MessageProvider.Instance.UpdateInDialogMessage(messageEventArgs.Message.ChatDialogId, messageEventArgs.Message);
+				if (messageEventArgs.Message.NotificationType == NotificationTypes.GroupUpdate)
+				{
+					dialog.OccupantIds = string.Join(",", messageEventArgs.Message.CurrentOccupantsIds);
+				}
+
                 AddDialogToList(dialog);
                 Database.Instance().SaveDialog(dialog);
             }

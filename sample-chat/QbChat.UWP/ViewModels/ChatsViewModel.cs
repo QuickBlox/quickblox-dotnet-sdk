@@ -217,6 +217,11 @@ namespace QbChat.UWP.ViewModels
                 }
 
                 var dialog = await MessageProvider.Instance.UpdateInDialogMessage(messageEventArgs.Message.ChatDialogId, messageEventArgs.Message);
+				if (messageEventArgs.Message.NotificationType == NotificationTypes.GroupUpdate)
+				{
+					dialog.OccupantIds = string.Join(",", messageEventArgs.Message.CurrentOccupantsIds);
+				}
+
 
                 CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                 () =>
