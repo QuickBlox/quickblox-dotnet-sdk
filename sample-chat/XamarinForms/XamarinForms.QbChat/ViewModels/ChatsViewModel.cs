@@ -268,16 +268,8 @@ namespace XamarinForms.QbChat.ViewModels
                 }
                 else
                 {
-                    if (Dialogs.IndexOf(dialog) == 0)
-                    {
-                        dialog.LastMessage = dialogTable.LastMessage;
-                        dialog.LastMessageSent = dialogTable.LastMessageSent;
-                    }
-                    else
-                    {
-                        Dialogs.Remove(dialog);
-                        Dialogs.Insert(0, dialogTable);
-                    }
+                    Dialogs.Remove(dialog);
+                    Dialogs.Insert(0, dialogTable);
                 }
             }
         }
