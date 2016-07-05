@@ -71,6 +71,9 @@ namespace XamarinForms.QbChat.ViewModels
 
         private async void SaveDialogChangesCommandExecute(object obj)
         {
+			if (Users == null)
+				return;
+			
             if (isLoading)
                 return;
 
