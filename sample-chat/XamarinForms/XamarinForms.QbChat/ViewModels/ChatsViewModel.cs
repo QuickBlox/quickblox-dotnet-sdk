@@ -32,9 +32,11 @@ namespace XamarinForms.QbChat.ViewModels
             this.LogoutCommand = new Command(this.LogoutCommandExecute);
             this.CreateNewChatCommand = new Command(this.CreateNewChatCommandExecute);
             this.TappedCommand = new Command<DialogTable>(this.TappedCommandExecute);
+
+			Database.Instance().SubscribeForDialogs(UpdateDialogsList);
         }
 
-        public string Title
+		public string Title
         {
             get { return title; }
             set
@@ -136,6 +138,17 @@ namespace XamarinForms.QbChat.ViewModels
                 App.QbProvider.GetXmppClient().SystemMessageReceived += OnSystemMessageReceived;
             });
         }
+
+		private void UpdateDialogsList()
+		{
+			var dialogs = Database.Instance().GetDialogs();
+			var sorted = dialogs.OrderByDescending(d => d.LastMessageSent).ToList();
+			this.Dialogs.Clear();
+			foreach (var dialogTable in sorted)
+			{
+				this.Dialogs.Add(dialogTable);
+			}
+		}
 
         private void CreateNewChatCommandExecute(object obj)
         {

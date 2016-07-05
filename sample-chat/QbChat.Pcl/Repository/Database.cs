@@ -170,7 +170,7 @@ namespace QbChat.Pcl.Repository
             }
         }
 
-        public int SaveDialog(DialogTable item)
+		public int SaveDialog(DialogTable item, bool isNotify = false)
         {
             int retVal = 0;
             lock (locker)
@@ -188,7 +188,8 @@ namespace QbChat.Pcl.Repository
                 }
             }
 
-			dialogObserver.Invoke ();
+			if (isNotify)
+				dialogObserver.Invoke ();
             return retVal;
         }
 

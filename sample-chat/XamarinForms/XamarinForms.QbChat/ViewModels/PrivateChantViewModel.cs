@@ -181,16 +181,6 @@ namespace XamarinForms.QbChat.ViewModels
                 m.DialogId = dialogId;
                 m.RecepientFullName = "Me";
 
-                long unixTimestamp = DateTime.UtcNow.Ticks - new DateTime(1970, 1, 1).Ticks;
-                unixTimestamp /= TimeSpan.TicksPerSecond;
-                m.DateSent = unixTimestamp;
-                m.ID = Database.Instance().SaveMessage(m);
-
-                var dialog = Database.Instance().GetDialog(this.dialogId);
-                dialog.LastMessage = m.Text;
-                dialog.LastMessageSent = DateTime.UtcNow;
-                Database.Instance().SaveDialog(dialog);
-
                 try
                 {
                     var encodedMessage = System.Net.WebUtility.UrlEncode(message);
@@ -198,23 +188,19 @@ namespace XamarinForms.QbChat.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    this.IsBusyIndicatorVisible = true;
-                    try
-                    {
-                        App.QbProvider.GetXmppClient().Connect(App.UserId, App.UserPassword);
-                    }
-                    catch (Exception ex2)
-                    {
-                        App.Current.MainPage.DisplayAlert("Error", "Please, check your internet connection", "Ok");
-                    }
-                    finally
-                    {
-                        this.IsBusyIndicatorVisible = false;
-                    }
-
                     return;
                     //await App.Current.MainPage.DisplayAlert ("Error", ex.ToString (), "Ok");
                 }
+
+				long unixTimestamp = DateTime.UtcNow.Ticks - new DateTime(1970, 1, 1).Ticks;
+				unixTimestamp /= TimeSpan.TicksPerSecond;
+				m.DateSent = unixTimestamp;
+				m.ID = Database.Instance().SaveMessage(m);
+
+				var dialog = Database.Instance().GetDialog(this.dialogId);
+				dialog.LastMessage = m.Text;
+				dialog.LastMessageSent = DateTime.UtcNow;
+				Database.Instance().SaveDialog(dialog, true);
 
                 this.Messages.Add(m);
                 MessageText = "";
