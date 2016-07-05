@@ -181,6 +181,19 @@ namespace QbChat.UWP.ViewModels
                 m.DialogId = dialogId;
                 m.RecepientFullName = "Me";
 
+
+                try
+                {
+                    var encodedMessage = System.Net.WebUtility.UrlEncode(message);
+                    privateChatManager.SendMessage(encodedMessage);
+                }
+                catch (Exception ex)
+                {
+                    this.IsBusy = false;
+                    new MessageDialog("Internet connection is lost. Please check it and restart the Application", "Error").ShowAsync();
+                    return;
+                }
+
                 long unixTimestamp = DateTime.UtcNow.Ticks - new DateTime(1970, 1, 1).Ticks;
                 unixTimestamp /= TimeSpan.TicksPerSecond;
                 m.DateSent = unixTimestamp;
@@ -189,22 +202,10 @@ namespace QbChat.UWP.ViewModels
                 var dialog = Database.Instance().GetDialog(this.dialogId);
                 dialog.LastMessage = m.Text;
                 dialog.LastMessageSent = DateTime.UtcNow;
-                Database.Instance().SaveDialog(dialog);
+                Database.Instance().SaveDialog(dialog, true);
 
-                try
-                {
-                    var encodedMessage = System.Net.WebUtility.UrlEncode(message);
-                    privateChatManager.SendMessage(encodedMessage);
-
-                    this.Messages.Add(m);
-                    MessageText = "";
-                }
-                catch (Exception ex)
-                {
-                    this.IsBusy = false;
-                    new MessageDialog("Internet connection is lost. Please check it and restart the Application", "Error").ShowAsync();
-                    return;
-                }
+                this.Messages.Add(m);
+                MessageText = "";
 
                 var page = App.NavigationFrame.Content as PrivateChatPage;
                 if (page != null)

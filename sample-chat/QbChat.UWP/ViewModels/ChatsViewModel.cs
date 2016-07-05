@@ -32,6 +32,8 @@ namespace QbChat.UWP.ViewModels
             this.LogoutCommand = new RelayCommand(this.LogoutCommandExecute);
             this.CreateNewChatCommand = new RelayCommand(this.CreateNewChatCommandExecute);
             this.TappedCommand = new RelayCommand<DialogTable>(this.TappedCommandExecute);
+
+            Database.Instance().SubscribeForDialogs(UpdateDialogsList);
         }
 
         public string Title
@@ -281,6 +283,17 @@ namespace QbChat.UWP.ViewModels
                         Dialogs.Insert(0, dialogTable);
                     }
                 }
+            }
+        }
+
+        private void UpdateDialogsList()
+        {
+            var dialogs = Database.Instance().GetDialogs();
+            var sorted = dialogs.OrderByDescending(d => d.LastMessageSent).ToList();
+            this.Dialogs.Clear();
+            foreach (var dialogTable in sorted)
+            {
+                this.Dialogs.Add(dialogTable);
             }
         }
     }

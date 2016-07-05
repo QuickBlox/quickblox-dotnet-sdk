@@ -193,7 +193,7 @@ namespace QbChat.Pcl.Repository
             return retVal;
         }
 
-        public int SaveAllDialogs(IEnumerable<DialogTable> dialogs)
+        public int SaveAllDialogs(IEnumerable<DialogTable> dialogs, bool isNotify = false)
         {
             int count = 0;
             lock (locker)
@@ -204,7 +204,8 @@ namespace QbChat.Pcl.Repository
                 count = this.database.InsertAll(dialogs);
             }
 
-			dialogObserver.Invoke ();
+            if (isNotify)
+			    dialogObserver.Invoke ();
             return count;
         }
 
