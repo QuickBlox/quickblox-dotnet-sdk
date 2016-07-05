@@ -30,17 +30,26 @@ namespace XamarinForms.QbChat.iOS
 		{
 			base.ViewWillAppear (animated);
 
-			_show = UIKeyboard.Notifications.ObserveWillShow((sender, e) => {
-				if (!_isKeyboardShown)
-				{var r = UIKeyboard.FrameBeginFromNotification(e.Notification);
+			_show = UIKeyboard.Notifications.ObserveWillShow((sender, e) =>
+			{
+				var r = UIKeyboard.FrameEndFromNotification(e.Notification);
 				_scrollAmount = (float)r.Height;
-				Scroll(sender, e, true);
-					this._isKeyboardShown = true;}
-			});
-			_hide = UIKeyboard.Notifications.ObserveWillHide((sender, e) => 
+
+				if (_isKeyboardShown)
 				{
-					if (_isKeyboardShown) {
-						Scroll (sender, e, false);
+					Scroll(sender, e, true, true);
+				}
+				else {
+					Scroll(sender, e, true);
+				}
+
+				this._isKeyboardShown = true;
+			});
+			_hide = UIKeyboard.Notifications.ObserveWillHide((sender, e) =>
+				{
+					if (_isKeyboardShown)
+					{
+						Scroll(sender, e, false);
 						_scrollAmount = 0;
 						_isKeyboardShown = false;
 					}
@@ -58,12 +67,13 @@ namespace XamarinForms.QbChat.iOS
 			_hide.Dispose ();
 		}
 	
-		private void Scroll (object sender, UIKeyboardEventArgs e, bool scale)
+		private void Scroll (object sender, UIKeyboardEventArgs e, bool scale, bool returnToPreviousState = false)
 		{
 			UIView.BeginAnimations(string.Empty, IntPtr.Zero);
 			UIView.SetAnimationCurve(e.AnimationCurve);
 			UIView.SetAnimationDuration(e.AnimationDuration);
-
+			if (returnToPreviousState)
+				ChangeFrameSize(false);
 			ChangeFrameSize (scale);
 
 			UIView.CommitAnimations();
