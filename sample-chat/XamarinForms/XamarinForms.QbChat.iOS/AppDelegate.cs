@@ -69,18 +69,24 @@ namespace XamarinForms.QbChat.iOS
 		public override void DidEnterBackground (UIApplication application)
 		{
 			UIApplication.SharedApplication.Windows [0].RootViewController.View.EndEditing (true);
+
+			if (App.QbProvider.GetXmppClient().IsConnected)
+				MessageProvider.Instance.DisconnectToXmpp();
 			// Use this method to release shared resources, save user data, invalidate timers and store the application state.
 			// If your application supports background exection this method is called instead of WillTerminate when the user quits.
 		}
 
 		public override void WillEnterForeground (UIApplication application)
 		{
+			if (App.IsInternetAvaliable && App.UserId > 0)
+				MessageProvider.Instance.ConnetToXmpp(App.UserId, App.UserPassword);
 			// Called as part of the transiton from background to active state.
 			// Here you can undo many of the changes made on entering the background.
 		}
 
 		public override void OnActivated (UIApplication application)
 		{
+			
 			// Restart any tasks that were paused (or not yet started) while the application was inactive. 
 			// If the application was previously in the background, optionally refresh the user interface.
 		}
