@@ -60,6 +60,7 @@ namespace XamarinForms.QbChat.ViewModels
         private async Task LoadMessages()
         {
             List<Message> messages = null;
+			List<MessageTable> chatMessages = new List<MessageTable>();
             try
             {
                 messages = await App.QbProvider.GetMessagesAsync(this.dialogId);
@@ -114,13 +115,17 @@ namespace XamarinForms.QbChat.ViewModels
                         chatMessage.Text = System.Net.WebUtility.UrlDecode(message.MessageText);
                     }
 
-                    Device.BeginInvokeOnMainThread(() =>
-                        this.Messages.Add(chatMessage)
-                    );
+					chatMessages.Add(chatMessage);
                 }
 
                 Device.BeginInvokeOnMainThread(() =>
                 {
+					this.Messages.Clear();
+					foreach (var item in chatMessages)
+					{
+						this.Messages.Add(item);
+					}
+
                     var page = (App.Current.MainPage as NavigationPage).CurrentPage as GroupChatPage;
                     if (page != null)
                     {
@@ -141,7 +146,8 @@ namespace XamarinForms.QbChat.ViewModels
                 var messageTable = new MessageTable();
                 messageTable.SenderId = messageEventArgs.Message.SenderId;
                 messageTable.DialogId = messageEventArgs.Message.ChatDialogId;
-                messageTable.DateSent = messageEventArgs.Message.DateSent;
+				messageTable.DateSent = messageEventArgs.Message.DateSent;
+				messageTable.MessageId = messageEventArgs.Message.Id;
 
                 if (messageEventArgs.Message.NotificationType != 0)
                 {
@@ -172,7 +178,9 @@ namespace XamarinForms.QbChat.ViewModels
 
                 await SetRecepientName(messageTable);
 
-                this.Messages.Add(messageTable);
+				var message = this.Messages.FirstOrDefault(m => m.MessageId == messageTable.MessageId);
+				if (message == null)
+                	this.Messages.Add(messageTable);
 
                 Device.BeginInvokeOnMainThread(() =>
                 {

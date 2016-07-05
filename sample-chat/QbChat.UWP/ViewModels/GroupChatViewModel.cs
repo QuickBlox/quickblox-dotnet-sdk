@@ -160,6 +160,7 @@ namespace QbChat.UWP.ViewModels
                     messageTable.SenderId = messageEventArgs.Message.SenderId;
                     messageTable.DialogId = messageEventArgs.Message.ChatDialogId;
                     messageTable.DateSent = messageEventArgs.Message.DateSent;
+					messageTable.MessageId = messageEventArgs.Message.Id;
 
                     if (messageEventArgs.Message.NotificationType != 0)
                     {
