@@ -105,6 +105,7 @@ namespace XamarinForms.QbChat.ViewModels
                         else
                         {
                             this.IsBusyIndicatorVisible = false;
+							this.isCreating = false;
                             return;
                         }
                     }
