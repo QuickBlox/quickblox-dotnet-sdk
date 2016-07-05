@@ -56,12 +56,16 @@ namespace XamarinForms.QbChat.ViewModels
             if (addedUserIds.Any())
             {
                 var dialog = await App.QbProvider.UpdateDialogAsync(this.dialogId, addedUserIds);
-                if (dialog != null)
-                {
-                    Database.Instance().SaveDialog(new DialogTable(dialog));
-                    var groupManager = App.QbProvider.GetXmppClient().GetGroupChatManager(dialog.XmppRoomJid, dialog.Id);
-                    groupManager.NotifyAboutGroupUpdate(addedUserIds, new List<int>(), dialog);
-                }
+				if (dialog != null)
+				{
+					Database.Instance().SaveDialog(new DialogTable(dialog));
+					var groupManager = App.QbProvider.GetXmppClient().GetGroupChatManager(dialog.XmppRoomJid, dialog.Id);
+					groupManager.NotifyAboutGroupUpdate(addedUserIds, new List<int>(), dialog);
+				}
+				else {
+					await App.Current.MainPage.DisplayAlert("Internet connection", "Internet connection is lost. Please check it and restart the Application", "Ok");
+
+				}
             }
         }
 
@@ -71,7 +75,7 @@ namespace XamarinForms.QbChat.ViewModels
                 return;
 
             this.isLoading = true;
-            await this.UpdateDialogs();
+			await this.UpdateDialogs();
             await App.Navigation.PopAsync(false);
             await App.Navigation.PopAsync();
         }

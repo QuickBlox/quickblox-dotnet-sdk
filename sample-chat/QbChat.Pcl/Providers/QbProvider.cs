@@ -312,7 +312,7 @@ namespace QbChat.Pcl
 			updateDialog.PhotoLink = photo;
 
 			var dialogResponse = await this.client.ChatClient.UpdateDialogAsync(updateDialog);
-			if (await HandleResponse(dialogResponse, HttpStatusCode.OK)) {
+			if (dialogResponse.StatusCode == HttpStatusCode.OK) {
 				return dialogResponse.Result;
 			}
 
