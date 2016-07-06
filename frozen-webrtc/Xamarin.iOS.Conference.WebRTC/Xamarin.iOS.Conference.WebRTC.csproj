@@ -128,9 +128,6 @@
     <Compile Include="OggAudioCaptureProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="FM.IceLink.WebRTC">
-      <HintPath>lib\FM.IceLink.WebRTC.dll</HintPath>
-    </Reference>
     <Reference Include="FM.IceLink.WebSync">
       <HintPath>lib\FM.IceLink.WebSync.dll</HintPath>
     </Reference>
@@ -157,6 +154,9 @@
       <Project>{E2ECB703-E07E-46D2-90CC-0F36B648DF2A}</Project>
       <Name>Xamarin.iOS.VP8</Name>
     </ProjectReference>
+    <Reference Include="FM.IceLink.WebRTC">
+      <HintPath>lib\FM.IceLink.WebRTC.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
