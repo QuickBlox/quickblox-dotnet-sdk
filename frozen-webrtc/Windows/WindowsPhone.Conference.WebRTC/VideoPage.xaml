@@ -1,0 +1,31 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="WindowsPhone.Conference.WebRTC.VideoPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent" DoubleTap="LayoutRoot_DoubleTap">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" x:Name="TitlePanel" Grid.Row="1">
+            <Button Content="Leave" MinHeight="60" MaxHeight="60" x:Name="LeaveButton" x:FieldModifier="public" FontSize="14" Click="LeaveButton_Click" />
+            <TextBlock Text="Session ID:" x:Name="SessionID" x:FieldModifier="public" Padding="5,15,0,0"></TextBlock>
+        </StackPanel>
+
+        <Canvas x:Name="Container" Grid.Row="0" Background="Black" />
+    </Grid>
+
+</phone:PhoneApplicationPage>

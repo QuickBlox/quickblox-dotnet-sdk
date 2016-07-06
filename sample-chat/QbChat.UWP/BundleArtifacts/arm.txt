@@ -1,3 +1,0 @@
-MainPackage=F:\Project\Net-Samples\QbChat.UWP\bin\ARM\Release\QbChat.UWP_1.0.2.0_ARM.appx
-SymbolPackage=F:\Project\Net-Samples\Package\QbChat.UWP_1.0.2.0_Test\QbChat.UWP_1.0.2.0_ARM.appxsym
-ResourcePack=F:\Project\Net-Samples\QbChat.UWP\bin\ARM\Release\QbChat.UWP_1.0.2.0_scale-100.appx
