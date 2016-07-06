@@ -1,0 +1,54 @@
+﻿<Page
+    x:Class="QbChat.UWP.Views.ChatsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:QbChat.UWP.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:extensions="using:QbChat.UWP.Helpers"
+    mc:Ignorable="d"
+    NavigationCacheMode = "Enabled">
+   
+    <Page.TopAppBar>
+        <CommandBar>
+            <!--<CommandBar.PrimaryCommands>
+                <AppBarButton Icon="Play" Label="Play" />
+                <AppBarButton Icon="Forward" Label="Forward" />
+            </CommandBar.PrimaryCommands>-->
+
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="New Chat" Command="{Binding CreateNewChatCommand}"/>
+                <AppBarButton Label="Logout" Command="{Binding LogoutCommand}"/>
+            </CommandBar.SecondaryCommands>
+
+            <CommandBar.Content>
+                <TextBlock Text="{Binding Title}" Margin="12,14"/>
+            </CommandBar.Content>
+        </CommandBar>
+    </Page.TopAppBar>
+
+    <Grid>
+        <ListView ItemsSource="{Binding Dialogs}" IsItemClickEnabled="True" Background="White" ItemClick="OnItemClicked" >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="3,6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="65"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Image Source="{Binding Converter={StaticResource DialogToImageSourceConverter}}" Grid.RowSpan="2" Height="60" Width="60" HorizontalAlignment="Left"/>
+                        <TextBlock Text="{Binding Name}" Foreground="Black" Grid.Column="1" Margin="12,6,0,0" FontSize="16" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding LastMessage}" Foreground="Black" Grid.Column="1" Grid.Row="1" Margin="12,0,0,0"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ProgressBar Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" IsIndeterminate="{Binding IsBusy}" VerticalAlignment="Top"/>
+    </Grid>
+</Page>

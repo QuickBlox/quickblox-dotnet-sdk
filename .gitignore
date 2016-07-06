@@ -186,7 +186,8 @@ Dateifi.userprefs
 Xamarin.QbChat.userprefs
 .gitignore
 =======
-QbChat.UWP/BundleArtifacts/arm.txt
-QbChat.UWP/BundleArtifacts/x64.txt
-QbChat.UWP/BundleArtifacts/x86.txt
+sample-chat/QbChat.UWP/BundleArtifacts/arm.txt
+sample-chat/QbChat.UWP/BundleArtifacts/x64.txt
+sample-chat/QbChat.UWP/BundleArtifacts/x86.txt
 >>>>>>> release/1.0.1.1
+Package/
