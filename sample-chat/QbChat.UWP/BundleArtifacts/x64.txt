@@ -1,2 +1,0 @@
-MainPackage=F:\Project\Net-Samples\QbChat.UWP\bin\x64\Release\QbChat.UWP_1.0.2.0_x64.appx
-SymbolPackage=F:\Project\Net-Samples\Package\QbChat.UWP_1.0.2.0_Test\QbChat.UWP_1.0.2.0_x64.appxsym
