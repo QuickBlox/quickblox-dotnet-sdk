@@ -146,10 +146,7 @@
   <Import Project="..\Xamarin.Forms.Conference.WebRTC\Xamarin.Forms.Conference.WebRTC.projitems" Label="Shared" Condition="Exists('..\Xamarin.Forms.Conference.WebRTC\Xamarin.Forms.Conference.WebRTC.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.2.0.45\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.2.0.45\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
-  <ItemGroup>
-    <Folder Include="Opus\" />
-    <Folder Include="VP8\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Reference Include="FM">
       <HintPath>lib\FM.dll</HintPath>
@@ -172,11 +169,11 @@
     <Reference Include="FM.WebSync.Subscribers">
       <HintPath>lib\FM.WebSync.Subscribers.dll</HintPath>
     </Reference>
-    <ProjectReference Include="..\Xamarin.iOS.Opus\Xamarin.iOS.Opus.csproj">
+    <ProjectReference Include="..\..\Xamarin.iOS.Opus\Xamarin.iOS.Opus.csproj">
       <Project>{D00DB3CA-BB32-4D90-B999-6EDC29899FD0}</Project>
       <Name>Xamarin.iOS.Opus</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Xamarin.iOS.VP8\Xamarin.iOS.VP8.csproj">
+    <ProjectReference Include="..\..\Xamarin.iOS.VP8\Xamarin.iOS.VP8.csproj">
       <Project>{E2ECB703-E07E-46D2-90CC-0F36B648DF2A}</Project>
       <Name>Xamarin.iOS.VP8</Name>
     </ProjectReference>
