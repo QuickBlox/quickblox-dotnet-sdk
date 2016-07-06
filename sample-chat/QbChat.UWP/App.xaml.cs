@@ -3,6 +3,7 @@ using QbChat.Pcl.Repository;
 using QbChat.UWP.Views;
 using Quickblox.Sdk.Platform;
 using System;
+using System.Diagnostics;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.System.Profile;
@@ -47,6 +48,13 @@ namespace QbChat.UWP
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.UnhandledException += OnUnhandledException;
+        }
+
+        private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+            Debug.WriteLine(e);
         }
 
         /// <summary>
