@@ -108,7 +108,7 @@ namespace QbChat.UWP.ViewModels
                     Dialog dialog = null;
                     if (dialogType == DialogType.Group)
                     {
-                        dialog = await App.QbProvider.CreateDialogAsync(dialogName, userIdsString, dialogType);
+                        dialog = await App.QbProvider.CreateDialogAsync(dialogName.Trim(), userIdsString, dialogType);
                         SaveDialogToDb(dialog);
 
                         var groupManager = App.QbProvider.GetXmppClient()
