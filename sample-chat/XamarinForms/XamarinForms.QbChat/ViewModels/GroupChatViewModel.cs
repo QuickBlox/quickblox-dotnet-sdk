@@ -204,24 +204,12 @@ namespace XamarinForms.QbChat.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    this.IsBusyIndicatorVisible = true;
-                    try
-                    {
-                        App.QbProvider.GetXmppClient().Connect(App.UserId, App.UserPassword);
-                    }
-                    catch (Exception ex2)
-                    {
-                        App.Current.MainPage.DisplayAlert("Error", "Please, check your internet connection", "Ok");
-                    }
-                    finally
-                    {
-                        this.IsBusyIndicatorVisible = false;
-                    }
-
-                    return;
+                    App.Current.MainPage.DisplayAlert("Internet connection", "Internet connection is lost. Please check it and restart the Application", "Ok");
                 }
-
-                this.MessageText = "";
+                finally
+                {
+                    this.MessageText = "";
+                }
             }
         }
 

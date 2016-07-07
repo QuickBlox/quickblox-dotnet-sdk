@@ -65,6 +65,9 @@ namespace QbChat.UWP.ViewModels
 
         private async void SaveDialogChangesCommandExecute()
         {
+            if (Users == null)
+                return;
+
             if (isLoading)
                 return;
 

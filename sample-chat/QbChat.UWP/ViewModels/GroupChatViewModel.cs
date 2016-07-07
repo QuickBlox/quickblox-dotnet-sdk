@@ -148,10 +148,6 @@ namespace QbChat.UWP.ViewModels
             if (messageEventArgs.MessageType == MessageType.Chat ||
                 messageEventArgs.MessageType == MessageType.Groupchat)
             {
-                var message = this.Messages.FirstOrDefault(m => m.MessageId == messageEventArgs.Message.Id);
-                if (message != null)
-                    return;
-
                 using (await lockAddingObject.LockAsync())
                 {
                     string decodedMessage = System.Net.WebUtility.UrlDecode(messageEventArgs.Message.MessageText);
@@ -194,7 +190,10 @@ namespace QbChat.UWP.ViewModels
                     await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                     () =>
                     {
-                        this.Messages.Add(messageTable);
+                        var message = this.Messages.FirstOrDefault(m => m.MessageId == messageTable.MessageId);
+                        if (message == null)
+                            this.Messages.Add(messageTable);
+
                         var page = App.NavigationFrame.Content as GroupChatPage;
                         if (page != null)
                             page.ScrollList();
@@ -228,11 +227,14 @@ namespace QbChat.UWP.ViewModels
                 {
                     var encodedMessage = System.Net.WebUtility.UrlEncode(message);
                     groupChatManager.SendMessage(encodedMessage);
-                    MessageText = "";
                 }
                 catch (Exception ex)
                 {
                     new MessageDialog("Internet connection is lost. Please check it and restart the Application", "Error").ShowAsync();
+                }
+                finally
+                {
+                    MessageText = "";
                 }
             }
         }
