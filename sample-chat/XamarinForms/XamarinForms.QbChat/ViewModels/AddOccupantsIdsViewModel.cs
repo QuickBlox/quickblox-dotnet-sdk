@@ -64,7 +64,6 @@ namespace XamarinForms.QbChat.ViewModels
 				}
 				else {
 					await App.Current.MainPage.DisplayAlert("Internet connection", "Internet connection is lost. Please check it and restart the Application", "Ok");
-
 				}
             }
         }
