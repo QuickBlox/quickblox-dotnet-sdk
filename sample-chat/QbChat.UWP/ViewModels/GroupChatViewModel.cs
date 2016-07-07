@@ -227,11 +227,14 @@ namespace QbChat.UWP.ViewModels
                 {
                     var encodedMessage = System.Net.WebUtility.UrlEncode(message);
                     groupChatManager.SendMessage(encodedMessage);
-                    MessageText = "";
                 }
                 catch (Exception ex)
                 {
                     new MessageDialog("Internet connection is lost. Please check it and restart the Application", "Error").ShowAsync();
+                }
+                finally
+                {
+                    MessageText = "";
                 }
             }
         }
