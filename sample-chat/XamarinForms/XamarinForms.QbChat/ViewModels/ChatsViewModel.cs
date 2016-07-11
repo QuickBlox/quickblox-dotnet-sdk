@@ -70,8 +70,11 @@ namespace XamarinForms.QbChat.ViewModels
                 if (user == null && App.QbProvider.UserId != 0)
                 {
                     user = await App.QbProvider.GetUserAsync(App.QbProvider.UserId);
-                    Device.BeginInvokeOnMainThread(() => {
-                        Title = user.FullName;
+					if (user == null)
+						return;
+					
+					Device.BeginInvokeOnMainThread(() => {
+                       	Title = user.FullName;
                     });
 
                     App.UserId = user.Id;
@@ -89,7 +92,7 @@ namespace XamarinForms.QbChat.ViewModels
                 {
                 }
 
-                List<DialogTable> sorted = null;
+				List<DialogTable> sorted = new List<DialogTable>();
                 try
                 {
                     await Task.Delay(1000);

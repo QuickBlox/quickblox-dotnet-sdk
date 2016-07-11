@@ -15,7 +15,7 @@ namespace XamarinForms.QbChat.ViewModels
         private ImageSource imageSource;
         private string messageText;
 
-        protected List<User> opponentUsers;
+		protected List<User> opponentUsers = new List<User>();
         protected string dialogId;
 
         public BaseChatViewModel(string dialogId)
