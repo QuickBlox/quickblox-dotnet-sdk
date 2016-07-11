@@ -85,12 +85,12 @@ namespace QbChat.Pcl.Repository
             }
         }
 
-        public int SaveMessage(MessageTable item)
+		public int SaveMessage(MessageTable item, bool isNotify = false)
         {
             int retVal = 0;
             lock (locker)
             {
-				var checkIfPresence = this.database.Table<MessageTable>().FirstOrDefault(x => x.ID == item.ID);
+				var checkIfPresence = this.database.Table<MessageTable>().FirstOrDefault(x => x.MessageId == item.MessageId);
                 if (checkIfPresence != null)
                 {
                     retVal = item.ID = checkIfPresence.ID;
@@ -103,7 +103,8 @@ namespace QbChat.Pcl.Repository
                 }
             }
 
-			messageObserver.Invoke ();
+			if (isNotify)
+				messageObserver.Invoke ();
 
             return retVal;
         }
