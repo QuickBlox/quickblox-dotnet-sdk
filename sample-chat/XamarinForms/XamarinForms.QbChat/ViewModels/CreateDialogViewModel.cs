@@ -10,11 +10,15 @@ using Acr.UserDialogs;
 using XamarinForms.QbChat.Pages;
 using QbChat.Pcl;
 using QbChat.Pcl.Repository;
+using Quickblox.Sdk.Modules.ChatXmppModule;
+using Quickblox.Sdk.GeneralDataModel.Models;
 
 namespace XamarinForms.QbChat.ViewModels
 {
     public class CreateDialogViewModel : ViewModel
     {
+		GroupChatManager groupManager;
+
         private List<SelectedUser> users;
         private bool isCreating;
 
@@ -114,24 +118,28 @@ namespace XamarinForms.QbChat.ViewModels
                     var userIdsString = string.Join(",", userIds);
 
                     Dialog dialog = null;
-                    if (dialogType == DialogType.Group)
-                    {
+					if (dialogType == DialogType.Group)
+					{
 						dialog = await App.QbProvider.CreateDialogAsync(dialogName.Trim(), userIdsString, dialogType);
-                        SaveDialogToDb(dialog);
+						if (dialog != null)
+						{
+							SaveDialogToDb(dialog);
 
-                        var groupManager = App.QbProvider.GetXmppClient()
-                            .GetGroupChatManager(dialog.XmppRoomJid, dialog.Id);
-                        groupManager.JoinGroup(App.QbProvider.UserId.ToString());
-                        groupManager.NotifyAboutGroupCreation(userIds, dialog);
+							groupManager = App.QbProvider.GetXmppClient()
+								.GetGroupChatManager(dialog.XmppRoomJid, dialog.Id);
+							groupManager.MessageReceived += OnMessageReceived;
+							groupManager.JoinGroup(App.QbProvider.UserId.ToString());
+							groupManager.NotifyAboutGroupCreation(userIds, dialog);
 
-                        var groupChantPage = new GroupChatPage(dialog.Id);
-                        App.Navigation.InsertPageBefore(groupChantPage,
-                            (App.Current.MainPage as NavigationPage).CurrentPage);
-                        App.Navigation.PopAsync();
-                    }
-                    else if (dialogType == DialogType.Private)
-                    {
-                        dialog = await App.QbProvider.GetDialogAsync(new int[] {App.QbProvider.UserId, userIds.First()});
+							var groupChantPage = new GroupChatPage(dialog.Id);
+							App.Navigation.InsertPageBefore(groupChantPage,
+								(App.Current.MainPage as NavigationPage).CurrentPage);
+							App.Navigation.PopAsync();
+						}
+					}
+					else if (dialogType == DialogType.Private)
+					{
+						dialog = await App.QbProvider.GetDialogAsync(new int[] { App.QbProvider.UserId, userIds.First()});
                         if (dialog == null)
                         {
                             dialog = await App.QbProvider.CreateDialogAsync(dialogName, userIdsString, dialogType);
@@ -163,5 +171,39 @@ namespace XamarinForms.QbChat.ViewModels
 
             this.isCreating = false;
         }
-    }
+
+		private async void OnMessageReceived(object sender, MessageEventArgs messageEventArgs)
+		{
+			var message = messageEventArgs.Message;
+			if (message.NotificationType == NotificationTypes.GroupCreate ||
+				message.NotificationType == NotificationTypes.GroupUpdate)
+			{
+				if (message.AddedOccupantsIds.Any())
+				{
+					groupManager.MessageReceived -= OnMessageReceived; 
+
+					var chatMessage = new MessageTable();
+					chatMessage.DateSent = message.DateSent;
+					chatMessage.SenderId = message.SenderId;
+					chatMessage.MessageId = message.Id;
+					if (message.RecipientId.HasValue)
+						chatMessage.RecepientId = message.RecipientId.Value;
+					chatMessage.DialogId = message.ChatDialogId;
+					chatMessage.IsRead = message.Read == 1;
+
+					var userIds = new List<int>(message.AddedOccupantsIds);
+					userIds.Add(message.SenderId);
+
+					var users = await App.QbProvider.GetUsersByIdsAsync(string.Join(",", userIds));
+
+					var addedUsers = users.Where(u => u.Id != message.SenderId);
+					var senderUser = users.First(u => u.Id == message.SenderId);
+					chatMessage.Text = senderUser.FullName + " added users: " +
+									   string.Join(",", addedUsers.Select(u => u.FullName));
+					
+					Database.Instance().SaveMessage(chatMessage, true);
+				}
+			}
+		}
+}
 }

@@ -72,6 +72,8 @@ namespace QbChat.UWP.ViewModels
                     var dialogInfo = await App.QbProvider.GetDialogAsync(this.dialogId);
                     if (dialogInfo != null)
                     {
+						dialogInfo.OccupantsIds.Remove(App.QbProvider.UserId);
+
                         var groupManager = App.QbProvider.GetXmppClient().GetGroupChatManager(dialogInfo.XmppRoomJid, dialogInfo.Id);
                         groupManager.NotifyAboutGroupUpdate(new List<int>(), new List<int>() { App.QbProvider.UserId }, dialogInfo);
                         groupManager.LeaveGroup(App.QbProvider.UserId.ToString());
