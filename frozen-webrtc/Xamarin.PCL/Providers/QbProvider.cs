@@ -57,6 +57,24 @@ namespace QbChat.Pcl
 			return false;
 		}
 
+		public async Task<User> SignUpUserWithLoginAsync(string login, string password, string userName, string roomName)
+		{
+			UserSignUpRequest request = new UserSignUpRequest();
+			request.User = new UserRequest();
+			request.User.Login = login;
+			request.User.Password = password;
+			request.User.FullName = userName;
+			request.User.TagList = roomName;
+
+			var signUpResponse = await this.client.UsersClient.SignUpUserAsync(request);
+			if (await HandleResponse(signUpResponse, HttpStatusCode.Created))
+			{
+				return signUpResponse.Result.User;
+			}
+
+			return null;
+		}
+
 		public async Task<int> LoginWithEmailAsync(string email, string password){
 			var sessionResponse = await this.client.AuthenticationClient.CreateSessionWithEmailAsync (email, password); 
 			if (await HandleResponse(sessionResponse, HttpStatusCode.Created)){

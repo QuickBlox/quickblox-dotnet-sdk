@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Xamarin.Forms.Conference.WebRTC.LoginPage"
+		Title="Enter to chat:">
+	<Grid>
+		<StackLayout>
+			<Label Text="Please enter username and chat room name." />
+			<Label Text="You can join existed chat room." />
+
+			<Entry Placeholder="User name" Text="{Binding UserName}"/>
+			<Entry Placeholder="Chat room name" Text="{Binding ChatRoomName}"/>
+
+			<Button Command="{Binding LoginCommand}" Text="Login" BackgroundColor="Blue" TextColor="White"/>
+		</StackLayout>
+		 <ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsBusy}" />
+	</Grid>
+</ContentPage>

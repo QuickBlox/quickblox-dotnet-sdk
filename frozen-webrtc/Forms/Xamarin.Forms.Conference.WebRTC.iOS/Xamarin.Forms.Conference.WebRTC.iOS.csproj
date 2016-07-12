@@ -139,6 +139,7 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Opus\OpusCodec.cs" />
     <Compile Include="VP8\Vp8Codec.cs" />
+    <Compile Include="IOSDeviceUid.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />
@@ -178,6 +179,10 @@
     <ProjectReference Include="..\..\Xamarin.iOS.VP8\Xamarin.iOS.VP8.csproj">
       <Project>{E2ECB703-E07E-46D2-90CC-0F36B648DF2A}</Project>
       <Name>Xamarin.iOS.VP8</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Xamarin.PCL\Xamarin.PCL.csproj">
+      <Project>{5D2E191D-8EE0-4F07-86DA-5F85E1912D4B}</Project>
+      <Name>Xamarin.PCL</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

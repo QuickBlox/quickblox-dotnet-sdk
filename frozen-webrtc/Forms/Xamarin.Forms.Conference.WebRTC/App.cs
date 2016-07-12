@@ -3,6 +3,7 @@
 using FM;
 using FM.IceLink;
 using FM.IceLink.WebRTC;
+using QbChat.Pcl;
 
 #if __IOS__
 using Xamarin.Forms.Conference.WebRTC.iOS.Opus;
@@ -13,11 +14,18 @@ using Xamarin.Forms.Conference.WebRTC.Droid.VP8;
 #endif
 
 using Xamarin.Forms.Conference.WebRTC;
+using Xamarin.PCL;
 
 namespace Xamarin.Forms.Conference.WebRTC
 {
 	public class App : Application
 	{
+		public static QbProvider QbProvider = new QbProvider(ShowInternetMessage);
+		public static bool IsInternetAvaliable { get; set;}
+		private static bool isInternetMessageShowing;
+		public static int UserId { get; set;}
+
+
 		private string IceLinkServerAddress = "demo.icelink.fm:3478";
 		private string WebSyncServerUrl = "http://v4.websync.fm/websync.ashx"; // WebSync On-Demand
 
@@ -46,6 +54,8 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 		public App()
 		{
+			MessageProvider.Instance.Init(App.QbProvider.GetXmppClient());
+
 			#if __ANDROID__
 
 			// Log to the console.
@@ -453,6 +463,20 @@ namespace Xamarin.Forms.Conference.WebRTC
 			Device.BeginInvokeOnMainThread(() =>
 			{
 				MainPage.DisplayAlert("Alert", string.Format(format, args), "OK");
+			});
+		}
+
+		private static void ShowInternetMessage()
+		{
+			Device.BeginInvokeOnMainThread(async () =>
+			{
+				if (!IsInternetAvaliable)
+					if (!isInternetMessageShowing)
+					{
+						isInternetMessageShowing = true;
+						await Current.MainPage.DisplayAlert("Internet connection", "Internet connection is lost. Please check it and restart the Application", "Ok");
+						isInternetMessageShowing = false;
+					}
 			});
 		}
 	}

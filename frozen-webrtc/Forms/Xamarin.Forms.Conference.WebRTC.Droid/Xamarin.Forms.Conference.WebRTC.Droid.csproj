@@ -104,6 +104,24 @@
       <HintPath>..\..\packages\Xamarin.Forms.2.2.0.45\lib\MonoAndroid10\Xamarin.Forms.Xaml.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.8.0.3\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Sockets.Plugin">
+      <HintPath>..\..\packages\rda.SocketsForPCL.1.2.2\lib\MonoAndroid10\Sockets.Plugin.dll</HintPath>
+    </Reference>
+    <Reference Include="Sockets.Plugin.Abstractions">
+      <HintPath>..\..\packages\rda.SocketsForPCL.1.2.2\lib\MonoAndroid10\Sockets.Plugin.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Quickblox.Sdk">
+      <HintPath>..\..\packages\Quickblox.Sdk.1.2.2\lib\MonoAndroid10\Quickblox.Sdk.dll</HintPath>
+    </Reference>
+    <Reference Include="Quickblox.Sdk.Platform.Abstractions">
+      <HintPath>..\..\packages\Quickblox.Sdk.1.2.2\lib\MonoAndroid10\Quickblox.Sdk.Platform.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Quickblox.Sdk.Platform.Android">
+      <HintPath>..\..\packages\Quickblox.Sdk.1.2.2\lib\MonoAndroid10\Quickblox.Sdk.Platform.Android.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -125,6 +143,8 @@
     <Compile Include="VP8\LibVpxException.cs" />
     <Compile Include="VP8\Rational.cs" />
     <Compile Include="VP8\Vp8Codec.cs" />
+    <Compile Include="AndroidDeviceUid.cs" />
+    <Compile Include="AndroidLoginStorageImp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -215,6 +235,12 @@
     <Reference Include="FM.WebSync.Subscribers">
       <HintPath>lib\FM.WebSync.Subscribers.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Xamarin.PCL\Xamarin.PCL.csproj">
+      <Project>{5D2E191D-8EE0-4F07-86DA-5F85E1912D4B}</Project>
+      <Name>Xamarin.PCL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
