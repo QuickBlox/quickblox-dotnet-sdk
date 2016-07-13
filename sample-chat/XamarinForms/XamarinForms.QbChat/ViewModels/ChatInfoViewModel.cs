@@ -11,6 +11,7 @@ namespace XamarinForms.QbChat.ViewModels
     public class ChatInfoViewModel : ViewModel
     {
         private string dialogId;
+		private bool isLeaveStarted; 
 
         public ChatInfoViewModel(string dialogId)
         {
@@ -60,34 +61,46 @@ namespace XamarinForms.QbChat.ViewModels
 
         private async void LeaveChatCommandExecute(object obj)
         {
+			if (this.isLeaveStarted)
+			{
+				return;
+			}
+
+			this.isLeaveStarted = true;
+
             this.IsBusyIndicatorVisible = true;
+
             var result = await App.Current.MainPage.DisplayAlert("Leave Chat", "Do you really want to Leave Chat?", "Yes", "Cancel");
-            if (result)
-            {
-                try
-                {
-                    var dialogInfo = await App.QbProvider.GetDialogAsync(this.dialogId);
-                    if (dialogInfo != null)
-                    {
+			if (result)
+			{
+				try
+				{
+					var dialogInfo = await App.QbProvider.GetDialogAsync(this.dialogId);
+					if (dialogInfo != null)
+					{
 						dialogInfo.OccupantsIds.Remove(App.QbProvider.UserId);
 
-                        var groupManager = App.QbProvider.GetXmppClient().GetGroupChatManager(dialogInfo.XmppRoomJid, dialogInfo.Id);
-                        groupManager.NotifyAboutGroupUpdate(new List<int>(), new List<int>() { App.QbProvider.UserId }, dialogInfo);
-                        groupManager.LeaveGroup(App.QbProvider.UserId.ToString());
+						var groupManager = App.QbProvider.GetXmppClient().GetGroupChatManager(dialogInfo.XmppRoomJid, dialogInfo.Id);
+						groupManager.NotifyAboutGroupUpdate(new List<int>(), new List<int>() { App.QbProvider.UserId }, dialogInfo);
+						groupManager.LeaveGroup(App.QbProvider.UserId.ToString());
 
-                        var deleteResult = await App.QbProvider.DeleteDialogAsync(dialogInfo.Id);
-                        if (deleteResult)
-                        {
-                            Database.Instance().DeleteDialog(dialogId);
-                        }
+					 	await App.QbProvider.DeleteDialogAsync(dialogInfo.Id);
+						Database.Instance().DeleteDialog(dialogId);
 
-                        App.Navigation.PopToRootAsync();
-                    }
-                }
-                catch (Exception ex)
-                {
-                }
-            }
+						await App.Navigation.PopToRootAsync();
+					}
+					else {
+						this.isLeaveStarted = false;
+					}
+				}
+				catch (Exception ex)
+				{
+					this.isLeaveStarted = false;
+				}
+			}
+			else {
+				this.isLeaveStarted = false;
+			}
 
             this.IsBusyIndicatorVisible = false;
         }
