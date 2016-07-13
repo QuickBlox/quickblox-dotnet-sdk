@@ -48,6 +48,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 		{
 			this.IsBusy = true;
 
+			await App.QbProvider.GetBaseSession();
 			var loginPasswordPair = DependencyService.Get<ILoginStorage>().Load();
 			if (loginPasswordPair != null)
 			{
@@ -106,8 +107,8 @@ namespace Xamarin.Forms.Conference.WebRTC
 		/// <param name="arg">Argument.</param>
 		private bool CanLoginExecute(object arg)
 		{
-			var isUserNameValid = Regex.IsMatch(this.userName, UserNameMatchPattern);
-			var isChatRoomNameValid = Regex.IsMatch(this.chatRoomName, ChatRoomNameMathcPattern);
+			var isUserNameValid = !string.IsNullOrEmpty(this.userName) && Regex.IsMatch(this.userName, UserNameMatchPattern);
+			var isChatRoomNameValid = !string.IsNullOrEmpty(this.chatRoomName) && Regex.IsMatch(this.chatRoomName, ChatRoomNameMathcPattern);
 			return isUserNameValid && isChatRoomNameValid;
 		}
 

@@ -21,11 +21,12 @@ namespace Xamarin.Forms.Conference.WebRTC.Droid
 
 		public KeyValuePair<string, string>? Load()
 		{
+			if (context == null) throw new NullReferenceException(nameof(context));
 			var prefs = context.GetSharedPreferences("Xamarin.WebRTC.Sample", FileCreationMode.Private);
 			var login = prefs.GetString("Login", null);
 			var password = prefs.GetString("Password", null);
 
-			if (string.IsNullOrEmpty(login) && string.IsNullOrEmpty(password))
+			if (!string.IsNullOrEmpty(login) && !string.IsNullOrEmpty(password))
 			{
 				return new KeyValuePair<string, string>(login, password);
 			}
@@ -35,6 +36,7 @@ namespace Xamarin.Forms.Conference.WebRTC.Droid
 
 		public void Save(string login, string password)
 		{
+			if (context == null) throw new NullReferenceException(nameof(context));
 			var prefs = this.context.GetSharedPreferences("Xamarin.WebRTC.Sample", FileCreationMode.Private);
 			var prefEditor = prefs.Edit();
 			prefEditor.PutString("Login", login);

@@ -11,6 +11,7 @@ using Android.OS;
 using FM;
 using FM.IceLink;
 using FM.IceLink.WebRTC;
+using Xamarin.PCL;
 
 namespace Xamarin.Forms.Conference.WebRTC.Droid
 {
@@ -40,6 +41,8 @@ namespace Xamarin.Forms.Conference.WebRTC.Droid
 			DefaultProviders.AndroidContext = this;
 
 			global::Xamarin.Forms.Forms.Init(this, bundle);
+			Quickblox.Sdk.Platform.QuickbloxPlatform.Init();
+			DependencyService.Get<ILoginStorage>().Init(Application.ApplicationContext);
 
 			LoadApplication(new App());
 		}

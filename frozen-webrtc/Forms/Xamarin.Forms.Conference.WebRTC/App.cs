@@ -54,12 +54,12 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 		public App()
 		{
-			//MessageProvider.Instance.Init(App.QbProvider.GetXmppClient());
+			MessageProvider.Instance.Init(App.QbProvider.GetXmppClient());
 
-			//var page = new NavigationPage(new LoginPage());
-			//Navigation = page.Navigation;
-			//Current.MainPage = page;
-			//return;
+			var page = new NavigationPage(new LoginPage());
+			Navigation = page.Navigation;
+			Current.MainPage = page;
+			return;
 
 			#if __ANDROID__
 
