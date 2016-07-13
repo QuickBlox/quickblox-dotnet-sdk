@@ -24,7 +24,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 		public static bool IsInternetAvaliable { get; set;}
 		private static bool isInternetMessageShowing;
 		public static int UserId { get; set;}
-
+		public static INavigation Navigation { get; set;}
 
 		private string IceLinkServerAddress = "demo.icelink.fm:3478";
 		private string WebSyncServerUrl = "http://v4.websync.fm/websync.ashx"; // WebSync On-Demand
@@ -54,7 +54,12 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 		public App()
 		{
-			MessageProvider.Instance.Init(App.QbProvider.GetXmppClient());
+			//MessageProvider.Instance.Init(App.QbProvider.GetXmppClient());
+
+			//var page = new NavigationPage(new LoginPage());
+			//Navigation = page.Navigation;
+			//Current.MainPage = page;
+			//return;
 
 			#if __ANDROID__
 
