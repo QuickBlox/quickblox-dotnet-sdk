@@ -15,109 +15,109 @@ using Quickblox.Sdk.GeneralDataModel.Models;
 
 namespace XamarinForms.QbChat.ViewModels
 {
-    public class CreateDialogViewModel : ViewModel
-    {
+	public class CreateDialogViewModel : ViewModel
+	{
 		GroupChatManager groupManager;
 
-        private List<SelectedUser> users;
-        private bool isCreating;
+		private List<SelectedUser> users;
+		private bool isCreating;
 
-        public CreateDialogViewModel()
-        {
-            this.CreateChatCommand = new Command(this.CreateChatCommandExecute);
-        }
+		public CreateDialogViewModel()
+		{
+			this.CreateChatCommand = new Command(this.CreateChatCommandExecute);
+		}
 
-        public List<SelectedUser> Users
-        {
-            get { return this.users; }
-            set
-            {
-                this.users = value;
-                this.RaisePropertyChanged();
-            }
-        }
+		public List<SelectedUser> Users
+		{
+			get { return this.users; }
+			set
+			{
+				this.users = value;
+				this.RaisePropertyChanged();
+			}
+		}
 
-        public ICommand CreateChatCommand { get; private set; }
+		public ICommand CreateChatCommand { get; private set; }
 
-        public override void OnAppearing()
-        {
-            base.OnAppearing();
+		public override void OnAppearing()
+		{
+			base.OnAppearing();
 
-            this.IsBusyIndicatorVisible = true;
+			this.IsBusyIndicatorVisible = true;
 
-            Task.Factory.StartNew(async () =>
-            {
-                var users = await App.QbProvider.GetUserByTag("XamarinChat");
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    Users =
-                        users.Where(u => u.Id != App.QbProvider.UserId)
-                            .Select(u => new SelectedUser() {User = u})
-                            .ToList();
-                    this.IsBusyIndicatorVisible = false;
-                });
-            });
-        }
+			Task.Factory.StartNew(async () =>
+			{
+				var users = await App.QbProvider.GetUserByTag("XamarinChat");
+				Device.BeginInvokeOnMainThread(() =>
+				{
+					Users =
+						users.Where(u => u.Id != App.QbProvider.UserId)
+							.Select(u => new SelectedUser() { User = u })
+							.ToList();
+					this.IsBusyIndicatorVisible = false;
+				});
+			});
+		}
 
-        private void SaveDialogToDb(Dialog dialog)
-        {
-            if (dialog != null)
-            {
-                var dialogTable = new DialogTable(dialog);
-                dialogTable.LastMessageSent = DateTime.UtcNow;
-                Database.Instance().SaveDialog(dialogTable);
-            }
-        }
+		private void SaveDialogToDb(Dialog dialog)
+		{
+			if (dialog != null)
+			{
+				var dialogTable = new DialogTable(dialog);
+				dialogTable.LastMessageSent = DateTime.UtcNow;
+				Database.Instance().SaveDialog(dialogTable);
+			}
+		}
 
-        public async void CreateChatCommandExecute(object obj)
-        {
-            if (this.isCreating)
-                return;
+		public async void CreateChatCommandExecute(object obj)
+		{
+			if (this.isCreating)
+				return;
 
-            this.isCreating = true;
+			this.isCreating = true;
 
-            if (Users == null)
-                return;
+			if (Users == null)
+				return;
 
-            try
-            {
-                this.IsBusyIndicatorVisible = true;
-                var selectedUsers = Users.Where(u => u.IsSelected).Select(u => u.User).ToList();
-                if (selectedUsers.Any())
-                {
-                    string dialogName = null;
-                    DialogType dialogType = DialogType.Group;
-                    if (selectedUsers.Count == 1)
-                    {
-                        dialogType = DialogType.Private;
-                        dialogName = selectedUsers.First().FullName;
-                    }
-                    else
-                    {
-                        var promptResult = await
-                            UserDialogs.Instance.PromptAsync("Enter chat name:", null, "Create", "Cancel",
-                                "Enter chat name", InputType.Name);
+			try
+			{
+				this.IsBusyIndicatorVisible = true;
+				var selectedUsers = Users.Where(u => u.IsSelected).Select(u => u.User).ToList();
+				if (selectedUsers.Any())
+				{
+					string dialogName = null;
+					DialogType dialogType = DialogType.Group;
+					if (selectedUsers.Count == 1)
+					{
+						dialogType = DialogType.Private;
+						dialogName = selectedUsers.First().FullName;
+					}
+					else
+					{
+						var promptResult = await
+							UserDialogs.Instance.PromptAsync("Enter chat name:", null, "Create", "Cancel",
+								"Enter chat name", InputType.Name);
 
-                        if (promptResult.Ok)
-                        {
-                            dialogName = promptResult.Text;
+						if (promptResult.Ok)
+						{
+							dialogName = promptResult.Text;
 
-                            if (string.IsNullOrWhiteSpace(dialogName))
-                                dialogName = App.UserName + "_" +
-                                             string.Join(", ", selectedUsers.Select(u => u.FullName));
-                        }
-                        else
-                        {
-                            this.IsBusyIndicatorVisible = false;
+							if (string.IsNullOrWhiteSpace(dialogName))
+								dialogName = App.UserName + "_" +
+											 string.Join(", ", selectedUsers.Select(u => u.FullName));
+						}
+						else
+						{
+							this.IsBusyIndicatorVisible = false;
 							this.isCreating = false;
-                            return;
-                        }
-                    }
+							return;
+						}
+					}
 
-                    var userIds = selectedUsers.Select(u => u.Id).ToList();
-                    var userIdsString = string.Join(",", userIds);
+					var userIds = selectedUsers.Select(u => u.Id).ToList();
+					var userIdsString = string.Join(",", userIds);
 
-                    Dialog dialog = null;
+					Dialog dialog = null;
 					if (dialogType == DialogType.Group)
 					{
 						dialog = await App.QbProvider.CreateDialogAsync(dialogName.Trim(), userIdsString, dialogType);
@@ -130,49 +130,45 @@ namespace XamarinForms.QbChat.ViewModels
 							groupManager.MessageReceived += OnMessageReceived;
 							groupManager.JoinGroup(App.QbProvider.UserId.ToString());
 							groupManager.NotifyAboutGroupCreation(userIds, dialog);
-
-							var groupChantPage = new GroupChatPage(dialog.Id);
-							App.Navigation.InsertPageBefore(groupChantPage,
-								(App.Current.MainPage as NavigationPage).CurrentPage);
-							App.Navigation.PopAsync();
+							return;
 						}
 					}
 					else if (dialogType == DialogType.Private)
 					{
-						dialog = await App.QbProvider.GetDialogAsync(new int[] { App.QbProvider.UserId, userIds.First()});
-                        if (dialog == null)
-                        {
-                            dialog = await App.QbProvider.CreateDialogAsync(dialogName, userIdsString, dialogType);
-                            var privateManager =
-                                App.QbProvider.GetXmppClient()
-                                    .GetPrivateChatManager(selectedUsers.First().Id, dialog.Id);
-                            var message = "Hello, I created chat with you!";
-                            privateManager.SendMessage(message);
-                            dialog.LastMessage = message;
-                        }
+						dialog = await App.QbProvider.GetDialogAsync(new int[] { App.QbProvider.UserId, userIds.First() });
+						if (dialog == null)
+						{
+							dialog = await App.QbProvider.CreateDialogAsync(dialogName, userIdsString, dialogType);
+							var privateManager =
+								App.QbProvider.GetXmppClient()
+									.GetPrivateChatManager(selectedUsers.First().Id, dialog.Id);
+							var message = "Hello, I created chat with you!";
+							privateManager.SendMessage(message);
+							dialog.LastMessage = message;
+						}
 
-                        SaveDialogToDb(dialog);
-                        var privateChantPage = new PrivateChatPage(dialog.Id);
-                        App.Navigation.InsertPageBefore(privateChantPage,
-                            (App.Current.MainPage as NavigationPage).CurrentPage);
-                        App.Navigation.PopAsync();
-                    }
-                }
-                else
-                {
-                    App.Current.MainPage.DisplayAlert("Error", "Please, select any of users", "Ok");
-                }
+						SaveDialogToDb(dialog);
+						var privateChantPage = new PrivateChatPage(dialog.Id);
+						App.Navigation.InsertPageBefore(privateChantPage,
+							(App.Current.MainPage as NavigationPage).CurrentPage);
+						App.Navigation.PopAsync();
+					}
+				}
+				else
+				{
+					App.Current.MainPage.DisplayAlert("Error", "Please, select any of users", "Ok");
+				}
 
-                this.IsBusyIndicatorVisible = false;
-            }
-            catch (Exception ex)
-            {
-            }
+				this.IsBusyIndicatorVisible = false;
+			}
+			catch (Exception ex)
+			{
+			}
 
-            this.isCreating = false;
-        }
+			this.isCreating = false;
+		}
 
-		private async void OnMessageReceived(object sender, MessageEventArgs messageEventArgs)
+		private void OnMessageReceived(object sender, MessageEventArgs messageEventArgs)
 		{
 			var message = messageEventArgs.Message;
 			if (message.NotificationType == NotificationTypes.GroupCreate ||
@@ -180,30 +176,17 @@ namespace XamarinForms.QbChat.ViewModels
 			{
 				if (message.AddedOccupantsIds.Any())
 				{
-					groupManager.MessageReceived -= OnMessageReceived; 
+					groupManager.MessageReceived -= OnMessageReceived;
 
-					var chatMessage = new MessageTable();
-					chatMessage.DateSent = message.DateSent;
-					chatMessage.SenderId = message.SenderId;
-					chatMessage.MessageId = message.Id;
-					if (message.RecipientId.HasValue)
-						chatMessage.RecepientId = message.RecipientId.Value;
-					chatMessage.DialogId = message.ChatDialogId;
-					chatMessage.IsRead = message.Read == 1;
-
-					var userIds = new List<int>(message.AddedOccupantsIds);
-					userIds.Add(message.SenderId);
-
-					var users = await App.QbProvider.GetUsersByIdsAsync(string.Join(",", userIds));
-
-					var addedUsers = users.Where(u => u.Id != message.SenderId);
-					var senderUser = users.First(u => u.Id == message.SenderId);
-					chatMessage.Text = senderUser.FullName + " added users: " +
-									   string.Join(",", addedUsers.Select(u => u.FullName));
-					
-					Database.Instance().SaveMessage(chatMessage, true);
+					Device.BeginInvokeOnMainThread(() =>
+					{
+						var groupChantPage = new GroupChatPage(message.ChatDialogId);
+						App.Navigation.InsertPageBefore(groupChantPage,
+							(App.Current.MainPage as NavigationPage).CurrentPage);
+						App.Navigation.PopAsync();
+					});
 				}
 			}
 		}
-}
+	}
 }
