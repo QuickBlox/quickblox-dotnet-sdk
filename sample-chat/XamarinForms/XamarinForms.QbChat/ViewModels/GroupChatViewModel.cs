@@ -68,8 +68,9 @@ namespace XamarinForms.QbChat.ViewModels
             try
             {
                 messages = await App.QbProvider.GetMessagesAsync(this.dialogId);
-                var userIds = messages.Select(u => u.SenderId).Distinct();
-                this.opponentUsers = await App.QbProvider.GetUsersByIdsAsync(string.Join(",", userIds));
+				var userIds = messages.Select(u => u.SenderId).Distinct().ToList();
+				userIds.Add(App.UserId);
+				this.opponentUsers = await App.QbProvider.GetUsersByIdsAsync(string.Join(",", userIds));
             }
             catch (Exception ex)
             {
@@ -157,16 +158,11 @@ namespace XamarinForms.QbChat.ViewModels
 				}
 			}
 
+			userIds.Add(message.SenderId);
+
 			if (isNeedLoad)
 			{
-				userIds.Add(message.SenderId);
 				var users = await App.QbProvider.GetUsersByIdsAsync(string.Join(",", userIds));
-
-				var addedUsers = users.Where(u => u.Id != message.SenderId);
-				var senderUser = users.First(u => u.Id == message.SenderId);
-				chatMessage.Text = senderUser.FullName + " added users: " +
-								   string.Join(",", addedUsers.Select(u => u.FullName));
-
 				foreach (var user in users)
 				{
 					var userInCollection = opponentUsers.FirstOrDefault(u => u.Id == user.Id);
@@ -174,12 +170,12 @@ namespace XamarinForms.QbChat.ViewModels
 						opponentUsers.Add(user);
 				}
 			}
-			else {
-				var addedUsers = opponentUsers.Where(u => u.Id != message.SenderId);
-				var senderUser = opponentUsers.First(u => u.Id == message.SenderId);
-				chatMessage.Text = senderUser.FullName + " added users: " +
-								   string.Join(",", addedUsers.Select(u => u.FullName));
-			}
+
+			var addedUsers = opponentUsers.Where(u => userIds.Contains(u.Id) && u.Id != message.SenderId);
+			var senderUser = opponentUsers.First(u => userIds.Contains(u.Id) && u.Id == message.SenderId);
+			chatMessage.Text = senderUser.FullName + " added users: " +
+			string.Join(",", addedUsers.Select(u => u.FullName));
+			
 		}
 
 		private async void OnMessageReceived(object sender, MessageEventArgs messageEventArgs)
