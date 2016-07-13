@@ -84,13 +84,10 @@ namespace XamarinForms.QbChat.ViewModels
 						groupManager.NotifyAboutGroupUpdate(new List<int>(), new List<int>() { App.QbProvider.UserId }, dialogInfo);
 						groupManager.LeaveGroup(App.QbProvider.UserId.ToString());
 
-						var deleteResult = await App.QbProvider.DeleteDialogAsync(dialogInfo.Id);
-						if (deleteResult)
-						{
-							Database.Instance().DeleteDialog(dialogId);
-						}
+					 	await App.QbProvider.DeleteDialogAsync(dialogInfo.Id);
+						Database.Instance().DeleteDialog(dialogId);
 
-						Device.BeginInvokeOnMainThread(()=> App.Navigation.PopToRootAsync());
+						await App.Navigation.PopToRootAsync();
 					}
 					else {
 						this.isLeaveStarted = false;

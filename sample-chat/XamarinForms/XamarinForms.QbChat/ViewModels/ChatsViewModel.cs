@@ -144,13 +144,16 @@ namespace XamarinForms.QbChat.ViewModels
 
 		private void UpdateDialogsList()
 		{
-			var dialogs = Database.Instance().GetDialogs();
-			var sorted = dialogs.OrderByDescending(d => d.LastMessageSent).ToList();
-			this.Dialogs.Clear();
-			foreach (var dialogTable in sorted)
+			Device.BeginInvokeOnMainThread(() =>
 			{
-				this.Dialogs.Add(dialogTable);
-			}
+				var dialogs = Database.Instance().GetDialogs();
+				var sorted = dialogs.OrderByDescending(d => d.LastMessageSent).ToList();
+				this.Dialogs.Clear();
+				foreach (var dialogTable in sorted)
+				{
+					this.Dialogs.Add(dialogTable);
+				}
+			});
 		}
 
         private void CreateNewChatCommandExecute(object obj)
@@ -208,17 +211,17 @@ namespace XamarinForms.QbChat.ViewModels
                     {
                         if (messageEventArgs.Message.DeletedOccupantsIds.Contains(App.QbProvider.UserId))
                         {
-                            //var deleteResult = 
-                            await App.QbProvider.DeleteDialogAsync(messageEventArgs.Message.ChatDialogId);
+							//Database.Instance().DeleteDialog(messageEventArgs.Message.ChatDialogId);
+							//var deleteResult = 
+							//await App.QbProvider.DeleteDialogAsync(messageEventArgs.Message.ChatDialogId);
                             //if (deleteResult){
-                            Database.Instance().DeleteDialog(messageEventArgs.Message.ChatDialogId);
                             //}
 
-                            var seletedDialog = this.Dialogs.FirstOrDefault(d => d.DialogId == messageEventArgs.Message.ChatDialogId);
-                            if (seletedDialog != null)
-                            {
-                                this.Dialogs.Remove(seletedDialog);
-                            }
+                            //var seletedDialog = this.Dialogs.FirstOrDefault(d => d.DialogId == messageEventArgs.Message.ChatDialogId);
+                            //if (seletedDialog != null)
+                            //{
+                            //    this.Dialogs.Remove(seletedDialog);
+                            //}
 
                             return;
                         }

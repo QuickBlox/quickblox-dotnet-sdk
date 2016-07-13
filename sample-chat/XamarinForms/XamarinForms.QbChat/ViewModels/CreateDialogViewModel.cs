@@ -129,6 +129,7 @@ namespace XamarinForms.QbChat.ViewModels
 								.GetGroupChatManager(dialog.XmppRoomJid, dialog.Id);
 							groupManager.MessageReceived += OnMessageReceived;
 							groupManager.JoinGroup(App.QbProvider.UserId.ToString());
+							await Task.Delay(1000);
 							groupManager.NotifyAboutGroupCreation(userIds, dialog);
 							return;
 						}
