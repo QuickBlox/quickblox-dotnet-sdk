@@ -135,6 +135,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Xamarin.PCL\Xamarin.PCL.csproj">
+      <Project>{5d2e191d-8ee0-4f07-86da-5f85e1912d4b}</Project>
+      <Name>Xamarin.PCL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VideoCaptureTransform\VideoCaptureTransform.vcxproj">
       <Project>{e9f213b3-2c36-4055-9adb-3f4039bbd2aa}</Project>
       <Name>VideoCaptureTransform</Name>

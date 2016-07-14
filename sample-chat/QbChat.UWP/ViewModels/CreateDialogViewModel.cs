@@ -114,6 +114,7 @@ namespace QbChat.UWP.ViewModels
                         var groupManager = App.QbProvider.GetXmppClient()
                             .GetGroupChatManager(dialog.XmppRoomJid, dialog.Id);
                         groupManager.JoinGroup(App.QbProvider.UserId.ToString());
+                        await Task.Delay(1000);
                         groupManager.NotifyAboutGroupCreation(userIds, dialog);
 
                         App.NavigationFrame.GoBack();

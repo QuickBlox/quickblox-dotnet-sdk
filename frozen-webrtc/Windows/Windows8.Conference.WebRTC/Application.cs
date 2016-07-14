@@ -32,7 +32,7 @@ namespace Windows8.Conference.WebRTC
         private Application()
         {
             // Log to the console.
-            Log.Provider = new DebugLogProvider(LogLevel.Info);
+            Log.Provider = new DebugLogProvider(LogLevel.Debug);
 
             // WebRTC has chosen VP8 as its mandatory video codec.
             // Since video encoding is best done using native code,

@@ -4,10 +4,10 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Fri Jul 01 15:51:50 2016
+/* at Thu Jul 07 17:27:28 2016
  */
-/* Compiler settings for C:\Users\PORCHY~1\AppData\Local\Temp\VideoCaptureTransform.idl-0cc8b920:
-    Oicf, W1, Zp8, env=Win64 (32b run), target_arch=AMD64 8.00.0603 
+/* Compiler settings for C:\Users\PORCHY~1\AppData\Local\Temp\VideoCaptureTransform.idl-69ede745:
+    Oicf, W1, Zp8, env=Win32 (32b run), target_arch=ARM 8.00.0603 
     protocol : dce , ms_ext, c_ext, robust
     error checks: allocation ref bounds_check enum stub_data 
     VC __declspec() decoration level: 
