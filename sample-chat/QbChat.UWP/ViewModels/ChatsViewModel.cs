@@ -197,23 +197,22 @@ namespace QbChat.UWP.ViewModels
                     {
                         if (messageEventArgs.Message.DeletedOccupantsIds.Contains(App.QbProvider.UserId))
                         {
-                            //var deleteResult = 
-                            await App.QbProvider.DeleteDialogAsync(messageEventArgs.Message.ChatDialogId);
-                            //if (deleteResult){
-                            Database.Instance().DeleteDialog(messageEventArgs.Message.ChatDialogId);
-                            //}
-
-                            var seletedDialog = this.Dialogs.FirstOrDefault(d => d.DialogId == messageEventArgs.Message.ChatDialogId);
-                            if (seletedDialog != null)
-                            {
-                                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                               () =>
-                               {
-                                   this.Dialogs.Remove(seletedDialog);
-                               });
-                            }
-
                             return;
+                            //var deleteResult = 
+                            //await App.QbProvider.DeleteDialogAsync(messageEventArgs.Message.ChatDialogId);
+                            //if (deleteResult){
+                           // Database.Instance().DeleteDialog(messageEventArgs.Message.ChatDialogId);
+                            //}
+                            //var seletedDialog = this.Dialogs.FirstOrDefault(d => d.DialogId == messageEventArgs.Message.ChatDialogId);
+                            //if (seletedDialog != null)
+                            //{
+                            //    CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                            //   () =>
+                            //   {
+                            //       this.Dialogs.Remove(seletedDialog);
+                            //   });
+                            //}
+                            //return;
                         }
                     }
                 }

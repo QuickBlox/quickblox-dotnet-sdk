@@ -9,6 +9,7 @@ namespace QbChat.UWP.ViewModels
     public class ChatInfoViewModel : ViewModel
     {
         private string dialogId;
+        private bool isLeaving;
 
         public ChatInfoViewModel(string dialogId)
         {
@@ -54,6 +55,11 @@ namespace QbChat.UWP.ViewModels
 
         private async void LeaveChatCommandExecute()
         {
+            if (isLeaving)
+                return;
+
+            isLeaving = true;
+
             this.IsBusy = true;
 
             var dialog = new Windows.UI.Popups.MessageDialog("Do you really want to Leave Chat?", "Leave Chat");
@@ -72,19 +78,16 @@ namespace QbChat.UWP.ViewModels
                     var dialogInfo = await App.QbProvider.GetDialogAsync(this.dialogId);
                     if (dialogInfo != null)
                     {
-						dialogInfo.OccupantsIds.Remove(App.QbProvider.UserId);
+                        dialogInfo.OccupantsIds.Remove(App.QbProvider.UserId);
 
                         var groupManager = App.QbProvider.GetXmppClient().GetGroupChatManager(dialogInfo.XmppRoomJid, dialogInfo.Id);
                         groupManager.NotifyAboutGroupUpdate(new List<int>(), new List<int>() { App.QbProvider.UserId }, dialogInfo);
                         groupManager.LeaveGroup(App.QbProvider.UserId.ToString());
 
-                        var deleteResult = await App.QbProvider.DeleteDialogAsync(dialogInfo.Id);
-                        if (deleteResult)
-                        {
-                            Database.Instance().DeleteDialog(dialogId);
-                        }
+                        await App.QbProvider.DeleteDialogAsync(dialogInfo.Id);
+                        Database.Instance().DeleteDialog(dialogId);
 
-                        while(App.NavigationFrame.CanGoBack)
+                        while (App.NavigationFrame.CanGoBack)
                         {
                             App.NavigationFrame.GoBack();
                         }
@@ -92,7 +95,12 @@ namespace QbChat.UWP.ViewModels
                 }
                 catch (Exception ex)
                 {
+                    isLeaving = false;
                 }
+            }
+            else
+            {
+                isLeaving = false;
             }
 
             this.IsBusy = false;
