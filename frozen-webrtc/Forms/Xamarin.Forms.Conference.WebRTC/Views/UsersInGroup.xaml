@@ -1,5 +1,52 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Xamarin.Forms.Conference.WebRTC.UsersInGroup">
-	<ContentPage.Content>
-	</ContentPage.Content>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+	 x:Class="Xamarin.Forms.Conference.WebRTC.UsersInGroup"
+	 xmlns:behaviors="clr-namespace:Xamarin.Behaviors;assembly=Xamarin.Behaviors"
+     Title="{Binding Title}"
+		xmlns:controls="clr-namespace:Xamarin.Forms.Conference.WebRTC.Controls"
+     x:Name="Root">
+
+  <ContentPage.ToolbarItems>
+    <ToolbarItem Text="Log Out"
+                 Command="{Binding LogoutCommand}">
+      <ToolbarItem.Order>
+        <OnPlatform x:TypeArguments="ToolbarItemOrder"
+          iOS="Primary"
+          Android="Secondary"
+          WinPhone="Primary" />
+      </ToolbarItem.Order>
+    </ToolbarItem>
+    <ToolbarItem Text="Settings"
+                  Command="{Binding SettingsCommand}">
+      <ToolbarItem.Order>
+        <OnPlatform x:TypeArguments="ToolbarItemOrder"
+          iOS="Default"
+          Android="Secondary"
+          WinPhone="Primary" />
+      </ToolbarItem.Order>
+    </ToolbarItem>
+  </ContentPage.ToolbarItems>
+   <Grid>
+	     <Grid.RowDefinitions>
+		     <RowDefinition Height="Auto"/>
+		     <RowDefinition Height="*"/>
+	     </Grid.RowDefinitions>
+	     <StackLayout Padding="18">
+	     	<Label Text="Select Users you want to call with:" FontSize="18"/>
+	     </StackLayout>
+
+	    <Grid Grid.Row="1">
+		    <ListView x:Name="listView" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" ItemsSource="{Binding Users}" >
+		  		<ListView.ItemTemplate>
+		  		<DataTemplate>
+		  			<controls:CustomSelectableCell Text="{Binding User.FullName}" IsSelected="{Binding IsSelected, Mode=TwoWay}"/>
+		  		</DataTemplate>
+		  		</ListView.ItemTemplate>
+		    </ListView>
+
+		    <ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsBusy}" />
+	    </Grid>
+
+    </Grid>
 </ContentPage>
+

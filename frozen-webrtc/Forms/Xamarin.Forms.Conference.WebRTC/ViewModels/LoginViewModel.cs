@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using QbChat.Pcl;
-using QbChat.Pcl.Interfaces;
+using Xamarin.PCL;
+using Xamarin.PCL.Interfaces;
 using Xamarin.PCL;
 
 namespace Xamarin.Forms.Conference.WebRTC
@@ -152,7 +152,8 @@ namespace Xamarin.Forms.Conference.WebRTC
 					DependencyService.Get<ILoginStorage>().Save(login, password);
 
 #if __ANDROID__ || __IOS__
-					App.Current.MainPage.Navigation.PushAsync(new UsersInGroup());
+					App.Navigation.InsertPageBefore(new UsersInGroup(), (App.Current.MainPage as NavigationPage).CurrentPage);
+					await App.Navigation.PopAsync();
 #endif
 				}
 			}

@@ -1,4 +1,4 @@
-﻿using QbChat.Pcl;
+﻿using Xamarin.PCL;
 
 namespace Xamarin.Forms.Conference.WebRTC
 {

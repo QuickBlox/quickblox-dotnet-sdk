@@ -17,7 +17,7 @@ using Quickblox.Sdk.Modules.ChatModule.Models;
 using Quickblox.Sdk.Modules.Models;
 using Quickblox.Sdk.Modules.ChatXmppModule;
 
-namespace QbChat.Pcl
+namespace Xamarin.PCL
 {
 
     public class QbProvider

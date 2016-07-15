@@ -1,6 +1,6 @@
-﻿using Android.Provider;
-using QbChat.Pcl.Interfaces;
+﻿
 using Xamarin.Forms.Conference.WebRTC.Droid;
+using Xamarin.PCL.Interfaces;
 
 [assembly: Xamarin.Forms.Dependency(typeof(AndroidDeviceUid))]
 namespace Xamarin.Forms.Conference.WebRTC.Droid
@@ -9,7 +9,7 @@ namespace Xamarin.Forms.Conference.WebRTC.Droid
 	{
 		public string GetIdentifier()
 		{
-			return Settings.Secure.GetString(Forms.Context.ContentResolver, Settings.Secure.AndroidId);
+			return global::Android.Provider.Settings.Secure.GetString(Forms.Context.ContentResolver, global::Android.Provider.Settings.Secure.AndroidId);
 		}
 	}
 }

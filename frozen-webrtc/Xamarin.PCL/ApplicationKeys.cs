@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QbChat.Pcl
+namespace Xamarin.PCL
 {
 	public static class ApplicationKeys
 	{

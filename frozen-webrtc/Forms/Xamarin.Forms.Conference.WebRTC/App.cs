@@ -3,7 +3,6 @@
 using FM;
 using FM.IceLink;
 using FM.IceLink.WebRTC;
-using QbChat.Pcl;
 
 #if __IOS__
 using Xamarin.Forms.Conference.WebRTC.iOS.Opus;

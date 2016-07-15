@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
-using QbChat.Pcl;
+using Xamarin.PCL;
 using Security;
 using UIKit;
 

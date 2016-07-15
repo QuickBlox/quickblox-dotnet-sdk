@@ -11,6 +11,14 @@ namespace Xamarin.Forms.Conference.WebRTC
 		{
 			InitializeComponent();
 		}
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+			var vm = new UsersInGroupViewModel();
+			this.BindingContext = vm;
+			vm.OnAppearing();
+		}
 	}
 }
 

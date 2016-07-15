@@ -22,16 +22,29 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\UsersInGroup.xaml.cs">
       <DependentUpon>UsersInGroup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\CustomSelectableCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\CheckBoxExtended.cs">
+      <Link>Controls\CheckBoxExtended.cs</Link>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\WrapLabel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\UsersInGroupViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Views\Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Views\" />
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Controls\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\UsersInGroup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Settings.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

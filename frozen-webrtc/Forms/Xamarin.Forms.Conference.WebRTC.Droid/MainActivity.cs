@@ -1,21 +1,12 @@
-using System;
 
 using Android.App;
-using Android.Content;
-using Android.Content.PM;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using Android.OS;
-
-using FM;
-using FM.IceLink;
 using FM.IceLink.WebRTC;
 using Xamarin.PCL;
 
 namespace Xamarin.Forms.Conference.WebRTC.Droid
 {
-	[Activity(Label = "Xamarin.Forms.Conference.WebRTC.Droid", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+	[Activity(Theme = "@android:style/Theme.Holo.Light", Label = "", Icon = "@android:color/transparent")]
 	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
 	{
 		protected override void OnCreate(Bundle bundle)

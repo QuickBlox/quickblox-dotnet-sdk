@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Foundation;
-using QbChat.Pcl;
+using Xamarin.PCL;
 using Security;
 using Xamarin.Forms.Conference.WebRTC.iOS;
-using Xamarin.PCL;
 
 [assembly: Xamarin.Forms.Dependency(typeof(IOSLoginStorageImp))]
 

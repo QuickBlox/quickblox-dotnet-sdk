@@ -1,6 +1,6 @@
 ﻿using System;
 using Foundation;
-using QbChat.Pcl.Interfaces;
+using Xamarin.PCL.Interfaces;
 using Security;
 using Xamarin.Forms.Conference.WebRTC.iOS;
 
