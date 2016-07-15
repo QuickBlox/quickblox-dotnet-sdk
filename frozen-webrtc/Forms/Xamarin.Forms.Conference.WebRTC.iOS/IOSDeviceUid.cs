@@ -20,6 +20,7 @@ namespace Xamarin.Forms.Conference.WebRTC.iOS
 
 			SecStatusCode res;
 			var match = SecKeyChain.QueryAsRecord(rec, out res);
+
 			if (res == SecStatusCode.Success)
 			{
 				serial = match.ValueData.ToString();

@@ -49,7 +49,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 			this.IsBusy = true;
 
 			await App.QbProvider.GetBaseSession();
-			var loginPasswordPair = DependencyService.Get<ILoginStorage>().Load();
+			var loginPasswordPair = DependencyService.Get<ILoginStorage>().Load(ApplicationKeys.PasswordToLogin);
 			if (loginPasswordPair != null)
 			{
 				await TryStartLogin(loginPasswordPair.Value.Key, loginPasswordPair.Value.Value);

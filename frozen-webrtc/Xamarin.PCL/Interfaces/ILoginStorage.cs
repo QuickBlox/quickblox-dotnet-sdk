@@ -7,9 +7,9 @@ namespace Xamarin.PCL
 	{
 		void Init(object context);
 
-		void Save(string login, string password);
+		void Save(string key, string value);
 
-		KeyValuePair<string, string>? Load();
+		KeyValuePair<string, string>? Load(string key);
 	}
 }
 

@@ -52,7 +52,7 @@
     <MtouchProfiling>false</MtouchProfiling>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
-    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchLink>None</MtouchLink>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>
@@ -108,6 +108,24 @@
     <Reference Include="Xamarin.Forms.Platform">
       <HintPath>..\..\packages\Xamarin.Forms.2.2.0.45\lib\Xamarin.iOS10\Xamarin.Forms.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.8.0.3\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Sockets.Plugin">
+      <HintPath>..\..\packages\rda.SocketsForPCL.1.2.2\lib\Xamarin.iOS10\Sockets.Plugin.dll</HintPath>
+    </Reference>
+    <Reference Include="Sockets.Plugin.Abstractions">
+      <HintPath>..\..\packages\rda.SocketsForPCL.1.2.2\lib\Xamarin.iOS10\Sockets.Plugin.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Quickblox.Sdk">
+      <HintPath>..\..\packages\Quickblox.Sdk.1.2.2\lib\Xamarin.iOS10\Quickblox.Sdk.dll</HintPath>
+    </Reference>
+    <Reference Include="Quickblox.Sdk.Platform.Abstractions">
+      <HintPath>..\..\packages\Quickblox.Sdk.1.2.2\lib\Xamarin.iOS10\Quickblox.Sdk.Platform.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Quickblox.Sdk.Platform.iOS">
+      <HintPath>..\..\packages\Quickblox.Sdk.1.2.2\lib\Xamarin.iOS10\Quickblox.Sdk.Platform.iOS.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default.png" />
@@ -140,6 +158,7 @@
     <Compile Include="Opus\OpusCodec.cs" />
     <Compile Include="VP8\Vp8Codec.cs" />
     <Compile Include="IOSDeviceUid.cs" />
+    <Compile Include="IOSLoginStorageImp.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />
@@ -172,10 +191,6 @@
     <Reference Include="FM.WebSync.Subscribers">
       <HintPath>lib\FM.WebSync.Subscribers.dll</HintPath>
     </Reference>
-    <ProjectReference Include="..\..\Xamarin.iOS.Opus\Xamarin.iOS.Opus.csproj">
-      <Project>{D00DB3CA-BB32-4D90-B999-6EDC29899FD0}</Project>
-      <Name>Xamarin.iOS.Opus</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Xamarin.iOS.VP8\Xamarin.iOS.VP8.csproj">
       <Project>{E2ECB703-E07E-46D2-90CC-0F36B648DF2A}</Project>
       <Name>Xamarin.iOS.VP8</Name>
@@ -183,6 +198,10 @@
     <ProjectReference Include="..\..\Xamarin.PCL\Xamarin.PCL.csproj">
       <Project>{5D2E191D-8EE0-4F07-86DA-5F85E1912D4B}</Project>
       <Name>Xamarin.PCL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Xamarin.iOS.Opus\Xamarin.iOS.Opus.csproj">
+      <Project>{D00DB3CA-BB32-4D90-B999-6EDC29899FD0}</Project>
+      <Name>Xamarin.iOS.Opus</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

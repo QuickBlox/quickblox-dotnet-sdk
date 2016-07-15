@@ -6,10 +6,14 @@
 			<Label Text="Please enter username and chat room name." />
 			<Label Text="You can join existed chat room." />
 
-			<Entry Placeholder="User name" Text="{Binding UserName}"/>
-			<Entry Placeholder="Chat room name" Text="{Binding ChatRoomName}"/>
-
-			<Button Command="{Binding LoginCommand}" Text="Login" BackgroundColor="Blue" TextColor="White"/>
+			<StackLayout Padding="0,12,0,6">
+				<Entry Placeholder="User name" Text="{Binding UserName, Mode=TwoWay}"/>
+			</StackLayout>
+			<StackLayout Padding="0,6,0,12">
+				<Entry Placeholder="Chat room name" Text="{Binding ChatRoomName, Mode=TwoWay}"/>
+			</StackLayout>
+			
+			<Button Command="{Binding LoginCommand}" Text="Login" BackgroundColor="Aqua" TextColor="White"/>
 		</StackLayout>
 		 <ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsBusy}" />
 	</Grid>
