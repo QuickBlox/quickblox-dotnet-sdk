@@ -154,6 +154,7 @@
     <Compile Include="..\Xamarin.Forms.Conference.WebRTC.iOS\Converters\BooleanToNegationConverter.cs">
       <Link>Converters\BooleanToNegationConverter.cs</Link>
     </Compile>
+    <Compile Include="DroidApplication.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -171,6 +172,9 @@
     <AndroidResource Include="Resources\drawable-xhdpi\icon.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\icon.png" />
     <AndroidResource Include="Resources\values\style.xml" />
+    <AndroidResource Include="Resources\drawable\Splash.xml" />
+    <AndroidResource Include="Resources\values\Colors.xml" />
+    <AndroidResource Include="Resources\drawable\qb_splash_link.png" />
   </ItemGroup>
   <Import Project="..\Xamarin.Forms.Conference.WebRTC\Xamarin.Forms.Conference.WebRTC.projitems" Label="Shared" Condition="Exists('..\Xamarin.Forms.Conference.WebRTC\Xamarin.Forms.Conference.WebRTC.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

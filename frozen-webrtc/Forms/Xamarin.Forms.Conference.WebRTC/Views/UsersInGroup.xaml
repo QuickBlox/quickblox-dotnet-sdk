@@ -51,12 +51,22 @@
 			          IsRefreshing="{Binding IsBusy, Mode=OneWay}">
 		  		<ListView.ItemTemplate>
 		  		<DataTemplate>
-		  			<controls:CustomSelectableCell Text="{Binding User.FullName}" IsSelected="{Binding IsSelected, Mode=TwoWay}"/>
+		  			<controls:CustomSelectableCell Text="{Binding User.FullName}" IsSelected="{Binding IsSelected, Mode=TwoWay}" />
 		  		</DataTemplate>
 		  		</ListView.ItemTemplate>
 		    </ListView>
 
-		    <!--<ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsBusy}" />-->
+			<Grid IsVisible="{Binding IsBusy}">
+				<ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center">
+				     <ActivityIndicator.IsVisible>
+					      <OnPlatform x:TypeArguments="x:Boolean">
+						      <OnPlatform.iOS>False</OnPlatform.iOS>
+						      <OnPlatform.Android>True</OnPlatform.Android>
+						      <OnPlatform.WinPhone>True</OnPlatform.WinPhone>
+						    </OnPlatform>
+				      </ActivityIndicator.IsVisible>
+				</ActivityIndicator>
+			</Grid>
 	    </Grid>
 
     </Grid>

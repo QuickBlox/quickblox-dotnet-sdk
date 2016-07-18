@@ -215,6 +215,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 		private bool LocalMediaStarted;
 		private bool ConferenceStarted;
+		internal static string Version;
 
 		private async void SwitchToVideoChat(string sessionId)
 		{
