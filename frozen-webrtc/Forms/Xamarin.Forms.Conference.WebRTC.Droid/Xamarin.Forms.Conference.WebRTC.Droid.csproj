@@ -151,6 +151,9 @@
     <Compile Include="App\Render\CheckBoxRenderer.cs" />
     <Compile Include="App\Render\WrapLabelRender.cs" />
     <Compile Include="SplashActivity.cs" />
+    <Compile Include="..\Xamarin.Forms.Conference.WebRTC.iOS\Converters\BooleanToNegationConverter.cs">
+      <Link>Converters\BooleanToNegationConverter.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

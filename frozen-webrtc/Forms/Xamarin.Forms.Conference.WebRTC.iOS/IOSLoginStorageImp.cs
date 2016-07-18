@@ -15,12 +15,27 @@ namespace Xamarin.Forms.Conference.WebRTC.iOS
 		{
 		}
 
+		public void Clear()
+		{
+			SecRecord query2 = new SecRecord(SecKind.GenericPassword);
+			query2.Account = "login";
+			query2.Label = "login";
+			query2.Service = "login";
+			var err2 = SecKeyChain.Remove(query2);
+
+			SecRecord query3 = new SecRecord(SecKind.GenericPassword);
+			query3.Account = "password";
+			query3.Label = "password";
+			query3.Service = "password";
+			var err3 = SecKeyChain.Remove(query2);
+		}
+
 		public void Init(object context)
 		{
 			throw new NotImplementedException();
 		}
 
-		public KeyValuePair<string, string>? Load(string key)
+		public KeyValuePair<string, string>? Load()
 		{
 			SecStatusCode res;
 			var rec = new SecRecord(SecKind.GenericPassword)

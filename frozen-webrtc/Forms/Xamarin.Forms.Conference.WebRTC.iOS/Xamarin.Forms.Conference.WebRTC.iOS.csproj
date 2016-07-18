@@ -146,6 +146,10 @@
     <BundleResource Include="Resources\Icon-Small-40.png" />
     <BundleResource Include="Resources\Icon-Small-40%402x.png" />
     <BundleResource Include="Resources\Icon-Small-40%403x.png" />
+    <BundleResource Include="Resources\checked_checkbox.png" />
+    <BundleResource Include="Resources\checked_checkbox%402x.png" />
+    <BundleResource Include="Resources\unchecked_checkbox.png" />
+    <BundleResource Include="Resources\unchecked_checkbox%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -166,6 +170,7 @@
     <Compile Include="App\Render\CheckBoxRenderer.cs" />
     <Compile Include="App\Render\CheckBoxView.cs" />
     <Compile Include="App\Render\WrapLabelRender.cs" />
+    <Compile Include="Converters\BooleanToNegationConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />
@@ -210,5 +215,8 @@
       <Project>{D00DB3CA-BB32-4D90-B999-6EDC29899FD0}</Project>
       <Name>Xamarin.iOS.Opus</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Converters\" />
   </ItemGroup>
 </Project>

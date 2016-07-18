@@ -75,6 +75,12 @@ namespace Xamarin.PCL
 			return null;
 		}
 
+		public async Task<bool> DeleteUserById(int userId)
+		{
+			var response = await this.client.UsersClient.DeleteUserByIdAsync(userId);
+			return await HandleResponse(response, HttpStatusCode.OK);
+		}
+
 		public async Task<int> LoginWithEmailAsync(string email, string password){
 			var sessionResponse = await this.client.AuthenticationClient.CreateSessionWithEmailAsync (email, password); 
 			if (await HandleResponse(sessionResponse, HttpStatusCode.Created)){

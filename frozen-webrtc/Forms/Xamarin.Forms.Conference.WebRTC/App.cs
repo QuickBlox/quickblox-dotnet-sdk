@@ -20,10 +20,10 @@ namespace Xamarin.Forms.Conference.WebRTC
 	public class App : Application
 	{
 		public static QbProvider QbProvider = new QbProvider(ShowInternetMessage);
-		public static bool IsInternetAvaliable { get; set;}
+		public static bool IsInternetAvaliable { get; set; }
 		private static bool isInternetMessageShowing;
-		public static int UserId { get; set;}
-		public static INavigation Navigation { get; set;}
+		public static int UserId { get; set; }
+		public static INavigation Navigation { get; set; }
 
 		private string IceLinkServerAddress = "demo.icelink.fm:3478";
 		private string WebSyncServerUrl = "http://v4.websync.fm/websync.ashx"; // WebSync On-Demand
@@ -37,9 +37,9 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 		public String SessionId { get; set; }
 
-		#if __ANDROID__
+#if __ANDROID__
 		private OpusEchoCanceller OpusEchoCanceller = null;
-		#endif
+#endif
 
 		private int OpusClockRate = 48000;
 		private int OpusChannels = 2;
@@ -55,22 +55,20 @@ namespace Xamarin.Forms.Conference.WebRTC
 		{
 			MessageProvider.Instance.Init(App.QbProvider.GetXmppClient());
 
-			var page = new NavigationPage(new LoginPage());
-			Navigation = page.Navigation;
-			Current.MainPage = page;
+			App.SetLogin();
 			return;
 
-			#if __ANDROID__
+#if __ANDROID__
 
 			// Log to the console.
 			FM.Log.Provider = new AndroidLogProvider(LogLevel.Info);
 
-			#else
+#else
 
 			// Log to the console.
 			FM.Log.Provider = new NSLogProvider(LogLevel.Info);
 
-			#endif
+#endif
 
 			// WebRTC has chosen VP8 as its mandatory video codec.
 			// Since video encoding is best done using native code,
@@ -86,11 +84,11 @@ namespace Xamarin.Forms.Conference.WebRTC
 			// override the default PCMU/PCMA codecs.
 			AudioStream.RegisterCodec("opus", OpusClockRate, OpusChannels, () =>
 			{
-				#if __ANDROID__
+#if __ANDROID__
 				return new OpusCodec(OpusEchoCanceller);
-				#else
+#else
 				return new OpusCodec();
-				#endif
+#endif
 			}, true);
 
 			// To save time, generate a DTLS certificate when the
@@ -106,10 +104,10 @@ namespace Xamarin.Forms.Conference.WebRTC
 			{
 				Text = "Create"
 			};
-            JoinSession = new Entry
-            {
-                Keyboard = Keyboard.Numeric
-            };
+			JoinSession = new Entry
+			{
+				Keyboard = Keyboard.Numeric
+			};
 			JoinButton = new Button
 			{
 				Text = "Join"
@@ -120,21 +118,21 @@ namespace Xamarin.Forms.Conference.WebRTC
 			{
 				Content = new StackLayout
 				{
-                    Spacing = 0,
+					Spacing = 0,
 					Orientation = StackOrientation.Horizontal,
 					HorizontalOptions = LayoutOptions.Center,
-                    Padding = new Thickness(0, 20, 0, 0),
+					Padding = new Thickness(0, 20, 0, 0),
 					Children =
 					{
 						new StackLayout
 						{
 							Orientation = StackOrientation.Vertical,
-                            Padding = new Thickness(20, 0, 0, 0),
+							Padding = new Thickness(20, 0, 0, 0),
 							Children =
 							{
 								new Label
 								{
-                                    HorizontalTextAlignment = TextAlignment.Center,
+									HorizontalTextAlignment = TextAlignment.Center,
 									Text = "Create Session\nwith the ID:"
 								},
 								CreateSession,
@@ -144,7 +142,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 						new StackLayout
 						{
 							Orientation = StackOrientation.Vertical,
-                            Padding = new Thickness(20, 0, 20, 0),
+							Padding = new Thickness(20, 0, 20, 0),
 							Children =
 							{
 								new Label
@@ -157,7 +155,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 						new StackLayout
 						{
 							Orientation = StackOrientation.Vertical,
-                            Padding = new Thickness(0, 0, 20, 0),
+							Padding = new Thickness(0, 0, 20, 0),
 							Children =
 							{
 								new Label
@@ -253,7 +251,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 				SessionIdText = new Label
 				{
 					HorizontalTextAlignment = TextAlignment.End,
-                    VerticalTextAlignment = TextAlignment.Center,
+					VerticalTextAlignment = TextAlignment.Center,
 					Text = "Session ID: " + SessionId,
 					HorizontalOptions = LayoutOptions.EndAndExpand,
 					VerticalOptions = LayoutOptions.FillAndExpand
@@ -266,7 +264,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 					{
 						Spacing = 0,
 						Orientation = StackOrientation.Vertical,
-						Children = 
+						Children =
 						{
 							VideoContainer,
 							new StackLayout
@@ -274,7 +272,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 								Orientation = StackOrientation.Horizontal,
 								HorizontalOptions = LayoutOptions.FillAndExpand,
 								Padding = new Thickness(10, 0),
-								Children = 
+								Children =
 								{
 									LeaveButton,
 									SessionIdText
@@ -375,11 +373,11 @@ namespace Xamarin.Forms.Conference.WebRTC
 			Conference.OnLinkUp += LogLinkUp;
 			Conference.OnLinkDown += LogLinkDown;
 
-			#if __ANDROID__
+#if __ANDROID__
 			// Start echo canceller.
 			OpusEchoCanceller = new OpusEchoCanceller(OpusClockRate, OpusChannels);
 			OpusEchoCanceller.Start();
-			#endif
+#endif
 
 			Signalling.Attach(Conference, SessionId, (error) =>
 			{
@@ -444,11 +442,11 @@ namespace Xamarin.Forms.Conference.WebRTC
 				}
 			});
 
-			#if __ANDROID__
+#if __ANDROID__
 			// Stop echo canceller.
 			OpusEchoCanceller.Stop();
 			OpusEchoCanceller = null;
-			#endif
+#endif
 
 			Conference.OnLinkInit -= LogLinkInit;
 			Conference.OnLinkUp -= LogLinkUp;
@@ -483,6 +481,14 @@ namespace Xamarin.Forms.Conference.WebRTC
 					}
 			});
 		}
+
+		internal static void SetLogin()
+		{
+			var page = new NavigationPage(new LoginPage());
+			Navigation = page.Navigation;
+			Current.MainPage = page;
+		}
+
 	}
 }
 

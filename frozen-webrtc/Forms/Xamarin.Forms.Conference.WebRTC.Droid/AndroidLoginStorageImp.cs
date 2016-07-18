@@ -14,12 +14,22 @@ namespace Xamarin.Forms.Conference.WebRTC.Droid
 		{
 		}
 
+		public void Clear()
+		{
+			if (context == null) throw new NullReferenceException(nameof(context));
+			var prefs = this.context.GetSharedPreferences("Xamarin.WebRTC.Sample", FileCreationMode.Private);
+			var prefEditor = prefs.Edit();
+			prefEditor.PutString("Login", null);
+			prefEditor.PutString("Password", null);
+			prefEditor.Commit();
+		}
+
 		public void Init(object context)
 		{
 			this.context = (Context)context; 
 		}
 
-		public KeyValuePair<string, string>? Load(string key)
+		public KeyValuePair<string, string>? Load()
 		{
 			if (context == null) throw new NullReferenceException(nameof(context));
 			var prefs = context.GetSharedPreferences("Xamarin.WebRTC.Sample", FileCreationMode.Private);
@@ -34,13 +44,13 @@ namespace Xamarin.Forms.Conference.WebRTC.Droid
 			return null;
 		}
 
-		public void Save(string key, string value)
+		public void Save(string login, string password)
 		{
 			if (context == null) throw new NullReferenceException(nameof(context));
 			var prefs = this.context.GetSharedPreferences("Xamarin.WebRTC.Sample", FileCreationMode.Private);
 			var prefEditor = prefs.Edit();
-			prefEditor.PutString("Login", value);
-			prefEditor.PutString("Password", key);
+			prefEditor.PutString("Login", login);
+			prefEditor.PutString("Password", password);
 			prefEditor.Commit();
 		}
 	}

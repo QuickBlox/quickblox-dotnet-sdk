@@ -49,7 +49,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 			this.IsBusy = true;
 
 			await App.QbProvider.GetBaseSession();
-			var loginPasswordPair = DependencyService.Get<ILoginStorage>().Load(ApplicationKeys.PasswordToLogin);
+			var loginPasswordPair = DependencyService.Get<ILoginStorage>().Load();
 			if (loginPasswordPair != null)
 			{
 				await TryStartLogin(loginPasswordPair.Value.Key, loginPasswordPair.Value.Value);
@@ -151,10 +151,10 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 					DependencyService.Get<ILoginStorage>().Save(login, password);
 
-#if __ANDROID__ || __IOS__
+//#if __ANDROID__ || __IOS__
 					App.Navigation.InsertPageBefore(new UsersInGroup(), (App.Current.MainPage as NavigationPage).CurrentPage);
 					await App.Navigation.PopAsync();
-#endif
+//#endif
 				}
 			}
 			catch (Exception ex)

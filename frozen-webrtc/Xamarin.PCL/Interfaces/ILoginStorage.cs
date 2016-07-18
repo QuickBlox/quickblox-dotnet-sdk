@@ -9,7 +9,9 @@ namespace Xamarin.PCL
 
 		void Save(string key, string value);
 
-		KeyValuePair<string, string>? Load(string key);
+		KeyValuePair<string, string>? Load();
+
+		void Clear();
 	}
 }
 
