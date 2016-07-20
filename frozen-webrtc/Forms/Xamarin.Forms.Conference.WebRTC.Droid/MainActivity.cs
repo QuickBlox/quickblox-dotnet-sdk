@@ -32,6 +32,7 @@ namespace Xamarin.Forms.Conference.WebRTC.Droid
 			DefaultProviders.AndroidContext = this;
 
 			global::Xamarin.Forms.Forms.Init(this, bundle);
+			Acr.UserDialogs.UserDialogs.Init(this);
 			Quickblox.Sdk.Platform.QuickbloxPlatform.Init();
 			DependencyService.Get<ILoginStorage>().Init(Application.ApplicationContext);
 
