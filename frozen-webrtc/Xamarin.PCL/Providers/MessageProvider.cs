@@ -20,6 +20,14 @@ namespace Xamarin.PCL
 			}
 		}
 
+		public ChatXmppClient ChatXmppClient
+		{
+			get
+			{
+				return chatXmppClient;
+			}
+		}
+
 		public void Init(ChatXmppClient chatXmppClient)
 		{
 			this.chatXmppClient = chatXmppClient;
@@ -32,6 +40,7 @@ namespace Xamarin.PCL
 			chatXmppClient.ErrorReceived += OnError;
 			chatXmppClient.StatusChanged -= OnStatusChanged;
 			chatXmppClient.StatusChanged += OnStatusChanged;
+
 			return chatXmppClient.Connect(userId, userPassword);
 		}
 

@@ -36,8 +36,10 @@
 	     <Grid.RowDefinitions>
 		     <RowDefinition Height="Auto"/>
 		     <RowDefinition Height="*"/>
+			 <RowDefinition Height="Auto"/>
 	     </Grid.RowDefinitions>
 	     <StackLayout Padding="18">
+			<Label Text="{Binding RoomName}" FontSize="18"/>
 	     	<Label Text="Select Users you want to call with:" FontSize="18"/>
 	     </StackLayout>
 	      
@@ -69,6 +71,15 @@
 			</Grid>
 	    </Grid>
 
+		<Grid Grid.Row="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+
+			<Button Command="{Binding AudioCallCommand}" Text="Audio Call" BackgroundColor="Aqua" TextColor="White" IsEnabled="{Binding IsBusy, Converter={StaticResource BooleanToNegationConverter}}"/>
+			<Button Grid.Column="1" Command="{Binding VideoCallCommand}" Text="Video Call" BackgroundColor="Aqua" TextColor="White" IsEnabled="{Binding IsBusy, Converter={StaticResource BooleanToNegationConverter}}"/>
+		</Grid>
     </Grid>
 </ContentPage>
 

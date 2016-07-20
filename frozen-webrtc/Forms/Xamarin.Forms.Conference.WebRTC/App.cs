@@ -14,6 +14,7 @@ using Xamarin.Forms.Conference.WebRTC.Droid.VP8;
 
 using Xamarin.Forms.Conference.WebRTC;
 using Xamarin.PCL;
+using System.Threading.Tasks;
 
 namespace Xamarin.Forms.Conference.WebRTC
 {
@@ -490,6 +491,51 @@ namespace Xamarin.Forms.Conference.WebRTC
 			Current.MainPage = page;
 		}
 
+		public async Task<bool> ShowInputCallDialog(string userName)
+		{
+			TaskCompletionSource<bool> taskSource = new TaskCompletionSource<bool>();
+
+			// Show the video chat input message.
+			await MainPage.Navigation.PushModalAsync(new ContentPage
+			{
+				Content = new StackLayout
+				{
+					BackgroundColor = Color.Red,
+					HeightRequest = 400,
+					WidthRequest = 400,
+					HorizontalOptions = LayoutOptions.Center,
+					VerticalOptions = LayoutOptions.Center,
+					Spacing = 0,
+					Orientation = StackOrientation.Vertical,
+					Children =
+					{
+						new StackLayout
+						{
+							Orientation = StackOrientation.Horizontal,
+							HorizontalOptions = LayoutOptions.FillAndExpand,
+							Padding = new Thickness(10, 0),
+							Children =
+							{
+								new Label() { Text = "Input call from " + userName },
+							}
+						},
+						new StackLayout
+						{
+							Orientation = StackOrientation.Horizontal,
+							HorizontalOptions = LayoutOptions.FillAndExpand,
+							Padding = new Thickness(10, 0),
+							Children =
+							{
+								new Button() { Text = "Join", Command = new Command(() => taskSource.SetResult(true)) },
+								new Button() { Text = "Reject", Command = new Command(() => taskSource.SetResult(false)) }
+							}
+						}
+					}
+				}
+			});
+
+			return await taskSource.Task;
+		}
 	}
 }
 

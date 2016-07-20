@@ -9,18 +9,21 @@ using Xamarin.PCL;
 namespace Xamarin.Forms.Conference.WebRTC
 {
 	public class UsersInGroupViewModel : ViewModel
-	{ 
+	{
 		string title;
 		User mainUser;
+		string roomName;
 
 		public UsersInGroupViewModel()
 		{
 			this.LogoutCommand = new Command(this.LogoutCommandExecute);
 			this.SettingsCommand = new Command(this.SettingsCommandExecute);
 
-			ReloadUsersCommand = new Command(ReloadUsersCommandExecute, CanReloadUsersCommandExecute);
-
+			ReloadUsersCommand = new Command(ReloadUsersCommandExecute, CanCommandExecute);
+			AudioCallCommand = new Command(AudioCallCommandExecute, CanCommandExecute);
+			VideoCallCommand = new Command(VideoCallCommandExecute, CanCommandExecute);
 			Users = new ObservableCollection<SelectableUser>();
+			RoomName = "Room name: ";
 		}
 
 		public string Title
@@ -33,24 +36,48 @@ namespace Xamarin.Forms.Conference.WebRTC
 			}
 		}
 
+		public string RoomName
+		{
+			get { return roomName; }
+			set
+			{
+				roomName = value;
+				this.RaisePropertyChanged();
+			}
+		}
+
+
 		public ObservableCollection<SelectableUser> Users { get; set; }
 
-		public ICommand LogoutCommand { get;private set; }
+		public ICommand LogoutCommand { get; private set; }
 
 		public Command SettingsCommand { get; private set; }
 
 		public ICommand ReloadUsersCommand { get; private set; }
 
+		public ICommand AudioCallCommand { get; private set; }
+
+		public ICommand VideoCallCommand { get; private set;}
+
 		public override async void OnAppearing()
 		{
 			base.OnAppearing();
 
+			if (this.isLoaded)
+				return;
+
+			this.isLoaded = true;
 			this.IsBusy = true;
+
 
 		    mainUser = await App.QbProvider.GetUserAsync(App.QbProvider.UserId);
 			if (mainUser != null)
 			{
-				Device.BeginInvokeOnMainThread(() => Title = mainUser.FullName);
+				Device.BeginInvokeOnMainThread(() =>
+				{
+					Title = mainUser.FullName;
+					RoomName = string.Format("Room name: {0}", mainUser.UserTags);
+				});
 				await LoadUsersByTag();
 			}
 
@@ -101,7 +128,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 			this.IsBusy = false;
 		}
 
-		private bool CanReloadUsersCommandExecute(object arg)
+		private bool CanCommandExecute(object arg)
 		{
 			return !IsBusy;
 		}
@@ -118,6 +145,36 @@ namespace Xamarin.Forms.Conference.WebRTC
 			IsBusy = false;
 		}
 
+		private async void VideoCallCommandExecute(object obj)
+		{
+			var users = Users.Where(u => u.IsSelected).Select(u => u.User).ToList();
+			if (users.Count > 0 && users.Count < 5)
+			{
+				await App.Navigation.PushAsync(new VideoPage(users));
+			}
+			else 
+			{
+				await App.Current.MainPage.DisplayAlert("Error", "Please, select users from one till five", "Ok");
+			}
+
+		}
+
+		private async void AudioCallCommandExecute(object obj)
+		{
+			var result = await ((App)App.Current).ShowInputCallDialog(mainUser.FullName);
+			if (result)
+			{
+			}
+			//var users = Users.Where(u => u.IsSelected).Select(u => u.User).ToList();
+			//if (users.Count > 0 && users.Count < 5)
+			//{
+			//	await App.Navigation.PushAsync(new VideoPage(users));
+			//}
+			//else
+			//{
+			//	await App.Current.MainPage.DisplayAlert("Error", "Please, select users from one till five", "Ok");
+			//}
+		}
 	}
 }
 
