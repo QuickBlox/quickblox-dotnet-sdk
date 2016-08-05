@@ -11,6 +11,13 @@ namespace Xamarin.PCL
 		public const string ChatEndpoint = "chat.quickblox.com";
 		public const string ChatMucEndpoint = "muc." + ChatEndpoint;
 
+		//public const int ApplicationId = 32200;
+		//public const string AuthorizationKey = "s5jhcOndwJLXsb-";
+		//public const string AuthorizationSecret = "VCZQO4unNRkKqZm";
+		//public const string ApiBaseEndpoint = "http://apistage2.quickblox.com";
+		//public const string ChatEndpoint = "chatstage2.quickblox.com";
+		//public const string ChatMucEndpoint = "muc." + ChatEndpoint;
+
 		public const string PasswordToLogin = "x6Bt0VDy5";
 	}
 }

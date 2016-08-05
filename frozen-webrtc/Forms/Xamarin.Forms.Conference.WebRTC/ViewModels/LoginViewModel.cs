@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Xamarin.PCL;
 using Xamarin.PCL.Interfaces;
 using Xamarin.PCL;
+using System.Diagnostics;
 
 namespace Xamarin.Forms.Conference.WebRTC
 {
@@ -146,10 +147,10 @@ namespace Xamarin.Forms.Conference.WebRTC
 				var userId = await App.QbProvider.LoginWithLoginValueAsync(login, password, platform, uid);
 				if (userId > 0)
 				{
+					DependencyService.Get<ILoginStorage>().Save(login, password); 
 					App.UserId = userId;
+					MessageProvider.Instance.Init(App.QbProvider.GetClient());
 					await MessageProvider.Instance.ConnetToXmpp(userId, password);
-
-					DependencyService.Get<ILoginStorage>().Save(login, password);
 
 //#if __ANDROID__ || __IOS__
 					App.Navigation.InsertPageBefore(new UsersInGroup(), (App.Current.MainPage as NavigationPage).CurrentPage);
@@ -159,7 +160,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 			}
 			catch (Exception ex)
 			{
-
+				Debug.WriteLine("TryStartLogin: " + ex.ToString());
 			}
 		}
 	}

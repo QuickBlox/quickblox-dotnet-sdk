@@ -40,14 +40,6 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FM.Audio, Version=1.0.0.0, Culture=neutral, PublicKeyToken=be2ad24fd77899bf, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\FM.Audio.dll</HintPath>
-    </Reference>
-    <Reference Include="FM.Video, Version=1.0.0.0, Culture=neutral, PublicKeyToken=be2ad24fd77899bf, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\FM.Video.dll</HintPath>
-    </Reference>
     <Reference Include="FormsViewGroup, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xamarin.Forms.2.2.0.45\lib\MonoAndroid10\FormsViewGroup.dll</HintPath>
       <Private>True</Private>
@@ -134,17 +126,35 @@
     <Reference Include="Sockets.Plugin.Abstractions">
       <HintPath>..\..\packages\rda.SocketsForPCL.1.2.2\lib\MonoAndroid10\Sockets.Plugin.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Quickblox.Sdk">
-      <HintPath>..\..\packages\Quickblox.Sdk.1.2.2\lib\MonoAndroid10\Quickblox.Sdk.dll</HintPath>
-    </Reference>
-    <Reference Include="Quickblox.Sdk.Platform.Abstractions">
-      <HintPath>..\..\packages\Quickblox.Sdk.1.2.2\lib\MonoAndroid10\Quickblox.Sdk.Platform.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Quickblox.Sdk.Platform.Android">
-      <HintPath>..\..\packages\Quickblox.Sdk.1.2.2\lib\MonoAndroid10\Quickblox.Sdk.Platform.Android.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Behaviors">
       <HintPath>..\..\packages\Xamarin.Forms.Behaviors.1.3.1\lib\Xamarin.Behaviors.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageCircle.Forms.Plugin.Android">
+      <HintPath>..\..\packages\Xam.Plugins.Forms.ImageCircle.1.4.1\lib\MonoAndroid10\ImageCircle.Forms.Plugin.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageCircle.Forms.Plugin.Abstractions">
+      <HintPath>..\..\packages\Xam.Plugins.Forms.ImageCircle.1.4.1\lib\MonoAndroid10\ImageCircle.Forms.Plugin.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Quickblox.Sdk.Platform.Abstractions">
+      <HintPath>..\..\packages\Quickblox.Sdk.1.2.5\lib\MonoAndroid10\Quickblox.Sdk.Platform.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Quickblox.Sdk.Platform.Android">
+      <HintPath>..\..\packages\Quickblox.Sdk.1.2.5\lib\MonoAndroid10\Quickblox.Sdk.Platform.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="FM.Audio">
+      <HintPath>..\..\Libraries\XamarinAndroid\FM.Audio.dll</HintPath>
+    </Reference>
+    <Reference Include="FM">
+      <HintPath>..\..\Libraries\XamarinAndroid\FM.dll</HintPath>
+    </Reference>
+    <Reference Include="FM.IceLink">
+      <HintPath>..\..\Libraries\XamarinAndroid\FM.IceLink.dll</HintPath>
+    </Reference>
+    <Reference Include="FM.IceLink.WebRTC">
+      <HintPath>..\..\Libraries\XamarinAndroid\FM.IceLink.WebRTC.dll</HintPath>
+    </Reference>
+    <Reference Include="FM.Video">
+      <HintPath>..\..\Libraries\XamarinAndroid\FM.Video.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -195,6 +205,18 @@
     <AndroidResource Include="Resources\values\style.xml" />
     <AndroidResource Include="Resources\drawable\Splash.xml" />
     <AndroidResource Include="Resources\values\Colors.xml" />
+    <AndroidResource Include="Resources\drawable\alfa_placeholder.png" />
+    <AndroidResource Include="Resources\drawable\answer_ic.png" />
+    <AndroidResource Include="Resources\drawable\cam_off_top_ic.png" />
+    <AndroidResource Include="Resources\drawable\camera_on_vc.png" />
+    <AndroidResource Include="Resources\drawable\camera_switch.png" />
+    <AndroidResource Include="Resources\drawable\decline_vc.png" />
+    <AndroidResource Include="Resources\drawable\dynamic_off_ic.png" />
+    <AndroidResource Include="Resources\drawable\ic_settings.png" />
+    <AndroidResource Include="Resources\drawable\mute_ic.png" />
+    <AndroidResource Include="Resources\drawable\mute_off_ic.png" />
+    <AndroidResource Include="Resources\drawable\rec_ic.png" />
+    <AndroidResource Include="Resources\drawable\sound_off.png" />
     <AndroidResource Include="Resources\drawable\qb_splash_link.png" />
   </ItemGroup>
   <Import Project="..\Xamarin.Forms.Conference.WebRTC\Xamarin.Forms.Conference.WebRTC.projitems" Label="Shared" Condition="Exists('..\Xamarin.Forms.Conference.WebRTC\Xamarin.Forms.Conference.WebRTC.projitems')" />
@@ -249,32 +271,13 @@
     </AndroidNativeLibrary>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="FM">
-      <HintPath>lib\FM.dll</HintPath>
-    </Reference>
-    <Reference Include="FM.IceLink">
-      <HintPath>lib\FM.IceLink.dll</HintPath>
-    </Reference>
-    <Reference Include="FM.IceLink.WebRTC">
-      <HintPath>lib\FM.IceLink.WebRTC.dll</HintPath>
-    </Reference>
-    <Reference Include="FM.IceLink.WebSync">
-      <HintPath>lib\FM.IceLink.WebSync.dll</HintPath>
-    </Reference>
-    <Reference Include="FM.WebSync">
-      <HintPath>lib\FM.WebSync.dll</HintPath>
-    </Reference>
-    <Reference Include="FM.WebSync.Chat">
-      <HintPath>lib\FM.WebSync.Chat.dll</HintPath>
-    </Reference>
-    <Reference Include="FM.WebSync.Subscribers">
-      <HintPath>lib\FM.WebSync.Subscribers.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Xamarin.PCL\Xamarin.PCL.csproj">
       <Project>{5D2E191D-8EE0-4F07-86DA-5F85E1912D4B}</Project>
       <Name>Xamarin.PCL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\SDK-dotnet\Quickblox\Quickblox.Sdk\Quickblox.Sdk.csproj">
+      <Project>{BAB0816F-0E30-4AD0-B760-90F15156CDA5}</Project>
+      <Name>Quickblox.Sdk</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

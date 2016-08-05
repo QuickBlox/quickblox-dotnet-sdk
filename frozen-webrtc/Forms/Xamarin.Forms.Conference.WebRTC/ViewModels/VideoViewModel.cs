@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Quickblox.Sdk.Modules.ChatXmppModule;
 using Quickblox.Sdk.Modules.UsersModule.Models;
 using Xamarin.PCL;
@@ -9,9 +10,15 @@ namespace Xamarin.Forms.Conference.WebRTC
 	public class VideoViewModel : ViewModel
 	{
 		List<User> users;
+		readonly User mainUser;
+		readonly bool isCallInitiator;
+		readonly VideoChatMessage videoMessage;
 
-		public VideoViewModel(List<User> users)
+		public VideoViewModel(bool isCallInitiator, User mainUser, List<User> users, VideoChatMessage videoMessage)
 		{
+			this.videoMessage = videoMessage;
+			this.isCallInitiator = isCallInitiator;
+			this.mainUser = mainUser;
 			this.users = users;
 		}
 
@@ -19,13 +26,14 @@ namespace Xamarin.Forms.Conference.WebRTC
 		{
 			base.OnAppearing();
 
-			MessageProvider.Instance.ChatXmppClient.MessageReceived -= OnMessageReceived;
-			MessageProvider.Instance.ChatXmppClient.MessageReceived += OnMessageReceived;
-		}
-
-		private void OnMessageReceived(object sender, MessageEventArgs messageEventArgs)
-		{
-			
+			if (this.isCallInitiator)
+			{
+				App.CallHelperProvider.Call(Guid.NewGuid().ToString(), this.mainUser, this.users);
+			}
+			else 
+			{
+				App.CallHelperProvider.IncomingCall(this.mainUser, this.users, videoMessage);
+			}
 		}
 	}
 }

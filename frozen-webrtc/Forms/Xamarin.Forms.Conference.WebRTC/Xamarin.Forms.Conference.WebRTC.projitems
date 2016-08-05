@@ -11,7 +11,6 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LocalMedia.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Signalling.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FormsLayoutManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FormsVideoControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\LoginPage.xaml.cs">
@@ -35,11 +34,14 @@
       <DependentUpon>VideoPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\VideoViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CallHelperProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ConferenceWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Views\" />
     <Folder Include="$(MSBuildThisFileDirectory)ViewModels\" />
     <Folder Include="$(MSBuildThisFileDirectory)Controls\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\LoginPage.xaml">

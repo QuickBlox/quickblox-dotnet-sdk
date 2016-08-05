@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +12,6 @@ namespace Xamarin.Forms.Conference.WebRTC
 	public class UsersInGroupViewModel : ViewModel
 	{
 		string title;
-		User mainUser;
 		string roomName;
 
 		public UsersInGroupViewModel()
@@ -63,34 +63,56 @@ namespace Xamarin.Forms.Conference.WebRTC
 		{
 			base.OnAppearing();
 
-			if (this.isLoaded)
-				return;
-
-			this.isLoaded = true;
 			this.IsBusy = true;
 
-
-		    mainUser = await App.QbProvider.GetUserAsync(App.QbProvider.UserId);
-			if (mainUser != null)
+		    App.MainUser = await App.QbProvider.GetUserAsync(App.QbProvider.UserId);
+			if (App.MainUser != null)
 			{
 				Device.BeginInvokeOnMainThread(() =>
 				{
-					Title = mainUser.FullName;
-					RoomName = string.Format("Room name: {0}", mainUser.UserTags);
+					Title = App.MainUser.FullName;
+					RoomName = string.Format("Room name: {0}", App.MainUser.UserTags);
 				});
 				await LoadUsersByTag();
+
+				((App)App.Current).InitChatClient();
 			}
 
+			//App.CallHelperProvider.RegisterIncomingCallPage((videoMessage) =>
+			//{
+			//	var callerId = videoMessage.Caller;
+			//	var caller = this.Users.FirstOrDefault(u => u.User.Id == Int32.Parse(callerId));
+			//	if (caller != null)
+			//	{
+			//		var opponents = new List<User>();
+			//		foreach (var id in videoMessage.OpponentsIds)
+			//		{
+			//			var user = this.Users.FirstOrDefault(u => u.User.Id == Int32.Parse(id));
+			//			if (user != null)
+			//			{
+			//				opponents.Add(user.User);
+			//			}
+			//		}
+
+			//		// Add himself
+			//		opponents.Add(mainUser);
+
+			//		Device.BeginInvokeOnMainThread(() =>
+			//									   App.Navigation.PushAsync(new VideoPage(false, caller.User, opponents, videoMessage)));
+			//	}
+			//});
+				
 			this.IsBusy = false;
 		}
 
 		private async Task LoadUsersByTag()
 		{
-			if (mainUser == null) return;
+			if (App.MainUser == null) return;
 
-			var users = await App.QbProvider.GetUserByTag(mainUser.UserTags);
+			var users = await App.QbProvider.GetUserByTag(App.MainUser.UserTags);
 			if (users.Any())
 			{
+				App.UsersInRoom = users;
 				Device.BeginInvokeOnMainThread(() =>
 				{
 					this.Users.Clear();
@@ -111,16 +133,18 @@ namespace Xamarin.Forms.Conference.WebRTC
 		{
 			if (IsBusy)
 				return;
-			
+
 			this.IsBusy = true;
 
-			var isDeleted = await App.QbProvider.DeleteUserById(App.QbProvider.UserId);
-			if (isDeleted)
+			var result = await App.Current.MainPage.DisplayAlert("Log Out", "Do you really want to Log Out?", "Ok", "Cancel");
+			if (result)
 			{
-				var result = await App.Current.MainPage.DisplayAlert("Log Out", "Do you really want to Log Out?", "Ok", "Cancel");
-				if (result)
+				var isDeleted = await App.QbProvider.DeleteUserById(App.QbProvider.UserId);
+				if (isDeleted)
 				{
 					DependencyService.Get<ILoginStorage>().Clear();
+
+					//((App)App.Current).RemoveChatClient();
 					App.SetLogin();
 				}
 			}
@@ -150,7 +174,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 			var users = Users.Where(u => u.IsSelected).Select(u => u.User).ToList();
 			if (users.Count > 0 && users.Count < 5)
 			{
-				await App.Navigation.PushAsync(new VideoPage(users));
+				await App.Navigation.PushAsync(new VideoPage(true, App.MainUser, users, null));
 			}
 			else 
 			{
@@ -161,14 +185,16 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 		private async void AudioCallCommandExecute(object obj)
 		{
-			var result = await ((App)App.Current).ShowInputCallDialog(mainUser.FullName);
-			if (result)
-			{
-			}
+
+			//var result = await ((App)App.Current).ShowInputCallDialog(mainUser.FullName);
+			//if (result)
+			//{
+			//}
+
 			//var users = Users.Where(u => u.IsSelected).Select(u => u.User).ToList();
 			//if (users.Count > 0 && users.Count < 5)
 			//{
-			//	await App.Navigation.PushAsync(new VideoPage(users));
+			//	await App.Navigation.PushAsync(new InComingCall(this.mainUser, users));
 			//}
 			//else
 			//{

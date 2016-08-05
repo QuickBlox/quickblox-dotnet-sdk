@@ -1,12 +1,14 @@
 
 using Android.App;
+using Android.Content.PM;
 using Android.OS;
 using FM.IceLink.WebRTC;
+using ImageCircle.Forms.Plugin.Droid;
 using Xamarin.PCL;
 
 namespace Xamarin.Forms.Conference.WebRTC.Droid
 {
-	[Activity(Theme = "@android:style/Theme.Holo.Light", Label = "", Icon = "@android:color/transparent")]
+	[Activity(Theme = "@android:style/Theme.Holo.Light", Label = "", Icon = "@android:color/transparent", ScreenOrientation = ScreenOrientation.Portrait)]
 	public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
 	{
 		protected override void OnCreate(Bundle bundle)
@@ -33,6 +35,7 @@ namespace Xamarin.Forms.Conference.WebRTC.Droid
 
 			global::Xamarin.Forms.Forms.Init(this, bundle);
 			Acr.UserDialogs.UserDialogs.Init(this);
+			ImageCircleRenderer.Init();
 			Quickblox.Sdk.Platform.QuickbloxPlatform.Init();
 			DependencyService.Get<ILoginStorage>().Init(Application.ApplicationContext);
 

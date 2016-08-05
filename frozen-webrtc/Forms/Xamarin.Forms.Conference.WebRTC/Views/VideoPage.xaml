@@ -1,5 +1,106 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Xamarin.Forms.Conference.WebRTC.VideoPage">
-	<ContentPage.Content>
-	</ContentPage.Content>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+		x:Class="Xamarin.Forms.Conference.WebRTC.VideoPage"
+		Title="Video page"
+			xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions">
+
+	<Grid>
+		<AbsoluteLayout x:Name="videoContainer" />
+		
+		<Grid x:Name="OutgongCallPage" IsVisible="false" BackgroundColor="Transparent">
+			<Grid.RowDefinitions>
+				<RowDefinition />
+				<RowDefinition Height="200"/>
+			</Grid.RowDefinitions>
+
+			
+			<StackLayout>
+				<StackLayout Padding="0,24,0,0">
+					<controls:CircleImage HeightRequest="140" 
+							WidthRequest="140" 
+							HorizontalOptions="Center" 
+							x:Name="InitiatorImage2"
+							FillColor="Blue"
+							Source="alfa_placeholder.png"
+							IsEnabled = "false"
+							Aspect="AspectFill"
+							BorderColor="Blue"
+							BorderThickness="12"
+						/>
+				</StackLayout>
+
+				<StackLayout Padding="0,24,0,0" HorizontalOptions="Center">
+				 	<Label x:Name="InitiatorCallName" FontSize="24"/>
+				</StackLayout>
+
+				<StackLayout x:Name="UsersInCallStack2">
+					<StackLayout Padding="0,24,0,0" HorizontalOptions="Center">
+					 	<Label Text="Call to:" FontSize="16"/>
+					</StackLayout>
+
+					<StackLayout Padding="0,6" HorizontalOptions="Center">
+					 	<Label x:Name="UsersInCallOutgongCallLabel" FontSize="18"/>
+					</StackLayout>
+				</StackLayout>
+			</StackLayout>
+
+			<StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="End" Padding="0,0,0,80">
+				<StackLayout Padding="36,0" HorizontalOptions="Center">
+						<controls:CircleImage x:Name="RejectOutgongCallButton" FillColor="Red" Source="decline_vc.png" BorderThickness="4" BorderColor="Red" WidthRequest="60" HeightRequest="80" Aspect="AspectFit"/>
+				</StackLayout>
+			</StackLayout>
+		</Grid>
+
+		<Grid x:Name="InComingCallPage" IsVisible="false" BackgroundColor="Transparent">
+			<Grid.RowDefinitions> 
+				<RowDefinition />
+				<RowDefinition Height="200"/>
+			</Grid.RowDefinitions>
+
+			
+			<StackLayout>
+				<StackLayout Padding="0,24,0,0">
+					<controls:CircleImage HeightRequest="140" 
+							WidthRequest="140" 
+							HorizontalOptions="Center" 
+							x:Name="InitiatorImage"
+							FillColor="Blue"
+							Source="alfa_placeholder.png"
+							IsEnabled = "false"
+							Aspect="AspectFill"
+							BorderColor="Blue"
+							BorderThickness="12"
+						/>
+				</StackLayout>
+
+				<StackLayout Padding="0,24,0,0" HorizontalOptions="Center">
+				 	<Label x:Name="IncomingNameLabel" FontSize="24"/>
+				</StackLayout>
+
+				<StackLayout Padding="0,6" HorizontalOptions="Center">
+				 	<Label Text="incoming call" FontSize="16"/>
+				</StackLayout>
+
+				<StackLayout x:Name="UsersInCallStack">
+					<StackLayout Padding="0,24,0,0" HorizontalOptions="Center">
+					 	<Label Text="Also on call:" FontSize="16"/>
+					</StackLayout>
+
+					<StackLayout Padding="0,6" HorizontalOptions="Center">
+					 	<Label x:Name="UsersInCallLabel" FontSize="18"/>
+					</StackLayout>
+				</StackLayout>
+			</StackLayout>
+
+			<StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="End" Padding="0,0,0,80">
+				<StackLayout Padding="36,0" HorizontalOptions="Center">
+						<controls:CircleImage x:Name="RejectImage" FillColor="Red" Source="decline_vc.png" BorderThickness="4" BorderColor="Red" WidthRequest="60" HeightRequest="80" Aspect="AspectFit"/>
+				</StackLayout>
+				<StackLayout Padding="36,0" HorizontalOptions="Center">
+						<controls:CircleImage x:Name="AnswerImage" Source="answer_ic.png" FillColor="Lime" BorderThickness="4" BorderColor="Lime" WidthRequest="60" HeightRequest="80" Aspect="AspectFit"/>
+				</StackLayout>
+			</StackLayout>
+		</Grid>
+	</Grid>
 </ContentPage>

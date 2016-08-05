@@ -117,15 +117,6 @@
     <Reference Include="Sockets.Plugin.Abstractions">
       <HintPath>..\..\packages\rda.SocketsForPCL.1.2.2\lib\Xamarin.iOS10\Sockets.Plugin.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Quickblox.Sdk">
-      <HintPath>..\..\packages\Quickblox.Sdk.1.2.2\lib\Xamarin.iOS10\Quickblox.Sdk.dll</HintPath>
-    </Reference>
-    <Reference Include="Quickblox.Sdk.Platform.Abstractions">
-      <HintPath>..\..\packages\Quickblox.Sdk.1.2.2\lib\Xamarin.iOS10\Quickblox.Sdk.Platform.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Quickblox.Sdk.Platform.iOS">
-      <HintPath>..\..\packages\Quickblox.Sdk.1.2.2\lib\Xamarin.iOS10\Quickblox.Sdk.Platform.iOS.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Behaviors">
       <HintPath>..\..\packages\Xamarin.Forms.Behaviors.1.3.1\lib\Xamarin.Behaviors.dll</HintPath>
     </Reference>
@@ -148,6 +139,36 @@
     <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Splat.1.6.2\lib\Xamarin.iOS10\Splat.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="ImageCircle.Forms.Plugin.iOS">
+      <HintPath>..\..\packages\Xam.Plugins.Forms.ImageCircle.1.4.1\lib\Xamarin.iOS10\ImageCircle.Forms.Plugin.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageCircle.Forms.Plugin.Abstractions">
+      <HintPath>..\..\packages\Xam.Plugins.Forms.ImageCircle.1.4.1\lib\Xamarin.iOS10\ImageCircle.Forms.Plugin.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Quickblox.Sdk">
+      <HintPath>..\..\packages\Quickblox.Sdk.1.2.5\lib\Xamarin.iOS10\Quickblox.Sdk.dll</HintPath>
+    </Reference>
+    <Reference Include="Quickblox.Sdk.Platform.Abstractions">
+      <HintPath>..\..\packages\Quickblox.Sdk.1.2.5\lib\Xamarin.iOS10\Quickblox.Sdk.Platform.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Quickblox.Sdk.Platform.iOS">
+      <HintPath>..\..\packages\Quickblox.Sdk.1.2.5\lib\Xamarin.iOS10\Quickblox.Sdk.Platform.iOS.dll</HintPath>
+    </Reference>
+    <Reference Include="FM.Audio">
+      <HintPath>..\..\Libraries\XamariniOS\FM.Audio.dll</HintPath>
+    </Reference>
+    <Reference Include="FM">
+      <HintPath>..\..\Libraries\XamariniOS\FM.dll</HintPath>
+    </Reference>
+    <Reference Include="FM.IceLink">
+      <HintPath>..\..\Libraries\XamariniOS\FM.IceLink.dll</HintPath>
+    </Reference>
+    <Reference Include="FM.IceLink.WebRTC">
+      <HintPath>..\..\Libraries\XamariniOS\FM.IceLink.WebRTC.dll</HintPath>
+    </Reference>
+    <Reference Include="FM.Video">
+      <HintPath>..\..\Libraries\XamariniOS\FM.Video.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -202,27 +223,6 @@
   <Import Project="..\..\packages\Xamarin.Forms.2.2.0.45\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.2.0.45\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
   <ItemGroup />
   <ItemGroup>
-    <Reference Include="FM">
-      <HintPath>lib\FM.dll</HintPath>
-    </Reference>
-    <Reference Include="FM.IceLink">
-      <HintPath>lib\FM.IceLink.dll</HintPath>
-    </Reference>
-    <Reference Include="FM.IceLink.WebRTC">
-      <HintPath>lib\FM.IceLink.WebRTC.dll</HintPath>
-    </Reference>
-    <Reference Include="FM.IceLink.WebSync">
-      <HintPath>lib\FM.IceLink.WebSync.dll</HintPath>
-    </Reference>
-    <Reference Include="FM.WebSync">
-      <HintPath>lib\FM.WebSync.dll</HintPath>
-    </Reference>
-    <Reference Include="FM.WebSync.Chat">
-      <HintPath>lib\FM.WebSync.Chat.dll</HintPath>
-    </Reference>
-    <Reference Include="FM.WebSync.Subscribers">
-      <HintPath>lib\FM.WebSync.Subscribers.dll</HintPath>
-    </Reference>
     <ProjectReference Include="..\..\Xamarin.iOS.VP8\Xamarin.iOS.VP8.csproj">
       <Project>{E2ECB703-E07E-46D2-90CC-0F36B648DF2A}</Project>
       <Name>Xamarin.iOS.VP8</Name>

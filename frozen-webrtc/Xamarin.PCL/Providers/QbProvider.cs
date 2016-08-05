@@ -16,6 +16,7 @@ using Quickblox.Sdk.Modules.ChatModule.Responses;
 using Quickblox.Sdk.Modules.ChatModule.Models;
 using Quickblox.Sdk.Modules.Models;
 using Quickblox.Sdk.Modules.ChatXmppModule;
+using Quickblox.Sdk.Modules.AuthModule.Response;
 
 namespace Xamarin.PCL
 {
@@ -35,17 +36,18 @@ namespace Xamarin.PCL
 			ApplicationKeys.ChatEndpoint,
 			logger:new QbLogger());
 
-        public int UserId { get; set; }
+        public int UserId { get; private set; }
+		public SessionResponse SessionResponse { get; private set;}
 
         public QbProvider(Action showInternetNotification)
         {
             this.showInternetNotification = showInternetNotification;
         }
 
-        public ChatXmppClient GetXmppClient()
-        {
-            return client.ChatXmppClient;
-        }
+		public QuickbloxClient GetClient()
+		{
+			return client;
+		}
 
 		public async Task<bool> GetBaseSession ()
 		{
@@ -100,6 +102,7 @@ namespace Xamarin.PCL
 			var sessionResponse = await this.client.AuthenticationClient.CreateSessionWithLoginAsync (login, password); 
 			if (await HandleResponse(sessionResponse, HttpStatusCode.Created)){
 				UserId = sessionResponse.Result.Session.UserId;
+				SessionResponse = sessionResponse.Result;
 				return sessionResponse.Result.Session.UserId;
 			}
             else if (sessionResponse.StatusCode == HttpStatusCode.NotFound)

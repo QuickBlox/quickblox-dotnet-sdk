@@ -6,6 +6,7 @@ using Foundation;
 using Xamarin.PCL;
 using Security;
 using UIKit;
+using ImageCircle.Forms.Plugin.iOS;
 
 namespace Xamarin.Forms.Conference.WebRTC.iOS
 {
@@ -15,6 +16,7 @@ namespace Xamarin.Forms.Conference.WebRTC.iOS
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
 			global::Xamarin.Forms.Forms.Init();
+			ImageCircleRenderer.Init();
 			Quickblox.Sdk.Platform.QuickbloxPlatform.Init();
 
 

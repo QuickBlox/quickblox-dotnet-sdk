@@ -1,5 +1,5 @@
 using System;
-
+using System.Threading.Tasks;
 using FM;
 using FM.IceLink.WebRTC;
 
@@ -30,7 +30,7 @@ namespace Xamarin.Forms.Conference.WebRTC
                 AVAudioSessionCategoryOptions.AllowBluetooth |
                 AVAudioSessionCategoryOptions.DefaultToSpeaker);
 #endif
-                
+
 			UserMedia.GetMedia(new GetMediaArgs(Audio, Video)
 			{
 				VideoWidth = VideoWidth,           // optional
