@@ -52,17 +52,17 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 		#region Register UI Action
 
-		public void RegisterIncomingCallPage(Action<VideoChatMessage> showIncomingCallPage)
-		{
-			this.showIncomingCallPage = showIncomingCallPage;
-		}
+		//public void RegisterIncomingCallPage(Action<VideoChatMessage> showIncomingCallPage)
+		//{
+		//	this.showIncomingCallPage = showIncomingCallPage;
+		//}
 
-		public void RegisterOutGoingCallPage(Action showOutGoingCallPage)
-		{
-			this.showOutGoingCallPage = showOutGoingCallPage;
-		}
+		//public void RegisterOutGoingCallPage(Action showOutGoingCallPage)
+		//{
+		//	this.showOutGoingCallPage = showOutGoingCallPage;
+		//}
 
-		public void RegisterBackToVideoPage(Action showVideoPage)
+		public void RegisterShowVideoCall(Action showVideoPage)
 		{
 			this.showVideoPage = showVideoPage;
 		}
@@ -70,11 +70,6 @@ namespace Xamarin.Forms.Conference.WebRTC
 		public void RegisterBackToUsersPage(Action backNavigationAction)
 		{
 			this.backNavigationAction = backNavigationAction;
-		}
-
-		private void RegisterShowVideoAction()
-		{
-			showVideoPage.Invoke();
 		}
 
 		#endregion
@@ -156,6 +151,18 @@ namespace Xamarin.Forms.Conference.WebRTC
 				this.CurrentCall = new ConferenceWrapper(e.SessionId, ReceiveSdpFromConference, ReceiveIceCandidateFromConference, showVideoPage, backNavigationAction, localMedia);
 				this.CurrentCall.ReceiveOfferAnwer(e.Sdp, true, e.Caller);
 			});
+		}
+
+		public void RejectVideoCall()
+		{
+			VideoChatState = VideoChatState.None;
+
+			foreach (var user in receivers)
+			{
+				this.webSyncClient.Reject(this.sessionId, caller.Id.ToString(), user.Id.ToString(), receivers.Select(u => u.Id.ToString()).ToList(), Device.OS.ToString().ToLower());
+			}
+
+			this.CurrentCall = null;
 		}
 
 		private void ReceiveSdpFromConference(string sdp, bool isOffer, int receiverId)

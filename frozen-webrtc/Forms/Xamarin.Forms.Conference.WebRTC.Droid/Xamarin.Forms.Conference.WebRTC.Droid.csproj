@@ -182,10 +182,8 @@
     <Compile Include="App\Render\CheckBoxRenderer.cs" />
     <Compile Include="App\Render\WrapLabelRender.cs" />
     <Compile Include="SplashActivity.cs" />
-    <Compile Include="..\Xamarin.Forms.Conference.WebRTC.iOS\Converters\BooleanToNegationConverter.cs">
-      <Link>Converters\BooleanToNegationConverter.cs</Link>
-    </Compile>
     <Compile Include="DroidApplication.cs" />
+    <Compile Include="Converters\BooleanToNegationConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -196,6 +194,7 @@
   <ItemGroup>
     <Folder Include="Resources\layout\" />
     <Folder Include="Resources\values\" />
+    <Folder Include="Converters\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon.png" />

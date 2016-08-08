@@ -27,6 +27,10 @@ namespace Xamarin.Forms.Conference.WebRTC
 		public virtual void OnAppearing()
 		{
 		}
+
+		public virtual void OnDisappearing()
+		{
+		}
 	}
 }
 
