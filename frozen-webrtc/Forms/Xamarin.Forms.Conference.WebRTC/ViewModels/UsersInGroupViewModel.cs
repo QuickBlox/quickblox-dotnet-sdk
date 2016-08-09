@@ -24,6 +24,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 			VideoCallCommand = new Command(VideoCallCommandExecute, CanCommandExecute);
 			Users = new ObservableCollection<SelectableUser>();
 			RoomName = "Room name: ";
+
 		}
 
 		public string Title
@@ -76,6 +77,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 				await LoadUsersByTag();
 
 				((App)App.Current).InitChatClient();
+				App.CallHelperProvider.IncomingCallMessageEvent += IncomingCallMethod;
 			}
 
 			//App.CallHelperProvider.RegisterIncomingCallPage((videoMessage) =>
@@ -150,6 +152,12 @@ namespace Xamarin.Forms.Conference.WebRTC
 			}
 
 			this.IsBusy = false;
+		}
+
+		private void IncomingCallMethod(object sender, IncomingCall incomingCall)
+		{
+			Device.BeginInvokeOnMainThread(() =>
+			                               App.Navigation.PushAsync(new VideoPage(false, incomingCall.Caller, incomingCall.Opponents, incomingCall.VideoChatMessage)));
 		}
 
 		private bool CanCommandExecute(object arg)

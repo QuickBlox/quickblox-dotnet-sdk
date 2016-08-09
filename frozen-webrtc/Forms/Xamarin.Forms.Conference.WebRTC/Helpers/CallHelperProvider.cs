@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Threading.Tasks;
 using Quickblox.Sdk;
 using Quickblox.Sdk.Modules.ChatXmppModule;
 using Quickblox.Sdk.Modules.ChatXmppModule.ExtraParameters;
@@ -12,6 +10,13 @@ using Quickblox.Sdk.Modules.UsersModule.Models;
 
 namespace Xamarin.Forms.Conference.WebRTC
 {
+	public class IncomingCall
+	{
+		public VideoChatMessage VideoChatMessage { get; set;}
+		public User Caller { get; set;}
+		public List<User> Opponents { get; set;}
+	}
+
 	public class CallHelperProvider
 	{
 		// Message client
@@ -23,20 +28,18 @@ namespace Xamarin.Forms.Conference.WebRTC
 		private User caller;
 		private List<User> receivers;
 
-		private Action<VideoChatMessage> showIncomingCallPage;
-		private Action showVideoPage;
-		private Action showOutGoingCallPage;
-		private Action backNavigationAction;
-
 		// Video
 		private LocalMedia localMedia;
 		private AbsoluteLayout videoContainer;
 
+		public event EventHandler<IncomingCall> IncomingCallMessageEvent;
+		public event EventHandler<VideoChatMessage> IncomingDropMessageEvent;
+		public event EventHandler CallUpEvent;
+		public event EventHandler CallDownEvent;
+
 		public VideoChatState VideoChatState { get; private set; } = VideoChatState.None;
 
 		public ConferenceWrapper CurrentCall { get; private set; }
-
-		//public List<ConferenceWrapper> CurrentCall { get; private set; }
 
 		public CallHelperProvider(QuickbloxClient client)
 		{
@@ -49,30 +52,6 @@ namespace Xamarin.Forms.Conference.WebRTC
 			chatXmppClient.MessageReceived += OnMessageReceived;
 			webSyncClient.VideoChatMessage += OnVideoChatMessageReceived;
 		}
-
-		#region Register UI Action
-
-		//public void RegisterIncomingCallPage(Action<VideoChatMessage> showIncomingCallPage)
-		//{
-		//	this.showIncomingCallPage = showIncomingCallPage;
-		//}
-
-		//public void RegisterOutGoingCallPage(Action showOutGoingCallPage)
-		//{
-		//	this.showOutGoingCallPage = showOutGoingCallPage;
-		//}
-
-		public void RegisterShowVideoCall(Action showVideoPage)
-		{
-			this.showVideoPage = showVideoPage;
-		}
-
-		public void RegisterBackToUsersPage(Action backNavigationAction)
-		{
-			this.backNavigationAction = backNavigationAction;
-		}
-
-		#endregion
 
 		public void InitVideoContainer(AbsoluteLayout videoContainer)
 		{
@@ -98,7 +77,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 		/// Call users the specified sdp.
 		/// </summary>
 		/// <param name="sdp">Sdp.</param>
-		public void Call(string sessionId, User caller, List<User> receivers)
+		public void CallToUsers(string sessionId, User caller, List<User> receivers)
 		{
 			StartLocalMedia((error) =>
 			{
@@ -115,12 +94,12 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 				Debug.WriteLine("Start Call method");
 
-				this.CurrentCall = new ConferenceWrapper(sessionId,
-				                                         ReceiveSdpFromConference,
-														 ReceiveIceCandidateFromConference,
-														 showVideoPage,
-														 backNavigationAction,
-														 localMedia);
+				this.CurrentCall = new ConferenceWrapper(sessionId, localMedia);
+				this.CurrentCall.LinkUpEvent += OnLinkUp;
+				this.CurrentCall.LinkDownEvent += OnLinkDown;
+				this.CurrentCall.ReceiveSdpEvent += OnReceiveSdp;
+				this.CurrentCall.ReceiveIceCandidateEvent += OnReceiveIceCandidate;
+
 				foreach (var user in receivers)
 				{
 					this.CurrentCall.Link(user.Id.ToString());
@@ -132,7 +111,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 			});
 		}
 
-		public void IncomingCall(User caller, List<User> receivers, VideoChatMessage e)
+		public void ConnectToIncomingCall(User caller, List<User> receivers, VideoChatMessage e)
 		{
 			StartLocalMedia((error) =>
 			{
@@ -148,7 +127,11 @@ namespace Xamarin.Forms.Conference.WebRTC
 				this.receivers = receivers;
 
 				// Incoming new call
-				this.CurrentCall = new ConferenceWrapper(e.SessionId, ReceiveSdpFromConference, ReceiveIceCandidateFromConference, showVideoPage, backNavigationAction, localMedia);
+				this.CurrentCall = new ConferenceWrapper(e.SessionId, localMedia);
+				this.CurrentCall.LinkUpEvent += OnLinkUp;
+				this.CurrentCall.LinkDownEvent += OnLinkDown;
+				this.CurrentCall.ReceiveSdpEvent += OnReceiveSdp;
+				this.CurrentCall.ReceiveIceCandidateEvent += OnReceiveIceCandidate;
 				this.CurrentCall.ReceiveOfferAnwer(e.Sdp, true, e.Caller);
 			});
 		}
@@ -157,48 +140,50 @@ namespace Xamarin.Forms.Conference.WebRTC
 		{
 			VideoChatState = VideoChatState.None;
 
-			foreach (var user in receivers)
+			if (receivers != null)
 			{
-				this.webSyncClient.Reject(this.sessionId, caller.Id.ToString(), user.Id.ToString(), receivers.Select(u => u.Id.ToString()).ToList(), Device.OS.ToString().ToLower());
+				foreach (var user in receivers)
+				{
+					this.webSyncClient.Reject(this.sessionId, caller.Id.ToString(), user.Id.ToString(), receivers.Select(u => u.Id.ToString()).ToList(), Device.OS.ToString().ToLower());
+				}
 			}
 
-			this.CurrentCall = null;
+			if (this.CurrentCall != null)
+			{
+				this.CurrentCall.LinkUpEvent -= OnLinkUp;
+				this.CurrentCall.LinkDownEvent -= OnLinkDown;
+				this.CurrentCall.ReceiveSdpEvent -= OnReceiveSdp;
+				this.CurrentCall.ReceiveIceCandidateEvent -= OnReceiveIceCandidate;
+				this.CurrentCall = null;
+			}
 		}
 
-		private void ReceiveSdpFromConference(string sdp, bool isOffer, int receiverId)
+		private void OnReceiveSdp(object sender, SdpEventArgs e)
 		{
 			if (VideoChatState == VideoChatState.WaitOffer)
 			{
 				// TODO: send to all users maybe
-				if (isOffer)
+				if (e.IsOffer)
 				{
-					this.webSyncClient.Call(sessionId, sdp, caller.Id.ToString(), receiverId.ToString(), this.receivers.Select(u => u.Id.ToString()).ToList(), Device.OS.ToString().ToLower(), userInfo: "Temp user info");
+					this.webSyncClient.Call(sessionId, e.Sdp, caller.Id.ToString(), e.PeerId, this.receivers.Select(u => u.Id.ToString()).ToList(), Device.OS.ToString().ToLower());
 				}
 
 				VideoChatState = VideoChatState.SendOffer;
 			}
 			if (VideoChatState == VideoChatState.WaitAnswer)
 			{
-				// receiver id - is me
-				this.webSyncClient.Accept(sessionId, sdp, caller.Id.ToString(), receiverId.ToString(), this.receivers.Select(u => u.Id.ToString()).ToList(), Device.OS.ToString().ToLower(), userInfo: "Temp user info");
+				this.webSyncClient.Accept(sessionId, e.Sdp, caller.Id.ToString(), e.PeerId, this.receivers.Select(u => u.Id.ToString()).ToList(), Device.OS.ToString().ToLower());
 				VideoChatState = VideoChatState.Complete;
 			}
 		}
 
-		/// <summary>
-		/// Receives the ice candidate wrapper from conference.
-		/// </summary>
-		/// <returns>The ice candidate method.</returns>
-		/// <param name="sdpMediaIndex">Sdp media index.</param>
-		/// <param name="sdpCandidateAttribute">Sdp candidate attribute.</param>
-		/// <param name="receiverId">Receiver identifier.</param>
-		private void ReceiveIceCandidateFromConference(string sdpMediaIndex, string sdpCandidateAttribute, int receiverId)
+		private void OnReceiveIceCandidate(object sender, IceCandidateEventArgs e)
 		{
 			var iceCandidates = new Collection<IceCandidate>();
 			iceCandidates.Add(new IceCandidate()
 			{
-				SdpMLineIndex = sdpMediaIndex,
-				Candidate = sdpCandidateAttribute
+				SdpMLineIndex = e.SdpMLineIndex,
+				Candidate = e.Candidate
 			});
 
 			foreach (var user in this.receivers.Where(u => u.Id != App.UserId))
@@ -240,6 +225,25 @@ namespace Xamarin.Forms.Conference.WebRTC
 			});
 			localMedia = null;
 
+
+		}
+
+		private void OnLinkDown(object sender, EventArgs e)
+		{
+			var handler = this.CallDownEvent;
+			if (handler != null)
+			{
+				handler.Invoke(this, new EventArgs());
+			}
+		}
+
+		private void OnLinkUp(object sender, EventArgs e)
+		{
+			var handler = this.CallUpEvent;
+			if (handler != null)
+			{
+				handler.Invoke(this, new EventArgs());
+			}
 		}
 
 		private void OnVideoChatMessageReceived(object sender, VideoChatMessage e)
@@ -255,8 +259,16 @@ namespace Xamarin.Forms.Conference.WebRTC
 				VideoChatState = VideoChatState.None;
 				if (this.CurrentCall != null)
 				{
-					this.CurrentCall.UnlinkAll();
+					if (e.Sender == Int32.Parse(e.Caller))
+					{
+						this.CurrentCall.UnlinkAll();
+					}
+					else {
+						this.CurrentCall.Unlink(e.Sender.ToString());
+					}
 				}
+
+				InvokeDropCallMessage(sender, e);
 			}
 			else if (e.Signal == SignalType.call || e.Signal == SignalType.accept)
 			{
@@ -279,8 +291,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 							}
 						}
 
-						Device.BeginInvokeOnMainThread(() =>
-													   App.Navigation.PushAsync(new VideoPage(false, callerUser, opponents, e)));
+						InvokeIncomingEvent(sender, e, callerUser, opponents);
 					}
 
 					//if (await requestStartvideo ()) {
@@ -321,7 +332,30 @@ namespace Xamarin.Forms.Conference.WebRTC
 			}
 		}
 
+		private void InvokeDropCallMessage(object sender, VideoChatMessage e)
+		{
+			var handler = IncomingDropMessageEvent;
+			if (handler != null)
+			{
+				handler.Invoke(sender, e);
+			}
+		}
 
+		private void InvokeIncomingEvent(object sender, VideoChatMessage e, User callerUser, List<User> opponents)
+		{
+			var handler = IncomingCallMessageEvent;
+			if (handler != null)
+			{
+				var incomingCall = new IncomingCall()
+				{
+					VideoChatMessage = e,
+					Caller = callerUser,
+					Opponents = opponents
+				};
+
+				handler.Invoke(sender, incomingCall);
+			}
+		}
 
 		private static void OnMessageReceived(object sender, MessageEventArgs messageEventArgs)
 		{

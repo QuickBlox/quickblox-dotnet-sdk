@@ -16,9 +16,9 @@ namespace Xamarin.Forms.Conference.WebRTC
 		// video slightly for performance benefits.
 		private bool Audio = true;
 		private bool Video = true;
-		private int  VideoWidth = 640;
-		private int  VideoHeight = 480;
-		private int  VideoFrameRate = 15;
+		private int  VideoWidth = 320;
+		private int  VideoHeight = 240;
+		private int  VideoFrameRate = 27;
 
 		public LocalMediaStream LocalMediaStream { get; private set; }
 		public FormsLayoutManager LayoutManager { get; private set; }

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Quickblox.Sdk.Modules.ChatXmppModule;
 using Quickblox.Sdk.Modules.UsersModule.Models;
-using Xamarin.PCL;
 
 namespace Xamarin.Forms.Conference.WebRTC
 {
@@ -29,11 +28,6 @@ namespace Xamarin.Forms.Conference.WebRTC
 			this.isCallInitiator = isCallInitiator;
 			this.mainUser = mainUser;
 			this.users = users;
-
-			App.CallHelperProvider.RegisterShowVideoCall(() =>
-			   {
-					this.IsCallNotificationVisible = false;
-			   });
 
 			this.AnswerCommand = new Command(this.AnswerCommandExecute,CanCommandExecute);
 			this.RejectCommand = new Command(this.RejectCommandExecute,CanCommandExecute);
@@ -92,7 +86,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 			}
 		}
 
-		public override async void OnAppearing()
+		public override void OnAppearing()
 		{
 			base.OnAppearing();
 
@@ -104,7 +98,48 @@ namespace Xamarin.Forms.Conference.WebRTC
 		    LoadCallInfo();
 			if (this.isCallInitiator)
 			{
-				App.CallHelperProvider.Call(Guid.NewGuid().ToString(), this.mainUser, this.users);
+				App.CallHelperProvider.CallToUsers(Guid.NewGuid().ToString(), this.mainUser, this.users);
+			}
+
+			App.CallHelperProvider.IncomingDropMessageEvent += IncomingDropMessage;
+			App.CallHelperProvider.CallUpEvent += OnCallUpEvent;
+			App.CallHelperProvider.CallDownEvent += OnCallDownEvent;
+		}
+
+		public override void OnDisappearing()
+		{
+			base.OnDisappearing();
+			App.CallHelperProvider.IncomingDropMessageEvent -= IncomingDropMessage;
+			App.CallHelperProvider.CallUpEvent -= OnCallUpEvent;
+			App.CallHelperProvider.CallDownEvent -= OnCallDownEvent;
+
+			App.CallHelperProvider.RejectVideoCall();
+			App.CallHelperProvider.StopLocalMedia();
+		}
+
+		private void OnCallUpEvent(object sender, EventArgs e)
+		{
+			this.IsCallNotificationVisible = false;
+		}
+
+		private void OnCallDownEvent(object sender, EventArgs e)
+		{
+			Device.BeginInvokeOnMainThread(() => App.Navigation.PopAsync());
+		}
+
+		private void IncomingDropMessage(object sender, VideoChatMessage e)
+		{
+			if (e.Caller == e.Sender.ToString())
+			{
+				Device.BeginInvokeOnMainThread(() => App.Navigation.PopAsync());
+			}
+			else 
+			{
+				users = users.Where(u => u.Id != e.Sender).ToList();
+				if (users.Any())
+				{
+					Device.BeginInvokeOnMainThread(() => App.Navigation.PopAsync());
+				}
 			}
 		}
 
@@ -138,13 +173,13 @@ namespace Xamarin.Forms.Conference.WebRTC
 			UsersToCall = string.Join(",", users.Select(u => u.FullName));
 		}
 
-		private void RejectCommandExecute(object obj)
+		private async void RejectCommandExecute(object obj)
 		{
 			this.IsBusy = true;
 
-			App.CallHelperProvider.RejectVideoCall();
-			App.CallHelperProvider.StopLocalMedia();
-			App.Navigation.PopAsync();
+			//App.CallHelperProvider.RejectVideoCall();
+			//App.CallHelperProvider.StopLocalMedia();
+			Device.BeginInvokeOnMainThread(() => App.Navigation.PopAsync());
 
 			this.IsBusy = false;
 		}
@@ -154,7 +189,8 @@ namespace Xamarin.Forms.Conference.WebRTC
 			this.IsBusy = true;
 
 			// Show incoming call
-			App.CallHelperProvider.IncomingCall(this.mainUser, this.users, videoMessage);
+			App.CallHelperProvider.ConnectToIncomingCall(this.mainUser, this.users, videoMessage);
+
 			this.IsCallNotificationVisible = false;
 			this.IsIncomingCall = false;
 

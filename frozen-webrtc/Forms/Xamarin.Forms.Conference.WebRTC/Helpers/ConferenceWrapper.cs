@@ -16,9 +16,27 @@ using System;
 
 namespace Xamarin.Forms.Conference.WebRTC
 {
+	public class SdpEventArgs : EventArgs
+	{
+		public string Sdp { get; set;}
+
+		public bool IsOffer { get; set;}
+
+		public string PeerId { get; set;}
+	}
+
+	public class IceCandidateEventArgs : EventArgs
+	{
+		public string Candidate { get; set; }
+
+		public string SdpMLineIndex { get; set; }
+
+		public string SdpMid { get; set; }
+	}
+
 	public class ConferenceWrapper
 	{
-		public static int ConferenceTimeout = 300000;
+		public static int ConferenceTimeout = 30000;
 		private string[] IceServers =
 		{
 			"stun.l.google.com:19302",
@@ -47,9 +65,11 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 		readonly string sessionId;
 		readonly List<string> receiversId = new List<string>();
-		readonly Action<string, bool, int> receiveSdpAction;
-		readonly Action<string, string, int> receiveIceCandidateAction;
-		readonly Action linkUpAction;
+
+		public event EventHandler LinkDownEvent;
+		public event EventHandler LinkUpEvent;
+		public event EventHandler<SdpEventArgs> ReceiveSdpEvent;
+		public event EventHandler<IceCandidateEventArgs> ReceiveIceCandidateEvent;
 
 		static ConferenceWrapper()
 		{
@@ -79,12 +99,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 			Certificate = Certificate.GenerateCertificate();
 		}
 
-		readonly Action linkDown;
-
-		public ConferenceWrapper(string sessionId, Action<string, bool, int> receiveSdpAction, 
-		                         Action<string, string, int> receiveIceCandidateAction, 
-		                         Action linkUpAction,
-		                         Action linkDown,
+		public ConferenceWrapper(string sessionId, 
 		                         LocalMedia localMedia)
 		{
 			this.LocalMedia = localMedia;
@@ -120,11 +135,6 @@ namespace Xamarin.Forms.Conference.WebRTC
 #endif
 
 			this.sessionId = sessionId;
-
-			this.receiveSdpAction = receiveSdpAction;
-			this.receiveIceCandidateAction = receiveIceCandidateAction;
-			this.linkUpAction = linkUpAction;
-			this.linkDown = linkDown;
 		}
 
 		/// <summary>
@@ -152,6 +162,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 		/// <returns>The all.</returns>
 		public void UnlinkAll()
 		{
+			this.receiversId.Clear();
 			this.conference.UnlinkAll();
 		}
 
@@ -177,8 +188,18 @@ namespace Xamarin.Forms.Conference.WebRTC
 		/// <param name="e">E.</param>
 		private void OnLinkSendOfferAnswer(LinkOfferAnswerArgs e)
 		{
-			receiveSdpAction.Invoke(e.OfferAnswer.SdpMessage, e.OfferAnswer.IsOffer,
-									Int32.Parse(e.PeerId));
+			var handler = this.ReceiveSdpEvent;
+			if (handler != null)
+			{
+				var sdpEventArgs = new SdpEventArgs()
+				{
+					IsOffer = e.OfferAnswer.IsOffer,
+					Sdp = e.OfferAnswer.SdpMessage,
+					PeerId = e.PeerId
+				};
+
+				handler.Invoke(this, sdpEventArgs);
+			}
 		}
 
 		/// <summary>
@@ -205,10 +226,17 @@ namespace Xamarin.Forms.Conference.WebRTC
 		/// <param name="e">E.</param>
 		private void OnLinkSendCandidate(LinkCandidateArgs e)
 		{
-			// TODO: need agreegate all candidates and the invoke
-			receiveIceCandidateAction.Invoke(e.Candidate.SdpMediaIndex.HasValue ? e.Candidate.SdpMediaIndex.Value.ToString() : "",
-											 e.Candidate.SdpCandidateAttribute,
-			                                 App.UserId);
+			var handler = this.ReceiveIceCandidateEvent;
+			if (handler != null)
+			{
+				var iceCandidateEventArgs = new IceCandidateEventArgs()
+				{
+					SdpMLineIndex = e.Candidate.SdpMediaIndex.HasValue ? e.Candidate.SdpMediaIndex.Value.ToString() : "",
+					Candidate =	e.Candidate.SdpCandidateAttribute,
+				};
+
+				handler.Invoke(this, iceCandidateEventArgs);
+			}
 		}
 
 		// TODO: will move to dispose
@@ -233,7 +261,6 @@ namespace Xamarin.Forms.Conference.WebRTC
 				conference.OnLinkCandidate -= OnLinkSendCandidate;
 				conference = null;
 
-				videoStream.OnLinkUp -= OnLinkUp;
 				videoStream.OnLinkInit -= AddRemoteVideoControl;
 				videoStream.OnLinkDown -= RemoveRemoteVideoControl;
 				videoStream = null;
@@ -265,12 +292,6 @@ namespace Xamarin.Forms.Conference.WebRTC
 			videoStream = new VideoStream(LocalMedia.LocalMediaStream);
 			videoStream.OnLinkInit += AddRemoteVideoControl;
 			videoStream.OnLinkDown += RemoveRemoteVideoControl;
-			videoStream.OnLinkUp += OnLinkUp;
-		}
-
-		void OnLinkUp(StreamLinkUpArgs p)
-		{
-
 		}
 
 		/// <summary>
@@ -330,6 +351,12 @@ namespace Xamarin.Forms.Conference.WebRTC
 		{
 			FM.Log.Info("Link to peer is UP.");
 			//linkUpAction.Invoke();
+
+			var handler = this.LinkUpEvent;
+			if (handler != null)
+			{
+				handler.Invoke(this, new EventArgs());
+			}
 		}
 
 		/// <summary>
@@ -341,11 +368,13 @@ namespace Xamarin.Forms.Conference.WebRTC
 		{
 			FM.Log.Info(string.Format("Link to peer is DOWN. {0}", e.Exception.Message));
 			//linkDown.Invoke();
+
+			var handler = this.LinkDownEvent;
+			if (handler != null)
+			{
+				handler.Invoke(this, new EventArgs());
+			}
 		}
-
-
-
-
 	}
 }
 
