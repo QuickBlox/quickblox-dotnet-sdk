@@ -17,6 +17,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 		readonly VideoChatMessage videoMessage;
 
 		private bool isCallNotificationVisible;
+		private bool isCallConnected;
 		private bool isIncomingCall;
 		private string usersInCall;
 		private string usersToCall;
@@ -30,11 +31,13 @@ namespace Xamarin.Forms.Conference.WebRTC
 			this.users = users;
 
 			this.AnswerCommand = new Command(this.AnswerCommandExecute,CanCommandExecute);
+			this.EndOfCallCommand = new Command(this.EndOfCallCommandExecute, CanCommandExecute);
 			this.RejectCommand = new Command(this.RejectCommandExecute,CanCommandExecute);
 		}
 
 		public ICommand AnswerCommand { get; set; }
 		public ICommand RejectCommand { get; set; }
+		public ICommand EndOfCallCommand { get; set; }
 
 		public ImageSource Image
 		{
@@ -66,6 +69,16 @@ namespace Xamarin.Forms.Conference.WebRTC
 			}
 		}
 
+		public bool IsCallConnected
+		{
+			get { return isCallConnected; }
+			set
+			{
+				isCallConnected = value;
+				RaisePropertyChanged();
+			}
+		}
+
 		public string UsersInCall
 		{
 			get { return usersInCall; }
@@ -91,6 +104,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 			base.OnAppearing();
 
 			this.IsCallNotificationVisible = true;
+			this.IsCallConnected = this.isCallInitiator;
 			this.IsIncomingCall = !this.isCallInitiator;
 
 			Image = ImageSource.FromFile("alfa_placeholder.png");
@@ -113,13 +127,13 @@ namespace Xamarin.Forms.Conference.WebRTC
 			App.CallHelperProvider.CallUpEvent -= OnCallUpEvent;
 			App.CallHelperProvider.CallDownEvent -= OnCallDownEvent;
 
-			App.CallHelperProvider.RejectVideoCall();
 			App.CallHelperProvider.StopLocalMedia();
 		}
 
 		private void OnCallUpEvent(object sender, EventArgs e)
 		{
 			this.IsCallNotificationVisible = false;
+			this.IsCallConnected = true;
 		}
 
 		private void OnCallDownEvent(object sender, EventArgs e)
@@ -173,12 +187,21 @@ namespace Xamarin.Forms.Conference.WebRTC
 			UsersToCall = string.Join(",", users.Select(u => u.FullName));
 		}
 
+		private void EndOfCallCommandExecute(object obj)
+		{
+			this.IsBusy = true;
+
+			App.CallHelperProvider.HangUpVideoCall();
+			Device.BeginInvokeOnMainThread(() => App.Navigation.PopAsync());
+
+			this.IsBusy = false;
+		}
+
 		private async void RejectCommandExecute(object obj)
 		{
 			this.IsBusy = true;
 
-			//App.CallHelperProvider.RejectVideoCall();
-			//App.CallHelperProvider.StopLocalMedia();
+			App.CallHelperProvider.RejectVideoCall();
 			Device.BeginInvokeOnMainThread(() => App.Navigation.PopAsync());
 
 			this.IsBusy = false;
@@ -192,7 +215,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 			App.CallHelperProvider.ConnectToIncomingCall(this.mainUser, this.users, videoMessage);
 
 			this.IsCallNotificationVisible = false;
-			this.IsIncomingCall = false;
+			this.IsCallConnected = true;
 
 			this.IsBusy = false;
 		}

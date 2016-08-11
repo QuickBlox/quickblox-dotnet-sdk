@@ -191,6 +191,12 @@
     <BundleResource Include="Resources\checked_checkbox%402x.png" />
     <BundleResource Include="Resources\unchecked_checkbox.png" />
     <BundleResource Include="Resources\unchecked_checkbox%402x.png" />
+    <BundleResource Include="Resources\busy.wav" />
+    <BundleResource Include="Resources\calling.wav" />
+    <BundleResource Include="Resources\end_of_call.wav" />
+    <BundleResource Include="Resources\received.wav" />
+    <BundleResource Include="Resources\ringtone.wav" />
+    <BundleResource Include="Resources\sent.wav" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -212,6 +218,7 @@
     <Compile Include="App\Render\CheckBoxView.cs" />
     <Compile Include="App\Render\WrapLabelRender.cs" />
     <Compile Include="Converters\BooleanToNegationConverter.cs" />
+    <Compile Include="AudioService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="ITunesArtwork" />

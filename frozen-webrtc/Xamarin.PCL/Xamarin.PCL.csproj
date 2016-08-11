@@ -45,6 +45,7 @@
     <Compile Include="Interfaces\ILoginStorage.cs" />
     <Compile Include="Providers\MessageProvider.cs" />
     <Compile Include="Models\SelectableUser.cs" />
+    <Compile Include="Interfaces\IAudio.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

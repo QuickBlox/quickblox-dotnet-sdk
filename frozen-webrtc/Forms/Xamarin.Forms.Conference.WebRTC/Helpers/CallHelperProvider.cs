@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Timers;
+using AudioPlayEx;
 using Quickblox.Sdk;
 using Quickblox.Sdk.Modules.ChatXmppModule;
 using Quickblox.Sdk.Modules.ChatXmppModule.ExtraParameters;
@@ -19,6 +21,11 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 	public class CallHelperProvider
 	{
+		public const string CallFileName = "calling.wav";
+		public const string RingtoneFileName = "ringtone.wav";
+		public const string BusyFileName = "busy.wav";
+		public const string EndCallFileName = "end_of_call.wav";
+
 		// Message client
 		private ChatXmppClient chatXmppClient;
 		private WebSyncClient webSyncClient;
@@ -31,6 +38,8 @@ namespace Xamarin.Forms.Conference.WebRTC
 		// Video
 		private LocalMedia localMedia;
 		private AbsoluteLayout videoContainer;
+		Timer callOutgoingAudioTimer;
+		Timer callIncomingAudioTimer;
 
 		public event EventHandler<IncomingCall> IncomingCallMessageEvent;
 		public event EventHandler<VideoChatMessage> IncomingDropMessageEvent;
@@ -40,6 +49,8 @@ namespace Xamarin.Forms.Conference.WebRTC
 		public VideoChatState VideoChatState { get; private set; } = VideoChatState.None;
 
 		public ConferenceWrapper CurrentCall { get; private set; }
+
+		public bool IsConnected { get; private set; }
 
 		public CallHelperProvider(QuickbloxClient client)
 		{
@@ -51,6 +62,24 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 			chatXmppClient.MessageReceived += OnMessageReceived;
 			webSyncClient.VideoChatMessage += OnVideoChatMessageReceived;
+
+			callOutgoingAudioTimer = new Timer();
+			callOutgoingAudioTimer.Elapsed += OnCallOutgoingAudioTimer;
+			callOutgoingAudioTimer.Interval = 5000;
+
+			callIncomingAudioTimer = new Timer();
+			callIncomingAudioTimer.Elapsed += OnCallIncomingAudioTimer;
+			callIncomingAudioTimer.Interval = 5000;
+		}
+
+		private void OnCallIncomingAudioTimer(object sender, ElapsedEventArgs e)
+		{
+			DependencyService.Get<IAudio>().PlayAudioFile(RingtoneFileName);
+		}
+
+		private void OnCallOutgoingAudioTimer(object sender, ElapsedEventArgs e)
+		{
+			DependencyService.Get<IAudio>().PlayAudioFile(CallFileName);
 		}
 
 		public void InitVideoContainer(AbsoluteLayout videoContainer)
@@ -79,6 +108,9 @@ namespace Xamarin.Forms.Conference.WebRTC
 		/// <param name="sdp">Sdp.</param>
 		public void CallToUsers(string sessionId, User caller, List<User> receivers)
 		{
+			callOutgoingAudioTimer.Start();
+			callIncomingAudioTimer.Stop();
+
 			StartLocalMedia((error) =>
 			{
 				// TODO: temp err
@@ -138,6 +170,9 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 		public void RejectVideoCall()
 		{
+			callOutgoingAudioTimer.Stop();
+			callIncomingAudioTimer.Stop();
+
 			VideoChatState = VideoChatState.None;
 
 			if (receivers != null)
@@ -156,6 +191,35 @@ namespace Xamarin.Forms.Conference.WebRTC
 				this.CurrentCall.ReceiveIceCandidateEvent -= OnReceiveIceCandidate;
 				this.CurrentCall = null;
 			}
+
+			this.sessionId = null;
+		}
+
+		public void HangUpVideoCall()
+		{
+			callOutgoingAudioTimer.Stop();
+			callIncomingAudioTimer.Stop();
+
+			VideoChatState = VideoChatState.None;
+
+			if (receivers != null)
+			{
+				foreach (var user in receivers)
+				{
+					this.webSyncClient.HangUp(this.sessionId, caller.Id.ToString(), user.Id.ToString(), receivers.Select(u => u.Id.ToString()).ToList(), Device.OS.ToString().ToLower());
+				}
+			}
+
+			if (this.CurrentCall != null)
+			{
+				this.CurrentCall.LinkUpEvent -= OnLinkUp;
+				this.CurrentCall.LinkDownEvent -= OnLinkDown;
+				this.CurrentCall.ReceiveSdpEvent -= OnReceiveSdp;
+				this.CurrentCall.ReceiveIceCandidateEvent -= OnReceiveIceCandidate;
+				this.CurrentCall = null;
+			}
+
+			this.sessionId = null;
 		}
 
 		private void OnReceiveSdp(object sender, SdpEventArgs e)
@@ -235,6 +299,9 @@ namespace Xamarin.Forms.Conference.WebRTC
 			{
 				handler.Invoke(this, new EventArgs());
 			}
+
+			callOutgoingAudioTimer.Stop();
+			callIncomingAudioTimer.Stop();
 		}
 
 		private void OnLinkUp(object sender, EventArgs e)
@@ -244,6 +311,9 @@ namespace Xamarin.Forms.Conference.WebRTC
 			{
 				handler.Invoke(this, new EventArgs());
 			}
+
+			callOutgoingAudioTimer.Stop();
+			callIncomingAudioTimer.Stop();
 		}
 
 		private void OnVideoChatMessageReceived(object sender, VideoChatMessage e)
@@ -251,6 +321,10 @@ namespace Xamarin.Forms.Conference.WebRTC
 			//if (e.Caller != OpponentId)
 			//    return;
 
+			// Check if message missing and not actual from other call
+			if (e.SessionId != this.sessionId && this.sessionId != null)
+				return;
+			
 			if (VideoChatState == VideoChatState.SendOffer && e.Signal == SignalType.call)
 				return;
 
@@ -339,6 +413,18 @@ namespace Xamarin.Forms.Conference.WebRTC
 			{
 				handler.Invoke(sender, e);
 			}
+
+			callOutgoingAudioTimer.Stop();
+			callIncomingAudioTimer.Stop();
+
+			if (e.Signal == SignalType.hangUp)
+			{
+				DependencyService.Get<IAudio>().PlayAudioFile(EndCallFileName);
+			}
+			else if (e.Signal == SignalType.reject)
+			{
+				DependencyService.Get<IAudio>().PlayAudioFile(BusyFileName);
+			}
 		}
 
 		private void InvokeIncomingEvent(object sender, VideoChatMessage e, User callerUser, List<User> opponents)
@@ -355,6 +441,9 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 				handler.Invoke(sender, incomingCall);
 			}
+
+			callOutgoingAudioTimer.Stop();
+			callIncomingAudioTimer.Start();
 		}
 
 		private static void OnMessageReceived(object sender, MessageEventArgs messageEventArgs)

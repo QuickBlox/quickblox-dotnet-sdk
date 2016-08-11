@@ -184,6 +184,7 @@
     <Compile Include="SplashActivity.cs" />
     <Compile Include="DroidApplication.cs" />
     <Compile Include="Converters\BooleanToNegationConverter.cs" />
+    <Compile Include="AudioService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -278,6 +279,14 @@
       <Project>{BAB0816F-0E30-4AD0-B760-90F15156CDA5}</Project>
       <Name>Quickblox.Sdk</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\calling.wav" />
+    <AndroidAsset Include="Assets\busy.wav" />
+    <AndroidAsset Include="Assets\end_of_call.wav" />
+    <AndroidAsset Include="Assets\received.wav" />
+    <AndroidAsset Include="Assets\ringtone.wav" />
+    <AndroidAsset Include="Assets\sent.wav" />
   </ItemGroup>
   <Import Project="..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

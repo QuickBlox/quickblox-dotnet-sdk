@@ -64,17 +64,17 @@
 
 			<StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="End" Padding="0,0,0,80">
 				<StackLayout 
-						IsVisible="{Binding IsIncomingCall, Converter={StaticResource BooleanToNegationConverter}}"
+						IsVisible="{Binding IsCallConnected}"
 						HorizontalOptions="FillAndExpand" >
 					<controls:CircleImage x:Name="RejectOutgongCallButton" FillColor="Red" Source="decline_vc.png" BorderThickness="4" BorderColor="Red" WidthRequest="60" HeightRequest="80" Aspect="AspectFit"
 						HorizontalOptions="Center" >
 						  <controls:CircleImage.GestureRecognizers>
-						        <TapGestureRecognizer Command="{Binding RejectCommand}"/>
+						        <TapGestureRecognizer Command="{Binding EndOfCallCommand}"/>
 						  </controls:CircleImage.GestureRecognizers>
 						</controls:CircleImage>
 				</StackLayout>
 			   <StackLayout Padding="36,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-						IsVisible="{Binding IsIncomingCall}" >
+						IsVisible="{Binding IsCallConnected, Converter={StaticResource BooleanToNegationConverter}}" >
 					<controls:CircleImage x:Name="RejectImage" FillColor="Red" Source="decline_vc.png" BorderThickness="4" BorderColor="Red" WidthRequest="60" HeightRequest="80" Aspect="AspectFit"
 						 HorizontalOptions="Center">
 						  <controls:CircleImage.GestureRecognizers>
@@ -83,7 +83,7 @@
 						</controls:CircleImage>
 				</StackLayout>
 				<StackLayout Padding="36,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
-						IsVisible="{Binding IsIncomingCall}">
+						IsVisible="{Binding IsCallConnected, Converter={StaticResource BooleanToNegationConverter}}">
 					<controls:CircleImage x:Name="AnswerImage" Source="answer_ic.png" FillColor="Lime" BorderThickness="4" BorderColor="Lime" WidthRequest="60" HeightRequest="80" Aspect="AspectFit"
 						 HorizontalOptions="Center">
 						  <controls:CircleImage.GestureRecognizers>
