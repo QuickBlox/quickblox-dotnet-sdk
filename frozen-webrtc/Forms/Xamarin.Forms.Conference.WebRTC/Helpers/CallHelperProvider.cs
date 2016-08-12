@@ -50,7 +50,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 		public ConferenceWrapper CurrentCall { get; private set; }
 
-		public bool IsConnected { get; private set; }
+		public bool IsConnecting { get; private set; }
 
 		public CallHelperProvider(QuickbloxClient client)
 		{
@@ -70,6 +70,13 @@ namespace Xamarin.Forms.Conference.WebRTC
 			callIncomingAudioTimer = new Timer();
 			callIncomingAudioTimer.Elapsed += OnCallIncomingAudioTimer;
 			callIncomingAudioTimer.Interval = 5000;
+		}
+
+		public void InitCall(string sessionId, User caller, List<User> receivers)
+		{
+			this.sessionId = sessionId;
+			this.caller = caller;
+			this.receivers = receivers;
 		}
 
 		private void OnCallIncomingAudioTimer(object sender, ElapsedEventArgs e)
@@ -106,7 +113,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 		/// Call users the specified sdp.
 		/// </summary>
 		/// <param name="sdp">Sdp.</param>
-		public void CallToUsers(string sessionId, User caller, List<User> receivers)
+		public void CallToUsers()
 		{
 			callOutgoingAudioTimer.Start();
 			callIncomingAudioTimer.Stop();
@@ -119,10 +126,6 @@ namespace Xamarin.Forms.Conference.WebRTC
 					Debug.WriteLine("Error CAll: " + error);
 					return;
 				}
-
-				this.sessionId = sessionId;
-				this.caller = caller;
-				this.receivers = receivers;
 
 				Debug.WriteLine("Start Call method");
 
@@ -137,13 +140,14 @@ namespace Xamarin.Forms.Conference.WebRTC
 					this.CurrentCall.Link(user.Id.ToString());
 				}
 
+				this.IsConnecting = true;
 				VideoChatState = VideoChatState.WaitOffer;
 
 				Debug.WriteLine("End Call method");
 			});
 		}
 
-		public void ConnectToIncomingCall(User caller, List<User> receivers, VideoChatMessage e)
+		public void ConnectToIncomingCall(VideoChatMessage e)
 		{
 			StartLocalMedia((error) =>
 			{
@@ -153,10 +157,6 @@ namespace Xamarin.Forms.Conference.WebRTC
 					Debug.WriteLine("Error CAll: " + error);
 					return;
 				}
-
-				this.sessionId = e.SessionId;
-				this.caller = caller;
-				this.receivers = receivers;
 
 				// Incoming new call
 				this.CurrentCall = new ConferenceWrapper(e.SessionId, localMedia);
@@ -175,24 +175,22 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 			VideoChatState = VideoChatState.None;
 
-			if (receivers != null)
+			if (this.IsConnecting)
 			{
-				foreach (var user in receivers)
+				if (this.caller.Id == App.UserId)
 				{
-					this.webSyncClient.Reject(this.sessionId, caller.Id.ToString(), user.Id.ToString(), receivers.Select(u => u.Id.ToString()).ToList(), Device.OS.ToString().ToLower());
+					foreach (var user in receivers)
+					{
+						this.webSyncClient.Reject(this.sessionId, caller.Id.ToString(), user.Id.ToString(), receivers.Select(u => u.Id.ToString()).ToList(), Device.OS.ToString().ToLower());
+					}				
+				}
+				else 
+				{
+					this.webSyncClient.Reject(this.sessionId, caller.Id.ToString(), caller.Id.ToString(), receivers.Select(u => u.Id.ToString()).ToList(), Device.OS.ToString().ToLower());
 				}
 			}
 
-			if (this.CurrentCall != null)
-			{
-				this.CurrentCall.LinkUpEvent -= OnLinkUp;
-				this.CurrentCall.LinkDownEvent -= OnLinkDown;
-				this.CurrentCall.ReceiveSdpEvent -= OnReceiveSdp;
-				this.CurrentCall.ReceiveIceCandidateEvent -= OnReceiveIceCandidate;
-				this.CurrentCall = null;
-			}
-
-			this.sessionId = null;
+			DisposeConference();
 		}
 
 		public void HangUpVideoCall()
@@ -202,14 +200,26 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 			VideoChatState = VideoChatState.None;
 
-			if (receivers != null)
+			if (this.IsConnecting)
 			{
-				foreach (var user in receivers)
+				if (this.caller.Id == App.UserId)
 				{
-					this.webSyncClient.HangUp(this.sessionId, caller.Id.ToString(), user.Id.ToString(), receivers.Select(u => u.Id.ToString()).ToList(), Device.OS.ToString().ToLower());
+					foreach (var user in receivers)
+					{
+						this.webSyncClient.HangUp(this.sessionId, caller.Id.ToString(), user.Id.ToString(), receivers.Select(u => u.Id.ToString()).ToList(), Device.OS.ToString().ToLower());
+					}
+				}
+				else
+				{
+					this.webSyncClient.HangUp(this.sessionId, caller.Id.ToString(), caller.Id.ToString(), receivers.Select(u => u.Id.ToString()).ToList(), Device.OS.ToString().ToLower());
 				}
 			}
 
+			DisposeConference();
+		}
+
+		private void DisposeConference()
+		{
 			if (this.CurrentCall != null)
 			{
 				this.CurrentCall.LinkUpEvent -= OnLinkUp;
@@ -219,14 +229,18 @@ namespace Xamarin.Forms.Conference.WebRTC
 				this.CurrentCall = null;
 			}
 
+			this.IsConnecting = false;
 			this.sessionId = null;
 		}
 
+
 		private void OnReceiveSdp(object sender, SdpEventArgs e)
 		{
+			if (sessionId == null)
+				return;
+			
 			if (VideoChatState == VideoChatState.WaitOffer)
 			{
-				// TODO: send to all users maybe
 				if (e.IsOffer)
 				{
 					this.webSyncClient.Call(sessionId, e.Sdp, caller.Id.ToString(), e.PeerId, this.receivers.Select(u => u.Id.ToString()).ToList(), Device.OS.ToString().ToLower());
@@ -243,6 +257,9 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 		private void OnReceiveIceCandidate(object sender, IceCandidateEventArgs e)
 		{
+			if (sessionId == null)
+				return;
+			
 			var iceCandidates = new Collection<IceCandidate>();
 			iceCandidates.Add(new IceCandidate()
 			{
@@ -268,28 +285,27 @@ namespace Xamarin.Forms.Conference.WebRTC
 			if (videoContainer == null)
 				throw new ArgumentNullException(nameof(videoContainer));
 
-			if (localMedia != null)
+			if (this.localMedia != null)
 				return;
 
-			localMedia = new LocalMedia();
-			localMedia.Start(videoContainer, callback);
+			this.localMedia = new LocalMedia();
+			this.localMedia.Start(videoContainer, callback);
 		}
 
 		public void StopLocalMedia()
 		{
-			if (localMedia == null)
+			if (this.localMedia == null)
 				return;
 
-			localMedia.Stop((error) =>
+			this.localMedia.Stop((error) =>
 			{
 				if (error != null)
 				{
 					Debug.WriteLine("StopLocalMedia method: " + error);
 				}
 			});
-			localMedia = null;
-
-
+			this.localMedia = null;
+			this.sessionId = null;
 		}
 
 		private void OnLinkDown(object sender, EventArgs e)
@@ -302,6 +318,8 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 			callOutgoingAudioTimer.Stop();
 			callIncomingAudioTimer.Stop();
+
+			DisposeConference();
 		}
 
 		private void OnLinkUp(object sender, EventArgs e)
@@ -349,12 +367,13 @@ namespace Xamarin.Forms.Conference.WebRTC
 				// Входящий сигнал, и текущее состояние не активен
 				if (VideoChatState == VideoChatState.None)
 				{
-					VideoChatState = VideoChatState.WaitAnswer;
-
 					var callerIdInRequestCall = e.Caller;
 					var callerUser = App.UsersInRoom.FirstOrDefault(u => u.Id == Int32.Parse(callerIdInRequestCall));
 					if (callerUser != null)
 					{
+						this.IsConnecting = true;
+						VideoChatState = VideoChatState.WaitAnswer;
+
 						var opponents = new List<User>();
 						foreach (var id in e.OpponentsIds)
 						{
@@ -452,4 +471,5 @@ namespace Xamarin.Forms.Conference.WebRTC
 		}
 	}
 }
+
 

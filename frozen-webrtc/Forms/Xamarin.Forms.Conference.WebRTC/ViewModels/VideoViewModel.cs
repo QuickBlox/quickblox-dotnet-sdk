@@ -101,7 +101,20 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 		public override void OnAppearing()
 		{
-			base.OnAppearing();
+			var sessionId = string.Empty;
+			if (videoMessage != null)
+			{
+				sessionId = videoMessage.SessionId;
+			}
+			else
+			{
+				sessionId = Guid.NewGuid().ToString();
+			}
+
+			App.CallHelperProvider.InitCall(sessionId, this.mainUser, this.users);
+			App.CallHelperProvider.IncomingDropMessageEvent += IncomingDropMessage;
+			App.CallHelperProvider.CallUpEvent += OnCallUpEvent;
+			App.CallHelperProvider.CallDownEvent += OnCallDownEvent;
 
 			this.IsCallNotificationVisible = true;
 			this.IsCallConnected = this.isCallInitiator;
@@ -110,23 +123,19 @@ namespace Xamarin.Forms.Conference.WebRTC
 			Image = ImageSource.FromFile("alfa_placeholder.png");
 
 		    LoadCallInfo();
+
 			if (this.isCallInitiator)
 			{
-				App.CallHelperProvider.CallToUsers(Guid.NewGuid().ToString(), this.mainUser, this.users);
+				App.CallHelperProvider.CallToUsers();
 			}
 
-			App.CallHelperProvider.IncomingDropMessageEvent += IncomingDropMessage;
-			App.CallHelperProvider.CallUpEvent += OnCallUpEvent;
-			App.CallHelperProvider.CallDownEvent += OnCallDownEvent;
 		}
 
 		public override void OnDisappearing()
 		{
-			base.OnDisappearing();
 			App.CallHelperProvider.IncomingDropMessageEvent -= IncomingDropMessage;
 			App.CallHelperProvider.CallUpEvent -= OnCallUpEvent;
 			App.CallHelperProvider.CallDownEvent -= OnCallDownEvent;
-
 			App.CallHelperProvider.StopLocalMedia();
 		}
 
@@ -197,7 +206,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 			this.IsBusy = false;
 		}
 
-		private async void RejectCommandExecute(object obj)
+		private void RejectCommandExecute(object obj)
 		{
 			this.IsBusy = true;
 
@@ -212,7 +221,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 			this.IsBusy = true;
 
 			// Show incoming call
-			App.CallHelperProvider.ConnectToIncomingCall(this.mainUser, this.users, videoMessage);
+			App.CallHelperProvider.ConnectToIncomingCall(videoMessage);
 
 			this.IsCallNotificationVisible = false;
 			this.IsCallConnected = true;
