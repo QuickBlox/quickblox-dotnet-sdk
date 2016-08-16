@@ -4,7 +4,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 {
 	public class ViewModel : Observable
 	{
-		protected bool isLoaded;
+		private bool isLoaded;
 		private bool isBusy;
 
 		public ViewModel()
@@ -24,8 +24,19 @@ namespace Xamarin.Forms.Conference.WebRTC
 			}
 		}
 
+		public bool IsLoaded
+		{
+			get { return isLoaded; }
+			set
+			{
+				isLoaded = value;
+				RaisePropertyChanged();
+			}
+		}
+
 		public virtual void OnAppearing()
 		{
+			IsLoaded = true;
 		}
 
 		public virtual void OnDisappearing()

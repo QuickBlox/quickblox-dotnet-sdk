@@ -173,8 +173,6 @@ namespace Xamarin.Forms.Conference.WebRTC
 			callOutgoingAudioTimer.Stop();
 			callIncomingAudioTimer.Stop();
 
-			VideoChatState = VideoChatState.None;
-
 			if (this.IsConnecting)
 			{
 				if (this.caller.Id == App.UserId)
@@ -229,8 +227,10 @@ namespace Xamarin.Forms.Conference.WebRTC
 				this.CurrentCall = null;
 			}
 
+
 			this.IsConnecting = false;
 			this.sessionId = null;
+			VideoChatState = VideoChatState.None;
 		}
 
 
@@ -346,7 +346,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 			if (VideoChatState == VideoChatState.SendOffer && e.Signal == SignalType.call)
 				return;
 
-			if (e.Signal == SignalType.reject || e.Signal == SignalType.hangUp)
+			if ((e.Signal == SignalType.reject || e.Signal == SignalType.hangUp) && this.sessionId != null)
 			{
 				VideoChatState = VideoChatState.None;
 				if (this.CurrentCall != null)
@@ -362,7 +362,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 				InvokeDropCallMessage(sender, e);
 			}
-			else if (e.Signal == SignalType.call || e.Signal == SignalType.accept)
+			else if ((e.Signal == SignalType.call &&  this.sessionId == null ) || (e.Signal == SignalType.accept && this.sessionId != null))
 			{
 				// Входящий сигнал, и текущее состояние не активен
 				if (VideoChatState == VideoChatState.None)
@@ -407,7 +407,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 					//Conference.ReceiveOfferAnswer(answer, e.Caller.ToString());
 				}
 			}
-			else if (e.Signal == SignalType.iceCandidates)
+			else if ((e.Signal == SignalType.iceCandidates) && this.sessionId != null)
 			{
 				//foreach (var iceCandidate in e.IceCandidates)
 				//{

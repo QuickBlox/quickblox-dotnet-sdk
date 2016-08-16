@@ -5,33 +5,37 @@ using AudioPlayEx.iOS;
 using System.IO;
 using Foundation;
 using AVFoundation;
+using System.Threading.Tasks;
+using Xamarin.PCL.Helpers;
 
 [assembly: Dependency (typeof (AudioService))]
 namespace AudioPlayEx.iOS
 {
 	public class AudioService : NSObject, IAudio, IAVAudioPlayerDelegate 
 	{
+		AVAudioPlayer _player;
+
 		public AudioService ()
 		{
 		}
 
 		public void PlayAudioFile(string fileName)
 		{
-
 			NSError error = null;
-			AVAudioSession.SharedInstance ().SetCategory (AVAudioSession.CategoryPlayback, out error);
+			AVAudioSession.SharedInstance().SetCategory(AVAudioSession.CategoryPlayback, out error);
 
 			string sFilePath = NSBundle.MainBundle.PathForResource(Path.GetFileNameWithoutExtension(fileName), Path.GetExtension(fileName));
-			var url = NSUrl.FromString (sFilePath);
-			var _player = AVAudioPlayer.FromUrl(url);
+			var url = NSUrl.FromString(sFilePath);
+			_player = AVAudioPlayer.FromUrl(url);
 			_player.Delegate = this;
-			_player.Volume =100f;
+			_player.Volume = 100f;
 			_player.PrepareToPlay();
-			_player.FinishedPlaying += (object sender, AVStatusEventArgs e) => {
+			_player.FinishedPlaying += (object sender, AVStatusEventArgs e) =>
+			{
 				_player = null;
 			};
-			_player.Play(); 
 
+			_player.Play();
 		}
 
 		public void Dispose ()

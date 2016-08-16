@@ -101,6 +101,10 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 		public override void OnAppearing()
 		{
+			this.IsCallNotificationVisible = true;
+			this.IsCallConnected = this.isCallInitiator;
+			this.IsIncomingCall = !this.isCallInitiator;
+
 			var sessionId = string.Empty;
 			if (videoMessage != null)
 			{
@@ -116,10 +120,6 @@ namespace Xamarin.Forms.Conference.WebRTC
 			App.CallHelperProvider.CallUpEvent += OnCallUpEvent;
 			App.CallHelperProvider.CallDownEvent += OnCallDownEvent;
 
-			this.IsCallNotificationVisible = true;
-			this.IsCallConnected = this.isCallInitiator;
-			this.IsIncomingCall = !this.isCallInitiator;
-
 			Image = ImageSource.FromFile("alfa_placeholder.png");
 
 		    LoadCallInfo();
@@ -129,6 +129,8 @@ namespace Xamarin.Forms.Conference.WebRTC
 				App.CallHelperProvider.CallToUsers();
 			}
 
+
+			base.OnAppearing();
 		}
 
 		public override void OnDisappearing()

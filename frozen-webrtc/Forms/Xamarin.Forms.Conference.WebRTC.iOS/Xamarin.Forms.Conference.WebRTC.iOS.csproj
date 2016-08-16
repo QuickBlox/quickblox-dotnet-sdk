@@ -146,15 +146,6 @@
     <Reference Include="ImageCircle.Forms.Plugin.Abstractions">
       <HintPath>..\..\packages\Xam.Plugins.Forms.ImageCircle.1.4.1\lib\Xamarin.iOS10\ImageCircle.Forms.Plugin.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Quickblox.Sdk">
-      <HintPath>..\..\packages\Quickblox.Sdk.1.2.5\lib\Xamarin.iOS10\Quickblox.Sdk.dll</HintPath>
-    </Reference>
-    <Reference Include="Quickblox.Sdk.Platform.Abstractions">
-      <HintPath>..\..\packages\Quickblox.Sdk.1.2.5\lib\Xamarin.iOS10\Quickblox.Sdk.Platform.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Quickblox.Sdk.Platform.iOS">
-      <HintPath>..\..\packages\Quickblox.Sdk.1.2.5\lib\Xamarin.iOS10\Quickblox.Sdk.Platform.iOS.dll</HintPath>
-    </Reference>
     <Reference Include="FM.Audio">
       <HintPath>..\..\Libraries\XamariniOS\FM.Audio.dll</HintPath>
     </Reference>
@@ -169,6 +160,15 @@
     </Reference>
     <Reference Include="FM.Video">
       <HintPath>..\..\Libraries\XamariniOS\FM.Video.dll</HintPath>
+    </Reference>
+    <Reference Include="Quickblox.Sdk">
+      <HintPath>..\..\packages\Quickblox.Sdk.1.2.7\lib\Xamarin.iOS10\Quickblox.Sdk.dll</HintPath>
+    </Reference>
+    <Reference Include="Quickblox.Sdk.Platform.Abstractions">
+      <HintPath>..\..\packages\Quickblox.Sdk.1.2.7\lib\Xamarin.iOS10\Quickblox.Sdk.Platform.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Quickblox.Sdk.Platform.iOS">
+      <HintPath>..\..\packages\Quickblox.Sdk.1.2.7\lib\Xamarin.iOS10\Quickblox.Sdk.Platform.iOS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +197,19 @@
     <BundleResource Include="Resources\received.wav" />
     <BundleResource Include="Resources\ringtone.wav" />
     <BundleResource Include="Resources\sent.wav" />
+    <BundleResource Include="Resources\alfa_placeholder.png" />
+    <BundleResource Include="Resources\answer_ic.png" />
+    <BundleResource Include="Resources\cam_off_top_ic.png" />
+    <BundleResource Include="Resources\camera_on_vc.png" />
+    <BundleResource Include="Resources\camera_switch.png" />
+    <BundleResource Include="Resources\decline_vc.png" />
+    <BundleResource Include="Resources\dynamic_off_ic.png" />
+    <BundleResource Include="Resources\ic_settings.png" />
+    <BundleResource Include="Resources\mute_ic.png" />
+    <BundleResource Include="Resources\mute_off_ic.png" />
+    <BundleResource Include="Resources\qb_splash_link.png" />
+    <BundleResource Include="Resources\rec_ic.png" />
+    <BundleResource Include="Resources\sound_off.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />

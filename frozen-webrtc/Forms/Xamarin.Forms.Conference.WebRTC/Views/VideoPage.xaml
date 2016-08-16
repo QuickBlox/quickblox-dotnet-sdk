@@ -62,7 +62,7 @@
 			</StackLayout>
 
 
-			<StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="End" Padding="0,0,0,80">
+			<StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="End" Padding="0,0,0,80" x:Name="buttonRoot" IsVisible="false">
 				<StackLayout 
 						IsVisible="{Binding IsCallConnected}"
 						HorizontalOptions="FillAndExpand" >

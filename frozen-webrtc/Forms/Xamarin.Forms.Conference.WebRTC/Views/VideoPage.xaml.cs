@@ -46,6 +46,8 @@ namespace Xamarin.Forms.Conference.WebRTC
 			var vm = new VideoViewModel(this.isCallInitiator, this.mainUser, this.users, this.initiateVideoMessage);
 			this.BindingContext = vm;
 			vm.OnAppearing();
+
+			buttonRoot.IsVisible = true;
 		}
 	}
 }
