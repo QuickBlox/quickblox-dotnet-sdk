@@ -2,8 +2,8 @@
 
 namespace Xamarin.Forms.Conference.WebRTC
 {
-	public class ViewModel : Observable
-	{
+	public class ViewModel : Xamarin.PCL.Observable
+    {
 		private bool isLoaded;
 		private bool isBusy;
 

@@ -105,7 +105,7 @@ namespace Xamarin.Forms.Conference.WebRTC.Controls
 
 			this._checkBox.CheckedChanged += (object sender, bool e) =>
 			{
-				if (!checkStateChangedInternal)
+				if (!checkStateChangedInternal && e != this._checkBox.Checked)
 					ChangeChekedState();
 			};
 

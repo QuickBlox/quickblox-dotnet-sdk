@@ -39,15 +39,14 @@ namespace Xamarin.Forms.Conference.WebRTC
 			App.SetLogin();
 
 #if __ANDROID__
-
-			// Log to the console.
 			FM.Log.Provider = new AndroidLogProvider(LogLevel.Debug);
-
-#else
-			// Log to the console.
+#elif __ISO__
 			FM.Log.Provider = new NSLogProvider(LogLevel.Debug);
+#elif WINDOWS_APP
+            FM.Log.Provider = new DebugLogProvider(LogLevel.Debug);
 #endif
-		}
+
+        }
 
 		public void InitChatClient()
 		{

@@ -4,9 +4,11 @@ using Xamarin.Forms;
 
 #if __IOS__
 using Xamarin.Forms.Platform.iOS;
-#else
+#elif __ANDROID__
 using Xamarin.Forms.Platform.Android;
 using Views = Android.Views;
+#elif WINDOWS_APP
+using Xamarin.Forms.Platform.WinRT;
 #endif
 
 using Xamarin.Forms.Conference.WebRTC;
@@ -22,13 +24,17 @@ namespace Xamarin.Forms.Conference.WebRTC
         {
         get { return (UIKit.UIView)WeakNativeControl; }
         }
-#else
+#elif __ANDROID__
         public Views.View NativeControl
         {
             get { return (Views.View)WeakNativeControl; }
         }
+#elif WINDOWS_APP
+        public Windows.UI.Xaml.Controls.Canvas NativeControl
+        {
+            get { return (Windows.UI.Xaml.Controls.Canvas)WeakNativeControl; }
+        }
 #endif
-
         public object WeakNativeControl { get; set; }
 
         public FormsVideoControl(object weakNativeControl)
@@ -37,7 +43,11 @@ namespace Xamarin.Forms.Conference.WebRTC
         }
     }
 
+#if WINDOWS_APP
+    public class FormsVideoControlRenderer : Platform.WinRT.ViewRenderer<View, Windows.UI.Xaml.Controls.Canvas>
+#else
     public class FormsVideoControlRenderer : ViewRenderer
+#endif
     {
         protected override void OnElementChanged(ElementChangedEventArgs<View> e)
         {

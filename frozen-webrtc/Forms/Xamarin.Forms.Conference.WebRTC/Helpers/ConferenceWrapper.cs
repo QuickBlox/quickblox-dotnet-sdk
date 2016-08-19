@@ -7,9 +7,11 @@ using System.Collections.Generic;
 #if __IOS__
 using Xamarin.Forms.Conference.WebRTC.iOS.Opus;
 using Xamarin.Forms.Conference.WebRTC.iOS.VP8;
-#else
+#elif __ANDROID__
 using Xamarin.Forms.Conference.WebRTC.Droid.Opus;
 using Xamarin.Forms.Conference.WebRTC.Droid.VP8;
+#elif WINDOWS_APP
+using Windows8.Conference.WebRTC;
 #endif
 
 using System;
@@ -82,21 +84,24 @@ namespace Xamarin.Forms.Conference.WebRTC
 				return new Vp8Codec();
 			}, true);
 
-			// For improved audio quality, we can use Opus. By
-			// setting it as the preferred audio codec, it will
-			// override the default PCMU/PCMA codecs.
-			AudioStream.RegisterCodec("opus", OpusClockRate, OpusChannels, () =>
+#if !WINDOWS_APP
+            // For improved audio quality, we can use Opus. By
+            // setting it as the preferred audio codec, it will
+            // override the default PCMU/PCMA codecs.
+            AudioStream.RegisterCodec("opus", OpusClockRate, OpusChannels, () =>
 			{
 #if __ANDROID__
 				return new OpusCodec(OpusEchoCanceller);
-#else
+#elif __IOS__
 				return new OpusCodec();
-#endif
-			}, true);
 
-			// To save time, generate a DTLS certificate when the
-			// app starts and reuse it for multiple conferences.
-			Certificate = Certificate.GenerateCertificate();
+#endif
+            }, true);
+#endif
+
+            // To save time, generate a DTLS certificate when the
+            // app starts and reuse it for multiple conferences.
+            Certificate = Certificate.GenerateCertificate();
 		}
 
 		public ConferenceWrapper(string sessionId, 
@@ -304,8 +309,12 @@ namespace Xamarin.Forms.Conference.WebRTC
 			try
 			{
 				var remoteVideoControl = e.Link.GetRemoteVideoControl();
-				LocalMedia.LayoutManager.AddRemoteVideoControl(e.PeerId, new FormsVideoControl(remoteVideoControl));
-			}
+#if __ANDROID__ || __IOS__
+                LocalMedia.LayoutManager.AddRemoteVideoControl(e.PeerId, new FormsVideoControl(remoteVideoControl));
+#elif WINDOWS_APP
+                LocalMedia.LayoutManager.AddRemoteVideoControl(e.PeerId, remoteVideoControl);
+#endif
+            }
 			catch (Exception ex)
 			{
 				FM.Log.Error("Could not add remote video control.", ex);
