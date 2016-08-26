@@ -22,7 +22,7 @@
           WinPhone="Primary" />
       </ToolbarItem.Order>
     </ToolbarItem>
-    <ToolbarItem Text="Settings"
+   <!-- <ToolbarItem Text="Settings"
                   Command="{Binding SettingsCommand}">
       <ToolbarItem.Order>
         <OnPlatform x:TypeArguments="ToolbarItemOrder"
@@ -30,7 +30,7 @@
           Android="Secondary"
           WinPhone="Primary" />
       </ToolbarItem.Order>
-    </ToolbarItem>
+    </ToolbarItem>-->
   </ContentPage.ToolbarItems>
    <Grid>
 	     <Grid.RowDefinitions>

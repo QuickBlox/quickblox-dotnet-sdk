@@ -40,9 +40,10 @@ namespace Xamarin.Forms.Conference.WebRTC
 		private User caller;
 		private List<User> receivers;
         private List<User> opponents;
+		private bool isVideoCall;
 
-        // Video
-        private LocalMedia localMedia;
+		// Video
+		private LocalMedia localMedia;
 		private AbsoluteLayout videoContainer;
 
 
@@ -55,7 +56,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 #endif
 
 
-        public event EventHandler<IncomingCall> IncomingCallMessageEvent;
+		public event EventHandler<IncomingCall> IncomingCallMessageEvent;
 		public event EventHandler<VideoChatMessage> IncomingDropMessageEvent;
 		public event EventHandler CallUpEvent;
 		public event EventHandler CallDownEvent;
@@ -95,11 +96,12 @@ namespace Xamarin.Forms.Conference.WebRTC
 #endif
         }
 
-        public void InitCall(string sessionId, User caller, List<User> receivers)
+        public void InitCall(string sessionId, User caller, List<User> receivers, bool isVideoCall)
 		{
 			this.sessionId = sessionId;
 			this.caller = caller;
 			this.receivers = receivers;
+			this.isVideoCall = isVideoCall;
 
             var listReceivers = new List<User>(this.receivers);
             listReceivers.Add(caller);
@@ -128,8 +130,6 @@ namespace Xamarin.Forms.Conference.WebRTC
 			DependencyService.Get<IAudio>().PlayAudioFile(CallFileName);
 		}
 #endif
-
-
         public void InitVideoContainer(AbsoluteLayout videoContainer)
 		{
 			this.videoContainer = videoContainer;
@@ -214,20 +214,20 @@ namespace Xamarin.Forms.Conference.WebRTC
 			callOutgoingAudioTimer.Stop();
 			callIncomingAudioTimer.Stop();
 
-			if (this.IsConnecting)
-			{
-				if (this.caller.Id == App.UserId)
-				{
-					foreach (var user in opponents)
-					{
-						this.webSyncClient.Reject(this.sessionId, caller.Id.ToString(), user.Id.ToString(), receivers.Select(u => u.Id.ToString()).ToList(), Device.OS.ToString().ToLower());
-					}				
-				}
-				else 
-				{
+			//if (this.IsConnecting)
+			//{
+			//	if (this.caller.Id == App.UserId)
+			//	{
+			//		foreach (var user in opponents)
+			//		{
+			//			this.webSyncClient.Reject(this.sessionId, caller.Id.ToString(), user.Id.ToString(), receivers.Select(u => u.Id.ToString()).ToList(), Device.OS.ToString().ToLower());
+			//		}				
+			//	}
+			//	else 
+			//	{
 					this.webSyncClient.Reject(this.sessionId, caller.Id.ToString(), caller.Id.ToString(), receivers.Select(u => u.Id.ToString()).ToList(), Device.OS.ToString().ToLower());
-				}
-			}
+			//	}
+			//}
 
 			DisposeConference();
 		}
@@ -329,7 +329,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 			if (this.localMedia != null)
 				return;
 
-			this.localMedia = new LocalMedia();
+			this.localMedia = new LocalMedia() { Video = isVideoCall };
 			this.localMedia.Start(videoContainer, callback);
 		}
 
@@ -389,9 +389,12 @@ namespace Xamarin.Forms.Conference.WebRTC
 			// Check if message missing and not actual from other call
 			if (e.SessionId != this.sessionId && this.sessionId != null)
 				return;
-			
-			if (VideoChatState == VideoChatState.SendOffer && e.Signal == SignalType.call)
+
+			if (e.Signal == SignalType.call && VideoChatState != VideoChatState.None)
+			{
+				this.webSyncClient.Reject(e.SessionId, e.Caller, e.Caller, e.OpponentsIds.ToList(), Device.OS.ToString().ToLower());
 				return;
+			}
 
 			if ((e.Signal == SignalType.reject || e.Signal == SignalType.hangUp) && this.sessionId != null)
 			{

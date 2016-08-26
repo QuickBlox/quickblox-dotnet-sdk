@@ -105,8 +105,8 @@ namespace Xamarin.Forms.Conference.WebRTC.Controls
 
 			this._checkBox.CheckedChanged += (object sender, bool e) =>
 			{
-				if (!checkStateChangedInternal && e != this._checkBox.Checked)
-					ChangeChekedState();
+				if (!checkStateChangedInternal && e != IsSelected)
+					this.IsSelected = e;
 			};
 
 			this._text = new Label
@@ -159,20 +159,8 @@ namespace Xamarin.Forms.Conference.WebRTC.Controls
 			base.OnTapped();
 
 			checkStateChangedInternal = true;
-			ChangeChekedState();
-			checkStateChangedInternal = false;
-		}
-
-		void ChangeChekedState()
-		{
 			this.IsSelected = !this.IsSelected;
-			if (this.Command != null)
-			{
-				if (this.Command.CanExecute(this))
-				{
-					this.Command.Execute(this);
-				}
-			}
+			checkStateChangedInternal = false;
 		}
 	}
 }

@@ -146,6 +146,8 @@ namespace Xamarin.Forms.Conference.WebRTC
 				{
 					DependencyService.Get<ILoginStorage>().Clear();
 
+					App.CallHelperProvider.IncomingCallMessageEvent -= IncomingCallMethod;
+
 					//((App)App.Current).RemoveChatClient();
 					App.SetLogin();
 				}
@@ -157,7 +159,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 		private void IncomingCallMethod(object sender, IncomingCall incomingCall)
 		{
 			Device.BeginInvokeOnMainThread(() =>
-			                               App.Navigation.PushAsync(new VideoPage(false, incomingCall.Caller, incomingCall.Opponents, incomingCall.VideoChatMessage)));
+										   App.SetVideoCall(false, incomingCall.Caller, incomingCall.Opponents, incomingCall.VideoChatMessage));
 		}
 
 		private bool CanCommandExecute(object arg)
@@ -179,35 +181,41 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 		private async void VideoCallCommandExecute(object obj)
 		{
+			if (IsBusy)
+				return;
+
+			this.IsBusy = true;
 			var users = Users.Where(u => u.IsSelected).Select(u => u.User).ToList();
-			if (users.Count > 0 && users.Count < 5)
+			if (users.Count > 0 && users.Count < 2)
 			{
-				await App.Navigation.PushAsync(new VideoPage(true, App.MainUser, users, null));
+				App.SetVideoCall(true, App.MainUser, users, null);
 			}
 			else 
 			{
 				await App.Current.MainPage.DisplayAlert("Error", "Please, select users from one till five", "Ok");
 			}
 
+			this.IsBusy = false;
 		}
 
 		private async void AudioCallCommandExecute(object obj)
 		{
+			if (IsBusy)
+				return;
 
-			//var result = await ((App)App.Current).ShowInputCallDialog(mainUser.FullName);
-			//if (result)
-			//{
-			//}
+			this.IsBusy = true;
 
-			//var users = Users.Where(u => u.IsSelected).Select(u => u.User).ToList();
-			//if (users.Count > 0 && users.Count < 5)
-			//{
-			//	await App.Navigation.PushAsync(new InComingCall(this.mainUser, users));
-			//}
-			//else
-			//{
-			//	await App.Current.MainPage.DisplayAlert("Error", "Please, select users from one till five", "Ok");
-			//}
+			var users = Users.Where(u => u.IsSelected).Select(u => u.User).ToList();
+			if (users.Count > 0 && users.Count < 2)
+			{
+				App.SetVideoCall(true, App.MainUser, users, null);
+			}
+			else
+			{
+				await App.Current.MainPage.DisplayAlert("Error", "Please, select users from one till five", "Ok");
+			}
+
+			this.IsBusy = false;
 		}
 	}
 }

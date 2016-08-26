@@ -17,8 +17,8 @@ namespace Xamarin.Forms.Conference.WebRTC
 		// We're going to need both audio and video
 		// for this example. We can constrain the
 		// video slightly for performance benefits.
-		private bool Audio = true;
-		private bool Video = true;
+		public bool Audio { get; set;}  = true;
+		public bool Video { get; set;} = true;
 		private int  VideoWidth = 320;
 		private int  VideoHeight = 240;
 		private int  VideoFrameRate = 27;

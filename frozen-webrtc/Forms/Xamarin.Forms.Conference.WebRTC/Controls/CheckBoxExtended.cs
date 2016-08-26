@@ -212,7 +212,7 @@
 		private static void OnCheckedPropertyChanged(BindableObject bindable, bool oldvalue, bool newvalue)
 		{
 			var checkBox = (CheckBoxExtended)bindable;
-			checkBox.Checked = newvalue;
+			//checkBox.Checked = newvalue;
 		}
 	}
 }

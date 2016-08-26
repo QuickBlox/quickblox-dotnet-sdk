@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FM;
+using Quickblox.Sdk.Modules.ChatXmppModule;
 using Quickblox.Sdk.Modules.UsersModule.Models;
 using Xamarin.PCL;
 
@@ -95,6 +96,19 @@ namespace Xamarin.Forms.Conference.WebRTC
 		{
 			var page = new NavigationPage(new LoginPage());
 			Navigation = page.Navigation;
+			Current.MainPage = page;
+		}
+
+		internal static void SetUsersPage()
+		{
+			var page = new NavigationPage(new UsersInGroup());
+			Navigation = page.Navigation;
+			Current.MainPage = page;
+		}
+
+		public static void SetVideoCall(bool isCallInitiator, User mainUser, List<User> opponents, VideoChatMessage videoMessage, bool isVideoCall = true)
+		{
+			var page = new VideoPage(isCallInitiator, mainUser, opponents, videoMessage, isVideoCall);
 			Current.MainPage = page;
 		}
 	}

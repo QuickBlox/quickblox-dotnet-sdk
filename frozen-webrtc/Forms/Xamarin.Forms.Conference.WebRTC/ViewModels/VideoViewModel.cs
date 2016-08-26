@@ -22,9 +22,11 @@ namespace Xamarin.Forms.Conference.WebRTC
 		private string usersInCall;
 		private string usersToCall;
 		private ImageSource image;
+		readonly bool isVideoCall;
 
-		public VideoViewModel(bool isCallInitiator, User mainUser, List<User> users, VideoChatMessage videoMessage)
+		public VideoViewModel(bool isCallInitiator, User mainUser, List<User> users, VideoChatMessage videoMessage, bool isVideoCall)
 		{
+			this.isVideoCall = isVideoCall;
 			this.videoMessage = videoMessage;
 			this.isCallInitiator = isCallInitiator;
 			this.mainUser = mainUser;
@@ -115,7 +117,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 				sessionId = Guid.NewGuid().ToString();
 			}
 
-			App.CallHelperProvider.InitCall(sessionId, this.mainUser, this.users);
+			App.CallHelperProvider.InitCall(sessionId, this.mainUser, this.users, isVideoCall);
 			App.CallHelperProvider.IncomingDropMessageEvent += IncomingDropMessage;
 			App.CallHelperProvider.CallUpEvent += OnCallUpEvent;
 			App.CallHelperProvider.CallDownEvent += OnCallDownEvent;
@@ -149,23 +151,23 @@ namespace Xamarin.Forms.Conference.WebRTC
 
 		private void OnCallDownEvent(object sender, EventArgs e)
 		{
-			Device.BeginInvokeOnMainThread(() => App.Navigation.PopAsync());
+			Device.BeginInvokeOnMainThread(() => App.SetUsersPage());
 		}
 
 		private void IncomingDropMessage(object sender, VideoChatMessage e)
 		{
-			if (e.Caller == e.Sender.ToString())
-			{
-				Device.BeginInvokeOnMainThread(() => App.Navigation.PopAsync());
-			}
-			else 
-			{
-				users = users.Where(u => u.Id != e.Sender).ToList();
-				if (users.Any())
-				{
-					Device.BeginInvokeOnMainThread(() => App.Navigation.PopAsync());
-				}
-			}
+			//if (e.Caller == e.Sender.ToString())
+			//{
+				Device.BeginInvokeOnMainThread(() => App.SetUsersPage());
+			//}
+			//else 
+			//{
+			//	users = users.Where(u => u.Id != e.Sender).ToList();
+			//	if (users.Any())
+			//	{
+			//		Device.BeginInvokeOnMainThread(() => App.SetUsersPage());
+			//	}
+			//}
 		}
 
 		private bool CanCommandExecute(object arg)
@@ -203,7 +205,9 @@ namespace Xamarin.Forms.Conference.WebRTC
 			this.IsBusy = true;
 
 			App.CallHelperProvider.HangUpVideoCall();
-			Device.BeginInvokeOnMainThread(() => App.Navigation.PopAsync());
+			Device.BeginInvokeOnMainThread(() =>
+										   App.SetUsersPage()
+			                              );
 
 			this.IsBusy = false;
 		}
@@ -213,7 +217,9 @@ namespace Xamarin.Forms.Conference.WebRTC
 			this.IsBusy = true;
 
 			App.CallHelperProvider.RejectVideoCall();
-			Device.BeginInvokeOnMainThread(() => App.Navigation.PopAsync());
+			Device.BeginInvokeOnMainThread(() =>
+										   App.SetUsersPage()
+										  );
 
 			this.IsBusy = false;
 		}
@@ -231,6 +237,10 @@ namespace Xamarin.Forms.Conference.WebRTC
 			this.IsBusy = false;
 		}
 
+		public override bool OnBackButtonPressed()
+		{
+			return true;
+		}
 	}
 }
 

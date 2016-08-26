@@ -153,8 +153,10 @@ namespace Xamarin.Forms.Conference.WebRTC
 					await MessageProvider.Instance.ConnetToXmpp(userId, password);
 
 //#if __ANDROID__ || __IOS__
-					App.Navigation.InsertPageBefore(new UsersInGroup(), (App.Current.MainPage as NavigationPage).CurrentPage);
-					await App.Navigation.PopAsync();
+					//App.Navigation.InsertPageBefore(new UsersInGroup(), (App.Current.MainPage as NavigationPage).CurrentPage);
+					//await App.Navigation.PopAsync();
+
+					App.SetUsersPage();
 //#endif
 				}
 			}

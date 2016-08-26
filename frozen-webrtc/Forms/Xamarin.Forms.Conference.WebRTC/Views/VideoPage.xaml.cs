@@ -15,8 +15,9 @@ namespace Xamarin.Forms.Conference.WebRTC
 		readonly List<User> users;
 		readonly bool isCallInitiator;
 		readonly VideoChatMessage initiateVideoMessage;
+		readonly bool isVideoCall;
 
-		public VideoPage(bool isCallInitiator, User mainUser, List<User> users, VideoChatMessage videoMessage)
+		public VideoPage(bool isCallInitiator, User mainUser, List<User> users, VideoChatMessage videoMessage, bool isVideoCall)
 		{
 			InitializeComponent();
 
@@ -24,6 +25,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 			this.users = users;
 			this.isCallInitiator = isCallInitiator;
 			this.initiateVideoMessage = videoMessage;
+			this.isVideoCall = isVideoCall;
 
 			App.CallHelperProvider.InitVideoContainer(videoContainer);
 		}
@@ -43,11 +45,23 @@ namespace Xamarin.Forms.Conference.WebRTC
 		{
 			base.OnAppearing();
 
-			var vm = new VideoViewModel(this.isCallInitiator, this.mainUser, this.users, this.initiateVideoMessage);
+			var vm = new VideoViewModel(this.isCallInitiator, this.mainUser, this.users, this.initiateVideoMessage, isVideoCall);
 			this.BindingContext = vm;
 			vm.OnAppearing();
 
 			buttonRoot.IsVisible = true;
+		}
+
+		protected override bool OnBackButtonPressed()
+		{
+			var vm = this.BindingContext as VideoViewModel;
+			if (vm != null)
+			{
+				return vm.OnBackButtonPressed();
+			}
+			else {
+				return false;
+			}
 		}
 	}
 }

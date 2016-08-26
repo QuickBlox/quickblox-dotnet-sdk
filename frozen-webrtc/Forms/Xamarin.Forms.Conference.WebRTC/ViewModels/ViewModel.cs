@@ -42,6 +42,11 @@ namespace Xamarin.Forms.Conference.WebRTC
 		public virtual void OnDisappearing()
 		{
 		}
+
+		public virtual bool OnBackButtonPressed()
+		{
+			return true;
+		}
 	}
 }
 

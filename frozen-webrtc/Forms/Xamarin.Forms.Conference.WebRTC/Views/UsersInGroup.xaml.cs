@@ -12,6 +12,8 @@ namespace Xamarin.Forms.Conference.WebRTC
 		public UsersInGroup()
 		{
 			InitializeComponent();
+
+			listView.ItemSelected += (sender, e) => { listView.SelectedItem = null; };
 		}
 
 		protected override void OnAppearing()
