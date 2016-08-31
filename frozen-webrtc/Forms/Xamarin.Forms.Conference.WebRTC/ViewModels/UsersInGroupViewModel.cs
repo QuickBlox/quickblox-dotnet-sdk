@@ -192,7 +192,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 			}
 			else 
 			{
-				await App.Current.MainPage.DisplayAlert("Error", "Please, select users from one till five", "Ok");
+				await App.Current.MainPage.DisplayAlert("Error", "Please select one User to start call.", "Ok");
 			}
 
 			this.IsBusy = false;
@@ -212,7 +212,7 @@ namespace Xamarin.Forms.Conference.WebRTC
 			}
 			else
 			{
-				await App.Current.MainPage.DisplayAlert("Error", "Please, select users from one till five", "Ok");
+				await App.Current.MainPage.DisplayAlert("Error", "Please select one User to start call.", "Ok");
 			}
 
 			this.IsBusy = false;
