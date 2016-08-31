@@ -120,9 +120,14 @@ namespace Xamarin.Forms.Conference.WebRTC
             DependencyService.Get<IAudio>().PlayAudioFile(CallFileName);
         }
 #else
-        	private void OnCallIncomingAudioTimer(object sender, ElapsedEventArgs e)
+        private void OnCallIncomingAudioTimer(object sender, ElapsedEventArgs e)
 		{
 			DependencyService.Get<IAudio>().PlayAudioFile(RingtoneFileName);
+		}
+
+		public void Disconnect()
+		{
+			this.chatXmppClient.Close();
 		}
 
 		private void OnCallOutgoingAudioTimer(object sender, ElapsedEventArgs e)
@@ -390,27 +395,28 @@ namespace Xamarin.Forms.Conference.WebRTC
 			if (e.SessionId != this.sessionId && this.sessionId != null)
 				return;
 
-			if (e.Signal == SignalType.call && VideoChatState != VideoChatState.None)
+			// Reject incoming call when current user call
+			if (e.Signal == SignalType.call && VideoChatState != VideoChatState.None) 
 			{
+				if (sessionId == e.SessionId)
+				{
+					return;
+				}
+
 				this.webSyncClient.Reject(e.SessionId, e.Caller, e.Caller, e.OpponentsIds.ToList(), Device.OS.ToString().ToLower());
+
+				// Check if user already call to this user now
+				if (opponents != null && opponents.FirstOrDefault(u => u.Id.ToString() == e.Caller) != null)
+				{
+					DropCall(sender, e);
+				}
+
 				return;
 			}
 
 			if ((e.Signal == SignalType.reject || e.Signal == SignalType.hangUp) && this.sessionId != null)
 			{
-				VideoChatState = VideoChatState.None;
-				if (this.CurrentCall != null)
-				{
-					if (e.Sender == Int32.Parse(e.Caller))
-					{
-						this.CurrentCall.UnlinkAll();
-					}
-					else {
-						this.CurrentCall.Unlink(e.Sender.ToString());
-					}
-				}
-
-				InvokeDropCallMessage(sender, e);
+				DropCall(sender, e);
 			}
 			else if ((e.Signal == SignalType.call &&  this.sessionId == null ) || (e.Signal == SignalType.accept && this.sessionId != null))
 			{
@@ -473,6 +479,23 @@ namespace Xamarin.Forms.Conference.WebRTC
 				
 				this.CurrentCall.ReceiveIceCandidate(e.IceCandidates, e.Sender.ToString());
 			}
+		}
+
+		private void DropCall(object sender, VideoChatMessage e)
+		{
+			VideoChatState = VideoChatState.None;
+			if (this.CurrentCall != null)
+			{
+				if (e.Sender == Int32.Parse(e.Caller))
+				{
+					this.CurrentCall.UnlinkAll();
+				}
+				else {
+					this.CurrentCall.Unlink(e.Sender.ToString());
+				}
+			}
+
+			InvokeDropCallMessage(sender, e);
 		}
 
 		private void InvokeDropCallMessage(object sender, VideoChatMessage e)

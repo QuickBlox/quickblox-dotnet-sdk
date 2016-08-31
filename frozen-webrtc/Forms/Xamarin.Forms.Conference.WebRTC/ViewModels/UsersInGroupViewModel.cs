@@ -144,9 +144,9 @@ namespace Xamarin.Forms.Conference.WebRTC
 				var isDeleted = await App.QbProvider.DeleteUserById(App.QbProvider.UserId);
 				if (isDeleted)
 				{
-					DependencyService.Get<ILoginStorage>().Clear();
-
 					App.CallHelperProvider.IncomingCallMessageEvent -= IncomingCallMethod;
+					App.CallHelperProvider.Disconnect();
+					DependencyService.Get<ILoginStorage>().Clear();
 
 					//((App)App.Current).RemoveChatClient();
 					App.SetLogin();
