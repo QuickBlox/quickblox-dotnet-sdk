@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+	 x:Class="Xamarin.Forms.Conference.WebRTC.UsersInGroup"
+	 xmlns:behaviors="clr-namespace:Xamarin.Behaviors;assembly=Xamarin.Behaviors"
+     Title="{Binding Title}"
+		xmlns:local="clr-namespace:Xamarin.Forms.Conference.WebRTC"
+		xmlns:controls="clr-namespace:Xamarin.Forms.Conference.WebRTC.Controls"
+     x:Name="Root">
+     <ContentPage.Resources>
+		<ResourceDictionary>
+            <local:BooleanToNegationConverter x:Key="BooleanToNegationConverter"></local:BooleanToNegationConverter>
+        </ResourceDictionary>
+	</ContentPage.Resources>
+	
+  <ContentPage.ToolbarItems>
+    <ToolbarItem Text="Log Out"
+                 Command="{Binding LogoutCommand}">
+      <ToolbarItem.Order>
+        <OnPlatform x:TypeArguments="ToolbarItemOrder"
+          iOS="Primary"
+          Android="Secondary"
+          WinPhone="Primary" />
+      </ToolbarItem.Order>
+    </ToolbarItem>
+   <!-- <ToolbarItem Text="Settings"
+                  Command="{Binding SettingsCommand}">
+      <ToolbarItem.Order>
+        <OnPlatform x:TypeArguments="ToolbarItemOrder"
+          iOS="Default"
+          Android="Secondary"
+          WinPhone="Primary" />
+      </ToolbarItem.Order>
+    </ToolbarItem>-->
+  </ContentPage.ToolbarItems>
+   <Grid>
+	     <Grid.RowDefinitions>
+		     <RowDefinition Height="Auto"/>
+		     <RowDefinition Height="*"/>
+			 <RowDefinition Height="Auto"/>
+	     </Grid.RowDefinitions>
+	     <StackLayout Padding="18">
+			<Label Text="{Binding RoomName}" FontSize="18"/>
+	     	<Label Text="Select Users you want to call with:" FontSize="18"/>
+	     </StackLayout>
+	      
+	    <Grid Grid.Row="1">
+		    <ListView x:Name="listView" 
+					VerticalOptions="FillAndExpand" 
+					HorizontalOptions="FillAndExpand" 
+					ItemsSource="{Binding Users}" 
+					IsPullToRefreshEnabled="True"
+			          RefreshCommand="{Binding ReloadUsersCommand}"
+			          IsRefreshing="{Binding IsBusy, Mode=OneWay}">
+		  		<ListView.ItemTemplate>
+		  		<DataTemplate>
+		  			<controls:CustomSelectableCell Text="{Binding User.FullName}" IsSelected="{Binding IsSelected, Mode=TwoWay}" />
+		  		</DataTemplate>
+		  		</ListView.ItemTemplate>
+		    </ListView>
+
+			<Grid IsVisible="{Binding IsBusy}">
+				<ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center">
+				     <ActivityIndicator.IsVisible>
+					      <OnPlatform x:TypeArguments="x:Boolean">
+						      <OnPlatform.iOS>False</OnPlatform.iOS>
+						      <OnPlatform.Android>True</OnPlatform.Android>
+						      <OnPlatform.WinPhone>True</OnPlatform.WinPhone>
+						    </OnPlatform>
+				      </ActivityIndicator.IsVisible>
+				</ActivityIndicator>
+			</Grid>
+	    </Grid>
+
+		<Grid Grid.Row="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+
+			<Button Command="{Binding AudioCallCommand}" Text="Audio Call" BackgroundColor="Aqua" TextColor="White" IsEnabled="{Binding IsBusy, Converter={StaticResource BooleanToNegationConverter}}"/>
+			<Button Grid.Column="1" Command="{Binding VideoCallCommand}" Text="Video Call" BackgroundColor="Aqua" TextColor="White" IsEnabled="{Binding IsBusy, Converter={StaticResource BooleanToNegationConverter}}"/>
+		</Grid>
+    </Grid>
+</ContentPage>
+

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace QbChat.Pcl.Helpers
+namespace Xamarin.PCL.Helpers
 {
     internal class AsyncSemaphore
     {

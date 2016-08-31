@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+		x:Class="Xamarin.Forms.Conference.WebRTC.LoginPage"
+		xmlns:local="clr-namespace:Xamarin.Forms.Conference.WebRTC"
+		Title="Enter to chat:">
+	<ContentPage.Resources>
+		<ResourceDictionary>
+            <local:BooleanToNegationConverter x:Key="BooleanToNegationConverter"></local:BooleanToNegationConverter>
+        </ResourceDictionary>
+	</ContentPage.Resources>
+	<Grid>
+		<StackLayout>
+			 <StackLayout Padding="18">
+				<Label Text="Please enter username and chat room name." />
+				<Label Text="You can join existed chat room." />
+			 </StackLayout>
+
+			<StackLayout Padding="0,12,0,6">
+				<Entry Placeholder="User name" Text="{Binding UserName, Mode=TwoWay}" IsEnabled="{Binding IsBusy, Converter={StaticResource BooleanToNegationConverter}}"/>
+			</StackLayout>
+			<StackLayout Padding="0,6,0,12">
+				<Entry Placeholder="Chat room name" Text="{Binding ChatRoomName, Mode=TwoWay}" IsEnabled="{Binding IsBusy, Converter={StaticResource BooleanToNegationConverter}}"/>
+			</StackLayout>
+			
+			<Button Command="{Binding LoginCommand}" Text="Login" BackgroundColor="Aqua" TextColor="White" IsEnabled="{Binding IsBusy, Converter={StaticResource BooleanToNegationConverter}}"/>
+		</StackLayout>
+		 <ActivityIndicator IsRunning="true" x:Name="busyIndicator" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsBusy}" />
+	</Grid>
+</ContentPage>

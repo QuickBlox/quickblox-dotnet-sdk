@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+		xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+		x:Class="Xamarin.Forms.Conference.WebRTC.VideoPage"
+		Title="Video page"
+			xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"	
+		xmlns:local="clr-namespace:Xamarin.Forms.Conference.WebRTC"
+     x:Name="Root">
+	
+     <ContentPage.Resources>
+		<ResourceDictionary>
+            <local:BooleanToNegationConverter x:Key="BooleanToNegationConverter"></local:BooleanToNegationConverter>
+        </ResourceDictionary>
+	</ContentPage.Resources>
+	
+	<Grid>
+		<AbsoluteLayout x:Name="videoContainer" />
+		
+		<Grid BackgroundColor="Transparent">
+			<Grid.RowDefinitions>
+				<RowDefinition />
+				<RowDefinition Height="200"/>
+			</Grid.RowDefinitions>
+			
+			<StackLayout IsVisible="{Binding IsCallNotificationVisible}" >
+				<StackLayout Padding="0,24,0,0">
+					<controls:CircleImage HeightRequest="140" 
+							WidthRequest="140" 
+							HorizontalOptions="Center" 
+							x:Name="InitiatorImage2"
+							FillColor="Blue"
+							IsEnabled = "false"
+							Aspect="AspectFill"
+							BorderColor="Blue"
+							Source="{Binding Image}"
+							BorderThickness="30" /><!--Source="alfa_placeholder.png"-->
+				</StackLayout>
+
+				<StackLayout Padding="0,24,0,0" HorizontalOptions="Center">
+				 	<Label Text="{Binding UsersInCall}"  FontSize="24"/>
+				</StackLayout>
+
+				<StackLayout Padding="0,6" HorizontalOptions="Center" IsVisible="{Binding IsIncomingCall}">
+				 	<Label Text="incoming call" FontSize="16"/>
+				</StackLayout>
+
+				<StackLayout Padding="0,6" HorizontalOptions="Center" IsVisible="{Binding IsIncomingCall, Converter={StaticResource BooleanToNegationConverter}}">
+				 	<Label Text="outgoing call" FontSize="16"/>
+				</StackLayout>
+				
+				<StackLayout Padding="0,24,0,0" HorizontalOptions="Center" IsVisible="{Binding IsIncomingCall, Converter={StaticResource BooleanToNegationConverter}}">
+				 	<Label Text="Call to:" FontSize="16"/>
+				</StackLayout>
+
+				<StackLayout Padding="0,24,0,0" HorizontalOptions="Center" IsVisible="{Binding IsIncomingCall}">
+				 	<Label Text="Also on call:" FontSize="16"/>
+				</StackLayout>
+				
+				<StackLayout Padding="0,6" HorizontalOptions="Center">
+				 	<Label Text="{Binding UsersToCall}" FontSize="18"/>
+				</StackLayout>
+			</StackLayout>
+
+
+			<StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="End" Padding="0,0,0,80" x:Name="buttonRoot" IsVisible="false">
+				<StackLayout 
+						IsVisible="{Binding IsCallConnected}"
+						HorizontalOptions="FillAndExpand" >
+					<controls:CircleImage x:Name="RejectOutgongCallButton" FillColor="Red" Source="decline_vc.png" BorderThickness="4" BorderColor="Red" WidthRequest="60" HeightRequest="60" Aspect="AspectFit"
+						HorizontalOptions="Center" >
+						  <controls:CircleImage.GestureRecognizers>
+						        <TapGestureRecognizer Command="{Binding EndOfCallCommand}"/>
+						  </controls:CircleImage.GestureRecognizers>
+						</controls:CircleImage>
+				</StackLayout>
+			   <StackLayout Padding="36,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+						IsVisible="{Binding IsCallConnected, Converter={StaticResource BooleanToNegationConverter}}" >
+					<controls:CircleImage x:Name="RejectImage" FillColor="Red" Source="decline_vc.png" BorderThickness="4" BorderColor="Red" WidthRequest="60" HeightRequest="60" Aspect="AspectFit"
+						 HorizontalOptions="Center">
+						  <controls:CircleImage.GestureRecognizers>
+						        <TapGestureRecognizer Command="{Binding RejectCommand}"/>
+						  </controls:CircleImage.GestureRecognizers>
+						</controls:CircleImage>
+				</StackLayout>
+				<StackLayout Padding="36,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+						IsVisible="{Binding IsCallConnected, Converter={StaticResource BooleanToNegationConverter}}">
+					<controls:CircleImage x:Name="AnswerImage" Source="answer_ic.png" FillColor="Lime" BorderThickness="4" BorderColor="Lime" WidthRequest="60" HeightRequest="60" Aspect="AspectFit"
+						 HorizontalOptions="Center">
+						  <controls:CircleImage.GestureRecognizers>
+						        <TapGestureRecognizer Command="{Binding AnswerCommand}"/>
+						  </controls:CircleImage.GestureRecognizers>
+						</controls:CircleImage>
+				</StackLayout>
+			</StackLayout>
+		</Grid>
+	</Grid>
+</ContentPage>

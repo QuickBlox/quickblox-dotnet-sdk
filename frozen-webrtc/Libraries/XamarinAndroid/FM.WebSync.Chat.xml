@@ -1,0 +1,783 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FM.WebSync.Chat</name>
+    </assembly>
+    <members>
+        <member name="T:FM.WebSync.Chat.UserClientJoinArgs">
+             <summary>
+             Arguments for <see cref="P:FM.WebSync.Chat.JoinArgs.OnUserClientJoin" />.
+             </summary>
+            </member>
+        <member name="M:FM.WebSync.Chat.UserClientJoinArgs.#ctor(System.String,FM.WebSync.SubscribedClient)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.WebSync.Chat.UserClientJoinArgs" /> class.
+             </summary>
+             <param name="channel">The channel.</param>
+             <param name="subscribedClient">The subscribed client.</param>
+            </member>
+        <member name="P:FM.WebSync.Chat.UserClientJoinArgs.UserId">
+             <summary>
+             Gets or sets the ID of the current user.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.UserClientJoinArgs.UserNickname">
+             <summary>
+             Gets or sets the nickname of the current user.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.UserClientJoinArgs.JoinedUser">
+             <summary>
+             Gets or sets the user associated with the client that joined.
+             </summary>
+            </member>
+        <member name="T:FM.WebSync.Chat.UserClientLeaveArgs">
+             <summary>
+             Arguments for <see cref="P:FM.WebSync.Chat.JoinArgs.OnUserClientLeave" />.
+             </summary>
+            </member>
+        <member name="M:FM.WebSync.Chat.UserClientLeaveArgs.#ctor(System.String,FM.WebSync.SubscribedClient)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.WebSync.Chat.UserClientLeaveArgs" /> class.
+             </summary>
+             <param name="channel">The channel.</param>
+             <param name="unsubscribedClient">The unsubscribed client.</param>
+            </member>
+        <member name="P:FM.WebSync.Chat.UserClientLeaveArgs.UserId">
+             <summary>
+             Gets or sets the ID of the current user.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.UserClientLeaveArgs.UserNickname">
+             <summary>
+             Gets or sets the nickname of the current user.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.UserClientLeaveArgs.LeftUser">
+             <summary>
+             Gets or sets the user associated with the client that left.
+             </summary>
+            </member>
+        <member name="T:FM.WebSync.Chat.ChatClient">
+             <summary>
+             A chat client associated with a given chat user.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.ChatClient.ClientId">
+             <summary>
+             Gets or sets the ID of the chat client.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.ChatClient.BoundRecords">
+             <summary>
+             Gets or sets the bound records of the chat client.
+             </summary>
+            </member>
+        <member name="M:FM.WebSync.Chat.ChatClient.#ctor(System.Guid,System.Collections.Generic.Dictionary{System.String,FM.WebSync.Record})">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.WebSync.Chat.ChatClient" /> class.
+             </summary>
+             <param name="clientId">The ID of the chat client.</param>
+             <param name="boundRecords">The bound records of the chat client.</param>
+            </member>
+        <member name="T:FM.WebSync.Chat.ChatUser">
+             <summary>
+             An instance of a chat participant.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.ChatUser.UserId">
+             <summary>
+             Gets or sets the user ID of the chat participant.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.ChatUser.UserNickname">
+             <summary>
+             Gets or sets the user nickname of the chat participant.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.ChatUser.ClientId">
+             <summary>
+             Gets or sets the ID of the chat client triggering this event.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.ChatUser.BoundRecords">
+             <summary>
+             Gets or sets the bound records of the chat client triggering this event.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.ChatUser.Clients">
+             <summary>
+             Gets or sets the chat clients associated with the chat user.
+             </summary>
+            </member>
+        <member name="M:FM.WebSync.Chat.ChatUser.#ctor(System.String,System.String,System.Nullable{System.Guid},System.Collections.Generic.Dictionary{System.String,FM.WebSync.Record})">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.WebSync.Chat.ChatUser" /> class.
+             </summary>
+             <param name="userId">The user ID of the chat participant.</param>
+             <param name="userNickname">The user nickname of the chat participant.</param>
+             <param name="clientId">The ID of the chat client triggering this event.</param>
+             <param name="boundRecords">The bound records of the chat client triggering this event.</param>
+            </member>
+        <member name="T:FM.WebSync.Chat.ClientExtensions">
+             <summary>
+             Extensions for the <see cref="T:FM.WebSync.Client" /> class.
+             </summary>
+            </member>
+        <member name="M:FM.WebSync.Chat.ClientExtensions.GetUserIdKey(System.String)">
+             <summary>
+             Gets the binding key for a user ID.
+             </summary>
+             <param name="channel">The subscribed channel.</param>
+             <returns></returns>
+            </member>
+        <member name="M:FM.WebSync.Chat.ClientExtensions.GetUserNicknameKey(System.String)">
+             <summary>
+             Gets the binding key for a user nickname.
+             </summary>
+             <param name="channel">The subscribed channel.</param>
+             <returns></returns>
+            </member>
+        <member name="M:FM.WebSync.Chat.ClientExtensions.Join(FM.WebSync.Client,FM.WebSync.Chat.JoinArgs)">
+             <summary>
+             Binds/subscribes the client to the channel with the specified
+             user ID and nickname.
+             </summary>
+             <remarks>
+             When the join completes successfully, the OnSuccess callback
+             will be invoked, passing in the joined channel, user ID, and
+             user nickname, <b>including any modifications made on the server</b>.
+             <example>
+             <code>
+             client.Join(new ClientJoinArgs
+             {
+                 Channel = "/example",
+                 UserId = "john.doe@gmail.com",
+                 UserNickname = "John Doe",
+                 OnSuccess = (args) =&gt;
+                 {
+                     Console.WriteLine("Joined channel " + args.Channel + ".");
+                 },
+                 OnFailure = (args) =&gt;
+                 {
+                     Console.WriteLine("Could not join. " + args.Exception.Message);
+                 },
+                 OnReceive = (args) =&gt;
+                 {
+                     Console.WriteLine("Received message " + args.DataJson + ".");
+                 },
+                 OnUserJoin = (args) =&gt;
+                 {
+                     Console.WriteLine("User joined " + args.JoinedUser.UserNickname + ".");
+                 },
+                 OnUserLeave = (args) =&gt;
+                 {
+                     Console.WriteLine("User left " + args.LeftUser.UserNickname + ".");
+                 }
+             });
+             </code>
+             </example>
+             </remarks>
+             <param name="client">The client.</param>
+             <param name="joinArgs">The join arguments.
+             See <see cref="T:FM.WebSync.Chat.JoinArgs" /> for details.</param>
+             <returns>The client.</returns>
+            </member>
+        <member name="M:FM.WebSync.Chat.ClientExtensions.Leave(FM.WebSync.Client,FM.WebSync.Chat.LeaveArgs)">
+             <summary>
+             Unsubscribes/unbinds the client from the channel.
+             </summary>
+             <remarks>
+             When the leave completes successfully, the OnSuccess callback
+             will be invoked, passing in the left
+             channel, <b>including any modifications made on the server</b>.
+             <example>
+             <code>
+             client.Leave(new ClientLeaveArgs
+             {
+                 Channel = "/example",
+                 OnSuccess = (args) =&gt;
+                 {
+                     Console.WriteLine("Left channel " + args.Channel + ".");
+                 },
+                 OnFailure = (args) =&gt;
+                 {
+                     Console.WriteLine("Could not leave. " + args.Exception.Message);
+                 }
+             });
+             </code>
+             </example>
+             </remarks>
+             <param name="client">The client.</param>
+             <param name="leaveArgs">The leave arguments.
+             See <see cref="T:FM.WebSync.Chat.LeaveArgs" /> for details.</param>
+             <returns>The client.</returns>
+            </member>
+        <member name="M:FM.WebSync.Chat.ClientExtensions.JoinAsync(FM.WebSync.Client,FM.WebSync.Chat.JoinArgs)">
+             <summary>
+             Invokes the Join operation using .NET async tasks.
+             </summary>
+             <param name="client">The WebSync client.</param>
+             <param name="joinArgs">The join arguments.</param>
+             <returns></returns>
+            </member>
+        <member name="M:FM.WebSync.Chat.ClientExtensions.LeaveAsync(FM.WebSync.Client,FM.WebSync.Chat.LeaveArgs)">
+             <summary>
+             Invokes the Leave operation using .NET async tasks.
+             </summary>
+             <param name="client">The WebSync client.</param>
+             <param name="leaveArgs">The leave arguments.</param>
+             <returns></returns>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveState.UnbindSuccess">
+             <summary>
+             Gets or sets whether the unbind was successful.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveState.UnsubscribeSuccess">
+             <summary>
+             Gets or sets whether the unsubscribe was successful.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveState.UnbindSuccessArgs">
+             <summary>
+             Gets or sets the args for the successful Unbind.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveState.UnbindFailureArgs">
+             <summary>
+             Gets or sets the args for the failed Unbind.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveState.UnsubscribeSuccessArgs">
+             <summary>
+             Gets or sets the args for the successful Unsubscribe.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveState.UnsubscribeFailureArgs">
+             <summary>
+             Gets or sets the args for the failed Unsubscribe.
+             </summary>
+            </member>
+        <member name="M:FM.WebSync.Chat.LeaveState.UpdateUnbindSuccess(FM.WebSync.UnbindSuccessArgs)">
+             <summary>
+             Updates the state with a successful unbind.
+             </summary>
+             <param name="unbindSuccessArgs"></param>
+            </member>
+        <member name="M:FM.WebSync.Chat.LeaveState.UpdateUnbindFailure(FM.WebSync.UnbindFailureArgs)">
+             <summary>
+             Updates the state with a failed unbind.
+             </summary>
+             <param name="unbindFailureArgs"></param>
+            </member>
+        <member name="M:FM.WebSync.Chat.LeaveState.UpdateUnsubscribeSuccess(FM.WebSync.UnsubscribeSuccessArgs)">
+             <summary>
+             Updates the state with a successful unsubscribe.
+             </summary>
+             <param name="unsubscribeSuccessArgs"></param>
+            </member>
+        <member name="M:FM.WebSync.Chat.LeaveState.UpdateUnsubscribeFailure(FM.WebSync.UnsubscribeFailureArgs)">
+             <summary>
+             Updates the state with a failed unsubscribe.
+             </summary>
+             <param name="unsubscribeFailureArgs"></param>
+            </member>
+        <member name="T:FM.WebSync.Chat.JoinArgs">
+             <summary>
+             Arguments for a client joining a chat channel.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinArgs.OnComplete">
+             <summary>
+             Gets or sets the callback to invoke after <see cref="P:FM.WebSync.Chat.JoinArgs.OnSuccess" /> or <see cref="P:FM.WebSync.Chat.JoinArgs.OnFailure" />.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinArgs.OnFailure">
+             <summary>
+             Gets or sets the callback to invoke if the request fails.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinArgs.OnSuccess">
+             <summary>
+             Gets or sets the callback to invoke if the request succeeds.
+             </summary>
+            </member>
+        <member name="M:FM.WebSync.Chat.JoinArgs.#ctor(System.String)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.WebSync.Chat.JoinArgs" /> class.
+             </summary>
+             <param name="channel">The channel to join.</param>
+            </member>
+        <member name="M:FM.WebSync.Chat.JoinArgs.#ctor(System.String[])">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.WebSync.Chat.JoinArgs" /> class.
+             </summary>
+             <param name="channels">The channels to join.</param>
+            </member>
+        <member name="M:FM.WebSync.Chat.JoinArgs.#ctor(System.String,System.String)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.WebSync.Chat.JoinArgs" /> class.
+             </summary>
+             <param name="channel">The channel to join.</param>
+             <param name="tag">The tag identifying the subscription.</param>
+            </member>
+        <member name="M:FM.WebSync.Chat.JoinArgs.#ctor(System.String[],System.String)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.WebSync.Chat.JoinArgs" /> class.
+             </summary>
+             <param name="channels">The channels to join.</param>
+             <param name="tag">The tag identifying the subscription.</param>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinArgs.Channel">
+             <summary>
+             Gets or sets the channel to which the client should be subscribed.
+             Must start with a forward slash (/).
+             Overrides <see cref="P:FM.WebSync.Chat.JoinArgs.Channels" />.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinArgs.Channels">
+             <summary>
+             Gets or sets the channels to which the client should be subscribed.
+             Each must start with a forward slash (/).
+             Overrides <see cref="P:FM.WebSync.Chat.JoinArgs.Channel" />.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinArgs.Tag">
+             <summary>
+             Gets or sets a tag that will uniquely identify this subscription so it
+             can be unsubscribed later without affecting other subscriptions with the same channel.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinArgs.UserId">
+             <summary>
+             Gets or sets the current user ID.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinArgs.UserNickname">
+             <summary>
+             Gets or sets the current user nickname.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinArgs.OnUserJoin">
+             <summary>
+             Gets or sets the callback to invoke when the first client associated
+             with a given user ID joins the channel.
+             See <see cref="T:FM.WebSync.Chat.UserJoinArgs" /> for callback argument details.
+             This callback is invoked when the client count for a given user ID
+             moves from 0 to 1.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinArgs.OnUserLeave">
+             <summary>
+             Gets or sets the callback to invoke when the last client associated
+             with a given user ID leaves the channel.
+             See <see cref="T:FM.WebSync.Chat.UserLeaveArgs" /> for callback argument details.
+             This callback is invoked when the client count for a given user ID
+             moves from 1 to 0.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinArgs.OnUserClientJoin">
+             <summary>
+             Gets or sets the callback to invoke when any client associated with
+             a given user ID joins the channel.
+             See <see cref="T:FM.WebSync.Chat.UserClientJoinArgs" /> for callback argument details.
+             This callback is invoked when the client count for a given user ID
+             increases.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinArgs.OnUserClientLeave">
+             <summary>
+             Gets or sets the callback to invoke when any client associated with
+             a given user ID leaves the channel.
+             See <see cref="T:FM.WebSync.Chat.UserClientLeaveArgs" /> for callback argument details.
+             This callback is invoked when the client count for a given user ID
+             decreases.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinArgs.OnReceive">
+             <summary>
+             Gets or sets the callback to invoke when data is received on the channel.
+             See <see cref="T:FM.WebSync.Chat.JoinReceiveArgs" /> for callback argument details.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinArgs.Rejoin">
+             <summary>
+             Gets or sets whether or not the join is occurring because the connection has been lost and re-negotiated.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinState.BindSuccess">
+             <summary>
+             Gets or sets whether the Bind was successful.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinState.SubscribeSuccess">
+             <summary>
+             Gets or sets whether the Subscribe was successful.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinState.BindSuccessArgs">
+             <summary>
+             Gets or sets the args for the successful Bind.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinState.BindFailureArgs">
+             <summary>
+             Gets or sets the args for the failed Bind.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinState.SubscribeSuccessArgs">
+             <summary>
+             Gets or sets the args for the successful Subscribe.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinState.SubscribeFailureArgs">
+             <summary>
+             Gets or sets the args for the failed Subscribe.
+             </summary>
+            </member>
+        <member name="M:FM.WebSync.Chat.JoinState.UpdateBindSuccess(FM.WebSync.BindSuccessArgs)">
+             <summary>
+             Updates the state with a successful Bind.
+             </summary>
+             <param name="bindSuccessArgs"></param>
+            </member>
+        <member name="M:FM.WebSync.Chat.JoinState.UpdateBindFailure(FM.WebSync.BindFailureArgs)">
+             <summary>
+             Updates the state with a failed Bind.
+             </summary>
+             <param name="bindFailureArgs"></param>
+            </member>
+        <member name="M:FM.WebSync.Chat.JoinState.UpdateSubscribeSuccess(FM.WebSync.SubscribeSuccessArgs)">
+             <summary>
+             Updates the state with a successful Subscribe.
+             </summary>
+             <param name="subscribeSuccessArgs"></param>
+            </member>
+        <member name="M:FM.WebSync.Chat.JoinState.UpdateSubscribeFailure(FM.WebSync.SubscribeFailureArgs)">
+             <summary>
+             Updates the state with a failed Subscribe.
+             </summary>
+             <param name="subscribeFailureArgs"></param>
+            </member>
+        <member name="T:FM.WebSync.Chat.UserJoinArgs">
+             <summary>
+             Arguments for <see cref="P:FM.WebSync.Chat.JoinArgs.OnUserJoin" />.
+             </summary>
+            </member>
+        <member name="M:FM.WebSync.Chat.UserJoinArgs.#ctor(System.String,FM.WebSync.SubscribedClient)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.WebSync.Chat.UserJoinArgs" /> class.
+             </summary>
+             <param name="channel">The channel.</param>
+             <param name="subscribedClient">The subscribed client.</param>
+            </member>
+        <member name="P:FM.WebSync.Chat.UserJoinArgs.UserId">
+             <summary>
+             Gets or sets the ID of the current user.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.UserJoinArgs.UserNickname">
+             <summary>
+             Gets or sets the nickname of the current user.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.UserJoinArgs.JoinedUser">
+             <summary>
+             Gets or sets the user that joined.
+             </summary>
+            </member>
+        <member name="T:FM.WebSync.Chat.UserLeaveArgs">
+             <summary>
+             Arguments for <see cref="P:FM.WebSync.Chat.JoinArgs.OnUserLeave" />.
+             </summary>
+            </member>
+        <member name="M:FM.WebSync.Chat.UserLeaveArgs.#ctor(System.String,FM.WebSync.SubscribedClient)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.WebSync.Chat.UserLeaveArgs" /> class.
+             </summary>
+             <param name="channel">The channel.</param>
+             <param name="unsubscribedClient">The unsubscribed client.</param>
+            </member>
+        <member name="P:FM.WebSync.Chat.UserLeaveArgs.UserId">
+             <summary>
+             Gets or sets the ID of the current user.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.UserLeaveArgs.UserNickname">
+             <summary>
+             Gets or sets the nickname of the current user.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.UserLeaveArgs.LeftUser">
+             <summary>
+             Gets or sets the user that left.
+             </summary>
+            </member>
+        <member name="T:FM.WebSync.Chat.LeaveArgs">
+             <summary>
+             Arguments for a client leaving a chat channel.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveArgs.OnComplete">
+             <summary>
+             Gets or sets the callback to invoke after <see cref="P:FM.WebSync.Chat.LeaveArgs.OnSuccess" /> or <see cref="P:FM.WebSync.Chat.LeaveArgs.OnFailure" />.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveArgs.OnFailure">
+             <summary>
+             Gets or sets the callback to invoke if the request fails.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveArgs.OnSuccess">
+             <summary>
+             Gets or sets the callback to invoke if the request succeeds.
+             </summary>
+            </member>
+        <member name="M:FM.WebSync.Chat.LeaveArgs.#ctor(System.String)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.WebSync.Chat.LeaveArgs" /> class.
+             </summary>
+             <param name="channel">The channel to leave.</param>
+            </member>
+        <member name="M:FM.WebSync.Chat.LeaveArgs.#ctor(System.String[])">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.WebSync.Chat.LeaveArgs" /> class.
+             </summary>
+             <param name="channels">The channels to join.</param>
+            </member>
+        <member name="M:FM.WebSync.Chat.LeaveArgs.#ctor(System.String,System.String)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.WebSync.Chat.LeaveArgs" /> class.
+             </summary>
+             <param name="channel">The channel to leave.</param>
+             <param name="tag">The tag identifying the subscription.</param>
+            </member>
+        <member name="M:FM.WebSync.Chat.LeaveArgs.#ctor(System.String[],System.String)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.WebSync.Chat.LeaveArgs" /> class.
+             </summary>
+             <param name="channels">The channels to leave.</param>
+             <param name="tag">The tag identifying the subscription.</param>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveArgs.Channel">
+             <summary>
+             Gets or sets the channel from which the client should be unsubscribed.
+             Must start with a forward slash (/).
+             Overrides <see cref="P:FM.WebSync.Chat.LeaveArgs.Channels" />.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveArgs.Channels">
+             <summary>
+             Gets or sets the channels from which the client should be unsubscribed.
+             Each must start with a forward slash (/).
+             Overrides <see cref="P:FM.WebSync.Chat.LeaveArgs.Channel" />.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveArgs.Tag">
+             <summary>
+             Gets or sets a tag that uniquely identifies a subscription so
+             other subscriptions with the same channel are not affected.
+             </summary>
+            </member>
+        <member name="T:FM.WebSync.Chat.JoinCompleteArgs">
+             <summary>
+             Arguments for join complete callbacks.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinCompleteArgs.IsRejoin">
+             <summary>
+             Gets whether the join call was automatically
+             invoked following a stream failure.
+             </summary>
+            </member>
+        <member name="T:FM.WebSync.Chat.JoinFailureArgs">
+             <summary>
+             Arguments for join failure callbacks.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinFailureArgs.Channel">
+             <summary>
+             Gets the channel to which the client failed to be subscribed.
+             Must start with a forward slash (/).
+             Overrides <see cref="P:FM.WebSync.Chat.JoinFailureArgs.Channels" />.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinFailureArgs.Channels">
+             <summary>
+             Gets the channels to which the client failed to be subscribed.
+             Each must start with a forward slash (/).
+             Overrides <see cref="P:FM.WebSync.Chat.JoinFailureArgs.Channel" />.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinFailureArgs.Tag">
+             <summary>
+             Gets the tag associated with the subscribe request.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinFailureArgs.UserId">
+             <summary>
+             Gets the ID of the current user.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinFailureArgs.UserNickname">
+             <summary>
+             Gets the nickname of the current user.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinFailureArgs.IsRejoin">
+             <summary>
+             Gets whether the join call was automatically
+             invoked following a stream failure.
+             </summary>
+            </member>
+        <member name="T:FM.WebSync.Chat.JoinSuccessArgs">
+             <summary>
+             Arguments for join success callbacks.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinSuccessArgs.Channel">
+             <summary>
+             Gets the channel to which the client was subscribed.
+             Must start with a forward slash (/).
+             Overrides <see cref="P:FM.WebSync.Chat.JoinSuccessArgs.Channels" />.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinSuccessArgs.Channels">
+             <summary>
+             Gets the channels to which the client was subscribed.
+             Each must start with a forward slash (/).
+             Overrides <see cref="P:FM.WebSync.Chat.JoinSuccessArgs.Channel" />.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinSuccessArgs.Tag">
+             <summary>
+             Gets the tag associated with the subscribe request.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinSuccessArgs.UserId">
+             <summary>
+             Gets the ID of the current user.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinSuccessArgs.UserNickname">
+             <summary>
+             Gets the nickname of the current user.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinSuccessArgs.Users">
+             <summary>
+             Gets the array of users in the channel.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinSuccessArgs.IsRejoin">
+             <summary>
+             Gets whether the join call was automatically
+             invoked following a stream failure.
+             </summary>
+            </member>
+        <member name="T:FM.WebSync.Chat.LeaveCompleteArgs">
+             <summary>
+             Arguments for leave complete callbacks.
+             </summary>
+            </member>
+        <member name="T:FM.WebSync.Chat.LeaveFailureArgs">
+             <summary>
+             Arguments for leave failure callbacks.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveFailureArgs.Channel">
+             <summary>
+             Gets the channel from which the client failed to be unsubscribed.
+             Must start with a forward slash (/).
+             Overrides <see cref="P:FM.WebSync.Chat.LeaveFailureArgs.Channels" />.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveFailureArgs.Channels">
+             <summary>
+             Gets the channels from which the client failed to be unsubscribed.
+             Each must start with a forward slash (/).
+             Overrides <see cref="P:FM.WebSync.Chat.LeaveFailureArgs.Channel" />.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveFailureArgs.Tag">
+             <summary>
+             Gets the tag associated with the subscribe request.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveFailureArgs.UserId">
+             <summary>
+             Gets the ID of the current user.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveFailureArgs.UserNickname">
+             <summary>
+             Gets the nickname of the current user.
+             </summary>
+            </member>
+        <member name="T:FM.WebSync.Chat.LeaveSuccessArgs">
+             <summary>
+             Arguments for leave success callbacks.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveSuccessArgs.Channel">
+             <summary>
+             Gets the channel from which the client was unsubscribed.
+             Must start with a forward slash (/).
+             Overrides <see cref="P:FM.WebSync.Chat.LeaveSuccessArgs.Channels" />.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveSuccessArgs.Channels">
+             <summary>
+             Gets the channels from which the client was unsubscribed.
+             Each must start with a forward slash (/).
+             Overrides <see cref="P:FM.WebSync.Chat.LeaveSuccessArgs.Channel" />.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveSuccessArgs.Tag">
+             <summary>
+             Gets the tag associated with the subscribe request.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveSuccessArgs.UserId">
+             <summary>
+             Gets the ID of the current user.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.LeaveSuccessArgs.UserNickname">
+             <summary>
+             Gets the nickname of the current user.
+             </summary>
+            </member>
+        <member name="T:FM.WebSync.Chat.JoinReceiveArgs">
+             <summary>
+             Arguments for join receive callbacks.
+             </summary>
+            </member>
+        <member name="M:FM.WebSync.Chat.JoinReceiveArgs.#ctor(System.String,System.String,System.Byte[],FM.WebSync.ConnectionType,System.Int32)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.WebSync.Chat.JoinReceiveArgs" /> class.
+             </summary>
+             <param name="channel">The channel over which data was received.</param>
+             <param name="dataJson">The data in JSON format.</param>
+             <param name="dataBytes">The data in binary format.</param>
+             <param name="connectionType">The current connection type.</param>
+             <param name="reconnectAfter">The amount of time in milliseconds to pause before reconnecting to the server.</param>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinReceiveArgs.UserId">
+             <summary>
+             Gets the ID of the current user.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinReceiveArgs.UserNickname">
+             <summary>
+             Gets the nickname of the current user.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Chat.JoinReceiveArgs.PublishingUser">
+             <summary>
+             Gets the user that published the message.
+             </summary>
+            </member>
+    </members>
+</doc>

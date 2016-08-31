@@ -29,10 +29,14 @@ namespace Xamarin.Forms.Conference.WebRTC
         {
             if (!InLayout)
             {
+#if WINDOWS_APP
+                Device.BeginInvokeOnMainThread(DoLayout);
+#else
                 System.Threading.ThreadPool.QueueUserWorkItem((state) =>
                 {
                     Device.BeginInvokeOnMainThread(DoLayout);
                 }, null);
+#endif
             }
         }
 

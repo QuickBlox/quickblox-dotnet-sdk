@@ -16,8 +16,9 @@ using Quickblox.Sdk.Modules.ChatModule.Responses;
 using Quickblox.Sdk.Modules.ChatModule.Models;
 using Quickblox.Sdk.Modules.Models;
 using Quickblox.Sdk.Modules.ChatXmppModule;
+using Quickblox.Sdk.Modules.AuthModule.Response;
 
-namespace QbChat.Pcl
+namespace Xamarin.PCL
 {
 
     public class QbProvider
@@ -35,17 +36,18 @@ namespace QbChat.Pcl
 			ApplicationKeys.ChatEndpoint,
 			logger:new QbLogger());
 
-        public int UserId { get; set; }
+        public int UserId { get; private set; }
+		public SessionResponse SessionResponse { get; private set;}
 
         public QbProvider(Action showInternetNotification)
         {
             this.showInternetNotification = showInternetNotification;
         }
 
-        public ChatXmppClient GetXmppClient()
-        {
-            return client.ChatXmppClient;
-        }
+		public QuickbloxClient GetClient()
+		{
+			return client;
+		}
 
 		public async Task<bool> GetBaseSession ()
 		{
@@ -55,6 +57,30 @@ namespace QbChat.Pcl
 			}
 
 			return false;
+		}
+
+		public async Task<User> SignUpUserWithLoginAsync(string login, string password, string userName, string roomName)
+		{
+			UserSignUpRequest request = new UserSignUpRequest();
+			request.User = new UserRequest();
+			request.User.Login = login;
+			request.User.Password = password;
+			request.User.FullName = userName;
+			request.User.TagList = roomName;
+
+			var signUpResponse = await this.client.UsersClient.SignUpUserAsync(request);
+			if (await HandleResponse(signUpResponse, HttpStatusCode.Created))
+			{
+				return signUpResponse.Result.User;
+			}
+
+			return null;
+		}
+
+		public async Task<bool> DeleteUserById(int userId)
+		{
+			var response = await this.client.UsersClient.DeleteUserByIdAsync(userId);
+			return await HandleResponse(response, HttpStatusCode.OK);
 		}
 
 		public async Task<int> LoginWithEmailAsync(string email, string password){
@@ -76,6 +102,7 @@ namespace QbChat.Pcl
 			var sessionResponse = await this.client.AuthenticationClient.CreateSessionWithLoginAsync (login, password); 
 			if (await HandleResponse(sessionResponse, HttpStatusCode.Created)){
 				UserId = sessionResponse.Result.Session.UserId;
+				SessionResponse = sessionResponse.Result;
 				return sessionResponse.Result.Session.UserId;
 			}
             else if (sessionResponse.StatusCode == HttpStatusCode.NotFound)

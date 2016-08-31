@@ -1,0 +1,244 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FM.WebSync.Subscribers</name>
+    </assembly>
+    <members>
+        <member name="T:FM.WebSync.Subscribers.Base">
+             <summary>
+             Base methods supporting the Subscribers extension.
+             </summary>
+            </member>
+        <member name="F:FM.WebSync.Subscribers.Base.SubscribersExtensionName">
+             <summary>
+             The reserved name for the Subscribers extension.
+             </summary>
+            </member>
+        <member name="F:FM.WebSync.Subscribers.Base.SubscribersChannelPrefix">
+             <summary>
+             The channel prefix applied to Subscribers notifications.
+             </summary>
+            </member>
+        <member name="M:FM.WebSync.Subscribers.Base.SetSubscribedClients(FM.WebSync.Extensible,System.Collections.Generic.Dictionary{System.String,FM.WebSync.SubscribedClient[]})">
+             <summary>
+             Sets the subscribed clients.
+             </summary>
+             <param name="extensible">The extensible base.</param>
+             <param name="subscribedClients">The subscribed clients.</param>
+            </member>
+        <member name="M:FM.WebSync.Subscribers.Base.GetSubscribedClients(FM.WebSync.Extensible)">
+             <summary>
+             Gets the subscribed clients.
+             </summary>
+             <param name="extensible">The extensible base.</param>
+             <returns>The subscribed clients.</returns>
+            </member>
+        <member name="T:FM.WebSync.Subscribers.ClientUnsubscribeArgs">
+             <summary>
+             Arguments for the subscriber change callback.
+             </summary>
+            </member>
+        <member name="M:FM.WebSync.Subscribers.ClientUnsubscribeArgs.#ctor(System.String,FM.WebSync.SubscribedClient)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.WebSync.Subscribers.ClientUnsubscribeArgs" /> class.
+             </summary>
+             <param name="channel">The channel.</param>
+             <param name="unsubscribedClient">The unsubscribed client.</param>
+            </member>
+        <member name="P:FM.WebSync.Subscribers.ClientUnsubscribeArgs.Channel">
+             <summary>
+             Gets the channel on which the change occurred.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Subscribers.ClientUnsubscribeArgs.UnsubscribedClient">
+             <summary>
+             Gets the client who unsubscribed from the channel.
+             </summary>
+            </member>
+        <member name="M:FM.WebSync.Subscribers.Serializer.SerializeSubscribedClients(System.Collections.Generic.Dictionary{System.String,FM.WebSync.SubscribedClient[]})">
+             <summary>
+             Serializes a subscribed clients collection to JSON.
+             </summary>
+             <param name="subscribedClients">The subscribed clients collection to serialize.</param>
+             <returns>The serialized subscribed clients collection.</returns>
+            </member>
+        <member name="M:FM.WebSync.Subscribers.Serializer.DeserializeSubscribedClients(System.String)">
+             <summary>
+             Deserializes a subscribed clients collection from JSON.
+             </summary>
+             <param name="subscribedClientsJson">The subscribed clients collection (in JSON) to deserialize.</param>
+             <returns>The deserialized subscribed clients collection.</returns>
+            </member>
+        <member name="M:FM.WebSync.Subscribers.Serializer.SerializeSubscriberChange(FM.WebSync.Subscribers.SubscriberChange)">
+             <summary>
+             Serializes a subscriber change object to JSON.
+             </summary>
+             <param name="subscriberChange">The subscriber change object to serialize.</param>
+             <returns>The serialized subscriber change object.</returns>
+            </member>
+        <member name="M:FM.WebSync.Subscribers.Serializer.DeserializeSubscriberChange(System.String)">
+             <summary>
+             Deserializes a subscriber change object from JSON.
+             </summary>
+             <param name="subscriberChangeJson">The subscriber change object (in JSON) to deserialize.</param>
+             <returns>The deserialized subscriber change object.</returns>
+            </member>
+        <member name="M:FM.WebSync.Subscribers.Serializer.SerializeSubscriberChangeType(FM.WebSync.Subscribers.SubscriberChangeType)">
+             <summary>
+             Serializes a subscriber change type to JSON.
+             </summary>
+             <param name="subscriberChangeType">The subscriber change type to serialize.</param>
+             <returns>The serialized subscriber change type.</returns>
+            </member>
+        <member name="M:FM.WebSync.Subscribers.Serializer.DeserializeSubscriberChangeType(System.String)">
+             <summary>
+             Deserializes a subscriber change type from JSON.
+             </summary>
+             <param name="subscriberChangeTypeJson">The subscriber change type (in JSON) to deserialize.</param>
+             <returns>The deserialized subscriber change type.</returns>
+            </member>
+        <member name="T:FM.WebSync.Subscribers.SubscribeArgsExtensions">
+             <summary>
+             <see cref="T:FM.WebSync.SubscribeArgs" /> extension methods for the Subscribers extension.
+             </summary>
+             <remarks>
+             <para>
+             The subscribers extension provides support for initial state load and differential
+             updates on the clients actively subscribed to the channel(s).
+             </para>
+             <para>
+             The extension is activated by adding a reference to your project.
+             </para>
+             </remarks>
+            </member>
+        <member name="M:FM.WebSync.Subscribers.SubscribeArgsExtensions.SetOnClientSubscribe(FM.WebSync.SubscribeArgs,FM.SingleAction{FM.WebSync.Subscribers.ClientSubscribeArgs})">
+             <summary>
+             Sets a callback to invoke when a client subscribes.
+             </summary>
+             <param name="args">The <see cref="T:FM.WebSync.SubscribeArgs" /> to extend.</param>
+             <param name="onClientSubscribe">The callback to invoke when a client subscribes to
+             the channel(s)).</param>
+             <returns>The <see cref="T:FM.WebSync.SubscribeArgs" />.</returns>
+            </member>
+        <member name="M:FM.WebSync.Subscribers.SubscribeArgsExtensions.GetOnClientSubscribe(FM.WebSync.SubscribeArgs)">
+             <summary>
+             Gets the callback invoked when a client subscribes.
+             </summary>
+             <param name="args">The <see cref="T:FM.WebSync.SubscribeArgs" /> to extend.</param>
+             <returns>The callback invoked when a client subscribes.</returns>
+            </member>
+        <member name="M:FM.WebSync.Subscribers.SubscribeArgsExtensions.SetOnClientUnsubscribe(FM.WebSync.SubscribeArgs,FM.SingleAction{FM.WebSync.Subscribers.ClientUnsubscribeArgs})">
+             <summary>
+             Sets a callback to invoke when a client unsubscribes.
+             </summary>
+             <param name="args">The <see cref="T:FM.WebSync.SubscribeArgs" /> to extend.</param>
+             <param name="onClientUnsubscribe">The callback to invoke when a client unsubscribes from
+             the channel(s)).</param>
+             <returns>The <see cref="T:FM.WebSync.SubscribeArgs" />.</returns>
+            </member>
+        <member name="M:FM.WebSync.Subscribers.SubscribeArgsExtensions.GetOnClientUnsubscribe(FM.WebSync.SubscribeArgs)">
+             <summary>
+             Gets the callback invoked when a client unsubscribes.
+             </summary>
+             <param name="args">The <see cref="T:FM.WebSync.SubscribeArgs" /> to extend.</param>
+             <returns>The callback invoked when a client unsubscribes.</returns>
+            </member>
+        <member name="T:FM.WebSync.Subscribers.SubscriberChange">
+             <summary>
+             A description of a subscriber change on a channel, either a new
+             subscriber entering or an existing subscriber leaving.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Subscribers.SubscriberChange.Client">
+             <summary>
+             Gets or sets the client who subscribed to or unsubscribed from the channel.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Subscribers.SubscriberChange.Type">
+             <summary>
+             Gets or sets the type of the subscriber change, either subscribe or unsubscribe.
+             </summary>
+            </member>
+        <member name="M:FM.WebSync.Subscribers.SubscriberChange.ToJson">
+             <summary>
+             Serializes the subscriber change object to JSON.
+             </summary>
+             <returns>The serialized subscriber change object.</returns>
+            </member>
+        <member name="M:FM.WebSync.Subscribers.SubscriberChange.ToJson(FM.WebSync.Subscribers.SubscriberChange)">
+             <summary>
+             Serializes a subscriber change object to JSON.
+             </summary>
+             <param name="subscriberChange">A subscriber change object to serialize.</param>
+             <returns>The serialized subscriber change object.</returns>
+            </member>
+        <member name="M:FM.WebSync.Subscribers.SubscriberChange.FromJson(System.String)">
+             <summary>
+             Deserializes a subscriber change object from JSON.
+             </summary>
+             <param name="subscriberChangeJson">A JSON string to deserialize.</param>
+             <returns>The deserialized subscriber change object.</returns>
+            </member>
+        <member name="T:FM.WebSync.Subscribers.ClientSubscribeArgs">
+             <summary>
+             Arguments for the subscriber change callback.
+             </summary>
+            </member>
+        <member name="M:FM.WebSync.Subscribers.ClientSubscribeArgs.#ctor(System.String,FM.WebSync.SubscribedClient)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.WebSync.Subscribers.ClientSubscribeArgs" /> class.
+             </summary>
+             <param name="channel">The channel.</param>
+             <param name="subscribedClient">The subscribed client.</param>
+            </member>
+        <member name="P:FM.WebSync.Subscribers.ClientSubscribeArgs.Channel">
+             <summary>
+             Gets the channel on which the change occurred.
+             </summary>
+            </member>
+        <member name="P:FM.WebSync.Subscribers.ClientSubscribeArgs.SubscribedClient">
+             <summary>
+             Gets the client who subscribed to the channel.
+             </summary>
+            </member>
+        <member name="T:FM.WebSync.Subscribers.SubscriberChangeType">
+             <summary>
+             The subscribers change type.
+             </summary>
+             <remarks>
+             The type of change to the subscribers of a channel, subscribe or unsubscribe.
+             </remarks>
+            </member>
+        <member name="F:FM.WebSync.Subscribers.SubscriberChangeType.Subscribe">
+             <summary>
+             Indicates that new clients are subscribing to the channel.
+             </summary>
+            </member>
+        <member name="F:FM.WebSync.Subscribers.SubscriberChangeType.Unsubscribe">
+             <summary>
+             Indicates that existing clients are unsubscribing from the channel.
+             </summary>
+            </member>
+        <member name="T:FM.WebSync.Subscribers.SubscribeSuccessArgsExtensions">
+             <summary>
+             <see cref="T:FM.WebSync.SubscribeSuccessArgs" /> extension methods for the Subscribers extension.
+             </summary>
+             <remarks>
+             <para>
+             The subscribers extension provides support for initial state load and differential
+             updates on the clients actively subscribed to the channel(s).
+             </para>
+             <para>
+             The extension is activated by adding a reference to your project.
+             </para>
+             </remarks>
+            </member>
+        <member name="M:FM.WebSync.Subscribers.SubscribeSuccessArgsExtensions.GetSubscribedClients(FM.WebSync.SubscribeSuccessArgs)">
+             <summary>
+             Gets the active subscribed clients on the just-subscribed channel(s).
+             </summary>
+             <param name="args">The <see cref="T:FM.WebSync.SubscribeSuccessArgs" /> to extend.</param>
+             <returns>The subscribed clients, partitioned by channel.</returns>
+            </member>
+    </members>
+</doc>

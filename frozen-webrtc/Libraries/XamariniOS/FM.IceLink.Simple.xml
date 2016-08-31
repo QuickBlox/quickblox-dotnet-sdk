@@ -1,0 +1,964 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FM.IceLink.Simple</name>
+    </assembly>
+    <members>
+        <member name="T:FM.IceLink.Simple.CandidateArgs">
+             <summary>
+             Arguments for the candidate event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.CandidateArgs.Client">
+             <summary>
+             Gets or sets the current client.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.CandidateArgs.PeerClientId">
+             <summary>
+             Gets or sets the client ID of the peer that caused this event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.CandidateArgs.Candidate">
+             <summary>
+             Gets or sets the candidate sent by the peer.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.Client">
+             <summary>
+             A Simple client that connects to a Simple server. Messages
+             can be transferred between Simple clients belonging to the
+             same group.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.Client.ClientId">
+             <summary>
+             Gets or sets the current client ID.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.Client.ServerIPAddress">
+             <summary>
+             Gets or sets the Simple server IP address.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.Client.ServerPort">
+             <summary>
+             Gets or sets the Simple server port.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.Client.GroupName">
+             <summary>
+             Gets or sets the Simple group name.
+             </summary>
+            </member>
+        <member name="M:FM.IceLink.Simple.Client.#ctor(System.String)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.IceLink.Simple.Client" /> class using the default port (3479).
+             </summary>
+             <param name="serverIPAddress">The Simple server IP address.</param>
+            </member>
+        <member name="M:FM.IceLink.Simple.Client.#ctor(System.String,System.Int32)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.IceLink.Simple.Client" /> class.
+             </summary>
+             <param name="serverIPAddress">The Simple server IP address.</param>
+             <param name="serverPort">The Simple server port.</param>
+            </member>
+        <member name="M:FM.IceLink.Simple.Client.#ctor(System.String,System.String)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.IceLink.Simple.Client" /> class using the default port (3479).
+             </summary>
+             <param name="serverIPAddress">The Simple server IP address.</param>
+             <param name="groupName">The Simple group name.</param>
+            </member>
+        <member name="M:FM.IceLink.Simple.Client.#ctor(System.String,System.Int32,System.String)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.IceLink.Simple.Client" /> class.
+             </summary>
+             <param name="serverIPAddress">The Simple server IP address.</param>
+             <param name="serverPort">The Simple server port.</param>
+             <param name="groupName">The Simple group name.</param>
+            </member>
+        <member name="M:FM.IceLink.Simple.Client.Register(FM.IceLink.Simple.RegisterArgs)">
+             <summary>
+             Registers the client with the Simple server.
+             </summary>
+             <param name="registerArgs">The register arguments.</param>
+            </member>
+        <member name="M:FM.IceLink.Simple.Client.Unregister">
+             <summary>
+             Unregisters the client.
+             </summary>
+            </member>
+        <member name="M:FM.IceLink.Simple.Client.Unregister(FM.IceLink.Simple.UnregisterArgs)">
+             <summary>
+             Unregisters the client.
+             </summary>
+             <param name="unregisterArgs">The arguments.</param>
+            </member>
+        <member name="M:FM.IceLink.Simple.Client.SendOfferAnswer(FM.IceLink.Simple.SendOfferAnswerArgs)">
+             <summary>
+             Sends an offer/answer to a peer through the Simple server to a specific client.
+             </summary>
+             <param name="sendOfferAnswerArgs">The arguments.</param>
+            </member>
+        <member name="M:FM.IceLink.Simple.Client.SendCandidate(FM.IceLink.Simple.SendCandidateArgs)">
+             <summary>
+             Sends a candidate to a peer through the Simple server to a specific client.
+             </summary>
+             <param name="sendCandidateArgs">The arguments.</param>
+            </member>
+        <member name="M:FM.IceLink.Simple.Client.RegisterAsync(FM.IceLink.Simple.RegisterArgs)">
+             <summary>
+             Invokes the Register operation using .NET async tasks.
+             </summary>
+             <param name="registerArgs">The register arguments.</param>
+             <returns></returns>
+            </member>
+        <member name="M:FM.IceLink.Simple.Client.UnregisterAsync">
+             <summary>
+             Invokes the Unregister operation using .NET async tasks.
+             </summary>
+             <returns></returns>
+            </member>
+        <member name="M:FM.IceLink.Simple.Client.UnregisterAsync(FM.IceLink.Simple.UnregisterArgs)">
+             <summary>
+             Invokes the Unregister operation using .NET async tasks.
+             </summary>
+             <param name="unregisterArgs">The unregister arguments.</param>
+             <returns></returns>
+            </member>
+        <member name="M:FM.IceLink.Simple.Client.SendOfferAnswerAsync(FM.IceLink.Simple.SendOfferAnswerArgs)">
+             <summary>
+             Invokes the SendOfferAnswer operation using .NET async tasks.
+             </summary>
+             <param name="sendOfferAnswerArgs">The send offer/answer arguments.</param>
+             <returns></returns>
+            </member>
+        <member name="M:FM.IceLink.Simple.Client.SendOfferAnswerAsync(FM.IceLink.Simple.SendCandidateArgs)">
+             <summary>
+             Invokes the SendCandidate operation using .NET async tasks.
+             </summary>
+             <param name="sendCandidateArgs">The send candidate arguments.</param>
+             <returns></returns>
+            </member>
+        <member name="T:FM.IceLink.Simple.Message">
+             <summary>
+             The message class used by Simple clients.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.Message.RegisterLabel">
+             <summary>
+             Gets the label used for registration messages.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.Message.OfferAnswerLabel">
+             <summary>
+             Gets the label used for offer/answer messages.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.Message.CandidateLabel">
+             <summary>
+             Gets the label used for candidate messages.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.Message.UnregisterLabel">
+             <summary>
+             Gets the label used to unregister.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.Message.Label">
+             <summary>
+             Gets or sets the message label.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.Message.ClientId">
+             <summary>
+             Gets or sets the current client ID.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.Message.PeerClientId">
+             <summary>
+             Gets or sets the client ID of the peer.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.Message.Candidate">
+             <summary>
+             Gets or sets the candidate to send.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.Message.OfferAnswer">
+             <summary>
+             Gets or sets the offer/answer to send.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.Message.GroupName">
+             <summary>
+             Gets or sets the group name to send.
+             </summary>
+            </member>
+        <member name="M:FM.IceLink.Simple.Message.#ctor">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.IceLink.Simple.Message" /> class.
+             </summary>
+            </member>
+        <member name="M:FM.IceLink.Simple.Message.#ctor(System.String,System.String)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.IceLink.Simple.Message" /> class.
+             </summary>
+             <param name="label">The message label.</param>
+             <param name="clientId">The current client ID.</param>
+            </member>
+        <member name="M:FM.IceLink.Simple.Message.#ctor(System.String,System.String,System.String)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.IceLink.Simple.Message" /> class.
+             </summary>
+             <param name="label">The message label.</param>
+             <param name="clientId">The current client ID.</param>
+             <param name="peerClientId">The client ID of the peer.</param>
+            </member>
+        <member name="M:FM.IceLink.Simple.Message.ToJson">
+             <summary>
+             Converts this instance to JSON.
+             </summary>
+             <returns>The message JSON.</returns>
+            </member>
+        <member name="M:FM.IceLink.Simple.Message.ToJson(FM.IceLink.Simple.Message)">
+             <summary>
+             Converts a message to JSON.
+             </summary>
+             <param name="message">The message.</param>
+             <returns>The message JSON.</returns>
+            </member>
+        <member name="M:FM.IceLink.Simple.Message.FromJson(System.String)">
+             <summary>
+             Converts a message from JSON.
+             </summary>
+             <param name="messageJson">The message JSON.</param>
+             <returns>The message.</returns>
+            </member>
+        <member name="M:FM.IceLink.Simple.Message.ToBytes">
+             <summary>
+             Converts this instance to binary.
+             </summary>
+             <returns>The message bytes.</returns>
+            </member>
+        <member name="M:FM.IceLink.Simple.Message.ToBytes(FM.IceLink.Simple.Message)">
+             <summary>
+             Converts a message to binary.
+             </summary>
+             <param name="message">The message.</param>
+             <returns>The message bytes.</returns>
+            </member>
+        <member name="M:FM.IceLink.Simple.Message.FromBytes(System.Byte[])">
+             <summary>
+             Converts a message from binary.
+             </summary>
+             <param name="messageBytes">The message bytes.</param>
+             <returns>The message.</returns>
+            </member>
+        <member name="M:FM.IceLink.Simple.Message.HasMessage(System.Byte[],System.Int32@)">
+             <summary>
+             Determines if the binary stream contains a complete message.
+             </summary>
+             <param name="bytes">The bytes.</param>
+             <param name="messageLength">The length of the contained message.</param>
+             <returns><c>true</c> if the bytes contain a message; otherwise, <c>false</c>.</returns>
+            </member>
+        <member name="M:FM.IceLink.Simple.Message.TryFromBytes(System.Byte[],System.Int32@)">
+             <summary>
+             Tries to get a message from a binary stream.
+             </summary>
+             <param name="bytes">The bytes.</param>
+             <param name="messageLength">The length of the contained message.</param>
+             <returns>The message, if one exists; otherwise, null.</returns>
+            </member>
+        <member name="T:FM.IceLink.Simple.OfferAnswerArgs">
+             <summary>
+             Arguments for the offer/answer event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.OfferAnswerArgs.Client">
+             <summary>
+             Gets or sets the current client.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.OfferAnswerArgs.PeerClientId">
+             <summary>
+             Gets or sets the client ID of the peer that caused this event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.OfferAnswerArgs.OfferAnswer">
+             <summary>
+             Gets or sets the offer/answer sent by the peer.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.PeerRegisterArgs">
+             <summary>
+             Arguments for the peer register event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.PeerRegisterArgs.Client">
+             <summary>
+             Gets or sets the current client.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.PeerRegisterArgs.PeerClientId">
+             <summary>
+             Gets or sets the client ID of the peer that caused this event.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.PeerUnregisterArgs">
+             <summary>
+             Arguments for the peer unregister event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.PeerUnregisterArgs.Client">
+             <summary>
+             Gets or sets the current client.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.PeerUnregisterArgs.PeerClientId">
+             <summary>
+             Gets or sets the client ID of the peer that caused this event.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.RegisterArgs">
+             <summary>
+             Arguments for registering a client.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.RegisterArgs.OnSuccess">
+             <summary>
+             Gets or sets the callback to execute after a successful registration.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.RegisterArgs.OnFailure">
+             <summary>
+             Gets or sets the callback to execute after a failed registration.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.RegisterArgs.OnComplete">
+             <summary>
+             Gets or sets the callback to execute after the success/failure event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.RegisterArgs.OnPeerRegister">
+             <summary>
+             Gets or sets the callback to execute when a peer registers.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.RegisterArgs.OnPeerUnregister">
+             <summary>
+             Gets or sets the callback to execute when a peer unregisters.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.RegisterArgs.OnOfferAnswer">
+             <summary>
+             Gets or sets the callback to execute when an offer/answer is received.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.RegisterArgs.OnCandidate">
+             <summary>
+             Gets or sets the callback to execute when a candidate is received.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.RegisterCompleteArgs">
+             <summary>
+             Arguments for the register complete event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.RegisterCompleteArgs.Client">
+             <summary>
+             Gets or sets the current client.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.RegisterFailureArgs">
+             <summary>
+             Arguments for the register failure event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.RegisterFailureArgs.Client">
+             <summary>
+             Gets or sets the current client.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.RegisterFailureArgs.Exception">
+             <summary>
+             Gets or sets the exception that occurred.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.RegisterSuccessArgs">
+             <summary>
+             Arguments for the register success event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.RegisterSuccessArgs.Client">
+             <summary>
+             Gets or sets the current client.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.RegisterSuccessArgs.ClientId">
+             <summary>
+             Gets or sets the new client ID.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.SendCandidateArgs">
+             <summary>
+             Arguments for sending a candidate from a client.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendCandidateArgs.PeerClientId">
+             <summary>
+             Gets or sets the client ID of the peer.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendCandidateArgs.Candidate">
+             <summary>
+             Gets or sets the candidate.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendCandidateArgs.OnSuccess">
+             <summary>
+             Gets or sets the callback to execute after a successful send.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendCandidateArgs.OnFailure">
+             <summary>
+             Gets or sets the callback to execute after a failed send.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendCandidateArgs.OnComplete">
+             <summary>
+             Gets or sets the callback to execute after the success/failure event.
+             </summary>
+            </member>
+        <member name="M:FM.IceLink.Simple.SendCandidateArgs.#ctor(System.String,FM.IceLink.Candidate)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.IceLink.Simple.SendCandidateArgs" /> class.
+             </summary>
+             <param name="peerClientId">The client ID of the peer.</param>
+             <param name="candidate">The candidate.</param>
+            </member>
+        <member name="T:FM.IceLink.Simple.SendCandidateCompleteArgs">
+             <summary>
+             Arguments for the send-candidate complete event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendCandidateCompleteArgs.Client">
+             <summary>
+             Gets or sets the current client.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendCandidateCompleteArgs.PeerClientId">
+             <summary>
+             Gets or sets the peer client ID.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendCandidateCompleteArgs.Candidate">
+             <summary>
+             Gets or sets the candidate.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.SendCandidateFailureArgs">
+             <summary>
+             Arguments for the send-candidate failure event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendCandidateFailureArgs.Client">
+             <summary>
+             Gets or sets the current client.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendCandidateFailureArgs.PeerClientId">
+             <summary>
+             Gets or sets the peer client ID.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendCandidateFailureArgs.Candidate">
+             <summary>
+             Gets or sets the candidate.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendCandidateFailureArgs.Exception">
+             <summary>
+             Gets or sets the exception that occurred.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.SendCandidateSuccessArgs">
+             <summary>
+             Arguments for the send-candidate success event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendCandidateSuccessArgs.Client">
+             <summary>
+             Gets or sets the current client.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendCandidateSuccessArgs.PeerClientId">
+             <summary>
+             Gets or sets the peer client ID.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendCandidateSuccessArgs.Candidate">
+             <summary>
+             Gets or sets the candidate.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.SendOfferAnswerArgs">
+             <summary>
+             Arguments for sending an offer/answer from a client.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendOfferAnswerArgs.PeerClientId">
+             <summary>
+             Gets or sets the client ID of the peer.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendOfferAnswerArgs.OfferAnswer">
+             <summary>
+             Gets or sets the offer/answer.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendOfferAnswerArgs.OnSuccess">
+             <summary>
+             Gets or sets the callback to execute after a successful send.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendOfferAnswerArgs.OnFailure">
+             <summary>
+             Gets or sets the callback to execute after a failed send.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendOfferAnswerArgs.OnComplete">
+             <summary>
+             Gets or sets the callback to execute after the success/failure event.
+             </summary>
+            </member>
+        <member name="M:FM.IceLink.Simple.SendOfferAnswerArgs.#ctor(System.String,FM.IceLink.OfferAnswer)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.IceLink.Simple.SendCandidateArgs" /> class.
+             </summary>
+             <param name="peerClientId">The client ID of the peer.</param>
+             <param name="offerAnswer">The offer/answer.</param>
+            </member>
+        <member name="T:FM.IceLink.Simple.SendOfferAnswerCompleteArgs">
+             <summary>
+             Arguments for the send-offer/answer complete event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendOfferAnswerCompleteArgs.Client">
+             <summary>
+             Gets or sets the current client.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendOfferAnswerCompleteArgs.PeerClientId">
+             <summary>
+             Gets or sets the peer client ID.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendOfferAnswerCompleteArgs.OfferAnswer">
+             <summary>
+             Gets or sets the offer/answer.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.SendOfferAnswerFailureArgs">
+             <summary>
+             Arguments for the send-offer/answer failure event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendOfferAnswerFailureArgs.Client">
+             <summary>
+             Gets or sets the current client.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendOfferAnswerFailureArgs.PeerClientId">
+             <summary>
+             Gets or sets the peer client ID.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendOfferAnswerFailureArgs.OfferAnswer">
+             <summary>
+             Gets or sets the offer/answer.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendOfferAnswerFailureArgs.Exception">
+             <summary>
+             Gets or sets the exception that occurred.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.SendOfferAnswerSuccessArgs">
+             <summary>
+             Arguments for the send-offer/answer success event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendOfferAnswerSuccessArgs.Client">
+             <summary>
+             Gets or sets the current client.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendOfferAnswerSuccessArgs.PeerClientId">
+             <summary>
+             Gets or sets the peer client ID.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.SendOfferAnswerSuccessArgs.OfferAnswer">
+             <summary>
+             Gets or sets the offer/answer.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.Serializer">
+             <summary>
+             Provides methods for serializing/deserializing Simple objects.
+             </summary>
+            </member>
+        <member name="M:FM.IceLink.Simple.Serializer.SerializeSimpleMessage(FM.IceLink.Simple.Message)">
+             <summary>
+             Serializes a message to JSON.
+             </summary>
+             <param name="message">The message to serialize.</param>
+             <returns>The serialized message.</returns>
+            </member>
+        <member name="M:FM.IceLink.Simple.Serializer.DeserializeSimpleMessage(System.String)">
+             <summary>
+             Deserializes a message from JSON.
+             </summary>
+             <param name="messageJson">The message (in JSON) to deserialize.</param>
+             <returns>The deserialized message.</returns>
+            </member>
+        <member name="T:FM.IceLink.Simple.Transfer">
+             <summary>
+             A class that wraps a TCP socket to abstract away the
+             underlying details of transferring messages.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.Transfer.Socket">
+             <summary>
+             Gets or sets the active TCP socket.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.Transfer.ServerIPAddress">
+             <summary>
+             Gets or sets the server IP address.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.Transfer.ServerPort">
+             <summary>
+             Gets pr sets the server port.
+             </summary>
+            </member>
+        <member name="M:FM.IceLink.Simple.Transfer.#ctor(FM.TcpSocket,System.String,System.Int32)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.IceLink.Simple.Transfer" /> class.
+             </summary>
+             <param name="socket">The socket.</param>
+             <param name="serverIPAddress">The server IP address.</param>
+             <param name="serverPort">The server port.</param>
+            </member>
+        <member name="M:FM.IceLink.Simple.Transfer.Connect(FM.IceLink.Simple.TransferConnectArgs)">
+             <summary>
+             Connects the socket.
+             </summary>
+             <param name="connectArgs">The arguments.</param>
+            </member>
+        <member name="M:FM.IceLink.Simple.Transfer.Receive(FM.IceLink.Simple.TransferReceiveArgs)">
+             <summary>
+             Receives a message.
+             </summary>
+             <param name="receiveArgs">The arguments.</param>
+            </member>
+        <member name="M:FM.IceLink.Simple.Transfer.Send(FM.IceLink.Simple.TransferSendArgs)">
+             <summary>
+             Sends a message.
+             </summary>
+             <param name="sendArgs">The arguments.</param>
+            </member>
+        <member name="M:FM.IceLink.Simple.Transfer.Close">
+             <summary>
+             Closes the underlying socket.
+             </summary>
+            </member>
+        <member name="M:FM.IceLink.Simple.Transfer.Close(FM.IceLink.Simple.TransferCloseArgs)">
+             <summary>
+             Closes the underlying socket.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.TransferCloseArgs">
+             <summary>
+             Arguments for closing a transfer.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferCloseArgs.OnComplete">
+             <summary>
+             Gets or sets the callback to execute after closing the socket.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.TransferCloseCompleteArgs">
+             <summary>
+             Arguments for the transfer close complete event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferCloseCompleteArgs.MessageTransfer">
+             <summary>
+             Gets or sets the message transfer.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.TransferConnectArgs">
+             <summary>
+             Arguments for connecting a transfer.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferConnectArgs.GroupName">
+             <summary>
+             Gets or sets the group name.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferConnectArgs.OnSuccess">
+             <summary>
+             Gets or sets the callback to execute if the connect succeeds.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferConnectArgs.OnFailure">
+             <summary>
+             Gets or sets the callback to execute if the connect fails.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferConnectArgs.OnComplete">
+             <summary>
+             Gets or sets the callback to execute whether the connect succeeds or fails.
+             </summary>
+            </member>
+        <member name="M:FM.IceLink.Simple.TransferConnectArgs.#ctor(System.String)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.IceLink.Simple.TransferConnectArgs" /> class.
+             </summary>
+             <param name="groupName">The group name.</param>
+            </member>
+        <member name="T:FM.IceLink.Simple.TransferConnectCompleteArgs">
+             <summary>
+             Arguments for the transfer connect complete event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferConnectCompleteArgs.MessageTransfer">
+             <summary>
+             Gets or sets the message transfer.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferConnectCompleteArgs.GroupName">
+             <summary>
+             Gets or sets the group name.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.TransferConnectFailureArgs">
+             <summary>
+             Arguments for the transfer connect failure event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferConnectFailureArgs.MessageTransfer">
+             <summary>
+             Gets or sets the message transfer.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferConnectFailureArgs.GroupName">
+             <summary>
+             Gets or sets the group name.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferConnectFailureArgs.Exception">
+             <summary>
+             Gets or sets the message.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.TransferConnectSuccessArgs">
+             <summary>
+             Arguments for the transfer connect success event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferConnectSuccessArgs.MessageTransfer">
+             <summary>
+             Gets or sets the message transfer.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferConnectSuccessArgs.GroupName">
+             <summary>
+             Gets or sets the group name.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.TransferReceiveArgs">
+             <summary>
+             Arguments for receiving a message.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferReceiveArgs.OnSuccess">
+             <summary>
+             Gets or sets the callback to execute if the receive succeeds.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferReceiveArgs.OnFailure">
+             <summary>
+             Gets or sets the callback to execute if the receive fails.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferReceiveArgs.OnComplete">
+             <summary>
+             Gets or sets the callback to execute whether the receive succeeds or fails.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.TransferReceiveCompleteArgs">
+             <summary>
+             Arguments for the transfer receive complete event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferReceiveCompleteArgs.MessageTransfer">
+             <summary>
+             Gets or sets the message transfer.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.TransferReceiveFailureArgs">
+             <summary>
+             Arguments for the transfer receive failure event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferReceiveFailureArgs.MessageTransfer">
+             <summary>
+             Gets or sets the message transfer.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferReceiveFailureArgs.Exception">
+             <summary>
+             Gets or sets the message.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferReceiveFailureArgs.TimedOut">
+             <summary>
+             Gets or sets whether the receive timed out.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.TransferReceiveSuccessArgs">
+             <summary>
+             Arguments for the transfer receive success event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferReceiveSuccessArgs.MessageTransfer">
+             <summary>
+             Gets or sets the message transfer.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferReceiveSuccessArgs.Message">
+             <summary>
+             Gets or sets the received message.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.TransferSendArgs">
+             <summary>
+             Arguments for sending a message.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferSendArgs.Message">
+             <summary>
+             Gets or sets the message.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferSendArgs.OnSuccess">
+             <summary>
+             Gets or sets the callback to execute if the send succeeds.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferSendArgs.OnFailure">
+             <summary>
+             Gets or sets the callback to execute if the send fails.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferSendArgs.OnComplete">
+             <summary>
+             Gets or sets the callback to execute whether the send succeeds or fails.
+             </summary>
+            </member>
+        <member name="M:FM.IceLink.Simple.TransferSendArgs.#ctor(FM.IceLink.Simple.Message)">
+             <summary>
+             Initializes a new instance of the <see cref="T:FM.IceLink.Simple.TransferSendArgs" /> class.
+             </summary>
+             <param name="message">The message.</param>
+            </member>
+        <member name="T:FM.IceLink.Simple.TransferSendCompleteArgs">
+             <summary>
+             Arguments for the transfer send complete event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferSendCompleteArgs.MessageTransfer">
+             <summary>
+             Gets or sets the message transfer.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferSendCompleteArgs.Message">
+             <summary>
+             Gets or sets the message.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.TransferSendFailureArgs">
+             <summary>
+             Arguments for the transfer send failure event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferSendFailureArgs.MessageTransfer">
+             <summary>
+             Gets or sets the message transfer.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferSendFailureArgs.Message">
+             <summary>
+             Gets or sets the message.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferSendFailureArgs.Exception">
+             <summary>
+             Gets or sets the message.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferSendFailureArgs.TimedOut">
+             <summary>
+             Gets or sets whether the send timed out.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.TransferSendSuccessArgs">
+             <summary>
+             Arguments for the transfer send success event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferSendSuccessArgs.MessageTransfer">
+             <summary>
+             Gets or sets the message transfer.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.TransferSendSuccessArgs.Message">
+             <summary>
+             Gets or sets the message.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.UnregisterArgs">
+             <summary>
+             Arguments for unregistering a client.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.UnregisterArgs.OnComplete">
+             <summary>
+             Gets or sets the callback to execute when the operation completes.
+             </summary>
+            </member>
+        <member name="T:FM.IceLink.Simple.UnregisterCompleteArgs">
+             <summary>
+             Arguments for the unregister complete event.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.UnregisterCompleteArgs.Client">
+             <summary>
+             Gets or sets the current client.
+             </summary>
+            </member>
+        <member name="P:FM.IceLink.Simple.UnregisterCompleteArgs.Exception">
+             <summary>
+             Gets or sets the exception, if one occurred.
+             </summary>
+            </member>
+    </members>
+</doc>

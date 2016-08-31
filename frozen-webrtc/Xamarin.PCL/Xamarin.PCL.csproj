@@ -42,18 +42,22 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\QbLogger.cs" />
     <Compile Include="Providers\QbProvider.cs" />
+    <Compile Include="Interfaces\ILoginStorage.cs" />
+    <Compile Include="Providers\MessageProvider.cs" />
+    <Compile Include="Models\SelectableUser.cs" />
+    <Compile Include="Interfaces\IAudio.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Quickblox.Sdk, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Quickblox.Sdk.1.2.2\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Quickblox.Sdk.dll</HintPath>
+    <Reference Include="Quickblox.Sdk, Version=1.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quickblox.Sdk.1.2.7\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Quickblox.Sdk.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Quickblox.Sdk.Platform.Abstractions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Quickblox.Sdk.1.2.2\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Quickblox.Sdk.Platform.Abstractions.dll</HintPath>
+      <HintPath>..\packages\Quickblox.Sdk.1.2.7\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Quickblox.Sdk.Platform.Abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Sockets.Plugin, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -68,6 +72,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
